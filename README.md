@@ -1,6 +1,6 @@
 # Tricktionary Web app
 
-https://travis-ci.org/svbeon/tricktionary.svg?branch=master
+[![Build Status](https://travis-ci.org/svbeon/tricktionary.svg?branch=master)](https://travis-ci.org/svbeon/tricktionary)
 
 ## TODO
 
