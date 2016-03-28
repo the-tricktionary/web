@@ -1,4 +1,4 @@
-import {Trick} from './tricks';
+import {Trick} from './trick';
 
 export var TRICKS: Trick[] = [
   { "id": 1, "name": "AS" },

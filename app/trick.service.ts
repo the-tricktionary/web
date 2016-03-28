@@ -3,8 +3,8 @@ import {Trick} from './trick';
 import {TRICKS} from './mock.tricks';
 
 @Injectable()
-export class HeroService {
-  getHeroes() {
-    return Promise.resolve(HEROES);
+export class TrickService {
+  getTricks() {
+    return Promise.resolve(TRICKS);
   }
 }
