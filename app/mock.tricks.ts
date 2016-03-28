@@ -1,4 +1,6 @@
-var TRICKS: Trick[] = [
+import {Trick} from './tricks';
+
+export var TRICKS: Trick[] = [
   { "id": 1, "name": "AS" },
   { "id": 2, "name": "TS" },
   { "id": 3, "name": "CL" },
