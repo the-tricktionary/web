@@ -5,5 +5,5 @@ export class Trick {
     id2: number;
     name: string;
     type?: string;
-  }
+  }[];
 }
