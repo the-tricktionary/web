@@ -1,8 +1,8 @@
 <h3>Top Heroes</h3>
 <div class="grid grid-pad">
-  <div *ngFor="#trick of tricks" (click)="gotoDetail(tricks)" class="col-1-4">
-    <div class="module hero">
-      <h4>{{hero.name}}</h4>
+  <div *ngFor="#trick of tricks" (click)="gotoDetail(trick)" class="col-1-4">
+    <div class="module trick">
+      <h4>{{trick.name}}</h4>
     </div>
   </div>
 </div>

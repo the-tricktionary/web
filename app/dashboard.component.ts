@@ -1,4 +1,5 @@
 import { Component, OnInit } from 'angular2/core';
+import { Router } from 'angular2/router';
 import { Trick } from './trick';
 import { TrickService } from './trick.service';
 
@@ -13,7 +14,16 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this._trickService.getTricks()
       .then(tricks => this.tricks = tricks.slice(1,5));
+    constructor(
+      private _router: Router,
+      private _trickService: TrickService) {
+    }
   }
-  gotoDetail(){ /* not implemented yet */}
+  gotoDetail(trick: Trick) {
+    let link = ['TrickDetail', {
+      id: trick.id
+    }];
+    this._router.navigate(link);
+  }
 }
 
