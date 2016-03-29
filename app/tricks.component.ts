@@ -1,4 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
+import { Router } from 'angular2/router';
 import {Trick} from './trick';
 import {TrickDetailComponent} from './trick-details.component';
 import {TrickService} from './trick.service';
@@ -6,63 +7,16 @@ import {TrickService} from './trick.service';
 @Component({
   selector: 'my-tricks',
   templateUrl: 'app/template/tricks.component.html',
-  styles:[`
-    .selected {
-      background-color: #CFD8DC !important;
-      color: white;
-    }
-    .tricks {
-      margin: 0 0 2em 0;
-      list-style-type: none;
-      padding: 0;
-      width: 15em;
-    }
-    .tricks li {
-      cursor: pointer;
-      position: relative;
-      left: 0;
-      background-color: #EEE;
-      margin: .5em;
-      padding: .3em 0;
-      height: 1.6em;
-      border-radius: 4px;
-    }
-    .tricks li.selected:hover {
-      background-color: #BBD8DC !important;
-      color: white;
-    }
-    .tricks li:hover {
-      color: #607D8B;
-      background-color: #DDD;
-      left: .1em;
-    }
-    .tricks .text {
-      position: relative;
-      top: -3px;
-    }
-    .tricks .badge {
-      display: inline-block;
-      font-size: small;
-      color: white;
-      padding: 0.8em 0.7em 0 0.7em;
-      background-color: #607D8B;
-      line-height: 1em;
-      position: relative;
-      left: -1px;
-      top: -4px;
-      height: 1.8em;
-      margin-right: .8em;
-      border-radius: 4px 0 0 4px;
-    }
-  `],
+  styleUrls: ['app/css/tricks.component.css'],
   directives: [TrickDetailComponent],
-  providers: []
 })
+
 export class TricksComponent implements OnInit {
-  title = 'Tricktionary';
   tricks: Trick[];
   selectedTrick: Trick;
-  constructor(private _trickService: TrickService) { }
+  constructor(
+    private _router: Router,
+    private _trickService: TrickService) { }
   getTricks() {
     this._trickService.getTricks().then(tricks => this.tricks = tricks);
   }
@@ -70,4 +24,7 @@ export class TricksComponent implements OnInit {
     this.getTricks();
   }
   onSelect(trick: Trick) { this.selectedTrick = trick; }
+  gotoDetail() {
+    this._router.navigate(['TrickDetail', { id: this.selectedTrick.id }]);
+  }
 }
