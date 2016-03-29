@@ -20,6 +20,8 @@ git config user.email travis@nowhere
 git rm -rf ./*
 cp -r ../comp/ .
 mv ./comp ./app
+cp -r ../app/css ./app/css
+cp -r ../app/templates ./app/templates
 mkdir ./node_modules
 cp -r ../node_modules/es6-shim ./node_modules
 cp -r ../node_modules/systemjs ./node_modules
