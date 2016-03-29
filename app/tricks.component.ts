@@ -5,18 +5,7 @@ import {TrickService} from './trick.service';
 
 @Component({
   selector: 'my-tricks',
-  template:`
-    <h1>{{title}}</h1>
-    <h2>Tricks</h2>
-    <ul class="tricks">
-      <li *ngFor="#trick of tricks"
-        [class.selected]="trick === selectedTrick"
-        (click)="onSelect(trick)">
-        <span class="badge">{{trick.id}}</span> {{trick.name}}
-      </li>
-    </ul>
-    <my-trick-detail [trick]="selectedTrick"></my-trick-detail>
-  `,
+  templateUrl: 'app/template/tricks.component.html',
   styles:[`
     .selected {
       background-color: #CFD8DC !important;

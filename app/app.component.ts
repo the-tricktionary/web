@@ -3,6 +3,8 @@ import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/route
 import { TrickService } from './trick.service';
 import { TricksComponent } from './tricks.component';
 import { DashboardComponent } from './dashboard.component';
+import { TrickDetailComponent } from './trick-details.component';
+
 
 @Component({
   selector: 'my-app',
@@ -28,6 +30,11 @@ import { DashboardComponent } from './dashboard.component';
     name: 'Dashboard',
     component: DashboardComponent,
     useAsDefault: true
+  },
+  {
+    path: '/trick/:id',
+    name: 'TrickDetail',
+    component: TrickDetailComponent
   },
   {
     path: '/tricks',
