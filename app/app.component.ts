@@ -31,7 +31,7 @@ import { TrickDetailComponent } from './trick-detail.component';
     useAsDefault: true
   },
   {
-    path: '/detail/:id',
+    path: '/detail/:id/:id2',
     name: 'TrickDetail',
     component: TrickDetailComponent
   },

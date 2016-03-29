@@ -19,8 +19,9 @@ export class TrickDetailComponent implements OnInit {
 
   ngOnInit() {
     let id = +this._routeParams.get('id');
-    this._trickService.getTrick(id)
-      .then(trick => this.trick = trick);
+    let id2 = +this._routeParams.get('id2');
+    this._trickService.getTrick(id, id2)
+      .then(level => this.level = level);
   }
 
   goBack() {
