@@ -4,7 +4,7 @@ import { Injectable } from 'angular2/core';
 
 @Injectable()
 export class TrickService {
-  getTrickes() {
+  getTricks() {
     return Promise.resolve(TRICKS);
   }
 
