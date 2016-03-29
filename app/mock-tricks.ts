@@ -12,7 +12,8 @@ export var TRICKS: Trick[] = [
 	    {"id": 8, "name": "Criss Cross"},
     	    {"id": 9, "name": "Double Bounce"},
 	    {"id": 10, "name": "Double Side Swing"}
-	],
+	]
+	},
 	{"id": 2, "name": "Level 1", "subs": [
 	    {"id": 1, "name": "Double Under", "type": "Multiple"},
 	    {"id": 2, "name": "Trick", "type": "Multiple"},
@@ -20,4 +21,5 @@ export var TRICKS: Trick[] = [
 	    {"id": 4, "name": "Trick", "type": "Manipulation"},
 	    {"id": 5, "name": "Trick", "type": "Release"}
 	]
+	}
 ];
