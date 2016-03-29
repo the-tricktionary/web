@@ -1,6 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {Trick} from './trick';
-import {TrickDetailComponent} from './trick-details.component';.
+import {TrickDetailComponent} from './trick-details.component';
 import {TrickService} from './trick.service';
 
 @Component({
