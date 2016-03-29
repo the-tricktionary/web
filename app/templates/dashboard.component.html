@@ -1,6 +1,6 @@
 <div *ngFor="#level of tricks" class="grid grid-pad">
   <h3>{{level.level}}</h3>
-  <div *ngFor="#trick of level.sub" (click)="gotoDetail(trick)" class="col-1-4">
+  <div *ngFor="#trick of level.subs" (click)="gotoDetail(trick)" class="col-1-4">
     <div class="module trick">
       <h4>{{trick.name}}</h4>
     </div>
