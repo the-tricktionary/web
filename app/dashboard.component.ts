@@ -11,7 +11,7 @@ import { TrickService } from './trick.service';
 })
 export class DashboardComponent implements OnInit {
 
-  trickes: Trick[] = [];
+  tricks: Trick[] = [];
 
   constructor(
     private _router: Router,
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this._trickService.getTricks()
-      .then(trickes => this.trickes = trickes.slice(1,5));
+      .then(tricks => this.tricks = tricks.slice(1,5));
   }
 
   gotoDetail(trick: Trick) {
