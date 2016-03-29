@@ -5,8 +5,8 @@ import { TrickService } from './trick.service';
 
 @Component({
   selector: 'my-dashboard',
-  templateUrl: 'app/template/dashboard.component.html'
-
+  templateUrl: 'app/template/dashboard.component.html',
+  styleUrls: ['app/css/dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
   tricks: Trick[] = [];

@@ -16,7 +16,7 @@ import { TrickDetailComponent } from './trick-details.component';
   </nav>
   <router-outlet></router-outlet>
 `,
-
+  styleUrls: ['app/css/app.component.css']
   directives: [ROUTER_DIRECTIVES],
   providers: [
     ROUTER_PROVIDERS,

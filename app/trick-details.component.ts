@@ -7,6 +7,7 @@ import { TrickService } from './trick.service';
 @Component({
   selector: 'my-trick-detail',
   templateUrl: 'app/template/trick-details.component.html',
+  styleUrls: ['app/css/trick-details.component.css']
 })
 export class TrickDetailComponent implements OnInit {
   @Input() trick: Trick;
