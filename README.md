@@ -4,6 +4,5 @@
 
 ## TODO
 
-  - Add Routing
-  - Add Style
+  - Better Style
   - Add Tricks
