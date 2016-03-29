@@ -1,0 +1,14 @@
+<h2>Tricks</h2>
+<ul class="tricks">
+  <li *ngFor="#trick of tricks"
+    [class.selected]="trick === selectedTrick"
+    (click)="onSelect(trick)">
+    <span class="badge">{{trick.id}}</span> {{trick.name}}
+  </li>
+</ul>
+<div *ngIf="selectedTrick">
+  <h2>
+    {{selectedTrick.name | uppercase}}
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>

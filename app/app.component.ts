@@ -1,28 +1,27 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
-import { TrickService } from './trick.service';
-import { TricksComponent } from './tricks.component';
-import { DashboardComponent } from './dashboard.component';
-import { TrickDetailComponent } from './trick-details.component';
 
+import { TrickService } from './trick.service';
+import { DashboardComponent } from './dashboard.component';
+import { TricksComponent } from './tricks.component';
+import { TrickDetailComponent } from './trick-detail.component';
 
 @Component({
   selector: 'my-app',
   template: `
-  <h1>{{title}}</h1>
-  <nav>
-    <a [routerLink]="['Dashboard']">Dashboard</a>
-    <a [routerLink]="['Tricks']">Tricks</a>
-  </nav>
-  <router-outlet></router-outlet>
-`,
-  styleUrls: ['app/css/app.component.css']
+    <h1>{{title}}</h1>
+    <nav>
+      <a [routerLink]="['Dashboard']">Dashboard</a>
+      <a [routerLink]="['Tricks']">Tricks</a>
+    </nav>
+    <router-outlet></router-outlet>
+  `,
+  styleUrls: ['app/css/app.component.css'],
   directives: [ROUTER_DIRECTIVES],
   providers: [
     ROUTER_PROVIDERS,
     TrickService
   ]
-
 })
 @RouteConfig([
   {
@@ -32,7 +31,7 @@ import { TrickDetailComponent } from './trick-details.component';
     useAsDefault: true
   },
   {
-    path: '/trick/:id',
+    path: '/detail/:id',
     name: 'TrickDetail',
     component: TrickDetailComponent
   },
@@ -42,8 +41,6 @@ import { TrickDetailComponent } from './trick-details.component';
     component: TricksComponent
   }
 ])
-
-
 export class AppComponent {
-  title = 'Tricktionary';
+  title = 'Tour of Tricks';
 }

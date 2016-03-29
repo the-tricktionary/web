@@ -26,6 +26,7 @@ cp -r ../node_modules/systemjs ./node_modules
 cp -r ../node_modules/rxjs ./node_modules
 cp -r ../node_modules/angular2 ./node_modules
 cp ../index.html ./index.html
+cp ../styles.css ./styles.css
 git add -A
 git commit -m "travis: $TRAVIS_COMMIT"
 git push || exit 1

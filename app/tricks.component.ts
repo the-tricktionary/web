@@ -1,29 +1,34 @@
-import {Component, OnInit} from 'angular2/core';
+import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
-import {Trick} from './trick';
-import {TrickDetailComponent} from './trick-details.component';
-import {TrickService} from './trick.service';
+
+import { Trick } from './trick';
+import { TrickDetailComponent } from './trick-detail.component';
+import { TrickService } from './trick.service';
 
 @Component({
   selector: 'my-tricks',
-  templateUrl: 'app/template/tricks.component.html',
-  styleUrls: ['app/css/tricks.component.css'],
-  directives: [TrickDetailComponent],
+  templateUrl: 'app/templates/tricks.component.html',
+  styleUrls:  ['app/css/tricks.component.css'],
+  directives: [TrickDetailComponent]
 })
-
-export class TricksComponent implements OnInit {
+export class TrickesComponent implements OnInit {
   tricks: Trick[];
   selectedTrick: Trick;
+
   constructor(
     private _router: Router,
     private _trickService: TrickService) { }
-  getTricks() {
-    this._trickService.getTricks().then(tricks => this.tricks = tricks);
+
+  getTrickes() {
+    this._trickService.getTrickes().then(tricks => this.tricks = tricks);
   }
+
   ngOnInit() {
-    this.getTricks();
+    this.getTrickes();
   }
+
   onSelect(trick: Trick) { this.selectedTrick = trick; }
+
   gotoDetail() {
     this._router.navigate(['TrickDetail', { id: this.selectedTrick.id }]);
   }
