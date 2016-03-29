@@ -25,15 +25,10 @@ import { TrickDetailComponent } from './trick-detail.component';
 })
 @RouteConfig([
   {
-    path: '/',
-    name: '',
-    component: DashboardComponent,
-    useAsDefault: true
-  },
-  {
     path: '/dashboard',
     name: 'Dashboard',
     component: DashboardComponent,
+    useAsDefault: true
   },
   {
     path: '/detail/:id',
