@@ -1,6 +1,6 @@
 import { Trick } from './trick';
 
-export var TRICKS: Trick[] = [
+export var TRICKS: Trick[][] = [
 	{"id": 1, "level": "Basics", "subs": [
 	    {"id": 1, "name": "180 Backwards"},
 	    {"id": 2, "name": "180 Forward"},
