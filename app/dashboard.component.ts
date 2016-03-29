@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, onInit } from 'angular2/core';
 import { Trick } from './trick';
 import { TrickService } from './trick.service';
 
