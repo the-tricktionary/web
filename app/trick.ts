@@ -4,6 +4,6 @@ export class Trick {
   subs: {
     id2: number;
     name: string;
-    type: string;
+    type?: string;
   }
 }
