@@ -1,6 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {Trick} from './trick';
-import {TrickDetailComponent} from './trick-details.component';
+import {TrickDetailComponent} from './trick-details.component';.
+import {TrickService} from './trick.service';
 
 @Component({
   selector: 'my-tricks',
@@ -68,7 +69,7 @@ import {TrickDetailComponent} from './trick-details.component';
   directives: [TrickDetailComponent],
   providers: []
 })
-export class TrickComponent implements OnInit {
+export class TricksComponent implements OnInit {
   title = 'Tricktionary';
   tricks: Trick[];
   selectedTrick: Trick;
