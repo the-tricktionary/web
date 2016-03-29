@@ -2,8 +2,8 @@ export class Trick {
   id: number;
   level: string;
   subs: {
-    id: number;
+    id2: number;
     name: string;
     type: string;
-  }[]
+  }
 }
