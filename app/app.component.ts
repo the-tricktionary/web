@@ -25,22 +25,22 @@ import { TrickDetailComponent } from './trick-detail.component';
 })
 @RouteConfig([
   {
-    path: '/dashboard',
+    path: '#dashboard',
     name: 'Dashboard',
     component: DashboardComponent,
     useAsDefault: true
   },
   {
-    path: '/detail/:id',
+    path: '#detail/:id',
     name: 'TrickDetail',
     component: TrickDetailComponent
   },
   {
-    path: '/tricks',
+    path: '#tricks',
     name: 'Tricks',
     component: TricksComponent
   }
 ])
 export class AppComponent {
-  title = 'Tour of Tricks';
+  title = 'Tricktionary';
 }
