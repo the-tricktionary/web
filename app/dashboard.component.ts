@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this._trickService.getTricks()
-      .then(tricks => this.tricks = tricks.slice(1,5));
+      .then(tricks => this.tricks = tricks /*.slice(1,5)*/);
   }
 
   gotoDetail(trick: Trick) {
