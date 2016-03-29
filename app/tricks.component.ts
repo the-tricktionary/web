@@ -11,7 +11,7 @@ import { TrickService } from './trick.service';
   styleUrls:  ['app/css/tricks.component.css'],
   directives: [TrickDetailComponent]
 })
-export class TrickesComponent implements OnInit {
+export class TricksComponent implements OnInit {
   tricks: Trick[];
   selectedTrick: Trick;
 
@@ -19,12 +19,12 @@ export class TrickesComponent implements OnInit {
     private _router: Router,
     private _trickService: TrickService) { }
 
-  getTrickes() {
-    this._trickService.getTrickes().then(tricks => this.tricks = tricks);
+  getTricks() {
+    this._trickService.getTricks().then(tricks => this.tricks = tricks);
   }
 
   ngOnInit() {
-    this.getTrickes();
+    this.getTricks();
   }
 
   onSelect(trick: Trick) { this.selectedTrick = trick; }
