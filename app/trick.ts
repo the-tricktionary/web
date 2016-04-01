@@ -7,8 +7,8 @@ export class Trick {
     video: string;
     description?: string;
     perquisites?: {
-      id1: number;
-      id2: number;
+      id1?: number;
+      id2?: number;
       name?: string;
     }[]
     type?: string;
