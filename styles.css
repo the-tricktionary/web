@@ -10,15 +10,7 @@ h2, h3 {
   font-weight: lighter;
 }
 body { 
-  margin: 2em; 
-}
-body, input[text], button { 
-  color: #888; 
-  font-family: Cambria, Georgia; 
-}
-a {
-  cursor: pointer;
-  cursor: hand;
+  margin: .5em; 
 }
 button {
   font-family: Arial;
@@ -39,6 +31,16 @@ button:disabled {
 }
 
 /* Navigation link styles */
+nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fe3500;
+  border-bottom: 1px solid #da1100;
+  color: #fefefe;
+}
 nav a {
   padding: 5px 10px;
   text-decoration: none;
@@ -46,6 +48,7 @@ nav a {
   display: inline-block;
   background-color: #eee;
   border-radius: 4px;
+  float: right;
 }
 nav a:visited, a:link {
   color: #607D8B;
@@ -140,10 +143,3 @@ nav a.router-link-active {
 * { 
   font-family: Arial, Helvetica, sans-serif; 
 }
-
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

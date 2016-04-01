@@ -9,8 +9,8 @@ import { TrickDetailComponent } from './trick-detail.component';
 @Component({
   selector: 'my-app',
   template: `
-    <h1><img src="icon.png" height="32" />{{title}}</h1>
     <nav>
+      <h1><img src="icon.png" height="32" />{{title}}</h1>
       <a [routerLink]="['Dashboard']">Dashboard</a>
       <a [routerLink]="['Tricks']">Tricks</a>
     </nav>
