@@ -42,7 +42,12 @@ nav {
   white-space: nowrap;
   background-color: #fe3500;
   border-bottom: 1px solid #da1100;
-  color: #fefefe;
+  color: #fff;
+}
+nav h1 {
+  display: inline;
+  white-space: nowrap;
+  color: #fff;
 }
 nav a {
   padding: 5px 10px;
