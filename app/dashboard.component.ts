@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   gotoDetail(trick: Trick) {
-    let link = ['TrickDetail', { id: trick.id, id2: trick.subs.id2 }];
+    let link = ['TrickDetail', { id: trick.id }];
     this._router.navigate(link);
   }
 }
