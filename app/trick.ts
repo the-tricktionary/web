@@ -6,7 +6,7 @@ export class Trick {
     name: string;
     video: string;
     description?: string;
-    perquisites?: {
+    prerequisites?: {
       id1?: number;
       id2?: number;
       name?: string;
