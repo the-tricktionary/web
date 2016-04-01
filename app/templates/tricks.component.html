@@ -3,7 +3,7 @@
   <li *ngFor="#trick of tricks.subs"
     [class.selected]="trick === selectedTrick"
     (click)="onSelect(trick)">
-    <span class="badge">{{trick.id}}</span> {{trick.name}}
+    <span class="badge">{{trick.id2}}</span> {{trick.name}}
   </li>
 </ul>
 <div *ngIf="selectedTrick">
