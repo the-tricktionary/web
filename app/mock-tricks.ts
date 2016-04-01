@@ -348,7 +348,7 @@ export var TRICKS: Trick[] = [
 {"id2": 38,
 "name":"Double Side Swing",
 "video":"_coW8Bk1-_w",
-"description":"The jumper alternates between an "open" and a "cross" side swing.",
+"description":"The jumper alternates between an \"open\" and a \"cross\" side swing.",
 "type":"Basics",
 "prerequisites":[
 {"name":"Side Swing"}]
