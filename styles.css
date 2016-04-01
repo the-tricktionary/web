@@ -40,6 +40,7 @@ nav {
   white-space: nowrap;
   background-color: #fe3500;
   border-bottom: 1px solid #da1100;
+  z-index: 5000;
 }
 nav img {
   height: 32px;
