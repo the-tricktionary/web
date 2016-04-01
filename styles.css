@@ -72,14 +72,14 @@ nav a {
   color: #fff;
 }
 nav a:visited, a:link {
-  color: #607d8b;
+  color: #fff;
 }
 nav a:hover {
-  color: #039be5;
+  color: #eee;
   background-color: #fec500;
 }
 nav a.router-link-active {
-  color: #039be5;
+  color: #eee;
 }
 
 /* items class */

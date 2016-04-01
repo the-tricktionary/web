@@ -9,7 +9,7 @@ div.parent {
   /*flex-wrap: wrap;*/
   justify-content: space-between;
   align-items: stretch;
-  position: relative;
+  position: absolute;
   width: 100%;
 }
 
