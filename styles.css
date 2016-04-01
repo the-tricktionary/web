@@ -9,7 +9,7 @@ h2, h3 {
 }
 body { 
   margin: .5em;
-  margin-top: 40px;
+  padding-top: 45px;
 }
 button {
   background-color: #eee;
@@ -36,34 +36,46 @@ nav {
   left: 0;
   width: 100%;
   height: 40px;
-  vertical-align: center;
+  vertical-align: middle;
   white-space: nowrap;
   background-color: #fe3500;
   border-bottom: 1px solid #da1100;
-  color: #fff;
 }
-nav h1 {
-  display: inline;
+nav img {
+  height: 32px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: .3em;
+}
+nav div {
+  display: inline-block;
   white-space: nowrap;
   color: #fff;
-  margin: 0;
-  vertical-align: center;
+  bottom: 8px;
+  top: 8px;
+  font-size: 24px;
+  position: absolute;
 }
 nav a {
   padding: 5px 10px;
   text-decoration: none;
-  margin-top: 0;
+  margin-top: auto;
+  margin-bottom: auto;
   display: inline-block;
-  background-color: #eee;
+  background-color: #da1100;
   border-radius: 4px;
   float: right;
+  position: relative;
+  top: 6px;
+  margin-right: .3em;
+  color: #fff;
 }
 nav a:visited, a:link {
-  color: #607D8B;
+  color: #607d8b;
 }
 nav a:hover {
   color: #039be5;
-  background-color: #CFD8DC;
+  background-color: #fec500;
 }
 nav a.router-link-active {
   color: #039be5;
