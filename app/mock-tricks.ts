@@ -758,7 +758,7 @@ export var TRICKS: Trick[] = [
 "type":"Releases",
 "prerequisites":[
 {"name":"One Handle Release"}]
-}
+},
 
 {"id2": 8,
 "name":"Mick",
