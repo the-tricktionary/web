@@ -10,7 +10,7 @@ export class TrickService {
 
   getTrick(id: number, id2: number) {
     return Promise.resolve(TRICKS).then(
-      tricks => tricks.filter(trick => trick.id === id)[0].filter(trick => trick.id2 === id2)[0]
+      tricks => tricks.filter(trick => trick.id === id).filter(trick => trick.id2 === id2)[0]
     );
   }
 }

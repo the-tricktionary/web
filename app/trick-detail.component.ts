@@ -21,7 +21,7 @@ export class TrickDetailComponent implements OnInit {
     let id = +this._routeParams.get('id');
     let id2 = +this._routeParams.get('id2');
     this._trickService.getTrick(id, id2)
-      .then(level => this.level = level);
+      /*.then(level => this.level = level)*/;
   }
 
   goBack() {
