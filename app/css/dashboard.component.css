@@ -1,22 +1,25 @@
 div.box {
   display: block;
   text-align: center;
-}
-
-div.parent {
+  width: 100%;
+  position: relative;
   display: flex;
   flex-direction: row;
-  /*flex-wrap: wrap;*/
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: stretch;
-  position: absolute;
+  position: relative;
   width: 100%;
 }
 
-div.child {
+div.box h3 {
+  width: 100%;
+}
+
+div.parent {
   background-color: #eee;
   border-radius: 5px;
-  padding: .5em .5em;
+  padding: .5em .5em .5em .5em;
   text-align: center;
   margin-bottom: .5em;
   max-width: 30%;
