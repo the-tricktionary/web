@@ -14,13 +14,20 @@ div.box {
 
 div.box h3 {
   width: 100%;
+  color: #444;
+  font-weight: lighter;
+  font-size: 1.5em;
+  margin: 0;
+  margin-top: 1em;
+  padding: 0;
 }
 
 div.parent {
   background-color: #eee;
   border-radius: 5px;
-  padding: .5em .5em .5em .5em;
+  padding: 1em 1em 1em 1em;
   text-align: center;
   margin-bottom: .5em;
+  margin-right: .5em;
   max-width: 30%;
 }
