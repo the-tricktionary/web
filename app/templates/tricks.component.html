@@ -1,6 +1,6 @@
 <h2>Tricks</h2>
 <ul class="tricks">
-  <li *ngFor="#trick of tricks.subs"
+  <li *ngFor="#level of tricks; #trick of level"
     [class.selected]="trick === selectedTrick"
     (click)="onSelect(trick)">
     <span class="badge">{{trick.id2}}</span> {{trick.name}}
