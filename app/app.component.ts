@@ -10,7 +10,7 @@ import { TrickDetailComponent } from './trick-detail.component';
   selector: 'my-app',
   template: `
     <nav>
-      <img src="icon.png" />
+      <img src="img/tricktionary2.svg" />
       <div> {{title}}</div>
       <a [routerLink]="['Dashboard']">Dashboard</a>
       <a [routerLink]="['Tricks']">Tricks</a>
