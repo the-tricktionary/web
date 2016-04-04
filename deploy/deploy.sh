@@ -28,6 +28,7 @@ cp -r ../node_modules/systemjs ./node_modules
 cp -r ../node_modules/rxjs ./node_modules
 cp -r ../node_modules/angular2 ./node_modules
 cp ../index.html ./index.html
+cp ../404.html ./404.html
 cp ../styles.css ./styles.css
 cp -r ../img ./img
 echo "trick.svbeon.tk" > CNAME
