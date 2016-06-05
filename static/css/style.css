@@ -160,6 +160,40 @@ nav a.router-link-active {
   border-radius: 4px 0 0 4px;
 }
 
+div.box {
+  display: block;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+}
+
+div.box h3 {
+  width: 100%;
+  color: #444;
+  font-weight: lighter;
+  font-size: 1.5em;
+  margin: 0;
+  margin-top: 1em;
+  padding: 0;
+}
+
+div.parent {
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 1em 1em 1em 1em;
+  text-align: center;
+  margin-bottom: .5em;
+  margin-right: .5em;
+  min-width: 20%;
+}
+
 /* everywhere else */
 * { 
   font-family: Helvetica, Arial, sans-serif; 
