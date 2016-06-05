@@ -1,8 +1,0 @@
-<div *ngFor="#level of tricks" class="box">
-  <h3>Level {{level.level}}</h3>
-  <div *ngFor="#trick of level.subs" (click)="gotoDetail(trick)" class="parent">
-    <div class="child">
-      <h4>{{trick.name}}</h4>
-    </div>
-  </div>
-</div>

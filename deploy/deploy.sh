@@ -18,19 +18,7 @@ cd .deploy || exit 1
 git config user.name travis
 git config user.email travis@nowhere
 git rm -rf ./*
-cp -r ../comp/ .
-mv ./comp ./app
-cp -r ../app/css ./app/css
-cp -r ../app/templates ./app/templates
-mkdir ./node_modules
-cp -r ../node_modules/es6-shim ./node_modules
-cp -r ../node_modules/systemjs ./node_modules
-cp -r ../node_modules/rxjs ./node_modules
-cp -r ../node_modules/angular2 ./node_modules
-cp ../index.html ./index.html
-cp ../404.html ./404.html
-cp ../styles.css ./styles.css
-cp -r ../img ./img
+cp -r ../ .
 echo "trick.svbeon.tk" > CNAME
 git add -A
 git commit -m "travis: $TRAVIS_COMMIT"
