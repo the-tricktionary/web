@@ -9,10 +9,13 @@ angular.module('trick.details', ['ngRoute'])
   });
 }])
 
-.controller('DetailsCtrl', function($scope, $firebaseArray, $routeParams, $location) {
-    var ref      = firebase.database().ref().child("todos");
+.controller('DetailsCtrl', function($scope, $firebaseArray, $routeParams, $filter, $sce) {
+    var ref = firebase.database().ref().child("tricks");
     // create a synchronized array
-    $scope.todos = $firebaseArray(ref);
-    $scope.id    = $routeParams.id
-    $scope.id2   = $routeParams.id2
+    $scope.data = $firebaseArray(ref)
+    $scope.id = $routeParams.id
+    $scope.id2 = Number($routeParams.id2)
+    
+    $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
+    $scope.videosce = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + $scope.data.video);
 });

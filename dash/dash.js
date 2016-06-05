@@ -10,7 +10,7 @@ angular.module('trick.dash', ['ngRoute'])
 }])
 
 .controller('DashCtrl', function($scope, $firebaseArray) {
-  var ref = firebase.database().ref();
+  var ref = firebase.database().ref().child("tricks");
   // create a synchronized array
   $scope.data = $firebaseArray(ref);
 });

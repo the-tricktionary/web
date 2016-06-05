@@ -1,11 +1,15 @@
 /* Master Styles */
 h1 {
-  color: #369; 
-  font-size: 250%;
+  color: #333; 
+  font-size: 2.5em;
+  margin-bottom: 0;
 }
 h2, h3 { 
-  color: #444;
+  color: #aaa;
   font-weight: lighter;
+}
+h1+h2 {
+  margin-top: 0;
 }
 body { 
   margin: .5em;
@@ -197,6 +201,17 @@ div.parent {
 a.child {
   text-decoration: none;
   color: inherit;
+}
+
+.video {
+  width: 50vw;
+  height: 28.124vw;
+}
+
+@media and all (max-width: 800px) {
+  .video {
+    width: 100%;
+  }
 }
 
 /* everywhere else */
