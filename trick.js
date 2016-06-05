@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('trick', [
+angular.module('trick', [
   'ngRoute',
   'trick.dash',
   'trick.detail',

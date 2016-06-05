@@ -1,8 +1,8 @@
 'use strict';
 
-var app = angular.module('trick.detail', ['ngRoute'])
+angular.module('trick.detail', ['ngRoute'])
 
-app.config(['$routeProvider', function($routeProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/edit/:id/:id2', {
     templateUrl: 'detail/detail.html',
     controller: 'EditCtrl'

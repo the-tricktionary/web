@@ -1,8 +1,8 @@
 'use strict';
 
-var app = angular.module('trick.dash', ['ngRoute'])
+angular.module('trick.dash', ['ngRoute'])
 
-app.config(['$routeProvider', function($routeProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/dash', {
     templateUrl: 'dash/dash.html',
     controller: 'DashCtrl'
