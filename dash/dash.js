@@ -9,7 +9,7 @@ app.config(['$routeProvider', function($routeProvider) {
   });
 }])
 
-.controller('DashCtrl', function($scope, $firebaseArray, Auth) {
+.controller('DashCtrl', function($scope, $firebaseArray) {
   var ref = firebase.database().ref();
   // create a synchronized array
   $scope.data = $firebaseArray(ref);
