@@ -4,9 +4,9 @@
 </div>
 <div class="box" ng-repeat="level in data">
 	<h3>Level {{ level.level }}</h3>
-	<div class="parent" ng-repeat="trick in level.subs | filter:trickList.search">
-		<div class="child">
-			<a class="child" ng-href="#!/details/{{ level.$id }}/{{ trick.id }}">{{ trick.name }}</h4>
-		</div>
-	</div>
+	<a class="parent" 
+	  ng-href="#!/details/{{ level.$id }}/{{ trick.id }}"
+	  ng-repeat="trick in level.subs | filter:trickList.search"><!-- | orderBy:'name'">-->
+	    {{ trick.name }}
+	</a>
 </div>

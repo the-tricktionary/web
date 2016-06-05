@@ -85,7 +85,7 @@ nav a {
   color: #fff;
 }
 
-nav a:visited,a:link {
+nav a:visited {
   color: #fff;
 }
 
@@ -126,7 +126,7 @@ div.box h3 {
   padding: 0;
 }
 
-div.parent {
+.parent {
   background-color: #eee;
   border-radius: 5px;
   padding: 1em;
@@ -134,11 +134,8 @@ div.parent {
   margin-bottom: .5em;
   margin-right: .5em;
   min-width: 20%;
-}
-
-a.child {
   text-decoration: none;
-  color: inherit;
+  color: #444;
 }
 
 .video {
