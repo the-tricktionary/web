@@ -18,7 +18,7 @@ cd .push || exit 1
 git config user.name travis
 git config user.email travis@nowhere
 git rm -rf ./*
-cp -r ../ .
+cp -r ../* .
 rm -f README.md
 echo "trick.svbeon.tk" > CNAME
 git add -A
