@@ -194,6 +194,11 @@ div.parent {
   min-width: 20%;
 }
 
+a.child {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* everywhere else */
 * { 
   font-family: Helvetica, Arial, sans-serif; 
