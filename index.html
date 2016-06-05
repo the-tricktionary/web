@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="trick">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width , initial-scale=1" name="viewport">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="theme-color" content="#eee">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/open-sans.css">
+    <link rel="stylesheet" href="static/css/font-awesome.css">
+    <link rel="icon" href="static/img/icon.png">
+    <title>Tricktionary</title>
+    <script src="static/js/angular.min.js"></script>
+    <script src="static/js/angular-resource.min.js"></script>
+    <script src="static/js/angular-route.min.js"></script>
+    <script src="static/js/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
+            authDomain: "project-5641153190345267944.firebaseapp.com",
+            databaseURL: "https://project-5641153190345267944.firebaseio.com",
+            storageBucket: "project-5641153190345267944.appspot.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="static/js/angularfire.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="trick.js"></script>
+    <script src="dash/dash.js"></script>
+    <script src="detail/detail.js"></script>
+</head>
+<body>
+    <nav>
+      <img src="static/img/tricktionary2.svg" />
+      <div> Tricktionary</div>
+      <a href="#!/dash">Dashboard</a>
+      <a href="#!/list">Tricks</a>
+    </nav>
+    <div ng-view></div>

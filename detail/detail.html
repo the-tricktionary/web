@@ -1,0 +1,6 @@
+<div ng-repeat="todo in todos | filter:{'$id': id } | orderBy:'$id'">
+  <input type="text" ng-model="todo.text" ng-change="todos.$save(todo)" />
+  <input type="text" ng-model="todo.desc" ng-change="todos.$save(todo)" />
+  <button ng-click="todos.$remove(todo);" class="red">Delete Todo</button>
+</div>
+<a href="#!/list"><button>Go back</button></a>

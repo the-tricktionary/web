@@ -1,0 +1,12 @@
+<div>
+  <input type="text" ng-model="projectList.search" class="search-query" id="projects_search"
+  placeholder="Search">
+</div>
+<div class="box" ng-repeat="level in data">
+	<h3>{{ level.level }}</h3>
+	<div class="parent" ng-repeat="trick in level.subs">
+		<div class="child">
+			<a ng-href="#!/details/{{ trick.name }}">{{ trick.name }}</h4>
+		</div>
+	</div>
+</div>
