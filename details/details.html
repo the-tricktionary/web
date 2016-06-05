@@ -4,9 +4,9 @@
     <h2>{{ trick.type }}</h2>
     <p>{{ trick.description }}</p>
     <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube.com/embed/' + trick.video) }}" frameborder="0" allowfullscreen></iframe>
-    <div class="box pl">
-      <h3 class="pl">Prerequisites</h3>
-      <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="#!/details/{{ pre.id0 }}/{{ pre.id1 }}">{{ pre.name }}</a>
+    <div class="box pl" ng-repeat="pre in trick.prerequisites">
+      <h3 class="pl" ng-if="pre.name != 'None'">Prerequisites</h3>
+      <a class="parent" ng-href="#!/details/{{ pre.id0 }}/{{ pre.id1 }}" ng-if="pre.name != 'None'">{{ pre.name }}</a>
     </div>
   </div>
 </div>
