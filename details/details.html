@@ -1,9 +1,16 @@
 <div ng-repeat="level in data | filter:{ '$id': id }">
-<div ng-repeat="trick in level.subs | filter:{ 'id': id2 }:true">
-  <h1>{{ trick.name }}</h1>
-  <h2>{{ trick.type }}</h2>
-  <p>{{ trick.description }}</p>
-  <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube.com/embed/' + trick.video) }}" frameborder="0" allowfullscreen></iframe>
+  <div ng-repeat="trick in level.subs | filter:{ 'id': id2 }:true">
+    <h1>{{ trick.name }}</h1>
+    <h2>{{ trick.type }}</h2>
+    <p>{{ trick.description }}</p>
+    <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube.com/embed/' + trick.video) }}" frameborder="0" allowfullscreen></iframe>
+    <div class="box pl">
+      <h3 class="pl">Prerequisites</h3>
+      <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="#!/details/{{ pre.id0 }}/{{ pre.id1 }}">{{ pre.name }}</a>
+    </div>
+  </div>
 </div>
+<br />
+<div class="box">
+  <a class="parent" onclick="history.go(-1)">Go back</a>
 </div>
-<a onclick="history.go(-1)"><button class="b-l">Go back</button></a>
