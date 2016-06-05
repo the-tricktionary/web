@@ -6,7 +6,7 @@
 	<h3>{{ level.level }}</h3>
 	<div class="parent" ng-repeat="trick in level.subs">
 		<div class="child">
-			<a class="child" ng-href="#!/details/{{ trick.name }}">{{ trick.name }}</h4>
+			<a class="child" ng-href="#!/details/{{ level.$id }}/{{ trick.$id }}">{{ trick.name }}</h4>
 		</div>
 	</div>
 </div>
