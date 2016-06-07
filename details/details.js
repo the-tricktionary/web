@@ -4,7 +4,7 @@ angular.module('trick.details', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/details/:id0/:id1', {
-    templateUrl: 'details/details.html',
+    templateUrl: '/details/details.html',
     controller: 'DetailsCtrl'
   });
 }])
