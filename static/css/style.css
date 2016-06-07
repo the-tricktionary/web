@@ -217,6 +217,10 @@ input[type=text]:focus {
   border-bottom: 1px solid #aaa;
 }
 
+li {
+  margin-left: 2em;
+}
+
 /* everywhere else */
 * {
   font-family: Helvetica,Arial,sans-serif;
