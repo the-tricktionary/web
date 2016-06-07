@@ -3,6 +3,7 @@
   padding:0;
   box-sizing:border-box;
 }
+
 /* Master Styles */
 h1 {
   color: #333;
@@ -152,15 +153,42 @@ div.box h3 {
   padding: 1em;
   text-align: center;
   margin-bottom: .5em;
-  margin-right: .5em;
-  min-width: 20%;
+  margin-right: .25em;
+  margin-left: .25em;
+  width: 19%;
   text-decoration: none;
   color: #444;
+  cursor: pointer;
+  cursor: hand;
 }
 
 .video {
   width: 50vw;
   height: 28.124vw;
+}
+
+@media all and (max-width: 1325px) {
+  .parent {
+    width: 24%;
+  }
+}
+
+@media all and (max-width: 1050px) {
+  .parent {
+    width: 32%;
+  }
+}
+
+@media all and (max-width: 970px) {
+  .parent {
+    width: 49%;
+  }
+}
+
+@media all and (max-width: 815px) {
+  .parent {
+    width: 100%;
+  }
 }
 
 @media all and (max-width: 800px) {
