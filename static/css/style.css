@@ -213,7 +213,7 @@ input[type=text]:focus {
   border-bottom: 1px solid #fec500;
 }
 
-.article {
+.article:not(:last-child) {
   border-bottom: 1px solid #aaa;
 }
 

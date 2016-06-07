@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('trick.news', ['ngRoute'])
+angular.module('trick.news', ['ngRoute', 'ngSanitize'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/news', {
@@ -9,7 +9,7 @@ angular.module('trick.news', ['ngRoute'])
   });
 }])
 
-.controller('NewsCtrl', function($scope, $firebaseArray, $routeParams, $sce) {
+.controller('NewsCtrl', function($scope, $firebaseArray) {
   var ref = firebase.database().ref().child("news");
   // create a synchronized array
   $scope.news = $firebaseArray(ref);
