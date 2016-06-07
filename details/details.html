@@ -1,12 +1,15 @@
 <h1>{{ trick.name }}</h1>
 <h2>{{ trick.type }}</h2>
 <p>{{ trick.description }}</p>
-<iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube.com/embed/' + trick.video + '?autoplay=1&loop=1') }}" frameborder="0" allowfullscreen></iframe>
+<iframe class="video"
+        ng-src="{{ trustAsResourceUrl('https://www.youtube.com/embed/' + trick.video + '?autoplay=1&loop=1') }}"
+        frameborder="0" allowfullscreen></iframe>
 <div class="box pl">
     <h3 class="pl">Prerequisites</h3>
-    <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="#!/details/{{ pre.id0 }}/{{ pre.id1 }}" ng-if="pre.name != 'None'">{{ pre.name }}</a>
+    <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="#!/details/{{ pre.id0 }}/{{ pre.id1 }}"
+       ng-if="pre.name != 'None'">{{ pre.name }}</a>
 </div>
-<br />
+<br/>
 <div class="box">
-  <a class="parent" onclick="history.go(-1)">Go back</a>
+    <a class="parent" onclick="history.go(-1)">Go back</a>
 </div>

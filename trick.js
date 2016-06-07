@@ -7,9 +7,11 @@ angular.module('trick', [
   'trick.news',
   'firebase'
 ])
-
-.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-  $locationProvider.hashPrefix('!');
-
-  $routeProvider.otherwise({redirectTo: '/dash'});
-}]);
+  
+  .config([
+    '$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+      $locationProvider.hashPrefix('!');
+      
+      $routeProvider.otherwise({redirectTo: '/dash'});
+    }
+  ]);

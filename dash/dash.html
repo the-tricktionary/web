@@ -1,12 +1,12 @@
 <div>
-  <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
-  placeholder="Search (by name, prerequisites...)">
+    <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
+           placeholder="Search (by name, prerequisites...)">
 </div>
 <div class="box" ng-repeat="level in data">
-	<h3>Level {{ level.level }}</h3>
-	<a class="parent" 
-	  ng-href="#!/details/{{ level.id0 }}/{{ trick.id1 }}"
-	  ng-repeat="trick in level.subs | filter:trickList.search"><!-- | orderBy:'name'">-->
-	    {{ trick.name }}
-	</a>
+    <h3>Level {{ level.level }}</h3>
+    <a class="parent"
+       ng-href="#!/details/{{ level.id0 }}/{{ trick.id1 }}"
+       ng-repeat="trick in level.subs | filter:trickList.search"><!-- | orderBy:'name'">-->
+        {{ trick.name }}
+    </a>
 </div>
