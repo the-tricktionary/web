@@ -4,6 +4,7 @@ angular.module('trick', [
   'ngRoute',
   'trick.dash',
   'trick.details',
+  'trick.news',
   'firebase'
 ])
 

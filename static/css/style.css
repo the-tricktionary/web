@@ -213,6 +213,10 @@ input[type=text]:focus {
   border-bottom: 1px solid #fec500;
 }
 
+.article {
+  border-bottom: 1px solid #aaa;
+}
+
 /* everywhere else */
 * {
   font-family: Helvetica,Arial,sans-serif;

@@ -1,0 +1,5 @@
+<div class="article" ng-repeat="new in news | orderBy:'date'">
+    <h1>{{ new.name }}</h1>
+    <h2>{{ new.date }}</h2>
+    <p>{{ new.content }}</p>
+</div>
