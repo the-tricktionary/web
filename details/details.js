@@ -3,19 +3,18 @@
 angular.module('trick.details', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/details/:id/:id2', {
+  $routeProvider.when('/details/:id0/:id1', {
     templateUrl: 'details/details.html',
     controller: 'DetailsCtrl'
   });
 }])
 
-.controller('DetailsCtrl', function($scope, $firebaseArray, $routeParams, $filter, $sce) {
-    var ref = firebase.database().ref().child("tricks");
-    // create a synchronized array
-    $scope.data = $firebaseArray(ref)
-    $scope.id = $routeParams.id
-    $scope.id2 = Number($routeParams.id2)
-    
-    $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
-    $scope.videosce = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + $scope.data.video);
+.controller('DetailsCtrl', function($scope, $firebaseObject, $routeParams, $sce) {
+  var id0 = $routeParams.id0;
+  var id1 = Number($routeParams.id1);
+  var ref = firebase.database().ref().child("tricks/" + id0 + "/subs/" + id1);
+  // create a synchronized array
+  $scope.trick = $firebaseObject(ref);
+
+  $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
 });
