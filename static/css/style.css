@@ -125,9 +125,13 @@ nav ul li:hover:not(:first-child) {
 }
 
 @media screen and (max-width : 500px) {
-  nav.responsive { height : 44px; }
+  nav.responsive {
+    height : 44px;
+  }
 
-  nav ul li:not(:first-child) { display : none; }
+  nav ul li:not(:first-child) {
+    display : none;
+  }
 
   ul.topnav li.icon {
     float   : right;
@@ -143,7 +147,9 @@ nav ul li:hover:not(:first-child) {
     padding-top  : 2px;
   }
 
-  ul.topnav.responsive { position : fixed; }
+  ul.topnav.responsive {
+    position : fixed;
+  }
 
   ul.topnav.responsive li.icon {
     position : fixed;
