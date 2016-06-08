@@ -208,6 +208,11 @@ input[type=text]:focus {
   border-bottom : 1px solid #fec500;
 }
 
+.article {
+  margin-bottom  : 1em;
+  padding-bottom : 1em;
+}
+
 .article:not(:last-child) {
   border-bottom : 1px solid #aaa;
 }
