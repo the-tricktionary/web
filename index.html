@@ -35,13 +35,28 @@
     <script src="/dash/dash.js"></script>
     <script src="/details/details.js"></script>
     <script src="/news/news.js"></script>
+    <script>function myFunction() {
+        document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
+        document.getElementsByTagName("nav")[0].classList.toggle("responsive");
+    }</script>
 </head>
 <body>
-    <nav>
-        <img src="/static/img/tricktionary2.svg" />
-        <div> Tricktionary</div>
-        <a href="#!/dash">Dashboard</a>
-        <a href="#!/news">News</a>
-        <!--<a href="#!/list">Tricks</a>-->
-    </nav>
-    <div ng-view></div>
+<!--<nav>
+    <img src="/static/img/tricktionary2.svg" />
+    <div> Tricktionary</div>
+    <a href="#!/dash">Dashboard</a>
+    <a href="#!/news">News</a>
+    <!--<a href="#!/list">Tricks</a>-- >
+</nav>-->
+<nav>
+    <ul class="topnav">
+        <li><img src="/static/img/tricktionary2.svg"/>
+            <div> Tricktionary</div>
+        </li>
+        <li><a href="#!/dash">Dashboard</a></li>
+        <li><a href="#!/news">News</a></li>
+        <li class="icon" onclick="myFunction()">&#9776;</li>
+    </ul>
+</nav>
+
+<div ng-view></div>

@@ -59,6 +59,32 @@ nav {
   z-index          : 5000;
 }
 
+nav ul {
+  list-style-type : none;
+  overflow        : hidden;
+  padding         : 0;
+  margin          : 0;
+}
+
+nav ul li {
+  display     : inline;
+  margin-top  : 6px;
+  margin-left : 0 !important;
+  height      : 28px;
+}
+
+nav ul li a {
+  text-align      : center;
+  text-decoration : none;
+  transition      : 0.3s;
+}
+
+ul.topnav li.icon {
+  display : none;
+  cursor  : pointer;
+  cursor  : hand;
+}
+
 nav img {
   height        : 32px;
   margin-top    : 4px;
@@ -66,7 +92,7 @@ nav img {
   margin-left   : .3em;
 }
 
-nav div {
+nav ul li div {
   display     : inline-block;
   white-space : nowrap;
   color       : #fff;
@@ -76,16 +102,13 @@ nav div {
   position    : absolute;
 }
 
-nav a {
-  padding          : 5px 10px;
+nav ul li:not(:first-child) {
+  padding          : 3px 10px;
   text-decoration  : none;
-  margin-top       : auto;
-  margin-bottom    : auto;
   display          : inline-block;
   background-color : #da1100;
   border-radius    : 4px;
   float            : right;
-  position         : relative;
   top              : 6px;
   margin-right     : .3em;
   color            : #fff;
@@ -95,9 +118,57 @@ nav a:visited {
   color : #fff;
 }
 
-nav a:hover {
+nav ul li:hover:not(:first-child) {
   color            : #eee;
   background-color : #fec500;
+}
+
+@media screen and (max-width : 500px) {
+  nav.responsive { height : 44px; }
+
+  nav ul li:not(:first-child) { display : none; }
+
+  ul.topnav li.icon {
+    float   : right;
+    display : inline-block;
+    color   : #fff;
+  }
+
+  ul.topnav li:not(.icon):not(:first-child) a {
+    margin       : 0;
+    width        : 100%;
+    height       : 100%;
+    padding-left : 1em;
+    padding-top  : 2px;
+  }
+
+  ul.topnav.responsive { position : fixed; }
+
+  ul.topnav.responsive li.icon {
+    position : fixed;
+    right    : 0;
+    top      : 0;
+  }
+
+  ul.topnav.responsive li:not(.icon):not(:first-child) {
+    display        : block;
+    width          : 100vw;
+    vertical-align : middle;
+    border-radius  : 0;
+    margin         : 0;
+    padding        : 0;
+  }
+
+  ul.topnav.responsive li:not(.icon):not(:first-child):not(:last-child) {
+    border-bottom : 1px solid #fe3500;
+  }
+
+  ul.topnav.responsive li:not(.icon):not(:first-child) a {
+    display    : block;
+    text-align : left;
+    color      : #fff;
+    font-size  : 20px;
+  }
 }
 
 div.box {
