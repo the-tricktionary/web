@@ -104,7 +104,7 @@ nav ul li div {
 }
 
 nav ul li:not(:first-child) {
-  padding          : 3px 10px;
+  padding          : 5px 10px;
   text-decoration  : none;
   display          : inline-block;
   background-color : #da1100;
@@ -131,6 +131,7 @@ nav ul li:hover:not(:first-child) {
 
   nav ul li:not(:first-child) {
     display : none;
+    padding : 3px 10px;
   }
 
   ul.topnav li.icon {
