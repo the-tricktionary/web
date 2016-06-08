@@ -7,6 +7,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="theme-color" content="#fe3500">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/open-sans.css">
@@ -24,7 +26,7 @@
             apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
             authDomain: "project-5641153190345267944.firebaseapp.com",
             databaseURL: "https://project-5641153190345267944.firebaseio.com",
-            storageBucket: "project-5641153190345267944.appspot.com",
+            storageBucket: "project-5641153190345267944.appspot.com"
         };
         firebase.initializeApp(config);
     </script>
@@ -33,13 +35,21 @@
     <script src="/dash/dash.js"></script>
     <script src="/details/details.js"></script>
     <script src="/news/news.js"></script>
+    <script>function myFunction() {
+        document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
+        document.getElementsByTagName("nav")[0].classList.toggle("responsive");
+    }</script>
 </head>
 <body>
 <nav>
-    <img src="/static/img/tricktionary2.svg"/>
-    <div> Tricktionary</div>
-    <a href="#!/dash">Dashboard</a>
-    <a href="#!/news">News</a>
-    <!--<a href="#!/list">Tricks</a>-->
+    <ul class="topnav">
+        <li><img src="/static/img/tricktionary2.svg"/>
+            <div> Tricktionary</div>
+        </li>
+        <li><a href="#!/dash">Dashboard</a></li>
+        <li><a href="#!/news">News</a></li>
+        <li class="icon" onclick="myFunction()">&#9776;</li>
+    </ul>
 </nav>
+
 <div ng-view></div>
