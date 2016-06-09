@@ -5,6 +5,7 @@ angular.module('trick', [
   'trick.dash',
   'trick.details',
   'trick.news',
+  'trick.submit',
   'firebase'
 ])
   
@@ -13,5 +14,12 @@ angular.module('trick', [
       $locationProvider.hashPrefix('!');
       
       $routeProvider.otherwise({redirectTo: '/dash'});
+    }
+  ])
+  
+  .factory("Auth", [
+    "$firebaseAuth",
+    function($firebaseAuth) {
+      return $firebaseAuth();
     }
   ]);
