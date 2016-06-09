@@ -5,16 +5,21 @@
 <div ng-if="user">
     <button ng-click="signOut()">Sign Out</button>
 </div>
-<form ng-if="user" ng-submit="submit()" class="dropzone" action="#!/submit">
-    <input type="text" placeholder="Name" ng-model="newName" />
-    <input type="text" placeholder="Description" ng-model="newDesc" />
-    <select ng-model="newType">
-        <option>Basics</option>
-        <option>Multiples</option>
-        <option>Manipulation</option>
-        <option>Powers</option>
-        <option>Releases</option>
-    </select>
-    <input type="file" ng-model="newVideo">
+<form ng-if="user" ng-submit="submit()">
+    <input type="text" placeholder="Name" ng-model="newName"/>
+    <input type="text" placeholder="Description" ng-model="newDesc"/>
+    <input type="text" placeholder="link to video"/>
+    <label class="">
+        <i class="fa fa-caret-down"></i>
+        <select ng-model="newType">
+            <option selected disabled>Type</option>
+            <option>Basics</option>
+            <option>Multiples</option>
+            <option>Manipulation</option>
+            <option>Powers</option>
+            <option>Releases</option>
+        </select>
+    </label>
+    <!--<input type="file" ng-model="newVideo">-->
 </form>
 

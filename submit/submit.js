@@ -33,27 +33,21 @@ angular.module('trick.submit', ['ngRoute'])
       $scope.user = firebaseUser;
     });
 
-    //var ref = firebase.database().ref().child("submissions/" + $scope.user.uid);
-    // create a synchronized array
-    //$scope.user.submissions = $firebaseArray(ref);
-
-    if ($scope.newFile) {
-      var startIndex = ($scope.newFile.indexOf('\\') >= 0 ? $scope.newFile.lastIndexOf('\\') : $scope.newFile.lastIndexOf('/'));
-      var filename = $scope.newFile.substring(startIndex);
-      if(filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-        filename = filename.substring(1);
-      }
-      return filename;
+    if($scope.user) {
+      var ref = firebase.database().ref().child("submissions/" + $scope.user.uid);
+      // create a synchronized array
+      $scope.user.submissions = $firebaseArray(ref);
     }
 
     // connect to storage
-    var storageRef = firebase.storage().ref();
+    //var storageRef = firebase.storage().ref();
 
     $scope.submit = function() {
       $scope.submissions.$add({
         name: $scope.newName,
         desc: $scope.newDesc,
-        type: $scope.newType
+        type: $scope.newType,
+        video: $scope.newVideo
       });
       var folder = storageRef.child('submissions/' + $scope.user.uid + "/" + filename);
 
