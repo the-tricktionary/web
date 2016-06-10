@@ -5,13 +5,15 @@
 }
 
 /* Master Styles */
+
 h1 {
   color         : #333;
   font-size     : 2.5em;
   margin-bottom : 0;
 }
 
-h2, h3 {
+h2,
+h3 {
   color       : #aaa;
   font-weight : lighter;
 }
@@ -45,6 +47,7 @@ button:disabled {
 }
 
 /* Navigation link styles */
+
 nav {
   position         : fixed;
   top              : 0;
@@ -74,10 +77,11 @@ nav ul li {
 }
 
 nav ul li a {
-  text-align      : center;
-  text-decoration : none;
-  transition      : 0.3s;
-  color           : #fff;
+  text-align         : center;
+  text-decoration    : none;
+  -webkit-transition : 0.3s;
+  transition         : 0.3s;
+  color              : #fff;
 }
 
 ul.topnav li.icon {
@@ -177,31 +181,37 @@ nav ul li:hover:not(:first-child) {
 }
 
 div.box {
-  display               : block;
-  text-align            : center;
-  width                 : 100%;
-  position              : relative;
-  display               : -webkit-box;
-  display               : -ms-flexbox;
-  display               : flex;
-  -webkit-box-orient    : horizontal;
-  -webkit-box-direction : normal;
-  -ms-flex-direction    : row;
-  flex-direction        : row;
-  -ms-flex-wrap         : wrap;
-  flex-wrap             : wrap;
-  -webkit-box-pack      : justify;
-  -ms-flex-pack         : justify;
-  justify-content       : space-between;
-  -webkit-box-align     : stretch;
-  -ms-flex-align        : stretch;
-  align-items           : stretch;
+  display                 : block;
+  text-align              : center;
+  width                   : 100%;
+  position                : relative;
+  display                 : -webkit-box;
+  display                 : -ms-flexbox;
+  display                 : -webkit-flex;
+  display                 : flex;
+  -webkit-box-orient      : horizontal;
+  -webkit-box-direction   : normal;
+  -ms-flex-direction      : row;
+  -webkit-flex-direction  : row;
+  flex-direction          : row;
+  -ms-flex-wrap           : wrap;
+  -webkit-flex-wrap       : wrap;
+  flex-wrap               : wrap;
+  -webkit-box-pack        : justify;
+  -ms-flex-pack           : justify;
+  -webkit-justify-content : space-between;
+  justify-content         : space-between;
+  -webkit-box-align       : stretch;
+  -ms-flex-align          : stretch;
+  -webkit-align-items     : stretch;
+  align-items             : stretch;
 }
 
 div.pl {
-  -webkit-box-pack : start;
-  -ms-flex-pack    : start;
-  justify-content  : flex-start !important;
+  -webkit-box-pack        : start;
+  -ms-flex-pack           : start;
+  -webkit-justify-content : flex-start !important;
+  justify-content         : flex-start !important;
 }
 
 h3.pl {
@@ -337,6 +347,7 @@ li {
 }
 
 /* everywhere else */
+
 * {
   font-family : Helvetica, Arial, sans-serif;
 }
