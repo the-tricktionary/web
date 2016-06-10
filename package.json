@@ -1,0 +1,22 @@
+{
+  "name": "the-tricktionary"
+  , "version": "0.0.1"
+  , "description": ""
+  , "homepage": "https://the-tricktionary.github.io"
+  , "repository" :
+  { "type" : "git"
+  , "url" : "the-tricktionary/the-tricktionary.github.io"
+  }
+  , "license": "MIT"
+  , "dependencies":
+  { "myth": "*"
+  }
+  , "devDependencies":
+  { "lite-server": "*"
+  }
+  , "scripts":
+  { "dev": "lite-server"
+  , "prestart": "myth static/css/style.css static/css/style.css"
+  , "start": "lite-server"
+  }
+}
