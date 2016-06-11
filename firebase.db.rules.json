@@ -13,6 +13,28 @@
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
       }
+    },
+    "speed": {
+      "scores": {
+        "$uid": {
+          ".write": "$uid == auth.uid"
+        },
+        ".read": true
+      },
+      "events": {
+        "$uid": {
+          ".write": "$uid == auth.uid",
+          "$id": {
+            "pools": {
+              ".validate": "newData.isNumber()"
+            },
+            "heats": {
+              ".validate": "newData.isNumber()"
+            }
+          }
+        },
+        ".read": true
+      }
     }
   }
 }

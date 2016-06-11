@@ -22,6 +22,10 @@ h1 + h2 {
   margin-top : 0;
 }
 
+.small {
+  font-size: 0.5em;
+}
+
 body {
   margin      : .5em;
   padding-top : 45px;
@@ -55,24 +59,54 @@ ul ul {
 }
 
 button,
+.button,
 input[type=submit] {
   background-color : #eee;
   border           : none;
   padding          : 5px 10px;
   border-radius    : 4px;
+  text-decoration  : none;
+  color            : #333;
+  text-align       : center;
   cursor           : pointer;
   cursor           : hand;
 }
 
 button:hover,
+.button:hover,
 input[type=submit]:hover {
   background-color : #cfd8dc;
 }
 
-button:disabled {
+button:disabled,
+.button:disabled {
   background-color : #eee;
   color            : #aaa;
   cursor           : auto;
+}
+
+.lg {
+  width : 100% !important;
+}
+
+.red {
+  background-color : #fe3500;
+  color            : #fff;
+  display          : block;
+  margin-top       : 5em;
+}
+
+.green {
+  background : #32cd32;
+  color      : #fff;
+  margin-top : 2em;
+  display    : block;
+  padding    : 5px 10px;
+  max-width  : 13%;
+}
+
+.red:hover {
+  background-color : #da1100;
 }
 
 input[type=submit] {
@@ -86,13 +120,13 @@ form,
   text-align : center;
 }
 
-input[type=text] {
+input[type=text],
+input[type=number] {
   outline            : none;
   border             : none;
   border-bottom      : 1px solid #ccc;
   font-size          : 1.5em;
   width              : 49%;
-  /*text-align         : center;*/
   margin-top         : .5em;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
@@ -101,28 +135,36 @@ input[type=text] {
 label {
   white-space : nowrap;
   display     : inline;
-  font-size   : inherit;
   color       : #292f2f;
   width       : 100%;
   position    : relative;
   height      : 1.5em;
+  font-size   : 1.5em;
 }
 
 label i.fa {
-  position : absolute;
-  top      : 1px;
-  right    : 5px;
-  z-index  : 2;
+  position      : absolute;
+  top           : -6px;
+  right         : 0;
+  padding-top   : 7px;
+  padding-right : 5px;
+  width         : 2em;
+  height        : 1.5em;
+  z-index       : 2;
+  direction     : rtl;
+  background    : linear-gradient(to right, transparent, white)
 }
 
 select {
-  font-size          : 1.5em;
+  font-size          : 1.2em;
   width              : 49%;
   height             : 1.2em;
   border-radius      : 0;
+  margin-top         : .5em;
   background-color   : transparent;
   -webkit-appearance : none;
   border             : none;
+  position           : static;
   border-bottom      : 1px solid #ccc;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
@@ -136,16 +178,29 @@ select {
 }
 
 input[type=text]:focus,
+input[type=number]:focus,
 select:focus {
   border-bottom : 1px solid #fec500;
 }
 
-@media screen and (max-width : 500px) {
+@media screen and (max-width : 560px) {
   input[type=text],
   input[type=submit],
+  input[type=number],
   select {
-    width      : 100%;
+    width         : 100%;
+    display       : block;
+    margin-bottom : .5em;
+    margin-top    : 0;
+  }
+
+  label {
+    display    : block;
     margin-top : .5em;
+  }
+
+  label i.fa {
+    top : -2px;
   }
 }
 
@@ -321,6 +376,102 @@ div.box {
   align-items           : stretch;
 }
 
+div.speeds {
+  width           : 100%;
+  position        : relative;
+  display         : flex;
+  flex-direction  : row;
+  flex-wrap       : wrap;
+  justify-content : center;
+  align-items     : stretch;
+}
+
+div.speeds div {
+  border    : 1px solid #444;
+  min-width : 33%;
+}
+
+div.speeds div:nth-child(odd) {
+  background-color : #eee;
+}
+
+div.speeds div span.label {
+  display        : inline;
+  font-size      : 7em;
+  color          : #666;
+  margin         : 0;
+  letter-spacing : -0.1em;
+}
+
+div.speeds div span.score {
+  font-size      : 14em;
+  margin-top     : -2em;
+  font-family    : monospace, monospace;
+  letter-spacing : -0.1em;
+  padding-right  : 0.1em;
+  line-height    : 0.7;
+}
+
+@media screen and (min-width : 1900px) {
+  div.speeds div {
+    min-width : 25%;
+  }
+}
+
+@media screen and (min-width : 3420px) {
+  div.speeds div span.label {
+    font-size : 14em;
+  }
+
+  div.speeds div span.score {
+    font-size : 25em;
+  }
+}
+
+@media screen and (min-width : 2688px) {
+  div.speeds div span.label {
+    font-size : 12em;
+  }
+
+  div.speeds div span.score {
+    font-size : 19em;
+  }
+}
+@media screen and (max-width : 848px) and (min-width : 518px) {
+  div.speeds div span.label {
+    font-size : 54px;
+  }
+
+  div.speeds div span.score {
+    font-size : 160px;
+  }
+
+  div.speeds div {
+    width : 50%;
+  }
+}
+
+@media screen and (max-width : 639px) {
+  div.speeds div span.label {
+    font-size : 40px;
+  }
+
+  div.speeds div span.score {
+    font-size : 130px;
+  }
+}
+
+@media screen and (max-width : 514px) {
+  div.speeds div span.label {
+    font-size : 40px;
+  }
+
+  div.speeds div span.score {
+    font-size   : 60px;
+    line-height : 1;
+  }
+}
+
 div.pl {
   -webkit-box-pack : start;
   -ms-flex-pack    : start;
@@ -363,6 +514,12 @@ div.box h3 {
 .video {
   width  : 50vw;
   height : 28.124vw;
+}
+
+.warning {
+  color   : #da1100;
+  border  : 1px solid #da1100;
+  padding : 1em;
 }
 
 @media all and (max-width : 1325px) {
