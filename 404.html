@@ -9,8 +9,8 @@
     <meta name="theme-color" content="#fe3500">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
     <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/open-sans.css">
     <link rel="stylesheet" href="/static/css/font-awesome.css">
@@ -51,9 +51,9 @@
         <li><img src="/static/img/tricktionary2.svg"/>
             <div> Tricktionary</div>
         </li>
-        <li><a ng-href="#!/dash" onclick="toggleNav()">Dashboard</a></li>
-        <li><a ng-href="#!/submit" onclick="toggleNav()">Submit</a></li>
-        <li><a ng-href="#!/news" onclick="toggleNav()">News</a></li>
+        <li><a ng-href="/" onclick="toggleNav()">Dashboard</a></li>
+        <li><a ng-href="/submit" onclick="toggleNav()">Submit</a></li>
+        <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
         <li ng-if="user"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
         <li ng-if="!user"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
         <li class="icon" onclick="toggleNav()">&#9776;</li>

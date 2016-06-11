@@ -4,7 +4,7 @@ angular.module('trick.dash', ['ngRoute'])
   
   .config([
     '$routeProvider', function($routeProvider) {
-      $routeProvider.when('/dash', {
+      $routeProvider.when('/', {
         templateUrl: '/dash/dash.html',
         controller: 'DashCtrl'
       });

@@ -13,7 +13,7 @@ angular.module('trick', [
     '$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
       $locationProvider.html5Mode(true).hashPrefix('!');
       
-      $routeProvider.otherwise({redirectTo: '/dash'});
+      $routeProvider.otherwise({redirectTo: '/'});
     }
   ])
   
