@@ -3,7 +3,7 @@
     "rules": "firebase.db.rules.json"
   },
   "hosting": {
-    "public": "",
+    "public": "app",
     "rewrites": [
       {
         "source": "**",
@@ -11,13 +11,7 @@
       }
     ],
     "ignore": [
-      "firebase.json",
-      "firebase.db.rules.json",
       "**/.*",
-      "AUTHORS",
-      "LICENCE",
-      "README.md",
-      "package.json"
     ],
     "cleanUrls": true,
     "trailingSlash": false

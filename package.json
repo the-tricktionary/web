@@ -2,22 +2,22 @@
   "name": "the-tricktionary"
   , "version": "0.0.1"
   , "description": ""
-  , "homepage": "https://the-tricktionary.github.io"
+  , "homepage": "https://project-5641153190345267944.firebaseapp.com/"
   , "repository" :
   { "type" : "git"
   , "url" : "the-tricktionary/the-tricktionary.github.io"
   }
   , "license": "MIT"
   , "dependencies":
-  {
+  { "firebase-tools"
   }
   , "devDependencies":
   { "lite-server": "*"
   , "myth": "*"
   }
   , "scripts":
-  { "dev": "lite-server"
-  , "start": "lite-server"
+  { "dev": "cd app && lite-server"
+  , "start": "firebase serve"
   , "pretest": "myth static/css/style.css static/css/style.css"
   , "test": "true"
   }
