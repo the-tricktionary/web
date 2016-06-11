@@ -2,10 +2,15 @@
     <p>You need to be signed in to access this page </p>
     <button ng-click="signIn()">Sign In With Google</button>
 </div>
+<h1>Submit a trick</h1>
+<p>
+    On this page you can submit a trick to the tricktionary, by submitting this form you give us a non-exclusive
+    licensce to modify, redistribute, publish your submitted data without accrediting you
+</p>
 <form ng-if="user" ng-submit="submit()">
     <input type="text" placeholder="Name" ng-model="newName"/>
     <input type="text" placeholder="Description" ng-model="newDesc"/>
-    <input type="text" placeholder="link to video"/>
+    <input type="text" placeholder="Link to video"/>
     <label class="">
         <i class="fa fa-caret-down"></i>
         <select ng-model="newType">
@@ -17,7 +22,7 @@
             <option>Releases</option>
         </select>
     </label>
-    <input type="Submit" />
+    <input type="submit"/>
     <!--<input type="file" ng-model="newVideo">-->
 </form>
 

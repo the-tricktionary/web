@@ -50,8 +50,67 @@ button:disabled {
 
 input[type=submit] {
   margin-top : 1em;
-  width      : 98%;
+  width      : 50%;
   font-size  : 1.5em;
+}
+
+form,
+.center {
+  text-align : center;
+}
+
+input[type=text] {
+  outline            : none;
+  border             : none;
+  border-bottom      : 1px solid #ccc;
+  font-size          : 1.5em;
+  width              : 49%;
+  text-align         : center;
+  -webkit-transition : border-bottom .5s;
+  transition         : border-bottom .5s;
+}
+
+label {
+  white-space : nowrap;
+  display     : inline;
+  font-size   : inherit;
+  color       : #292f2f;
+  width       : 100%;
+  position    : relative;
+  height      : 1.3em;
+}
+
+label i.fa {
+  position : absolute;
+  top      : 1px;
+  right    : 5px;
+  z-index  : 2;
+}
+
+select {
+  font-size          : 1.3em;
+  width              : 49%;
+  height             : 1.3em;
+  border-radius      : 0;
+  background-color   : transparent;
+  -webkit-appearance : none;
+  border             : none;
+  border-bottom      : 1px solid #ccc;
+  -webkit-transition : border-bottom .5s;
+  transition         : border-bottom .5s;
+}
+
+select {
+  bottom : -1px;
+}
+
+.search-query {
+  width : 100% !important;
+}
+
+input[type=text]:focus,
+select:focus {
+  border-bottom : 1px solid #fec500;
 }
 
 /* Navigation link styles */
@@ -285,60 +344,6 @@ div.box h3 {
     width  : 96vw;
     height : 54vw;
   }
-}
-
-input[type=text] {
-  outline            : none;
-  border             : none;
-  border-bottom      : 1px solid #ccc;
-  font-size          : 1.5em;
-  width              : 49%;
-  text-align         : center;
-  -webkit-transition : border-bottom .5s;
-  transition         : border-bottom .5s;
-}
-
-label {
-  white-space : nowrap;
-  display     : inline;
-  font-size   : inherit;
-  color       : #292f2f;
-  width       : 100%;
-  position    : relative;
-  height      : 1.3em;
-}
-
-label i.fa {
-  position : absolute;
-  top      : 1px;
-  right    : 5px;
-  z-index  : 2;
-}
-
-select {
-  font-size          : 1.3em;
-  width              : 49%;
-  height             : 1.3em;
-  border-radius      : 0;
-  background-color   : transparent;
-  -webkit-appearance : none;
-  border             : none;
-  border-bottom      : 1px solid #ccc;
-  -webkit-transition : border-bottom .5s;
-  transition         : border-bottom .5s;
-}
-
-select {
-  bottom : -1px;
-}
-
-.search-query {
-  width : 100% !important;
-}
-
-input[type=text]:focus,
-select:focus {
-  border-bottom : 1px solid #fec500;
 }
 
 .article {
