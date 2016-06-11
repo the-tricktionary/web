@@ -18,5 +18,7 @@
   { "dev": "lite-server"
   , "prestart": "myth static/css/style.css static/css/style.css"
   , "start": "lite-server"
+  , "pretest": "myth static/css/style.css static/css/style.css"
+  , "test": "true"
   }
 }
