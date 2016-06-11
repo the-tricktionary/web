@@ -65,7 +65,8 @@ input[type=text] {
   border-bottom      : 1px solid #ccc;
   font-size          : 1.5em;
   width              : 49%;
-  text-align         : center;
+  /*text-align         : center;*/
+  margin-top         : .5em;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
 }
@@ -77,7 +78,7 @@ label {
   color       : #292f2f;
   width       : 100%;
   position    : relative;
-  height      : 1.3em;
+  height      : 1.5em;
 }
 
 label i.fa {
@@ -88,7 +89,7 @@ label i.fa {
 }
 
 select {
-  font-size          : 1.3em;
+  font-size          : 1.5em;
   width              : 49%;
   height             : 1.3em;
   border-radius      : 0;
@@ -105,12 +106,22 @@ select {
 }
 
 .search-query {
-  width : 100% !important;
+  width      : 100% !important;
+  text-align : center !important;
 }
 
 input[type=text]:focus,
 select:focus {
   border-bottom : 1px solid #fec500;
+}
+
+@media screen and (max-width : 500px) {
+  input[type=text],
+  input[type=submit],
+  select {
+    width: 100%;
+    margin-top: .5em;
+  }
 }
 
 /* Navigation link styles */
