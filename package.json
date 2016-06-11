@@ -9,10 +9,11 @@
   }
   , "license": "MIT"
   , "dependencies":
-  { "myth": "*"
+  {
   }
   , "devDependencies":
   { "lite-server": "*"
+  , "myth": "*"
   }
   , "scripts":
   { "dev": "lite-server"
