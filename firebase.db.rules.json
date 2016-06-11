@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "tricks": {
+      ".read": true,
+      ".write": false
+    },
+    "news": {
+      ".read": true,
+      ".write": false
+    },
+    "submit": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    }
+  }
+}

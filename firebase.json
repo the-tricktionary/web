@@ -1,0 +1,25 @@
+{
+  "database": {
+    "rules": "firebase.db.rules.json"
+  },
+  "hosting": {
+    "public": "",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "ignore": [
+      "firebase.json",
+      "firebase.db.rules.json",
+      "**/.*",
+      "AUTHORS",
+      "LICENCE",
+      "README.md",
+      "package.json"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
+  }
+}
