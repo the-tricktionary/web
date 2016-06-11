@@ -1,6 +1,6 @@
 {
-  "name": "Tricktionary",
-  "short_name": "Tricks",
+  "name": "The Tricktionary",
+  "short_name": "Tricktionary",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fe3500",
