@@ -2,9 +2,6 @@
     <p>You need to be signed in to access this page </p>
     <button ng-click="signIn()">Sign In With Google</button>
 </div>
-<div ng-if="user">
-    <button ng-click="signOut()">Sign Out</button>
-</div>
 <form ng-if="user" ng-submit="submit()">
     <input type="text" placeholder="Name" ng-model="newName"/>
     <input type="text" placeholder="Description" ng-model="newDesc"/>
@@ -20,6 +17,7 @@
             <option>Releases</option>
         </select>
     </label>
+    <input type="Submit" />
     <!--<input type="file" ng-model="newVideo">-->
 </form>
 

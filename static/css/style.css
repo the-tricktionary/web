@@ -27,7 +27,8 @@ body {
   padding-top : 45px;
 }
 
-button {
+button,
+input[type=submit] {
   background-color : #eee;
   border           : none;
   padding          : 5px 10px;
@@ -36,7 +37,8 @@ button {
   cursor           : hand;
 }
 
-button:hover {
+button:hover,
+input[type=submit]:hover {
   background-color : #cfd8dc;
 }
 
@@ -44,6 +46,12 @@ button:disabled {
   background-color : #eee;
   color            : #aaa;
   cursor           : auto;
+}
+
+input[type=submit] {
+  margin-top : 1em;
+  width      : 99%;
+  font-size  : 1.5em;
 }
 
 /* Navigation link styles */
