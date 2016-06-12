@@ -4,6 +4,8 @@
   },
   "hosting": {
     "public": "app",
+    "cleanUrls": true,
+    "trailingSlash": false,
     "rewrites": [
       {
         "source": "**",
@@ -13,7 +15,23 @@
     "ignore": [
       "**/.*"
     ],
-    "cleanUrls": true,
-    "trailingSlash": false
+    "redirects": [
+      {
+        "source" : "/play",
+        "destination" : "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
+        "type" : 301
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(css|js|html|png|svg)",
+        "headers": [
+          {
+            "key": "Cache-control",
+            "value": "max-age=86400"
+          }
+        ]
+      }
+    ]
   }
 }
