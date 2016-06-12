@@ -205,7 +205,7 @@ nav ul li:hover:not(:first-child) {
   background-color : #fec500;
 }
 
-@media screen and (max-width : 500px) {
+@media screen and (max-width : 600px) {
   nav.responsive {
     height : 44px;
   }

@@ -27,7 +27,7 @@
         "source": "**/*.@(css|js|html|png|svg)",
         "headers": [
           {
-            "key": "Cache-control",
+            "key": "Cache-Control",
             "value": "max-age=86400"
           }
         ]
