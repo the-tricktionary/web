@@ -13,7 +13,9 @@
   },
   "devDependencies": {
     "lite-server": "*",
-    "myth": "*"
+    "myth": "*",
+    "firebase": "*",
+    "gcloud": "*"
   },
   "scripts": {
     "dev": "cd app && lite-server",
