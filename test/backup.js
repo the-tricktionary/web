@@ -3,6 +3,7 @@ var gcloud = require('gcloud')({
   projectId: 'project-5641153190345267944',
   keyFilename: '../../tricktionary-key.json'
 });
+var fs = require('fs');
 
 // init storage
 var gcs = gcloud.storage();
@@ -15,7 +16,5 @@ firebase.initializeApp({
 
 // get all data
 var db = firebase.database();
-var ref = db.ref("/");
-ref.once("value", function(snapshot) {
-  console.log(snapshot.val());
-});
+var ref = db.ref("/")
+  .then(console.log(r))
