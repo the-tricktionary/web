@@ -6,8 +6,8 @@ var gcloud = require('gcloud')({
 var fs = require('fs');
 
 // init storage
-var gcs = gcloud.storage();
-var bucket = gcs.bucket('project-5641153190345267944.appspot.com');
+//var gcs = gcloud.storage();
+//var bucket = gcs.bucket('project-5641153190345267944.appspot.com');
 // init db
 firebase.initializeApp({
   serviceAccount: "../../tricktionary-key.json",
@@ -16,5 +16,5 @@ firebase.initializeApp({
 
 // get all data
 var db = firebase.database();
-var ref = db.ref("/")
-  .then(console.log(r))
+var ref = db.ref("/");
+console.log(ref);
