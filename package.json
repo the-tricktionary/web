@@ -9,13 +9,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "firebase-tools": "*"
   },
   "devDependencies": {
-    "lite-server": "*",
-    "myth": "*",
     "firebase": "*",
-    "gcloud": "*"
+    "firebase-tools": "*",
+    "gcloud": "*",
+    "lite-server": "*",
+    "myth": "*"
   },
   "scripts": {
     "dev": "cd app && lite-server",
