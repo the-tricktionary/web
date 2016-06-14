@@ -1,10 +1,12 @@
 # The Tricktionary Web app
+A webapp to provide a dictionary of jumprope tricks and functionalities that makes ropeskippers life easier.
 
 ## Frameworks
 ### js
   - [Firebase](firebase.google.com)
   - [Angularjs](angularjs.org)
   - [Angularfire](github.com/firebase/angularfire)
+
 ### css
   - [Myth](myth.io)
   - [Font Awesome](http://fontawesome.io)
