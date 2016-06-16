@@ -6,6 +6,7 @@ angular.module('trick', [
   'trick.details',
   'trick.news',
   'trick.submit',
+  'trick.about',
   'firebase'
 ])
   

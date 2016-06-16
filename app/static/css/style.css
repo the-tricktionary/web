@@ -25,6 +25,33 @@ h1 + h2 {
 body {
   margin      : .5em;
   padding-top : 45px;
+  min-height  : 98vh;
+  position    : relative;
+}
+
+a {
+  color: #008499;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #3baec4;
+}
+
+ul ul {
+  padding-left: 2em;
+}
+
+.foot {
+  position   : absolute;
+  bottom     : 0;
+  text-align : center;
+  width      : 100%;
+  font-size  : 11px;
+}
+
+.ng-scope {
+  padding-bottom : 11px;
 }
 
 button,
@@ -205,7 +232,7 @@ nav ul li:hover:not(:first-child) {
   background-color : #fec500;
 }
 
-@media screen and (max-width : 600px) {
+@media screen and (max-width : 680px) {
   nav.responsive {
     height : 44px;
   }
@@ -301,8 +328,7 @@ div.box h3 {
   color       : #444;
   font-weight : lighter;
   font-size   : 1.5em;
-  margin      : 0;
-  margin-top  : 1em;
+  margin      : 1em 0 0;
   padding     : 0;
 }
 

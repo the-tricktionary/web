@@ -39,6 +39,7 @@
     <script src="/details/details.js"></script>
     <script src="/news/news.js"></script>
     <script src="/submit/submit.js"></script>
+    <script src="/about/about.js"></script>
     <script>
         function toggleNav() {
             document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
@@ -50,7 +51,7 @@
 <nav>
     <ul class="topnav">
         <li><img src="/static/img/tricktionary2.svg"/>
-            <div> Tricktionary</div>
+            <div>&nbsp;The Tricktionary</div>
         </li>
         <li><a ng-href="/" onclick="toggleNav()">Dashboard</a></li>
         <li><a ng-href="/submit" onclick="toggleNav()">Submit</a></li>
@@ -84,3 +85,6 @@
     ga('send', 'pageview');
 
 </script>
+<div class="foot">
+    <a ng-href="/about">About and Privacy Policy</a>
+</div>
