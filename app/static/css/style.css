@@ -30,16 +30,16 @@ body {
 }
 
 a {
-  color: #008499;
-  text-decoration: none;
+  color           : #008499;
+  text-decoration : none;
 }
 
 a:hover {
-  color: #3baec4;
+  color : #3baec4;
 }
 
 ul ul {
-  padding-left: 2em;
+  padding-left : 2em;
 }
 
 .foot {
@@ -187,6 +187,14 @@ nav ul li a {
   -webkit-transition : 0.3s;
   transition         : 0.3s;
   color              : #fff;
+  width              : 100%;
+  height             : 100%;
+  cursor             : pointer;
+  cursor             : hand;
+}
+
+nav ul li a:hover {
+  color : #fff;
 }
 
 ul.topnav li.icon {
