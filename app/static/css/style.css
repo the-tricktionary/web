@@ -184,8 +184,6 @@ nav ul li {
 nav ul li a {
   text-align         : center;
   text-decoration    : none;
-  -webkit-transition : 0.3s;
-  transition         : 0.3s;
   color              : #fff;
   width              : 100%;
   height             : 100%;
