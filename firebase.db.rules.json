@@ -8,7 +8,7 @@
       ".read": true,
       ".write": false
     },
-    "submit": {
+    "submissions": {
       "$uid": {
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
