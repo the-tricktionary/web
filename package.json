@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "cd app && lite-server",
     "start": "firebase serve",
-    "pretest": "myth static/css/style.css static/css/style.css",
+    "pretest": "myth app/static/css/style.css app/static/css/style.css",
     "test": "true",
     "deploy": "firebase deploy"
   }

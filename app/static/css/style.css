@@ -182,13 +182,13 @@ nav ul li {
 }
 
 nav ul li a {
-  text-align         : center;
-  text-decoration    : none;
-  color              : #fff;
-  width              : 100%;
-  height             : 100%;
-  cursor             : pointer;
-  cursor             : hand;
+  text-align      : center;
+  text-decoration : none;
+  color           : #fff;
+  width           : 100%;
+  height          : 100%;
+  cursor          : pointer;
+  cursor          : hand;
 }
 
 nav ul li a:hover {
@@ -292,37 +292,31 @@ nav ul li:hover:not(:first-child) {
 }
 
 div.box {
-  display                 : block;
-  text-align              : center;
-  width                   : 100%;
-  position                : relative;
-  display                 : -webkit-box;
-  display                 : -ms-flexbox;
-  display                 : -webkit-flex;
-  display                 : flex;
-  -webkit-box-orient      : horizontal;
-  -webkit-box-direction   : normal;
-  -ms-flex-direction      : row;
-  -webkit-flex-direction  : row;
-  flex-direction          : row;
-  -ms-flex-wrap           : wrap;
-  -webkit-flex-wrap       : wrap;
-  flex-wrap               : wrap;
-  -webkit-box-pack        : justify;
-  -ms-flex-pack           : justify;
-  -webkit-justify-content : space-between;
-  justify-content         : space-between;
-  -webkit-box-align       : stretch;
-  -ms-flex-align          : stretch;
-  -webkit-align-items     : stretch;
-  align-items             : stretch;
+  display               : block;
+  text-align            : center;
+  width                 : 100%;
+  position              : relative;
+  display               : -webkit-box;
+  display               : -ms-flexbox;
+  display               : flex;
+  -webkit-box-orient    : horizontal;
+  -webkit-box-direction : normal;
+  -ms-flex-direction    : row;
+  flex-direction        : row;
+  -ms-flex-wrap         : wrap;
+  flex-wrap             : wrap;
+  -webkit-box-pack      : justify;
+  -ms-flex-pack         : justify;
+  justify-content       : space-between;
+  -webkit-box-align     : stretch;
+  -ms-flex-align        : stretch;
+  align-items           : stretch;
 }
 
 div.pl {
-  -webkit-box-pack        : start;
-  -ms-flex-pack           : start;
-  -webkit-justify-content : flex-start !important;
-  justify-content         : flex-start !important;
+  -webkit-box-pack : start;
+  -ms-flex-pack    : start;
+  justify-content  : flex-start !important;
 }
 
 h3.pl {
@@ -351,6 +345,11 @@ div.box h3 {
   color            : #444;
   cursor           : pointer;
   cursor           : hand;
+}
+
+.parent:hover {
+  background-color : #ddd;
+  color            : #444;
 }
 
 .video {
