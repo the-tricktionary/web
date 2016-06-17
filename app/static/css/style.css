@@ -126,10 +126,8 @@ select {
   border-bottom      : 1px solid #ccc;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
-}
-
-select {
-  bottom : -2px;
+  outline            : 0;
+  bottom             : -2px;
 }
 
 .search-query {
