@@ -150,7 +150,6 @@ select:focus {
 }
 
 /* Navigation link styles */
-
 nav {
   position         : fixed;
   top              : 0;
@@ -287,6 +286,17 @@ nav ul li:hover:not(:first-child) {
     padding-left : .1em;
     padding-top  : 2px;
   }
+}
+
+/* content */
+.warning {
+  text-align    : center;
+  display       : block;
+  width         : 100%;
+  color         : #da1100;
+  border        : 1px solid #da1100;
+  padding       : .3em;
+  margin-bottom : .5em;
 }
 
 div.box {

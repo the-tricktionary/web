@@ -1,8 +1,5 @@
-<div ng-if="!user">
-    <p>You need to be signed in to access this page </p>
-    <button ng-click="signIn()">Sign In With Google</button>
-</div>
 <h1>Submit a trick</h1>
+<p ng-if="!user" class="warning">You need to be signed in to access this page, see the menu.</p>
 <p>
     On this page you can submit a trick to the tricktionary, by submitting this form you give us a non-exclusive
     licensce to modify, redistribute, publish your submitted data without accrediting you
