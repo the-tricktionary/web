@@ -31,25 +31,15 @@ angular.module('trick.speed.event', ['ngRoute'])
           $location.path('/speed');
         };
 
-        $scope.getNumber = function(num) {
-          return new Array(num);
-        };
-
-        $scope.counterSave = function(index, id) {
-          $scope.event.C[index] = id;
+        $scope.updateCounters = function() {
+          if($scope.event.judges && $scope.event.judges[$scope.event.pools]) {
+            $scope.event.judges[$scope.event.pools] = null;
+          }
           $scope.event.$save();
         };
 
-        $scope.addOne = function(event) {
-          if(event.target.checked) {
-            $scope.event.pools += 1;
-            $scope.event.$save();
-            // TODO: Save checked state
-          }
-          else {
-            $scope.event.pools -= 1;
-            $scope.event.$save();
-          }
+        $scope.getNumber = function(num) {
+          return new Array(num);
         };
       }
       else {

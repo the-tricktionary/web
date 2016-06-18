@@ -12,7 +12,7 @@ angular.module('trick.speed.live', ['ngRoute'])
   ])
   
 
-  .controller('SpeedLiveCtrl', function($scope, $firebaseArray, $routeParams, $location, Auth) {
+  .controller('SpeedLiveCtrl', function($scope, $firebaseArray, $firebaseObject, $routeParams, $location, Auth) {
     // TODO: Allow users that aren't signed in
     Auth.$onAuthStateChanged(function() {
       if($scope.user) {
@@ -20,11 +20,15 @@ angular.module('trick.speed.live', ['ngRoute'])
         var ref = firebase.database().ref().child("speed/events/" + $scope.user.uid + "/" + $scope.id);
         var refJ = ref.child("/judges");
         // create a synchronized array
-        $scope.event = $firebaseArray(ref);
+        $scope.event = $firebaseObject(ref);
         $scope.judges = $firebaseArray(refJ);
 
-        $scope.judges.$loaded()
-          .then(function() {
+        $scope.getNumber = function(num) {
+          return new Array(num);
+        };
+
+        $scope.judges.$watch(
+          function() {
             var len = $scope.judges.length;
             $scope.judge = [];
             var jRef = [];

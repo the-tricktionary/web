@@ -1,5 +1,5 @@
 <div class="speeds">
-    <div ng-repeat="judge in judges track by $index">
+    <div ng-repeat="num in getNumber(event.pools) track by $index | limitTo:event.pools">
         <span class="label">{{ $index + 1 }}</span>
         <!-- TODO: Use a more reliable method to select newest score... -->
         <span class="score">{{ jData[$index][jData[$index].length - 3].score }}</span>

@@ -6,7 +6,7 @@
     </div>
     <div>
         <label for="pools">Pools:</label>
-        <input id="pools" type="number" min="0" max="{{ count.length }}" ng-model="event.pools" ng-change="event.$save()"/>
+        <input id="pools" type="number" min="0" max="{{ count.length }}" ng-model="event.pools" ng-change="updateCounters()"/>
     </div>
     <h3>Assign counters</h3>
     <div ng-repeat="i in getNumber(event.pools) track by $index">
@@ -17,7 +17,7 @@
             <i class="fa fa-caret-down"></i>
             <select ng-change="event.$save();" ng-model="event.judges[$index]" id="judge{{ $index }}">
                 <optgroup ng-repeat="counter in scores" label="">
-                    <option ng-if="eventid.event == event.$id" ng-repeat="eventid in counter">{{  count[$index] = eventid.judge + " " +
+                    <option ng-if="eventid.event == event.$id" ng-repeat="eventid in counter">{{  eventid.judge + " " +
                         counter.$id }}</option>
                 </optgroup>
             </select>
@@ -31,3 +31,4 @@
     <button ng-click="delEvent();" class="red">Delete Event</button>
 </div>
 
+{{ count }}
