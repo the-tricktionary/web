@@ -1,0 +1,14 @@
+<h1>Speed</h1>
+<p>Note that Speed events are still in beta, it might not work as expected and some functionality might not yet have
+    been implemented. See <a ng-href="/news">News</a> for more details. The intent is to provide a fully featured live
+    scoring system, but that's a work in progress.</p>
+<div class="box">
+    <a class="parent lg" ng-click="newSpeed();">New Speed event</a>
+    <!-- TODO: Enable when one can see events without beeing logged in *or* when counter is available via web.
+    <a class="parent lg" ng-click="">Join Speed event</a>
+    -->
+</div>
+<div class="box">
+    <h3>My Events</h3>
+    <a class="parent" ng-repeat="event in events" ng-href="/speed/{{ event.$id }}">{{ event.name || event.$id }}</a>
+</div>

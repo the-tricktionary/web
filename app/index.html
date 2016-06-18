@@ -14,24 +14,14 @@
     <link rel="icon" href="/static/img/icon.png">
     <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/open-sans.css">
     <link rel="stylesheet" href="/static/css/font-awesome.css">
     <title>Tricktionary</title>
+    <!-- Resources -->
     <script src="/static/js/angular.min.js"></script>
     <script src="/static/js/angular-resource.min.js"></script>
     <script src="/static/js/angular-route.min.js"></script>
     <script src="/static/js/angular-sanitize.min.js"></script>
     <script src="/static/js/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
-            authDomain: "project-5641153190345267944.firebaseapp.com",
-            databaseURL: "https://project-5641153190345267944.firebaseio.com",
-            storageBucket: "project-5641153190345267944.appspot.com"
-        };
-        firebase.initializeApp(config);
-    </script>
     <script src="/static/js/angularfire.min.js"></script>
     <!-- Local angular modules -->
     <script src="/trick.js"></script>
@@ -40,22 +30,21 @@
     <script src="/news/news.js"></script>
     <script src="/submit/submit.js"></script>
     <script src="/about/about.js"></script>
-    <script>
-        function toggleNav() {
-            document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
-            document.getElementsByTagName("nav")[0].classList.toggle("responsive");
-        }
-    </script>
+    <script src="/speed/speed.js"></script>
+    <script src="/speed/event/speed.event.js"></script>
+    <script src="/speed/live/speed.live.js"></script>
+    <script src="/about/about.js"></script>
 </head>
 <body>
 <nav>
     <ul class="topnav">
         <li><img src="/static/img/tricktionary2.svg"/>
-            <div>&nbsp;The Tricktionary</div>
+            <div>&nbsp;<span class="small">the</span>Tricktionary</div>
         </li>
         <li><a ng-href="/" onclick="toggleNav()">Dashboard</a></li>
         <li><a ng-href="/submit" onclick="toggleNav()">Submit</a></li>
         <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
+        <li><a ng-href="/speed" onclick="toggleNav()">Speed</a></li>
         <li><a href="/play/" target="_blank" onclick="toggleNav()">App</a></li>
         <li ng-if="user"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
         <li ng-if="!user"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>

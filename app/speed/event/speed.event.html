@@ -1,0 +1,33 @@
+<div>
+    <h3>Event ID: {{ event.$id }}</h3>
+    <div>
+        <label for="name">Event Name:</label>
+        <input id="name" type="text" ng-model="event.name" ng-change="event.$save()"/>
+    </div>
+    <div>
+        <label for="pools">Pools:</label>
+        <input id="pools" type="number" min="0" ng-model="event.pools" ng-change="event.$save()"/>
+    </div>
+    <h3>Assign counters</h3>
+    <div ng-repeat="i in getNumber(event.pools) track by $index">
+        <label for="judge{{ $index }}">
+            Pool {{ $index + 1 }}
+        </label>
+        <label>
+            <i class="fa fa-caret-down"></i>
+            <select ng-change="event.$save();" ng-model="event.judges[$index]" id="judge{{ $index }}">
+                <optgroup ng-repeat="counter in scores" label="">
+                    <option ng-if="eventid.event == event.$id" ng-repeat="eventid in counter">{{ eventid.judge + " " +
+                        counter.$id }}</option>
+                </optgroup>
+            </select>
+        </label>
+    </div>
+    <div class="paf">
+        <label for="heats">Heats:</label>
+        <input id="heats" type="number" min="1" ng-model="event.heats" ng-change="event.$save()"/>
+    </div>
+    <a class="button green" ng-href="/live/{{ event.$id }}">See Live Speed</a>
+    <button ng-click="delEvent();" class="red">Delete Event</button>
+</div>
+

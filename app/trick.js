@@ -1,5 +1,20 @@
 'use strict';
 
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
+  authDomain: "project-5641153190345267944.firebaseapp.com",
+  databaseURL: "https://project-5641153190345267944.firebaseio.com",
+  storageBucket: "project-5641153190345267944.appspot.com"
+};
+firebase.initializeApp(config);
+
+// Hide/Show nav on mobile
+function toggleNav() {
+  document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
+  document.getElementsByTagName("nav")[0].classList.toggle("responsive");
+}
+
 angular.module('trick', [
   'ngRoute',
   'trick.dash',
@@ -7,6 +22,9 @@ angular.module('trick', [
   'trick.news',
   'trick.submit',
   'trick.about',
+  'trick.speed',
+  'trick.speed.event',
+  'trick.speed.live',
   'firebase'
 ])
   
@@ -30,6 +48,7 @@ angular.module('trick', [
       $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
         if(error === "AUTH_REQUIRED") {
           $location.path("/dash");
+          $rootScope.error = 'You need to be signed in to access this page, please Sign In and try again.';
         }
       });
 
