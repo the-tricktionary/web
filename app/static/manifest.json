@@ -4,6 +4,8 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fe3500",
+  "theme_color": "#fe3500",
+  "offline_enabled": true,
   "description": "A dictionary of jumprope tricks categorised after difficulty and completed with prerequisites and videos.",
   "lang": "en",
   "prefer_related_applications": true,
@@ -21,7 +23,8 @@
     "type": "image/svg+xml"
   }],
   "related_applications": [{
-    "platform": "web"
+    "platform": "web",
+    "url": "https://tricks.jumpropejam.com"
   }, {
     "platform": "play",
     "url": "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",

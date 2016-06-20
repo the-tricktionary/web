@@ -1,10 +1,10 @@
 <div class="speeds">
-    <div ng-repeat="num in getNumber(event.pools) track by $index | limitTo:event.pools">
+    <div ng-if="event.pools" ng-repeat="num in getNumber(event.pools) track by $index | limitTo:event.pools">
         <span class="label">{{ $index + 1 }}</span>
-        <!-- TODO: Use a more reliable method to select newest score... -->
-        <span class="score">{{ jData[$index][jData[$index].length - 2].score }}</span>
+        <span class="score">{{ jData[$index][event.current - 1].score }}</span>
     </div>
 </div>
+<h1 ng-if="!event.pools"><i class="fa fa-spinner fa-spin fa-fw"></i>Loading</h1>
 <h1 ng-if="event.pools == 0">
     No Pools active, assign judges in the Event Admin Interface.
 </h1>

@@ -89,6 +89,10 @@ button:disabled,
   width: 100% !important;
 }
 
+.sm {
+  width: 3em;
+}
+
 .red {
   background-color: #fe3500;
   color: #fff;

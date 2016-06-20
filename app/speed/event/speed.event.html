@@ -23,12 +23,19 @@
             </select>
         </label>
     </div>
-    <div class="paf">
+    <div>
         <label for="heats">Heats:</label>
         <input id="heats" type="number" min="1" ng-model="event.heats" ng-change="event.$save()"/>
+    </div>
+    <div>
+        <label for="current">Current Heat:</label>
+        <label>
+            <i class="fa fa-caret-down"></i>
+            <select id="current" ng-change="event.$save();" ng-model="event.current" class="sm">
+                <option ng-repeat="i2 in getNumber(event.heats) track by $index">{{ $index + 1 }}</option>
+            </select>
+        </label>
     </div>
     <button class="green" ng-click="seeLive()">See Live Speed</button>
     <button ng-click="delEvent();" class="red">Delete Event</button>
 </div>
-
-{{ count }}
