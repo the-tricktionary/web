@@ -2,6 +2,9 @@
     <div ng-repeat="num in getNumber(event.pools) track by $index | limitTo:event.pools">
         <span class="label">{{ $index + 1 }}</span>
         <!-- TODO: Use a more reliable method to select newest score... -->
-        <span class="score">{{ jData[$index][jData[$index].length - 3].score }}</span>
+        <span class="score">{{ jData[$index][jData[$index].length - 2].score }}</span>
     </div>
 </div>
+<h1 ng-if="event.pools == 0">
+    No Pools active, assign judges in the Event Admin Interface.
+</h1>

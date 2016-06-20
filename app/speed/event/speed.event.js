@@ -4,7 +4,7 @@ angular.module('trick.speed.event', ['ngRoute'])
   
   .config([
     '$routeProvider', function($routeProvider) {
-      $routeProvider.when('/speed/:id', {
+      $routeProvider.when('/event/:id', {
         templateUrl: '/speed/event/speed.event.html',
         controller: 'SpeedEventCtrl',
         resolve: {
@@ -26,9 +26,14 @@ angular.module('trick.speed.event', ['ngRoute'])
         // create a synchronized array
         $scope.event = $firebaseObject(ref);
         $scope.scores = $firebaseArray(ref2);
+
         $scope.delEvent = function() {
           $scope.event.$remove();
           $location.path('/speed');
+        };
+        
+        $scope.seeLive = function () {
+          $location.path('/live/' + $scope.event.$id)
         };
 
         $scope.updateCounters = function() {
