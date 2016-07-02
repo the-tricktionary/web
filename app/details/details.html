@@ -5,7 +5,7 @@
         ng-src="{{ trustAsResourceUrl('https://www.youtube.com/embed/' + trick.video + '?autoplay=1&loop=1') }}"
         frameborder="0" allowfullscreen></iframe>
 <div class="box pl">
-    <h3 class="pl">Prerequisites</h3>
+    <h3 class="pl" ng-if="trick.prerequisites[0].name != 'None' || trick.prerequisites.length == 0">Prerequisites</h3>
     <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="/details/{{ pre.id0 }}/{{ pre.id1 }}"
        ng-if="pre.name != 'None'">{{ pre.name }}</a>
 </div>
