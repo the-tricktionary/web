@@ -13,7 +13,7 @@
   "devDependencies": {
     "firebase-tools": "*",
     "lite-server": "*",
-    "postcss-cli": "*"
+    "postcss-cli": "*",
     "postcss-cssnext": "*",
     "postcss-csso": "*"
   },
