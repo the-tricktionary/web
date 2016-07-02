@@ -21,7 +21,7 @@
     "dev": "cd app && lite-server",
     "start": "firebase serve",
     "pretest": "myth app/static/css/style.css app/static/css/style.css",
-    "test": "true",
+    "test": "firebase deploy --only hosting",
     "deploy": "firebase deploy"
   }
 }
