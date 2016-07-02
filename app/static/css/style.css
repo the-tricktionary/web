@@ -26,6 +26,10 @@ h1 + h2 {
   font-size: 0.5em;
 }
 
+img {
+    max-width: 100% !important;
+}
+
 body {
   margin: .5em;
   padding-top: 45px;
