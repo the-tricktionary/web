@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "cd app && lite-server",
     "start": "firebase serve",
-    "pretest": "postcss -c postcss.json app/static/css/style.css",
+    "pretest": "postcss -c postcss.json -o app/static/css/style.css app/static/css/style.css",
     "test": "firebase deploy --only hosting --project project-5641153190345267944",
     "deploy": "firebase deploy"
   }
