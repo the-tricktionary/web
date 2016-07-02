@@ -1,6 +1,8 @@
 'use strict';
 
-// Initialize Firebase
+/*
+ * Initialize Firebase
+ */
 var config = {
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
   authDomain: "project-5641153190345267944.firebaseapp.com",
@@ -14,7 +16,9 @@ function toggleNav() {
   document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
   document.getElementsByTagName("nav")[0].classList.toggle("responsive");
 }
-
+/*
+ * @namespace trick
+ */
 angular.module('trick', [
   'ngRoute',
   'trick.dash',
@@ -30,6 +34,13 @@ angular.module('trick', [
   
   .config([
     '$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+      /*
+       * Configure ngRoute with html5 mode (no hashbang, but with fallback)
+       * @memberOf trick
+       * @ngdoc config
+       * @name config
+       * @param {service} $locationProvider Watches $location and provides interface to default state
+       */
       $locationProvider.html5Mode(true).hashPrefix('!');
       
       $routeProvider.otherwise({redirectTo: '/'});
@@ -38,6 +49,10 @@ angular.module('trick', [
   
   .factory("Auth", [
     "$firebaseAuth",
+    /*
+     * @param {service} $firebaseAuth feed with auth state
+     * @return {object} Return auth state
+     */
     function($firebaseAuth) {
       return $firebaseAuth();
     }
