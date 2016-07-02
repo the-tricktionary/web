@@ -21,7 +21,7 @@
     "dev": "cd app && lite-server",
     "start": "firebase serve",
     "pretest": "postcss -c postcss.json app/static/css/style.css",
-    "test": "firebase deploy --only hosting",
+    "test": "firebase deploy --only hosting --project project-5641153190345267944",
     "deploy": "firebase deploy"
   }
 }
