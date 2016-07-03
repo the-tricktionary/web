@@ -23,7 +23,6 @@
     "start": "firebase serve",
     "pretest": "rm -rf public && cp -r app public && find public -type f -name '*.css' -exec rm {} + && find public -type f -name '*.js' -not -path 'public/static/js/*' -exec rm {} +",
     "test": "chmod +x ./deploy.sh && ./deploy.sh",
-    "poosttest": "firebase deploy --only hosting --project project-5641153190345267944",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy --only hosting --project project-5641153190345267944"
   }
 }

@@ -87,5 +87,6 @@ angular.module('trick', [
       Auth.$onAuthStateChanged(function(firebaseUser) {
         $rootScope.user = firebaseUser;
       });
+      ga('send', 'pageview');
     }
   ]);
