@@ -3,7 +3,7 @@
     "rules": "firebase.db.rules.json"
   },
   "hosting": {
-    "public": "app",
+    "public": "public",
     "cleanUrls": true,
     "trailingSlash": false,
     "rewrites": [

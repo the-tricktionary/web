@@ -15,13 +15,15 @@
     "lite-server": "*",
     "postcss-cli": "*",
     "postcss-cssnext": "*",
-    "postcss-csso": "*"
+    "postcss-csso": "*",
+    "uglify-js": "*"
   },
   "scripts": {
     "dev": "cd app && lite-server",
     "start": "firebase serve",
-    "pretest": "postcss -c postcss.json -o app/static/css/style.css app/static/css/style.css",
-    "test": "firebase deploy --only hosting --project project-5641153190345267944",
+    "pretest": "rm -rf public && cp -r app public && find public -type f -name '*.css' -exec rm {} + && find public -type f -name '*.js' -not -path 'public/static/js/*' -exec rm {} +",
+    "test": "chmod +x ./deploy.sh && ./deploy.sh",
+    "poosttest": "firebase deploy --only hosting --project project-5641153190345267944",
     "deploy": "firebase deploy"
   }
 }
