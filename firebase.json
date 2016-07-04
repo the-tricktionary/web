@@ -8,6 +8,10 @@
     "trailingSlash": false,
     "rewrites": [
       {
+        "source": "/google0da043f0cf53bd90.html",
+        "detination": "/google0da043f0cf53bd90.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       },
