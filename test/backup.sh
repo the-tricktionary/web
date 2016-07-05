@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-NOW=`date +"%Y%M%d-%H%M%S"`
+NOW=`date +"%Y%m%d-%H%M%S"`
 echo "Backing up firebase database $NOW"
 firebase database:get "/" > "backups/backup-$NOW.bak.json" || ERR=true
 if [ "$ERR" == "true" ]
