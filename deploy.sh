@@ -8,5 +8,5 @@ find app -type f -name '*.js' -not -path 'app/static/js/*' -print0 | xargs -0 ug
 
 mv public/index.html public/index.html.old
 #gsed '/<!-- DEPLOY -->/,/<!-- END DEPLOY -->/c <script src=""></script>\n    <link rel="" />' public/index.html.old
-perl -0777 -pe 's/<!-- DEPLOY -->[\w\d\s\/\.<>!="-]*<!-- END DEPLOY -->/<link rel="stylesheet" href="\/static\/css\/style.css">\n    <script src="\/static\/js\/trick.js"><\/script>/g' public/index.html.old > public/index.html
+perl -0777 -pe "s/<!-- DEPLOY -->[\w\d\s\/\.<>!=\"-]*<!-- END DEPLOY -->/<link rel=\"stylesheet\" href=\"\/static\/css\/style.css?${TRAVIS_BUILD_NUMBER}\">\n    <script src=\"\/static\/js\/trick.js?${TRAVIS_BUILD_NUMBER}\"><\/script>/g" public/index.html.old > public/index.html
 rm public/index.html.old
