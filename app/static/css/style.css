@@ -46,6 +46,10 @@ a:hover {
   color: #3baec4;
 }
 
+a.pop {
+  border : 1px solid #fec500;
+}
+
 ul ul {
   padding-left: 2em;
 }

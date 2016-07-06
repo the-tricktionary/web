@@ -57,9 +57,8 @@ angular.module('trick', [
       return $firebaseAuth();
     }
   ])
-
-  .run([
-    '$location', '$rootScope', 'Auth', function($location, $rootScope, Auth) {
+  
+  .run(function($location, $rootScope, Auth) {
       $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
         if(error === "AUTH_REQUIRED") {
           $location.path("/dash");
@@ -87,6 +86,7 @@ angular.module('trick', [
       Auth.$onAuthStateChanged(function(firebaseUser) {
         $rootScope.user = firebaseUser;
       });
+
       ga('send', 'pageview');
     }
-  ]);
+  );
