@@ -12,10 +12,16 @@ angular.module('trick.speed.live', ['ngRoute'])
   ])
   
 
-  .controller('SpeedLiveCtrl', function($scope, $firebaseArray, $firebaseObject, $routeParams, $location, Auth) {
+  .controller('SpeedLiveCtrl', function($scope, $rootScope, $firebaseArray, $firebaseObject, $routeParams, $location, Auth) {
     // TODO: Allow users that aren't signed in
     Auth.$onAuthStateChanged(function() {
       if($scope.user) {
+        //noinspection JSAnnotator
+        $rootScope.live = true;
+        $rootScope.clear = function() {
+          $rootScope.live = false;
+        };
+
         $scope.id = $routeParams.id;
         var ref = firebase.database().ref().child("speed/events/" + $scope.user.uid + "/" + $scope.id);
         var refJ = ref.child("/judges");

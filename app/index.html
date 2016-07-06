@@ -42,7 +42,7 @@
     <!-- END DEPLOY -->
 </head>
 <body>
-<nav>
+<nav ng-if="!live">
     <ul class="topnav">
         <li><img src="/static/img/tricktionary2.svg"/>
             <div>&nbsp;<span class="small">the</span>Tricktionary</div>
@@ -79,6 +79,9 @@
     ga('create', 'UA-79206862-1', 'auto');
 
 </script>
-<div class="foot">
+<div class="foot" ng-if="!live">
     <a ng-href="/about">About and Privacy Policy</a>
+</div>
+<div class="foot" ng-if="live">
+    <a ng-href="/about#disclaimer" ng-click="clear()">Disclaimer</a>
 </div>

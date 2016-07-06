@@ -11,6 +11,8 @@ angular.module('trick.about', ['ngRoute'])
     }
   ])
   
-  .controller('AboutCtrl', function($scope, $firebaseArray) {
-    // Currently Empty
+  .controller('AboutCtrl', function($scope, $location, $anchorScroll) {
+    $scope.anchor = $location.hash();
+    $anchorScroll.yOffset = 40;
+    $anchorScroll();
   });

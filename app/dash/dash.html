@@ -1,10 +1,10 @@
-<div class="warning center" ng-if="error" ng-bind-html="error"></div>
-<div>
+<div class="search">
     <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
            placeholder="Search (by name, prerequisites...)">
 </div>
+<div class="warning center" ng-if="error" ng-bind-html="error"></div>
 <div class="box" ng-repeat="level in data">
-    <h3>Level {{ level.level }}</h3>
+    <h3 class="searchheader">Level {{ level.level }}</h3>
     <a class="parent"
        ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}"
        ng-repeat="trick in level.subs | filter:trickList.search" id="{{ level.id0 + '' + trick.id1 }}"
