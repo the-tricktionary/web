@@ -1,3 +1,20 @@
+:root {
+  --l-red    : #fe3500;
+  --d-red    : #da1100;
+  --d-yellow : #fec500;
+  --black    : #333;
+  --l-black  : #292f2f;
+  --m-gray   : #666;
+  --d-gray   : #aaa;
+  --h-gray   : #cfd8dc;
+  --l-gray   : #ccc;
+  --rl-gray  : #eee;
+  --l-green  : #32cd32;
+  --d-blue   : #008499;
+  --l-blue   : #3baec4;
+  --white    : #fff;
+}
+
 * {
   margin     : 0;
   padding    : 0;
@@ -7,14 +24,14 @@
 /* Master Styles */
 
 h1 {
-  color         : #333;
+  color         : var(--black);
   font-size     : 2.5em;
   margin-bottom : 0;
 }
 
 h2,
 h3 {
-  color       : #aaa;
+  color       : var(--d-gray);
   font-weight : lighter;
 }
 
@@ -38,22 +55,22 @@ body {
 }
 
 a {
-  color           : #008499;
+  color           : var(--d-blue);
   text-decoration : none;
 }
 
 a:hover {
-  color : #3baec4;
+  color : var(--l-blue);
 }
 
 a.pop {
-  border : 1px solid #fec500;
+  border : 1px solid var(--d-yellow);
 }
 
 .pop-u {
   text-decoration       : underline;
-  text-decoration-color : #fec500;
-  color                 : #fec500;
+  text-decoration-color : var(--d-yellow);
+  color                 : var(--d-yellow);
 }
 
 ul ul {
@@ -75,12 +92,12 @@ ul ul {
 button,
 .button,
 input[type=submit] {
-  background-color : #eee;
+  background-color : var(--rl-gray);
   border           : none;
   padding          : 5px 10px;
   border-radius    : 4px;
   text-decoration  : none;
-  color            : #333;
+  color            : var(--black);
   text-align       : center;
   cursor           : pointer;
   cursor           : hand;
@@ -89,13 +106,13 @@ input[type=submit] {
 button:hover,
 .button:hover,
 input[type=submit]:hover {
-  background-color : #cfd8dc;
+  background-color : var(--h-gray);
 }
 
 button:disabled,
 .button:disabled {
-  background-color : #eee;
-  color            : #aaa;
+  background-color : var(--rl-gray);
+  color            : var(--d-gray);
   cursor           : auto;
 }
 
@@ -108,22 +125,22 @@ button:disabled,
 }
 
 .red {
-  background-color : #fe3500;
-  color            : #fff;
+  background-color : var(--l-red);
+  color            : var(--white);
   display          : block;
   margin-top       : 5em;
 }
 
 .green {
-  background : #32cd32;
-  color      : #fff;
+  background : var(--l-green);
+  color      : var(--white);
   margin-top : 2em;
   display    : block;
   padding    : 5px 10px;
 }
 
 .red:hover {
-  background-color : #da1100;
+  background-color : var(--d-red);
 }
 
 input[type=submit] {
@@ -145,30 +162,31 @@ input[type=text],
 input[type=number] {
   outline            : none;
   border             : none;
-  border-bottom      : 1px solid #ccc;
+  border-bottom      : 1px solid var(--l-gray);
   font-size          : 1.5em;
   width              : 49%;
-  padding-top         : .5em;
+  padding-top        : .5em;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
 }
 
 .search {
   position : fixed;
-  width    : 98vw;
+  width    : 100vw;
   top      : 40px;
-  right    : .5em;
-  left     : .5em;
-  z-index  : 200;
+  right    : 0;
+  left     : 0;
+  z-index  : 100000;
 }
+
 .search + * {
-  margin-top: 2em;
+  margin-top : 2em;
 }
 
 label {
   white-space : nowrap;
   display     : inline;
-  color       : #292f2f;
+  color       : var(--l-black);
   width       : 100%;
   position    : relative;
   height      : 1.5em;
@@ -199,7 +217,7 @@ select {
   -webkit-appearance : none;
   border             : none;
   position           : static;
-  border-bottom      : 1px solid #ccc;
+  border-bottom      : 1px solid var(--l-gray);
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
   outline            : 0;
@@ -214,7 +232,7 @@ select {
 input[type=text]:focus,
 input[type=number]:focus,
 select:focus {
-  border-bottom : 1px solid #fec500;
+  border-bottom : 1px solid var(--d-yellow);
 }
 
 @media screen and (max-width : 560px) {
@@ -249,9 +267,9 @@ nav {
   height           : 40px;
   vertical-align   : middle;
   white-space      : nowrap;
-  background-color : #fe3500;
-  border-bottom    : 1px solid #da1100;
-  z-index          : 5000;
+  background-color : var(--l-red);
+  border-bottom    : 1px solid var(--d-red);
+  z-index          : 100000;
 }
 
 nav ul {
@@ -271,7 +289,7 @@ nav ul li {
 nav ul li a {
   text-align      : center;
   text-decoration : none;
-  color           : #fff;
+  color           : var(--white);
   width           : 100%;
   height          : 100%;
   cursor          : pointer;
@@ -279,7 +297,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color : #fff;
+  color : var(--white);
 }
 
 ul.topnav li.icon {
@@ -306,7 +324,7 @@ h3.copyright {
 nav ul li div {
   display     : inline-block;
   white-space : nowrap;
-  color       : #fff;
+  color       : var(--white);
   top         : 8px;
   font-size   : 24px;
   position    : absolute;
@@ -316,21 +334,21 @@ nav ul li:not(:first-child) {
   padding          : 5px 10px;
   text-decoration  : none;
   display          : inline-block;
-  background-color : #da1100;
+  background-color : var(--d-red);
   border-radius    : 4px;
   float            : right;
   top              : 6px;
   margin-right     : .3em;
-  color            : #fff;
+  color            : var(--white);
 }
 
 nav a:visited {
-  color : #fff;
+  color : var(--white);
 }
 
 nav ul li:hover:not(:first-child) {
-  color            : #eee;
-  background-color : #fec500;
+  color            : var(--rl-gray);
+  background-color : var(--d-yellow);
 }
 
 @media screen and (max-width : 680px) {
@@ -346,7 +364,7 @@ nav ul li:hover:not(:first-child) {
   ul.topnav li.icon {
     float   : right;
     display : inline-block;
-    color   : #fff;
+    color   : var(--white);
   }
 
   ul.topnav.responsive {
@@ -370,13 +388,13 @@ nav ul li:hover:not(:first-child) {
   }
 
   ul.topnav.responsive li:not(.icon):not(:first-child):not(:last-child) {
-    border-bottom : 1px solid #fe3500;
+    border-bottom : 1px solid var(--l-red);
   }
 
   ul.topnav.responsive li:not(.icon):not(:first-child) a {
     display      : block;
     text-align   : left;
-    color        : #fff;
+    color        : var(--white);
     font-size    : 2.6em;
     margin       : 0;
     width        : 100%;
@@ -392,21 +410,21 @@ nav ul li:hover:not(:first-child) {
   text-align    : center;
   display       : block;
   width         : 100%;
-  color         : #da1100;
-  border        : 1px solid #da1100;
+  color         : var(--d-red);
+  border        : 1px solid var(--d-red);
   padding       : .3em;
   margin-bottom : .5em;
 }
 
 div.box {
-  text-align            : center;
-  width                 : 100%;
-  position              : relative;
-  display               : flex;
-  flex-direction        : row;
-  flex-wrap             : wrap;
-  justify-content       : space-around;
-  align-items           : stretch;
+  text-align      : center;
+  width           : 100%;
+  position        : relative;
+  display         : flex;
+  flex-direction  : row;
+  flex-wrap       : wrap;
+  justify-content : space-around;
+  align-items     : stretch;
 }
 
 div.speeds {
@@ -430,18 +448,18 @@ div.speeds {
 }
 
 div.speeds div {
-  border    : 1px solid #444;
+  border    : 1px solid var(--black);
   min-width : 33%;
 }
 
 div.speeds div:nth-child(odd) {
-  background-color : #eee;
+  background-color : var(--rl-gray);
 }
 
 div.speeds div span.label {
   display        : inline;
   font-size      : 7em;
-  color          : #666;
+  color          : var(--m-gray);
   margin         : 0;
   letter-spacing : -0.1em;
 }
@@ -528,7 +546,7 @@ h3.pl {
 
 div.box h3 {
   width       : 100%;
-  color       : #444;
+  color       : var(--black);
   font-weight : lighter;
   font-size   : 1.5em;
   margin      : 1em 0 0;
@@ -536,7 +554,7 @@ div.box h3 {
 }
 
 .parent {
-  background-color : #eee;
+  background-color : var(--rl-gray);
   border-radius    : 5px;
   padding          : 1em;
   text-align       : center;
@@ -545,14 +563,14 @@ div.box h3 {
   margin-left      : .25em;
   width            : 19%;
   text-decoration  : none;
-  color            : #444;
+  color            : var(--black);
   cursor           : pointer;
   cursor           : hand;
 }
 
 .parent:hover {
-  background-color : #ddd;
-  color            : #444;
+  background-color : var(--l-gray);
+  color            : var(--black);
 }
 
 .video {
@@ -561,32 +579,37 @@ div.box h3 {
 }
 
 .warning {
-  color   : #da1100;
-  border  : 1px solid #da1100;
+  color   : var(--d-red);
+  border  : 1px solid var(--d-red);
   padding : 1em;
 }
 
 @media all and (max-width : 1325px) {
   .parent {
-    width : 24%;
+    width       : 24%;
+    margin-left : -0.3em;
   }
 }
 
 @media all and (max-width : 1050px) {
   .parent {
-    width : 32%;
+    width       : 32%;
+    margin-left : -0.1em;
   }
 }
 
 @media all and (max-width : 970px) {
   .parent {
-    width : 49%;
+    width        : 49%;
+    margin-right : initial;
   }
 }
 
 @media all and (max-width : 815px) {
   .parent {
-    width : 100%;
+    width        : 100%;
+    margin-left  : .5em;
+    margin-right : 0;
   }
 }
 
@@ -603,7 +626,7 @@ div.box h3 {
 }
 
 .article:not(:last-child) {
-  border-bottom : 1px solid #aaa;
+  border-bottom : 1px solid var(--d-gray);
 }
 
 li {
