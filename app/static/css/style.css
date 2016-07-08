@@ -267,7 +267,7 @@ nav {
   white-space      : nowrap;
   background-color : var(--l-red);
   border-bottom    : 1px solid var(--d-red);
-  z-index          : 100000;
+  z-index          : 100050;
 }
 
 nav ul {
