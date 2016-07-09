@@ -23,23 +23,31 @@ angular.module('trick.submit', ['ngRoute'])
       if($scope.user) {
         var ref = firebase.database().ref().child("submissions/" + $scope.user.uid);
         // create a synchronized array
-        $scope.user.submissions = $firebaseArray(ref);
+        $scope.submissions = $firebaseArray(ref);
 
         // connect to storage
         //var storageRef = firebase.storage().ref();
 
         $scope.submit = function() {
-          $scope.submissions.$add({
-            name: $scope.newName,
-            desc: $scope.newDesc,
-            type: $scope.newType,
-            video: $scope.newVideo
-          });
-          //var folder = storageRef.child('submissions/' + $scope.user.uid + "/" + filename);
+          if($scope.newName && $scope.newDesc && $scope.newType && $scope.newVideo) {
+            $scope.error = undefined;
+            $scope.submissions.$add({
+              name: $scope.newName,
+              desc: $scope.newDesc,
+              type: $scope.newType,
+              video: $scope.newVideo
+            });
+            $location.path('/');
+            //var folder = storageRef.child('submissions/' + $scope.user.uid + "/" + filename);
+          }
+          else {
+            $scope.error = "You need to enter a value into all fields"
+          }
         }
       }
       else {
         $location.path('/');
       }
     })
-  });
+  })
+;

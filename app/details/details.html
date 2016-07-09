@@ -1,9 +1,15 @@
 <h1>{{ trick.name }}</h1>
 <h2>{{ trick.type }}</h2>
 <p>{{ trick.description }}</p>
-<iframe class="video"
-        ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
-        frameborder="0" allowfullscreen></iframe>
+<div class="video">
+    <iframe class="video"
+            ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
+            frameborder="0" allowfullscreen></iframe>
+    <div>
+        <span class="pl level"><span class="gray small">fisac-irsf Level:</span> {{ trick.irsf }}</span>
+        <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.wjr }}</span>
+    </div>
+</div>
 <div class="box pl">
     <h3 class="pl" ng-if="trick.prerequisites[0].name != 'None' || trick.prerequisites.length == 0">Prerequisites</h3>
     <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="/details/{{ pre.id0 }}/{{ pre.id1 }}"
