@@ -534,6 +534,10 @@ h3.pl {
   float : right;
 }
 
+.pr .level {
+  padding-right : .5em;
+}
+
 .level {
   font-size : 2em;
 }
@@ -585,29 +589,24 @@ div.box h3 {
 @media all and (max-width : 1325px) {
   .parent {
     width       : 24%;
-    margin-left : -0.3em;
   }
 }
 
 @media all and (max-width : 1050px) {
   .parent {
     width       : 32%;
-    margin-left : -0.1em;
   }
 }
 
 @media all and (max-width : 970px) {
   .parent {
     width        : 49%;
-    margin-right : initial;
   }
 }
 
 @media all and (max-width : 815px) {
   .parent {
     width        : 100%;
-    margin-left  : .5em;
-    margin-right : 0;
   }
 }
 
@@ -625,6 +624,10 @@ div.box h3 {
 
 .article:not(:last-child) {
   border-bottom : 1px solid var(--d-gray);
+}
+
+p {
+  margin-bottom : .3em;
 }
 
 li {
