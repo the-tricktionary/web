@@ -149,7 +149,6 @@ input[type=submit] {
   font-size  : 1.5em;
 }
 
-form,
 .center {
   text-align : center;
 }
@@ -159,7 +158,8 @@ form,
 }
 
 input[type=text],
-input[type=number] {
+input[type=number],
+textarea {
   outline            : none;
   border             : none;
   border-bottom      : 1px solid var(--l-gray);
@@ -168,6 +168,11 @@ input[type=number] {
   padding-top        : .5em;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
+}
+
+textarea {
+  display   : block;
+  max-width : 100%;
 }
 
 .search {
@@ -229,7 +234,8 @@ select {
 
 input[type=text]:focus,
 input[type=number]:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border-bottom : 1px solid var(--d-yellow);
 }
 
@@ -237,7 +243,8 @@ select:focus {
   input[type=text],
   input[type=submit],
   input[type=number],
-  select {
+  select,
+  textarea {
     width         : 100%;
     display       : block;
     margin-bottom : .5em;
@@ -252,6 +259,17 @@ select:focus {
   label i.fa {
     top : -2px;
   }
+}
+
+.char {
+  width     : 2em;
+  min-width : 2em;
+  max-width : 2em;
+  display   : inline !important;
+}
+
+label.char {
+  display : inline;
 }
 
 /* Navigation link styles */
@@ -588,25 +606,25 @@ div.box h3 {
 
 @media all and (max-width : 1325px) {
   .parent {
-    width       : 24%;
+    width : 24%;
   }
 }
 
 @media all and (max-width : 1050px) {
   .parent {
-    width       : 32%;
+    width : 32%;
   }
 }
 
 @media all and (max-width : 970px) {
   .parent {
-    width        : 49%;
+    width : 49%;
   }
 }
 
 @media all and (max-width : 815px) {
   .parent {
-    width        : 100%;
+    width : 100%;
   }
 }
 

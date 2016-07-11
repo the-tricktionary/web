@@ -1,26 +1,47 @@
-<!--<h1>Submit a trick</h1>
+<h1>Contact</h1>
 <p>
-    On this page you can submit a trick to the tricktionary, by submitting this form you give us a non-exclusive
-    licensce to modify, redistribute, publish your submitted data without accrediting you
+
 </p>
 <div class="warning center" ng-if="error" ng-bind-html="error"></div>
-<form ng-submit="submit()">
-    <input type="text" placeholder="Name" ng-model="newName"/>
-    <input type="text" placeholder="Description" ng-model="newDesc"/>
-    <input type="text" placeholder="Link to video" ng-model="newVideo"/>
-    <label class="">
+<div>
+    <label for="name">Name:</label>
+    <input id="name" type="text" placeholder="Name" ng-model="user.displayName" ng-disabled="user.uid"/>
+</div>
+<div>
+    <label for="type">Type:
         <i class="fa fa-caret-down"></i>
-        <select ng-model="newType">
-            <option selected disabled>Type</option>
-            <option>Basics</option>
-            <option>Multiples</option>
-            <option>Manipulation</option>
-            <option>Powers</option>
-            <option>Releases</option>
+        <select id="type" ng-model="newType">
+            <optgroup labeL="Type"></optgroup>s
+            <option>Incorrect Level</option>
+            <option>General</option>
         </select>
     </label>
-    <input type="submit"/>
-    <!--<input type="file" ng-model="newVideo"> -- >
-</form>-->
-<h1>Under Construction</h1>
-<div class="warning">ERROR: coder went jumping</div>
+</div>
+<br/>
+
+<form ng-if="newType == 'General'" ng-submit="submitGen()">
+    <label for="desc">Describe your issue:</label>
+    <textarea id="desc" ng-model="issue"></textarea>
+    <input type="submit" value="Submit"/>
+</form>
+
+<form ng-if="newType == 'Incorrect Level'" ng-submit="submitLev()">
+    <label for="id0" class="char">https://tricks.jumpropejam.com/details/</label>
+    <input type="number" id="id0" class="char" placeholder="0" min="0" max="4"/>
+    <label for="id1" class="char">/</label>
+    <input type="number" id="id1" class="char" placeholder="0" min="0"/>
+    <br>
+    <label for="level">Is Level</label>
+    <input type="number" id="level" class="char" min="0" max="6"/>
+    <label for="org">In
+        <i class="fa fa-caret-down"></i>
+        <select id="org">
+            <option>fisac-irsf rules</option>
+            <option>wjr rules</option>
+        </select>
+    </label>
+    <input type="submit" value="Submit"/>
+</form>
+
+{{ contact }}
+{{ user.uid }}
