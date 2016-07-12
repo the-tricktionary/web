@@ -66,7 +66,7 @@ angular.module('trick.contact', ['ngRoute'])
     };
 
     Auth.$onAuthStateChanged(function() {
-      if($scope.user.uid == "g0G3A7FxieN333lZ2RKclkmv9Uw1") {
+      if($scope.user.uid == "g0G3A7FxieN333lZ2RKclkmv9Uw1" || $scope.user.uid == 'Kpz3afszjBR0qwZYUrKURRJx2cm2') {
         $scope.admin = true;
       }
     });

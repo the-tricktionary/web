@@ -16,7 +16,7 @@
     },
     "contact": {
       ".read": true,
-      ".write": "!data.exists() || !newData.exists()"
+      ".write": true
     },
     "speed": {
       "scores": {
