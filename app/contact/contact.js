@@ -60,4 +60,10 @@ angular.module('trick.contact', ['ngRoute'])
         $scope.error = "You need to enter a value into all fields"
       }
     };
+
+    Auth.$onAuthStateChanged(function() {
+      if($scope.user == "") {
+        
+      }
+    });
   });
