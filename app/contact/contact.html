@@ -11,7 +11,8 @@
     <label for="type">Type:
         <i class="fa fa-caret-down"></i>
         <select id="type" ng-model="newType">
-            <optgroup labeL="Type"></optgroup>s
+            <optgroup labeL="Type"></optgroup>
+            s
             <option>Incorrect Level</option>
             <option>General</option>
         </select>
@@ -42,3 +43,14 @@
     </label>
     <input type="submit" value="Submit"/>
 </form>
+
+<div ng-if="admin" ng-repeat="issue in contact">
+    <h2 ng-bind-html="issue.name"></h2>
+    <h3 ng-bind-html="issue.type"></h3>
+    <p ng-if="issue.type == 'General'" ng-bind-html="issue.desc"></p>
+    <p ng-if="issue.type == 'Incorrect Level'"><a
+            ng-href="https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}"
+            ng-bind-html="'https://tricks.jumpropejam.com/details/' + issue.id0 + '/' + issue.id1"></a> should be level
+        <b ng-bind-html="issue.level"></b> in <b ng-bind-html="issue.org"></b>
+    </p>
+</div>

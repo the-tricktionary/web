@@ -11,7 +11,7 @@ angular.module('trick.contact', ['ngRoute'])
     }
   ])
   
-  .controller('ContactCtrl', function($scope, $firebaseArray, Auth) {
+  .controller('ContactCtrl', function($scope, $firebaseArray, $location, Auth) {
     var ref = firebase.database().ref().child("contact");
     // create a synchronized array
     $scope.contact = $firebaseArray(ref);
@@ -22,12 +22,14 @@ angular.module('trick.contact', ['ngRoute'])
         $scope.user.displayName = document.getElementById('name').value;
       }
       var issue = document.getElementById('desc').value;
-      
+      var newType = document.getElementById('type').value;
+       
       if($scope.user.displayName && issue !== "") {
         $scope.error = undefined;
         $scope.contact.$add({
           name: $scope.user.displayName,
-          desc: issue
+          desc: issue,
+          type: newType
         });
         $location.path('/');
       }
@@ -44,6 +46,7 @@ angular.module('trick.contact', ['ngRoute'])
       var newId0 = document.getElementById('id0').value;
       var newId1 = document.getElementById('id1').value;
       var newLvl = document.getElementById('level').value;
+      var newType = document.getElementById('type').value;
       
       if($scope.user.displayName && newId0 && newId1 && newLvl && newOrg) {
         $scope.error = undefined;
@@ -52,7 +55,8 @@ angular.module('trick.contact', ['ngRoute'])
           id0: newId0,
           id1: newId1,
           level: newLvl,
-          org: newOrg
+          org: newOrg,
+          type: newType
         });
         $location.path('/');
       }
@@ -62,8 +66,8 @@ angular.module('trick.contact', ['ngRoute'])
     };
 
     Auth.$onAuthStateChanged(function() {
-      if($scope.user == "") {
-        
+      if($scope.user.uid == "g0G3A7FxieN333lZ2RKclkmv9Uw1") {
+        $scope.admin = true;
       }
     });
   });
