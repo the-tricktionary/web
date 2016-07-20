@@ -26,26 +26,31 @@ angular.module('trick.speed.event', ['ngRoute'])
         // create a synchronized array
         $scope.event = $firebaseObject(ref);
         $scope.scores = $firebaseArray(ref2);
-
+        
         $scope.delEvent = function() {
           $scope.event.$remove();
           $location.path('/speed');
         };
         
-        $scope.seeLive = function () {
+        $scope.seeLive = function() {
           $location.path('/live/' + $scope.event.$id)
         };
-
+        
         $scope.updateCounters = function() {
           if($scope.event.judges && $scope.event.judges[$scope.event.pools]) {
             $scope.event.judges[$scope.event.pools] = null;
           }
           $scope.event.$save();
         };
-
+        
         $scope.getNumber = function(num) {
           return new Array(num);
         };
+        
+        $scope.updateTrack = function() {
+          $scope.event.$save();
+          
+        }
       }
       else {
         $location.path('/');

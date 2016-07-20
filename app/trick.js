@@ -16,6 +16,7 @@ function toggleNav() {
   document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
   document.getElementsByTagName("nav")[0].classList.toggle("responsive");
 }
+
 /*
  * @namespace trick
  */
@@ -66,7 +67,7 @@ angular.module('trick', [
           $rootScope.error = 'You need to be signed in to access this page, please Sign In and try again.';
         }
       });
-
+      
       $rootScope.signIn = function() {
         $rootScope.user = null;
         $rootScope.error = null;
@@ -78,16 +79,28 @@ angular.module('trick', [
             $rootScope.error = error;
           });
       };
-
+      
       $rootScope.signOut = function() {
         Auth.$signOut();
       };
-
+      
       // any time auth status updates, add the user data to scope
       Auth.$onAuthStateChanged(function(firebaseUser) {
         $rootScope.user = firebaseUser;
       });
-
+      
       ga('send', 'pageview');
+      // Initialise Audio players
+      audiojs.events.ready(function() {
+        audiojs.createAll();
+      });
     }
-  );
+  )
+  
+  .directive('audioJs', function() {
+    return {
+      link: function(scope, element) {
+        audiojs.create(element[0]);
+      }
+    };
+  });

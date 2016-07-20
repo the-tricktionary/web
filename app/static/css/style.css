@@ -239,6 +239,23 @@ textarea:focus {
   border-bottom : 1px solid var(--d-yellow);
 }
 
+.audiojs {
+  width           : 50vw;
+  display         : inline-flex;
+  flex-direction  : row;
+  flex-wrap       : nowrap;
+  justify-content : space-between;
+  align-items     : stretch;
+}
+
+.audiojs .play-pause {
+  min-width : 3em;
+}
+
+.audiojs .scrubber {
+  width : 71%;
+}
+
 @media screen and (max-width : 560px) {
   input[type=text],
   input[type=submit],
@@ -258,6 +275,10 @@ textarea:focus {
 
   label i.fa {
     top : -2px;
+  }
+
+  .audiojs {
+    width : 96vw;
   }
 }
 
@@ -650,6 +671,10 @@ p {
 
 li {
   margin-left : 2em;
+}
+
+.mt {
+  margin-top: .3em;
 }
 
 /* everywhere else */

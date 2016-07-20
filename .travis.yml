@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-  - 6
+- 6
 script:
-  - npm test
-  - npm run deploy
+- npm test
+- npm run deploy
 branches:
   only:
-    - master
+  - master
 notifications:
   email: false
   slack: the-tricktionary:VdZSlFi4J1AHCcQY96RU5dDZ

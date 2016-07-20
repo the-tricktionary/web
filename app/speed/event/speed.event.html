@@ -40,11 +40,17 @@
         <label for="current">Timing Tracks:</label>
         <label>
             <i class="fa fa-caret-down"></i>
-            <select id="org" class="sm">
-                <option>fisac-risf</option>
+            <select id="org" ng-change="updateTrack" ng-model="event.org">
+                <option>fisac-irsf</option>
                 <option>wjr</option>
             </select>
         </label>
+        <div ng-if="event.org == 'fisac-irsf'" class="mt">
+            <label for="30sec">30 Seconds:
+                <audio src="https://firebasestorage.googleapis.com/v0/b/project-5641153190345267944.appspot.com/o/timing%2Ffisac-irsf%2FFISAC-IRSF%20-%20Single%20Rope%20Speed%20-%2030s.mp3?alt=media&token=cafa895f-debe-4546-927b-597d6682e14b"
+                       preload="auto" id="30sec" audio-js></audio>
+            </label>
+        </div>
     </div>
     <button class="green" ng-click="seeLive()">See Live Speed</button>
     <button ng-click="delEvent();" class="red">Delete Event</button>
