@@ -33,7 +33,8 @@ angular.module('trick.speed.event', ['ngRoute'])
         };
         
         $scope.seeLive = function() {
-          $location.path('/live/' + $scope.event.$id)
+          //$location.path('/live/' + $scope.event.$id)
+          window.open('/live/' + $scope.event.$id)
         };
         
         $scope.updateCounters = function() {
