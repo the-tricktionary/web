@@ -189,13 +189,18 @@ textarea {
 }
 
 label {
-  white-space : nowrap;
+
   display     : inline;
   color       : var(--l-black);
   width       : 100%;
   position    : relative;
   height      : 1.5em;
   font-size   : 1.5em;
+}
+
+label.mt {
+  display: block;
+  min-height: 1.5em;
 }
 
 label i.fa {
@@ -279,6 +284,10 @@ textarea:focus {
 
   .audiojs {
     width : 96vw;
+  }
+
+  label.mt {
+    min-height: 3em;
   }
 }
 
@@ -674,7 +683,7 @@ li {
 }
 
 .mt {
-  margin-top: .3em;
+  margin-top: 1.3em;
 }
 
 /* everywhere else */
