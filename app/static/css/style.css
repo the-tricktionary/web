@@ -279,6 +279,7 @@ textarea:focus {
 
   .audiojs {
     width : 96vw;
+    display: flex;
   }
 }
 
