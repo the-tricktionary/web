@@ -241,7 +241,7 @@ textarea:focus {
 
 .audiojs {
   width           : 50vw;
-  display         : inline-flex;
+  display         : flex;
   flex-direction  : row;
   flex-wrap       : nowrap;
   justify-content : space-between;
@@ -279,7 +279,6 @@ textarea:focus {
 
   .audiojs {
     width : 96vw;
-    display: flex;
   }
 }
 
