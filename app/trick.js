@@ -27,7 +27,7 @@ angular.module('trick', [
   'trick.news',
   'trick.submit',
   'trick.contact',
-  'trick.privacy',
+  'trick.about',
   'trick.speed',
   'trick.speed.event',
   'trick.speed.live',
