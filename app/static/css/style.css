@@ -397,6 +397,10 @@ nav ul li:hover:not(:first-child) {
   background-color : var(--d-yellow);
 }
 
+.sharing {
+  font-size: 2em !important;
+}
+
 @media screen and (max-width : 680px) {
   nav.responsive {
     height : 44px;
@@ -447,6 +451,10 @@ nav ul li:hover:not(:first-child) {
     height       : 100%;
     padding-left : .1em;
     padding-top  : 2px;
+  }
+
+  .sharing {
+    font-size: 6em !important;
   }
 }
 
