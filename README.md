@@ -8,7 +8,7 @@ A webapp to provide a dictionary of jumprope tricks and functionalities that mak
   - [Angularfire](github.com/firebase/angularfire)
 
 ### css
-  - [Myth](myth.io)
+  - [Postcss](http://postcss.org/)
   - [Font Awesome](http://fontawesome.io)
 
 ## Requirements
