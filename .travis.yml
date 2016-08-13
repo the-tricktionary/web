@@ -6,8 +6,8 @@ script:
 - npm run deploy
 after_success:
 - npm run docs
-- chmod +x docs.sh
-- docs.sh
+- chmod +x ./docs.sh
+- ./docs.sh
 branches:
   only:
   - master
