@@ -2,8 +2,8 @@
 
 if [ ! -f deploy.key ]; then exit; fi
 
-export SSH_KEYFILE="$(readlink -f deploy.key)"
-export GIT_SSH="$(readlink -f deploy/ssh.sh)"
+eval `ssh-agent -s`
+ssh-add deploy.key
 git clone -b gh-pages git@github.com:the-tricktionary/web.git .deploy || exit 1
 cd .deploy || exit 1
 git config user.name travis
