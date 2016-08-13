@@ -1,5 +1,10 @@
 'use strict';
-
+/**
+ * @class trick.news
+ * @memberOf trick
+ * @requires ngRoute
+ * @requires ngSanitize
+ */
 angular.module('trick.news', ['ngRoute', 'ngSanitize'])
   
   .config([
@@ -10,9 +15,20 @@ angular.module('trick.news', ['ngRoute', 'ngSanitize'])
       });
     }
   ])
-  
+
+  /**
+   * @class trick.news.newsCtrl
+   * @param {service} $scope
+   * @param {service} $firebaseArray
+   */
   .controller('NewsCtrl', function($scope, $firebaseArray) {
+    /** Create reference to database path */
     var ref = firebase.database().ref().child("news");
-    // create a synchronized array
+    /**
+     * @name $scope.news
+     * @function
+     * @memberOf trick.news.newsCtrl
+     * @description create a synchronized array stored in scope
+     */
     $scope.news = $firebaseArray(ref);
   });

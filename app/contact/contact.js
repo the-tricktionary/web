@@ -23,7 +23,7 @@ angular.module('trick.contact', ['ngRoute'])
    * @param {service} Auth
    */
   .controller('ContactCtrl', function($scope, $firebaseArray, $location, Auth) {
-    /** Create reference to databae path */
+    /** Create reference to database path */
     var ref = firebase.database().ref().child("contact");
     /**
      * @name $scope.contact
