@@ -1,9 +1,5 @@
 'use strict';
 /**
- * @namespace trick
- */
-
-/**
  * Initialize firebase
  * @function initializeApp
  * @param {object} config firebase configuration values.
@@ -29,8 +25,16 @@ function toggleNav() {
 }
 
 /**
- * @class trick.trick
- * @memberOf trick
+ * @namespace trick
+ * @requires ngRoute
+ * @requires trick.dash
+ * @requires trick.details
+ * @requires trick.news
+ * @requires trick.submit
+ * @requires trick.contact
+ * @requires trick.about
+ * @requires trick.speed
+ * @requires firebase
  */
 angular.module('trick', [
   'ngRoute',
