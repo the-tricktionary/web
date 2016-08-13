@@ -4,7 +4,7 @@ if [ ! -f deploy.key ]; then exit; fi
 
 eval `ssh-agent -s`
 ssh-add deploy.key
-git clone -b gh-pages git@github.com:the-tricktionary/web.git .deploy || exit 1
+git clone -b master git@github.com:the-tricktionary/the-tricktionary.github.io.git .deploy || exit 1
 cd .deploy || exit 1
 git config user.name travis
 git config user.email travis@nowhere
