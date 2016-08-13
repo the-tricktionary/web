@@ -85,3 +85,4 @@ fabric.properties
 
 # Created by https://www.gitignore.io/api/jetbrains
 bs-config.json
+docs/
