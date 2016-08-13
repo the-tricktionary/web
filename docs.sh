@@ -2,12 +2,6 @@
 
 if [ ! -f deploy.key ]; then exit; fi
 
-if [ "$TRAVIS_PULL_REQUEST" != false ]; then
-    if [ "$TRAVIS_BRANCH" != master ]; then exit; fi
-
-    BRANCH_DIR="pull-$TRAVIS_PULL_REQUEST"
-fi
-
 export SSH_KEYFILE="$(readlink -f deploy.key)"
 export GIT_SSH="$(readlink -f deploy/ssh.sh)"
 git clone -b gh-pages git@github.com:the-tricktionary/web .deploy || exit 1

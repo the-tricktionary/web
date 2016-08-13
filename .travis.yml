@@ -6,6 +6,7 @@ script:
 - npm run deploy
 after_success:
 - npm run docs
+- openssl aes-256-cbc -K $deploy_key_pass -iv $deploy_key_iv -in deploy.key.enc -out deploy.key -d && chmod go-rwx deploy.key || true
 - chmod +x ./docs.sh
 - ./docs.sh
 branches:
