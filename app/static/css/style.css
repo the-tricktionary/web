@@ -190,17 +190,17 @@ textarea {
 
 label {
 
-  display     : inline;
-  color       : var(--l-black);
-  width       : 100%;
-  position    : relative;
-  height      : 1.5em;
-  font-size   : 1.5em;
+  display   : inline;
+  color     : var(--l-black);
+  width     : 100%;
+  position  : relative;
+  height    : 1.5em;
+  font-size : 1.5em;
 }
 
 label.mt {
-  display: block;
-  min-height: 1.5em;
+  display    : block;
+  min-height : 1.5em;
 }
 
 label i.fa {
@@ -287,7 +287,7 @@ textarea:focus {
   }
 
   label.mt {
-    min-height: 3em;
+    min-height : 3em;
   }
 }
 
@@ -398,7 +398,7 @@ nav ul li:hover:not(:first-child) {
 }
 
 .sharing {
-  font-size: 2em !important;
+  font-size : 2em !important;
 }
 
 @media screen and (max-width : 680px) {
@@ -454,7 +454,7 @@ nav ul li:hover:not(:first-child) {
   }
 
   .sharing {
-    font-size: 6em !important;
+    font-size : 6em !important;
   }
 }
 
@@ -684,6 +684,8 @@ div.box h3 {
 
 p {
   margin-bottom : .3em;
+  max-width     : 600px;
+  text-align    : justify;
 }
 
 li {
@@ -691,7 +693,7 @@ li {
 }
 
 .mt {
-  margin-top: 1.3em;
+  margin-top : 1.3em;
 }
 
 /* everywhere else */

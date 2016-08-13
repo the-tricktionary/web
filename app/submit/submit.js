@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * @class trick.submit
+ * @memberOf trick
+ */
 angular.module('trick.submit', ['ngRoute'])
   
   .config([
@@ -31,11 +34,18 @@ angular.module('trick.submit', ['ngRoute'])
         $scope.submit = function() {
           if($scope.newName && $scope.newDesc && $scope.newType && $scope.newVideo) {
             $scope.error = undefined;
+            var random = (Math.random() * 1000000 ).toFixed(0);
+            var storageRef = firebase.storage.ref("submisions/" + random);
+            var fileUpload = document.getElementById("fileUpload");
+            fileUpload.on('change', function(evt) {
+              var firstFile = evt.target.file[0]; // get the first file uploaded
+              var uploadTask = storageRef.put(firstFile);
+            });
             $scope.submissions.$add({
               name: $scope.newName,
               desc: $scope.newDesc,
               type: $scope.newType,
-              video: $scope.newVideo
+              video: random
             });
             $location.path('/');
             //var folder = storageRef.child('submissions/' + $scope.user.uid + "/" + filename);

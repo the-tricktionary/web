@@ -8,11 +8,11 @@
     "url": "the-tricktionary/the-tricktionary.github.io"
   },
   "license": "MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "firebase-tools": "*",
     "lite-server": "*",
+    "minami": "^1.1.1",
     "postcss-cli": "*",
     "postcss-cssnext": "*",
     "postcss-csso": "*",
@@ -23,6 +23,7 @@
     "start": "firebase serve",
     "pretest": "rm -rf public && cp -r app public && find public -type f -name '*.css' -exec rm {} + && find public -type f -name '*.js' -not -path 'public/static/js/*' -exec rm {} +",
     "test": "chmod +x ./deploy.sh && ./deploy.sh",
-    "deploy": "firebase deploy --project project-5641153190345267944"
+    "deploy": "firebase deploy --project project-5641153190345267944",
+    "docs": "jsdoc -r -c .jsdoc.json"
   }
 }

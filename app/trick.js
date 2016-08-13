@@ -1,7 +1,14 @@
 'use strict';
+/**
+ * @namespace trick
+ */
 
-/*
- * Initialize Firebase
+/**
+ * Initialize firebase
+ * @function initializeApp
+ * @param {object} config firebase configuration values.
+ * @return {object} service
+ * @require firebase
  */
 var config = {
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
@@ -11,14 +18,19 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// Hide/Show nav on mobile
+
+/**
+ * Hide/Show nav on mobile
+ * @function toggleNav
+ */
 function toggleNav() {
   document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
   document.getElementsByTagName("nav")[0].classList.toggle("responsive");
 }
 
-/*
- * @namespace trick
+/**
+ * @class trick.trick
+ * @memberOf trick
  */
 angular.module('trick', [
   'ngRoute',
@@ -29,19 +41,14 @@ angular.module('trick', [
   'trick.contact',
   'trick.about',
   'trick.speed',
-  'trick.speed.event',
-  'trick.speed.live',
   'firebase'
 ])
   
   .config([
     '$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-      /*
-       * Configure ngRoute with html5 mode (no hashbang, but with fallback)
-       * @memberOf trick
-       * @ngdoc config
-       * @name config
-       * @param {service} $locationProvider Watches $location and provides interface to default state
+      /**
+       * @description ngRoute with html5 mode (no hashbang, but with fallback)
+       * @memberOf trick.trick
        */
       $locationProvider.html5Mode(true).hashPrefix('!');
       
@@ -51,11 +58,14 @@ angular.module('trick', [
   
   .factory("Auth", [
     "$firebaseAuth",
-    /*
+    /**
+     * @function Auth
+     * @memberOf trick.trick
      * @param {service} $firebaseAuth feed with auth state
      * @return {object} Return auth state
+     * @require firebase
      */
-    function($firebaseAuth) {
+      function($firebaseAuth) {
       return $firebaseAuth();
     }
   ])
@@ -84,23 +94,14 @@ angular.module('trick', [
         Auth.$signOut();
       };
       
-      // any time auth status updates, add the user data to scope
+      /**
+       * any time auth status updates, add the user data to scope
+       * @memberOf trick.trick
+       */
       Auth.$onAuthStateChanged(function(firebaseUser) {
         $rootScope.user = firebaseUser;
       });
       
       ga('send', 'pageview');
-      // Initialise Audio players
-      audiojs.events.ready(function() {
-        audiojs.createAll();
-      });
     }
-  )
-  
-  .directive('audioJs', function() {
-    return {
-      link: function(scope, element) {
-        audiojs.create(element[0]);
-      }
-    };
-  });
+  );
