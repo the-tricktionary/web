@@ -34,6 +34,7 @@ function toggleNav() {
  * @requires trick.contact
  * @requires trick.about
  * @requires trick.speed
+ * @requires trick.speed.details
  * @requires firebase
  */
 angular.module('trick', [
@@ -45,6 +46,7 @@ angular.module('trick', [
   'trick.contact',
   'trick.about',
   'trick.speed',
+  'trick.speed.details',
   'firebase'
 ])
   

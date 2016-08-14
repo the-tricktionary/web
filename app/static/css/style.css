@@ -120,6 +120,10 @@ button:disabled,
   width : 100% !important;
 }
 
+.s-2x {
+  font-size : 2em;
+}
+
 .sm {
   width : 3em;
 }
@@ -139,8 +143,29 @@ button:disabled,
   padding    : 5px 10px;
 }
 
+.gray {
+  color : var(--d-gray)
+}
+
 .red:hover {
   background-color : var(--d-red);
+}
+
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--rl-gray);
+}
+
+td {
+  padding : .3em;
+}
+
+td:nth-child(even) {
+  text-align: right;
 }
 
 input[type=submit] {
@@ -455,6 +480,10 @@ nav ul li:hover:not(:first-child) {
 
   .sharing {
     font-size : 6em !important;
+  }
+
+  table {
+    width : 100%;
   }
 }
 

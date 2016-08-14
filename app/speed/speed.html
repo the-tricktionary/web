@@ -1,2 +1,9 @@
 <h1>Speed</h1>
-<!-- TODO: Comparision and display of ones saved speed scores -->
+<p>Revisit scores you've tracked via the app</p>
+<div class="box">
+    <a class="parent"
+       ng-href="/speed/{{ event.$id }}"
+       ng-repeat="event in events">
+        {{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date}}
+    </a>
+</div>
