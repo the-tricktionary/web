@@ -152,12 +152,12 @@ button:disabled,
 }
 
 table {
-  border-collapse: collapse;
-  width: 50%;
+  border-collapse : collapse;
+  width           : 50%;
 }
 
 tr:nth-child(odd) {
-  background-color: var(--rl-gray);
+  background-color : var(--rl-gray);
 }
 
 td {
@@ -165,7 +165,7 @@ td {
 }
 
 td:nth-child(even) {
-  text-align: right;
+  text-align : right;
 }
 
 input[type=submit] {
@@ -372,6 +372,11 @@ nav ul li a {
   height          : 100%;
   cursor          : pointer;
   cursor          : hand;
+}
+
+.pointer {
+  cursor : pointer;
+  cursor : hand;
 }
 
 nav ul li a:hover {

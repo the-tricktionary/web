@@ -100,6 +100,8 @@ angular.module('trick', [
         Auth.$signOut();
       };
       
+      $rootScope.$location = $location;
+      
       /**
        * any time auth status updates, add the user data to scope
        * @memberOf trick.trick
