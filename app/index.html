@@ -41,9 +41,9 @@
     <!-- END DEPLOY -->
 </head>
 <body>
-<nav ng-if="!live">
+<nav>
     <ul class="topnav">
-        <li ng-click="$location.path('/')" class="pointer"><img src="/static/img/tricktionary2.svg"/>
+        <li ng-click="goHome()" class="pointer"><img src="/static/img/tricktionary2.svg"/>
             <div>&nbsp;<span class="small">the</span>Tricktionary</div>
         </li>
         <li><a ng-href="/" onclick="toggleNav()">Dashboard</a></li>

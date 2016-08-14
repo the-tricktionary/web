@@ -79,12 +79,18 @@ angular.module('trick', [
   .run(function($location, $rootScope, Auth) {
       $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
         if(error === "AUTH_REQUIRED") {
-          $location.path("/dash");
+          $location.path('/');
           $rootScope.error = 'You need to be signed in to access this page, please Sign In and try again.';
         }
       });
-      
-      $rootScope.signIn = function() {
+  
+    /**
+     * @name $rootScope.signIn
+     * @function
+     * @memberOf trick
+     * @description function to sign In with google
+     */
+    $rootScope.signIn = function() {
         $rootScope.user = null;
         $rootScope.error = null;
         Auth.$signInWithPopup("google")
@@ -95,12 +101,26 @@ angular.module('trick', [
             $rootScope.error = error;
           });
       };
-      
+  
+    /**
+     * @name $rootScope.signOut
+     * @function
+     * @memberOf trick
+     * @description function to sign Out
+     */
       $rootScope.signOut = function() {
         Auth.$signOut();
       };
-      
-      $rootScope.$location = $location;
+  
+    /**
+     * @name $rootScope.goHome
+     * @function
+     * @memberOf trick
+     * @description function to go to /
+     */
+      $rootScope.goHome = function() {
+        $location.path('/');
+      };
       
       /**
        * any time auth status updates, add the user data to scope
