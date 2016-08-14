@@ -42,9 +42,6 @@ angular.module('trick.submit', ['ngRoute'])
          */
         $scope.submissions = $firebaseArray(ref);
         
-        // TODO: connect to storage
-        //var storageRef = firebase.storage().ref();
-        
         /**
          * @name $scope.submit
          * @function
@@ -65,22 +62,11 @@ angular.module('trick.submit', ['ngRoute'])
              * @type {string}
              */
             var random = (Math.random() * 1000000 ).toFixed(0);
-            /** Create reference to *storage* path */
-            var storageRef = firebase.storage.ref("submisions/" + random);
-            /**
-             * @description get File Upload element and then check for changes if file found then upload it
-             * @type {Element}
-             */
-            var fileUpload = document.getElementById("fileUpload");
-            fileUpload.on('change', function(evt) {
-              var firstFile = evt.target.file[0]; // get the first file uploaded
-              var uploadTask = storageRef.put(firstFile);
-            });
             $scope.submissions.$add({
               name: $scope.newName,
               desc: $scope.newDesc,
               type: $scope.newType,
-              video: random
+              video: $scope.newVideo
             });
             $location.path('/');
           }

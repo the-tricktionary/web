@@ -48,7 +48,11 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @description create a synchronized *object* stored in scope
          */
         $scope.event = $firebaseObject(ref);
-        
+        /**
+         * @name $scope.$location
+         * @function
+         * @description get the service $location into scope for us in template
+         */
         $scope.$location = $location;
       }
       else {

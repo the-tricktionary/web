@@ -4,13 +4,14 @@
     licensce to modify, redistribute, publish your submitted data without accrediting you
 </p>
 <div class="warning center" ng-if="error" ng-bind-html="error"></div>
-<form ng-submit="submit()">
-    <input type="text" placeholder="Name" ng-model="newName"/>
-    <input type="text" placeholder="Description" ng-model="newDesc"/>
-    <input type="file" placeholder="Link to video" ng-model="newVideo"/>
+<form ng-submit="submit()" name="form">
+    <input type="text" placeholder="Name" ng-model="newName" required/>
+    <input type="text" placeholder="Description" ng-model="newDesc" required/>
+    <input type="url" name="link" placeholder="Link to video" ng-model="newVideo"
+           ng-class="(form.link.$valid) == false ? 'input-warn' : null" required/>
     <label class="">
         <i class="fa fa-caret-down"></i>
-        <select ng-model="newType">
+        <select ng-model="newType" required>
             <option selected disabled>Type</option>
             <option>Basics</option>
             <option>Multiples</option>
@@ -20,6 +21,6 @@
         </select>
     </label>
     <input type="submit"/>
-    <!--<input type="file" ng-model="newVideo">-->
+    <div id="progress"></div>
 </form>
-
+{{  }}
