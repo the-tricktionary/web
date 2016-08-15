@@ -40,7 +40,7 @@ angular.module('trick.speed.details', ['ngRoute'])
          */
         $scope.id = $routeParams.id;
         /** Create reference to database path */
-        var ref = firebase.database().ref().child("speed/scores/" + $scope.user.uid + "/" + $scope.user.displayName + "/" + $scope.id);
+        var ref = firebase.database().ref().child("speed/scores/" + $scope.user.uid + "/" + $scope.id);
         /**
          * @name $scope.event
          * @function
