@@ -54,7 +54,15 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @description get the service $location into scope for us in template
          */
         $scope.$location = $location;
-        
+  
+        /**
+         * @name parse
+         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @function
+         * @param parseData
+         * @param duration
+         * @returns {{labels: Array, series: *[]}}
+         */
         var parse = function(parseData, duration) {
           var outData = {
             labels: [],
@@ -71,67 +79,99 @@ angular.module('trick.speed.details', ['ngRoute'])
           outData.series[0].shift();
           return outData;
         };
-        
+  
+        /**
+         * @name arrayMax
+         * @function
+         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @param array
+         * @returns {*}
+         */
         var arrayMax = function(array) {
           return array.reduce(function(a, b) {
             return Math.max(a, b);
           });
         };
+  
+        /**
+         * @name chartOptions
+         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @type {{chartPadding: {top: number, right: number, bottom: number, left: number}, showArea: boolean, showLine: boolean, showPoint: boolean, high: *, axisX: {labelInterpolationFnc: chartOptions.axisX.labelInterpolationFnc}, onlyInteger: boolean, plugins: *[]}}
+         */
+        var chartOptions = {
+          chartPadding: {
+            top: 20,
+            right: 0,
+            bottom: 30,
+            left: 0
+          },
+          showArea: true,
+          showLine: true,
+          showPoint: false,
+          high: arrayMax(chartData.series[0]) + 2,
+          axisX: {
+            labelInterpolationFnc: function(value, index) {
+              return index % 10 === 0 ? value : null;
+            }
+          },
+          onlyInteger: true,
+          plugins: [
+            Chartist.plugins.ctAxisTitle({
+              axisX: {
+                axisTitle: 'Time',
+                axisClass: 'ct-axis-title',
+                offset: {
+                  x: 0,
+                  y: 50
+                },
+                textAnchor: 'middle'
+              },
+              axisY: {
+                axisTitle: 'Jumps',
+                axisClass: 'ct-axis-title',
+                offset: {
+                  x: 0,
+                  y: 0
+                },
+                textAnchor: 'middle',
+                flipTitle: false
+              }
+            })
+          ]
+        };
         
-        $scope.event.$watch(function() {
-          var chartData = parse($scope.event.graphData, $scope.event.time);
-          var chartOptions = {
-            chartPadding: {
-              top: 20,
-              right: 0,
-              bottom: 30,
-              left: 0
-            },
-            showArea: true,
-            showLine: true,
-            showPoint: false,
-            high: arrayMax(chartData.series[0]) + 2,
+        /**
+         * @name chartOptionsResponsive
+         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @type {*[]}
+         */
+        var chartOptionsResponsive = [
+          [
+            'screen and (max-width: 800px)', {
             axisX: {
               labelInterpolationFnc: function(value, index) {
-                return index % 10 === 0 ? value : null;
-              }
-            },
-            onlyInteger: true,
-            plugins: [
-              Chartist.plugins.ctAxisTitle({
-                axisX: {
-                  axisTitle: 'Time',
-                  axisClass: 'ct-axis-title',
-                  offset: {
-                    x: 0,
-                    y: 50
-                  },
-                  textAnchor: 'middle'
-                },
-                axisY: {
-                  axisTitle: 'Jumps',
-                  axisClass: 'ct-axis-title',
-                  offset: {
-                    x: 0,
-                    y: 0
-                  },
-                  textAnchor: 'middle',
-                  flipTitle: false
-                }
-              })
-            ]
-          };
-          var chartOptionsResponsive = [
-            [
-              'screen and (max-width: 800px)', {
-              axisX: {
-                labelInterpolationFnc: function(value, index) {
-                  return index % 17 === 0 ? value : null;
-                }
+                return index % 17 === 0 ? value : null;
               }
             }
-            ]
-          ];
+          }
+          ]
+        ];
+  
+        /**
+         * @name $scope.event.$watch
+         * @function
+         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         */
+        $scope.event.$watch(function() {
+          /**
+           * @name chartData
+           * @memberOf trick.speed.details.SpeedDetailsCtrl
+           * @type {{labels: Array, series: *[]}}
+           */
+          var chartData = parse($scope.event.graphData, $scope.event.time);
+          /**
+           * @description Create chart, update function not currently needed as chartData shouldn't change.
+           */
           new Chartist.Line('.ct-chart', chartData, chartOptions, chartOptionsResponsive);
         })
       }
