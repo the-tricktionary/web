@@ -54,7 +54,14 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @description get the service $location into scope for use in template
          */
         $scope.$location = $location;
-  
+        
+        $scope.removeEvent = function() {
+          if(confirm("Are you sure you want to remove this event?")) {
+            $scope.event.$remove();
+            $location.path("/speed");
+          }
+        };
+        
         /**
          * @name parse
          * @memberOf trick.speed.details.SpeedDetailsCtrl
@@ -79,7 +86,7 @@ angular.module('trick.speed.details', ['ngRoute'])
           outData.series[0].shift();
           return outData;
         };
-  
+        
         /**
          * @name arrayMax
          * @function
@@ -92,7 +99,7 @@ angular.module('trick.speed.details', ['ngRoute'])
             return Math.max(a, b);
           });
         };
-  
+        
         /**
          * @name $scope.event.$watch
          * @function
@@ -151,7 +158,7 @@ angular.module('trick.speed.details', ['ngRoute'])
               })
             ]
           };
-  
+          
           /**
            * @name chartOptionsResponsive
            * @memberOf trick.speed.details.SpeedDetailsCtrl

@@ -67,26 +67,16 @@ a.pop {
   border : 1px solid var(--d-yellow);
 }
 
-.pop-u {
-  text-decoration       : underline;
-  text-decoration-color : var(--d-yellow);
-  color                 : var(--d-yellow);
-}
-
 ul ul {
   padding-left : 2em;
 }
 
 .foot {
   position   : absolute;
-  bottom     : 0;
+  bottom     : .3em;
   text-align : center;
   width      : 100%;
   font-size  : 11px;
-}
-
-.ng-scope {
-  padding-bottom : 11px;
 }
 
 button,
@@ -132,13 +122,12 @@ button:disabled,
   background-color : var(--l-red);
   color            : var(--white);
   display          : block;
-  margin-top       : 5em;
+  padding          : 5px 5px;
 }
 
 .green {
   background : var(--l-green);
   color      : var(--white);
-  margin-top : 2em;
   display    : block;
   padding    : 5px 10px;
 }
@@ -151,7 +140,8 @@ button:disabled,
   background-color : var(--d-red);
 }
 
-table {
+table,
+.table {
   border-collapse : collapse;
   width           : 49%;
 }
@@ -275,23 +265,6 @@ textarea:focus {
   border-bottom : 1px solid var(--l-red) !important;
 }
 
-.audiojs {
-  width           : 50vw;
-  display         : flex;
-  flex-direction  : row;
-  flex-wrap       : nowrap;
-  justify-content : space-between;
-  align-items     : stretch;
-}
-
-.audiojs .play-pause {
-  min-width : 3em;
-}
-
-.audiojs .scrubber {
-  width : 71%;
-}
-
 @media screen and (max-width : 560px) {
   input[type=text],
   input[type=submit],
@@ -312,10 +285,6 @@ textarea:focus {
 
   label i.fa {
     top : -2px;
-  }
-
-  .audiojs {
-    width : 96vw;
   }
 
   label.mt {
@@ -494,7 +463,8 @@ nav ul li:hover:not(:first-child) {
     font-size : 6em !important;
   }
 
-  table {
+  table,
+  .table {
     width : 100%;
   }
 
@@ -529,101 +499,14 @@ div.box {
   align-items     : stretch;
 }
 
-div.speeds {
+div.box-space {
+  text-align      : center;
   width           : 100%;
   position        : relative;
   display         : flex;
   flex-direction  : row;
   flex-wrap       : wrap;
-  justify-content : center;
-  align-items     : stretch;
-}
-
-div.speeds div {
-  border    : 1px solid var(--black);
-  min-width : 33%;
-}
-
-div.speeds div:nth-child(odd) {
-  background-color : var(--rl-gray);
-}
-
-div.speeds div span.label {
-  display        : inline;
-  font-size      : 7em;
-  color          : var(--m-gray);
-  margin         : 0;
-  letter-spacing : -0.1em;
-}
-
-div.speeds div span.score {
-  font-size      : 14em;
-  margin-top     : -2em;
-  font-family    : monospace, monospace;
-  letter-spacing : -0.1em;
-  padding-right  : 0.1em;
-  line-height    : 0.7;
-}
-
-@media screen and (min-width : 1900px) {
-  div.speeds div {
-    min-width : 25%;
-  }
-}
-
-@media screen and (min-width : 3420px) {
-  div.speeds div span.label {
-    font-size : 14em;
-  }
-
-  div.speeds div span.score {
-    font-size : 25em;
-  }
-}
-
-@media screen and (min-width : 2688px) {
-  div.speeds div span.label {
-    font-size : 12em;
-  }
-
-  div.speeds div span.score {
-    font-size : 19em;
-  }
-}
-
-@media screen and (max-width : 848px) and (min-width : 518px) {
-  div.speeds div span.label {
-    font-size : 54px;
-  }
-
-  div.speeds div span.score {
-    font-size : 160px;
-  }
-
-  div.speeds div {
-    width : 50%;
-  }
-}
-
-@media screen and (max-width : 639px) {
-  div.speeds div span.label {
-    font-size : 40px;
-  }
-
-  div.speeds div span.score {
-    font-size : 130px;
-  }
-}
-
-@media screen and (max-width : 514px) {
-  div.speeds div span.label {
-    font-size : 40px;
-  }
-
-  div.speeds div span.score {
-    font-size   : 60px;
-    line-height : 1;
-  }
+  justify-content : space-between;
 }
 
 div.pl {
@@ -636,6 +519,10 @@ h3.pl {
 
 .pr {
   float : right;
+}
+
+.pl {
+  float : left;
 }
 
 .pr .level {
@@ -754,7 +641,7 @@ li {
 }
 
 .color-a {
-  color: var(--d-red);
+  color : var(--d-red);
 }
 
 .ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-bar, .ct-series-b .ct-slice-donut {
@@ -766,11 +653,11 @@ li {
 }
 
 .color-b {
-  color: var(--l-red);
+  color : var(--l-red);
 }
 
 .ct-line {
-  stroke-width: 2px !important;
+  stroke-width : 2px !important;
 }
 
 /* everywhere else */
