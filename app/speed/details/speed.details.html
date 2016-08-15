@@ -1,5 +1,5 @@
 <input placeholder="Name" id="name" ng-model="event.name" ng-change="event.$save();" ng-show="nameEdit" type="text"
-       ng-keyup="($event.keyCode == 13 ? nameEdit = !nameEdit : null)" autofocus/>
+       ng-keyup="($event.keyCode == 13 ? nameEdit = !nameEdit : null)" class="table" autofocus/>
 <h1 ng-show="!nameEdit">{{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date:'MMM d, y HH:mm:ss ' }}
     <a
             ng-click="nameEdit = !nameEdit"><i class="fa fa-pencil fa-05x"></i></a></h1>
@@ -37,6 +37,7 @@
     <tr>
         <td colspan="2">
             <div class="ct-chart ct-perfect-fourth"></div>
+            <h3 class="color-a">• Jumps Per Second</h3>
         </td>
     </tr>
     </tbody>

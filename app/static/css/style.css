@@ -153,7 +153,7 @@ button:disabled,
 
 table {
   border-collapse : collapse;
-  width           : 50%;
+  width           : 49%;
 }
 
 tr:nth-child(odd) {
@@ -497,6 +497,13 @@ nav ul li:hover:not(:first-child) {
   table {
     width : 100%;
   }
+
+  input.table {
+    width         : 100%;
+    display       : block;
+    margin-bottom : .5em;
+    margin-top    : 0;
+  }
 }
 
 /* content */
@@ -737,6 +744,7 @@ li {
   margin-top : 1.3em;
 }
 
+/* Charts */
 .ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
   stroke : var(--d-red) !important;
 }
@@ -745,12 +753,24 @@ li {
   fill : var(--d-red) !important;
 }
 
+.color-a {
+  color: var(--d-red);
+}
+
 .ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-bar, .ct-series-b .ct-slice-donut {
   stroke : var(--l-red) !important;
 }
 
 .ct-series-b .ct-slice-pie, .ct-series-b .ct-area {
   fill : var(--l-red) !important;
+}
+
+.color-b {
+  color: var(--l-red);
+}
+
+.ct-line {
+  stroke-width: 2px !important;
 }
 
 /* everywhere else */

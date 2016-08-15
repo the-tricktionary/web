@@ -3,7 +3,8 @@ node_js:
 - 6
 script:
 - npm test
-- npm run deploy
+- if [ "$TRAVIS_BRANCH" == "master" ]; then npm run deploy; fi
+- npm run staging
 after_success:
 - npm run docs
 - openssl aes-256-cbc -K $deploy_key_pass -iv $deploy_key_iv -in deploy.key.enc -out deploy.key -d && chmod go-rwx deploy.key || true
@@ -12,6 +13,7 @@ after_success:
 branches:
   only:
   - master
+  - develop
 notifications:
   email: false
   slack: the-tricktionary:VdZSlFi4J1AHCcQY96RU5dDZ
