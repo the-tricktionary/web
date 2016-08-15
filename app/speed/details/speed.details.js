@@ -55,7 +55,6 @@ angular.module('trick.speed.details', ['ngRoute'])
          */
         $scope.$location = $location;
         
-        // TODO: Parse data in event.chartData to output labels
         var parse = function(parseData, duration) {
           var outData = {
             labels: [],

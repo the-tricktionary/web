@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+if [ "$TRAVIS_BRANCH" != "master" ]; then exit; fi
 if [ ! -f deploy.key ]; then exit; fi
 
 eval `ssh-agent -s`

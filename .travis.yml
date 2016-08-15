@@ -14,6 +14,7 @@ branches:
   only:
   - master
   - develop
+  - release-*
 notifications:
   email: false
   slack: the-tricktionary:VdZSlFi4J1AHCcQY96RU5dDZ
