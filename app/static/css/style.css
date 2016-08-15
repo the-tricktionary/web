@@ -737,6 +737,22 @@ li {
   margin-top : 1.3em;
 }
 
+.ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
+  stroke : var(--d-red) !important;
+}
+
+.ct-series-a .ct-slice-pie, .ct-series-a .ct-area {
+  fill : var(--d-red) !important;
+}
+
+.ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-bar, .ct-series-b .ct-slice-donut {
+  stroke : var(--l-red) !important;
+}
+
+.ct-series-b .ct-slice-pie, .ct-series-b .ct-area {
+  fill : var(--l-red) !important;
+}
+
 /* everywhere else */
 
 * {
