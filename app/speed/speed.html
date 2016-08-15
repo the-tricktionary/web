@@ -4,6 +4,6 @@
     <a class="parent"
        ng-href="/speed/{{ event.$id }}"
        ng-repeat="event in events">
-        {{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date}} <span class="gray">- {{ event.time * 1000 | date:'mm:ss' }}</span>
+        {{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date}} <span class="gray">- {{ event.score }}</span>
     </a>
 </div>
