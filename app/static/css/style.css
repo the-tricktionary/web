@@ -27,12 +27,14 @@ h1 {
   color         : var(--black);
   font-size     : 2.5em;
   margin-bottom : 0;
+  text-align    : center;
 }
 
 h2,
 h3 {
   color       : var(--d-gray);
   font-weight : lighter;
+  text-align  : center;
 }
 
 h1 + h2 {
@@ -72,8 +74,6 @@ ul ul {
 }
 
 .foot {
-  position   : absolute;
-  bottom     : .3em;
   text-align : center;
   width      : 100%;
   font-size  : 11px;
@@ -144,6 +144,8 @@ table,
 .table {
   border-collapse : collapse;
   width           : 49%;
+  margin-right    : auto;
+  margin-left     : auto;
 }
 
 tr:nth-child(odd) {
@@ -509,8 +511,12 @@ div.box-space {
   justify-content : space-between;
 }
 
-div.pl {
-  justify-content : flex-start !important;
+div.mb {
+  margin-bottom : 2em;
+}
+
+div.emb {
+  margin-bottom : 5em;
 }
 
 h3.pl {
@@ -544,6 +550,7 @@ div.box h3 {
   font-size   : 1.5em;
   margin      : 1em 0 0;
   padding     : 0;
+  text-align  : center;
 }
 
 .parent {
@@ -567,8 +574,10 @@ div.box h3 {
 }
 
 .video {
-  width  : 50vw;
-  height : 28.124vw;
+  width        : 50vw;
+  height       : 28.124vw;
+  margin-right : auto;
+  margin-left  : auto;
 }
 
 .warning {
@@ -620,7 +629,14 @@ div.box h3 {
 p {
   margin-bottom : .3em;
   max-width     : 600px;
+  margin-left   : auto;
+  margin-right  : auto;
   text-align    : justify;
+}
+
+img.rafiki {
+  max-height : 40vh;
+  float      : right;
 }
 
 li {

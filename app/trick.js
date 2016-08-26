@@ -33,6 +33,7 @@ function toggleNav() {
  * @requires trick.submit
  * @requires trick.contact
  * @requires trick.about
+ * @requires trick.about.rafiki
  * @requires trick.speed
  * @requires trick.speed.details
  * @requires firebase
@@ -45,6 +46,7 @@ angular.module('trick', [
   'trick.submit',
   'trick.contact',
   'trick.about',
+  'trick.about.rafiki',
   'trick.speed',
   'trick.speed.details',
   'firebase'
