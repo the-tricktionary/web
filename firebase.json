@@ -8,19 +8,22 @@
     "trailingSlash": false,
     "rewrites": [
       {
+        "source": "/favicon.ico",
+        "destination": "/static/img/icon.png"
+      },
+	  {
         "source": "**",
         "destination": "/index.html"
-      },
-      {
-        "source": "favicon.ico",
-        "destination": "/static/img/icon.png"
       }
     ],
-    "ignore": [
-      "**/.*"
-    ],
+    "ignore": [],
     "redirects": [
       {
+        "source" : "/android",
+        "destination" : "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
+        "type" : 301
+      },
+	  {
         "source" : "/play",
         "destination" : "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
         "type" : 301
