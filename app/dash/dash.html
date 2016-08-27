@@ -3,6 +3,13 @@
            placeholder="Search (by name, prerequisites...)">
 </div>
 <div class="warning center" ng-if="error" ng-bind-html="error"></div>
+<a href="#about" class="emt pr"><i class="fa fa-arrow-circle-down"></i></a>
+<div class="box loading" ng-if="!data.length">
+    <span>
+        <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
+        Loading tricks
+    </span>
+</div>
 <div class="box" ng-repeat="level in data">
     <h3 class="searchheader">Level {{ level.level }}</h3>
     <a class="parent"
@@ -12,7 +19,7 @@
         {{ trick.name }}
     </a>
 </div>
-<h3>About the Tricktionary</h3>
+<h3 id="about">About the Tricktionary</h3>
 <p>
     The sport of competitive jump roping is a continually growing international community of some of the world's most
     talented athletes. This app aims to help anyone hoping to become involved in this phenomenal sport by giving anyone
@@ -55,11 +62,11 @@
         <i class="fa fa-envelope-square sharing"></i>
     </a>
 </p>
-<h3>The Rafiki Outreach Program</h3>
+<h3 id="rafiki">The Rafiki Outreach Program</h3>
 <p>
     the Tricktionary is a proud supporter of the Rafiki Outreach Program, read more about it <a ng-href="/about/rafiki">here</a>.
 </p>
-<h3>Explanation of Levels</h3>
+<h3 id="levels">Explanation of Levels</h3>
 <p>
     On some occurrences you might notice levels with a dash between two or more numbers,
     this means that the trick is actually a composition of multiple tricks,

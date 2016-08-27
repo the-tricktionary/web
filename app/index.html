@@ -55,6 +55,7 @@
         <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
         <li><a ng-href="/speed" onclick="toggleNav()">Speed</a></li>
         <li><a href="/android/" target="_blank" onclick="toggleNav()">App</a></li>
+        <li><a ng-href="/contact" onclick="toggleNav()">Contact</a></li>
         <li ng-if="user"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
         <li ng-if="!user"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
         <li class="icon" onclick="toggleNav()">&#9776;</li>
@@ -82,6 +83,6 @@
     ga('create', 'UA-79206862-1', 'auto');
 
 </script>
-<div class="foot">
+<div class="foot" class="mt">
     <a ng-href="/about">Privacy Policy</a>
 </div>

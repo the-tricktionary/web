@@ -88,4 +88,4 @@ bs-config.json
 docs/
 
 *.key*
-!*.key.enc
+!*.key.encnginx.conf

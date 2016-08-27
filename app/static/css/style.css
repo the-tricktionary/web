@@ -553,6 +553,10 @@ div.box h3 {
   text-align  : center;
 }
 
+div.box h3:first-child {
+  margin-top : 0;
+}
+
 .parent {
   background-color : var(--rl-gray);
   border-radius    : 5px;
@@ -645,6 +649,11 @@ li {
 
 .mt {
   margin-top : 1.3em;
+}
+
+.loading {
+  height        : 70vh;
+  align-content : center;
 }
 
 /* Charts */
