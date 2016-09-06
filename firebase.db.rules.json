@@ -15,8 +15,12 @@
       }
     },
     "contact": {
-      ".read": true,
-      ".write": true
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      },
+	  ".read": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
+      ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
     },
     "speed": {
       "scores": {
@@ -25,20 +29,6 @@
         },
         ".read": true
       },
-      "events": {
-        "$uid": {
-          ".write": "$uid == auth.uid",
-          "$id": {
-            "pools": {
-              ".validate": "newData.isNumber()"
-            },
-            "heats": {
-              ".validate": "newData.isNumber()"
-            }
-          }
-        },
-        ".read": true
-      }
     }
   }
 }

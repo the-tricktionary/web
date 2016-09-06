@@ -3,54 +3,104 @@
 
 </p>
 <div class="warning center" ng-if="error" ng-bind-html="error"></div>
-<div>
+<div class="center">
     <label for="name">Name:</label>
-    <input id="name" type="text" placeholder="Name" ng-model="user.displayName" ng-disabled="user.uid"/>
+    <input id="name" type="text" placeholder="Name" ng-model="newName" ng-disabled="user.displayName" required/>
 </div>
-<div>
+<div class="center">
     <label for="type">Type:
         <i class="fa fa-caret-down"></i>
-        <select id="type" ng-model="newType">
-            <optgroup labeL="Type"></optgroup>
-            s
-            <option>Incorrect Level</option>
-            <option>General</option>
+        <select id="type" ng-model="newType" required>
+            <optgroup labeL="Type">
+                <option>Incorrect Level</option>
+                <option>General</option>
+			    <option>Trick Submission</option>
+			</optgroup>
         </select>
     </label>
 </div>
 <br/>
 
-<form ng-if="newType == 'General'" ng-submit="submitGen()">
+<form ng-if="newType == 'General'" ng-submit="submitGen()" class="center">
     <label for="desc">Describe your issue:</label>
-    <textarea id="desc" ng-model="issue"></textarea>
+    <textarea id="desc" ng-model="issue" required></textarea>
     <input type="submit" value="Submit"/>
 </form>
 
-<form ng-if="newType == 'Incorrect Level'" ng-submit="submitLev()">
+<form ng-if="newType == 'Incorrect Level'" ng-submit="submitLev()" class="center">
     <label for="id0" class="char">https://tricks.jumpropejam.com/details/</label>
-    <input type="number" id="id0" class="char" placeholder="0" min="0" max="4"/>
+    <input type="number" id="id0" ng-model="newId0" class="char" placeholder="0" min="0" max="4" required/>
     <label for="id1" class="char">/</label>
-    <input type="number" id="id1" class="char" placeholder="0" min="0"/>
-    <br>
+    <input type="number" id="id1" ng-model="newId1" class="char" placeholder="0" min="0" required/>
+    <br/>
     <label for="level">Is Level</label>
-    <input type="number" id="level" class="char" min="0" max="6"/>
-    <label for="org">In
+    <input type="number" id="level" ng-model="newLvl" class="char" min="0" max="6" required/>
+    <label for="org">in
         <i class="fa fa-caret-down"></i>
-        <select id="org">
-            <option>fisac-irsf rules</option>
-            <option>wjr rules</option>
+        <select id="org" required>
+            <option value="fisac-irsf rules">fisac-irsf rules</option>
+            <option value="wjr rules">wjr rules</option>
         </select>
     </label>
     <input type="submit" value="Submit"/>
 </form>
 
-<div ng-if="admin" ng-repeat="issue in contact">
-    <h2 ng-bind-html="issue.name"></h2>
-    <h3 ng-bind-html="issue.type"></h3>
-    <p ng-if="issue.type == 'General'" ng-bind-html="issue.desc"></p>
-    <p ng-if="issue.type == 'Incorrect Level'"><a
-            ng-href="https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}"
-            ng-bind-html="'https://tricks.jumpropejam.com/details/' + issue.id0 + '/' + issue.id1"></a> should be level
-        <b ng-bind-html="issue.level"></b> in <b ng-bind-html="issue.org"></b>
+<form ng-if="newType == 'Trick Submission'" ng-submit="submitTrick()" name="form" class="center">
+	<div>
+	    <label for="newTrickName">Trick Name:</label>
+        <input id="newTrickName" type="text" placeholder="Trick Name" ng-model="newTrickName" required/>
+    </div>
+	<div>
+	    <label for="newDesc">Description:</label>
+        <input id="newDesc" type="text" placeholder="Description" ng-model="newDesc" required/>
+    </div>
+	<div>
+	    <label for="newLink">Link to video:</label>
+        <input id="newLink" type="url" name="link" placeholder="Link to video" ng-model="newVideo"
+               ng-class="(form.link.$valid) == false ? 'input-warn' : null" required/>
+	</div>
+	<div>
+        <label>
+		    Type:
+            <i class="fa fa-caret-down"></i>
+            <select id="newTrickType" ng-model="newTrickType" required>
+                <optgroup label="Type">
+                    <option>Basics</option>
+                    <option>Multiples</option>
+                    <option>Manipulation</option>
+                    <option>Powers</option>
+                    <option>Releases</option>
+	    		</optgroup>
+            </select>
+        </label>
+	</div>
+	<input type="submit" value="Submit"/>
+	<p class="gray small center">
+        by submitting a trick you give us a non-exclusive
+        licensce to modify, redistribute, publish your submitted data without accrediting you
     </p>
+</form>
+
+<h1 ng-if="!admin">Your Issues</h1>
+<div ng-if="!admin" ng-repeat="issue in users" class="article">
+    <h2>{{ issue.type }}</h2>
+	<h2>{{ issue.trickName }}</h2>
+	<h3>{{ issue.trickType }}</h3>
+    <p ng-if="issue.type == 'General' || issue.type == 'Trick Submission'">{{ issue.desc }}</p>
+    <p ng-if="issue.type == 'Incorrect Level'"><a
+            ng-href="https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}">https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}</a> should be level
+        <b>{{ issue.level }}</b> in <b>{{ issue.org }}</b>
+    </p>
+	<a href="{{ issue.video }}" target="_blank">{{ issue.video }}</a>
+	<div ng-if="issue.type != 'Trick Submission'">
+	    <h3 ng-if="issue.replies">Replies</h3>
+	    <h4 ng-repeat-start="reply in issue.replies">{{ reply.name }}</h4>
+	    <p ng-repeat-end>{{ reply.reply }}</p>
+	    <p ng-if="issue.resolved" class="gray">This issue has been closed and marked as resolved</p>
+	    <form ng-submit="newReply(issue, newReplyText)" class="center" ng-if="!issue.resolved && !user.isAnonymous">
+	        <textarea ng-model="newReplyText" placeholder="Your reply"></textarea>
+	    	<input type="submit" value="Reply"/>
+	    </form>
+	</div>
+	<button ng-click="users.$remove(issue)" class="red btn-padding"><i class="fa fa-trash-o"></i> Delete</button>
 </div>

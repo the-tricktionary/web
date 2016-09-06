@@ -41,7 +41,8 @@ h1 + h2 {
   margin-top : 0;
 }
 
-.small {
+.small,
+.small::before {
   font-size : 0.5em;
 }
 
@@ -91,6 +92,11 @@ input[type=submit] {
   text-align       : center;
   cursor           : pointer;
   cursor           : hand;
+}
+
+btn-padding {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button:hover,
@@ -186,6 +192,7 @@ textarea {
   padding-top        : .5em;
   -webkit-transition : border-bottom .5s;
   transition         : border-bottom .5s;
+  margin             : auto;
 }
 
 textarea {
@@ -519,6 +526,10 @@ div.emb {
   margin-bottom : 5em;
 }
 
+a.em {
+  padding-left : 1em;
+}
+
 h3.pl {
   text-align : left;
 }
@@ -623,7 +634,10 @@ div.box h3:first-child {
 
 .article {
   margin-bottom  : 1em;
+  margin-right   : auto;
+  margin-left    : auto;
   padding-bottom : 1em;
+  max-width      : 600px;
 }
 
 .article:not(:last-child) {

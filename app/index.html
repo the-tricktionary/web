@@ -36,7 +36,6 @@
     <script src="/dash/dash.js"></script>
     <script src="/details/details.js"></script>
     <script src="/news/news.js"></script>
-    <script src="/submit/submit.js"></script>
     <script src="/speed/speed.js"></script>
     <script src="/speed/details/speed.details.js"></script>
     <script src="/about/about.js"></script>
@@ -50,14 +49,13 @@
         <li ng-click="goHome()" class="pointer"><img src="/static/img/tricktionary2.svg"/>
             <div>&nbsp;<span class="small">the</span>Tricktionary</div>
         </li>
-        <li><a ng-href="/" onclick="toggleNav()">Dashboard</a></li>
-        <li><a ng-href="/submit" onclick="toggleNav()">Submit</a></li>
+        <li><a ng-href="/" onclick="toggleNav()">Tricks</a></li>
+		<li><a ng-href="/speed" onclick="toggleNav()">Speed</a></li>
         <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
-        <li><a ng-href="/speed" onclick="toggleNav()">Speed</a></li>
         <li><a href="/android/" target="_blank" onclick="toggleNav()">App</a></li>
         <li><a ng-href="/contact" onclick="toggleNav()">Contact</a></li>
-        <li ng-if="user"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
-        <li ng-if="!user"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
+        <li ng-if="user && !user.isAnonymous"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
+        <li ng-if="!user || user.isAnonymous"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
         <li class="icon" onclick="toggleNav()">&#9776;</li>
     </ul>
 </nav>

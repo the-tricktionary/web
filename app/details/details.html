@@ -1,6 +1,8 @@
 <h1>{{ trick.name }}</h1>
 <h2>{{ trick.type }}</h2>
-<p>{{ trick.description }}</p>
+<p>{{ trick.description }}
+    <a ng-href="/contact?id0={{ id0 }}&id1={{ id1 }}"><i class="fa fa-exclamation-triangle"></i> Report an issue with this trick</a>
+</p>
 <div class="video">
     <iframe class="video"
             ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
