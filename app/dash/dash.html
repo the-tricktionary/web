@@ -14,7 +14,7 @@
     <h3 class="searchheader">Level {{ level.level }}</h3>
     <a class="parent"
        ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}"
-       ng-repeat="trick in level.subs | filter:trickList.search" id="{{ level.id0 + '' + trick.id1 }}"
+       ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search" id="{{ level.id0 + '' + trick.id1 }}"
        ng-class="level.id0 + '' + trick.id1 == anchor ? 'pop' : ''">
         {{ trick.name }}
     </a>
