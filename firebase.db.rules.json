@@ -19,7 +19,7 @@
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
       },
-	  ".read": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
+      ".read": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
       ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
     },
     "speed": {
@@ -28,7 +28,7 @@
           ".write": "$uid == auth.uid"
         },
         ".read": true
-      },
+      }
     }
   }
 }
