@@ -317,4 +317,6 @@ angular.module('trick.contact', ['ngRoute'])
      * @description Trust url constructed on page for video as usable
      */
     $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
+    
+    $scope.newType = "";
   });
