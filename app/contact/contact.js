@@ -57,20 +57,36 @@ angular.module('trick.contact', ['ngRoute'])
          */
         $scope.admin = true;
       }
+      else {
+        $scope.admin = false;
+      }
 	
 	/** Create reference to database path */
 	if($scope.admin) {
       var ref = firebase.database().ref().child("contact");
+      var users = $firebaseArray(ref);
+      /**
+       * I hereby excuse for the following, horrible solution. it's not my desidcion.
+       */
+      users.$watch(function() {
+          var refs = [];   
+          $scope.users = [];          
+          for(var i = 0; i < users.length; i++) {
+            refs[i] = firebase.database().ref().child("contact/" + users[i].$id);
+            $scope.users[i] = $firebaseArray(refs[i]);
+          }
+      })
     } else {
 	  var ref = firebase.database().ref().child("contact/" + $scope.user.uid);
+      /**
+       * @name $scope.contact
+       * @function
+       * @memberOf trick.contact.ContactCtrl
+       * @description create a synchronized array stored in scope
+       */
+      $scope.users = $firebaseArray(ref);
 	}
-	/**
-     * @name $scope.contact
-     * @function
-     * @memberOf trick.contact.ContactCtrl
-     * @description create a synchronized array stored in scope
-     */
-    $scope.users = $firebaseArray(ref);
+	
     });
 	
 	/** Get querystring params */
@@ -253,6 +269,46 @@ angular.module('trick.contact', ['ngRoute'])
 	    reply: newReplyText
 	  };
 	  $scope.users.$save(issue);
+	}
+    
+    /**
+     * @name $scope.newAdminReply
+     * @function
+     * @memberOf trick.contact.ContactCtrl
+     * @description reply to an issue
+	 * @param {object} issue
+	 * @param {string} newReplyText
+     */
+	$scope.newAdminReply = function(issue, user, newReplyText) {
+	  /**
+	   * If user is anonymous or not admin, refuse reply spam preventation
+	   */
+	  if($scope.user.isAnonymous || !$scope.admin) {
+	    $scope.error = "You need to be signed in to reply to an issue";
+		return;
+	  }
+	  /**
+	   * @name len
+	   * @type {number}
+	   * @description get length of issue.replies array or return 0 if nonexistent
+	   */ 
+   	  var len = (issue.replies ? issue.replies.length : 0);
+	  /**
+	   * @name $scope.users[$scope.users.$indexFor(issue.$id)].replies
+	   * @type {object}
+	   * @description return object replies if existing, else init empty object
+	   */
+	  issue.replies = (issue.replies ? issue.replies : {})
+	  /**
+	   * @name $scope.users[$scope.users.$indexFor(issue.$id)].replies[0 + len]
+	   * @type {object}
+	   * @description assign user's name and reply to a new child in object's array
+	   */
+	  issue.replies[0 + len] = {
+	    name: $scope.newName,
+	    reply: newReplyText
+	  };
+	  $scope.users[user].$save(user);
 	}
 	
 	/**
