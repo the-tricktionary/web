@@ -14,7 +14,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
 /**
  * Hide/Show nav on mobile
  * @function toggleNav
@@ -131,6 +130,15 @@ angular.module('trick', [
       });
       
       ga('send', 'pageview');
+      /**
+       * Add to homescreen
+       */
+      addToHomescreen({
+        appID: 'com.jumpropejam.tricks',
+        startDelay: 5,
+        skipFirstVisit: true,
+        maxDisplayCount: 2
+      });
     }
   )
   
