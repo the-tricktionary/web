@@ -511,6 +511,7 @@ div.box {
   position : fixed;
   top      : 40px;
   left     : 5px;
+  color    : rgba(0,132,153,.5);
 }
 
 div.box-space {
