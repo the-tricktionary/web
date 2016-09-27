@@ -507,6 +507,12 @@ div.box {
   align-items     : stretch;
 }
 
+.back {
+  position : fixed;
+  top      : 40px;
+  left     : 5px;
+}
+
 div.box-space {
   text-align      : center;
   width           : 100%;
