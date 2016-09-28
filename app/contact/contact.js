@@ -63,29 +63,28 @@ angular.module('trick.contact', ['ngRoute'])
         $scope.admin = false;
       }
 	
-	/** Create reference to database path */
-	if($scope.admin) {
-      var u = $location.search().u;
-      if(u) {
-        var ref = firebase.database().ref().child("contact/" + u);
-        $scope.person = $firebaseArray(ref);
-        $scope.u = true;
+	  /** Create reference to database path */
+	  if($scope.admin) {
+        var u = $location.search().u;
+        if(u) {
+          var ref = firebase.database().ref().child("contact/" + u);
+          $scope.person = $firebaseArray(ref);
+          $scope.u = true;
+        } else {
+          var ref = firebase.database().ref().child("contact");
+          $scope.people = $firebaseArray(ref);
+          $scope.u = false;
+        }
       } else {
-        var ref = firebase.database().ref().child("contact");
-        $scope.people = $firebaseArray(ref);
-        $scope.u = false;
-      }
-    } else {
-	  var ref = firebase.database().ref().child("contact/" + $scope.user.uid);
-      /**
-       * @name $scope.contact
-       * @function
-       * @memberOf trick.contact.ContactCtrl
-       * @description create a synchronized array stored in scope
-       */
-      $scope.person = $firebaseArray(ref);
-	}
-	
+	    var ref = firebase.database().ref().child("contact/" + $scope.user.uid);
+        /**
+         * @name $scope.contact
+         * @function
+         * @memberOf trick.contact.ContactCtrl
+         * @description create a synchronized array stored in scope
+         */
+        $scope.person = $firebaseArray(ref);
+	  }
     });
 	
 	/** Get querystring params */
@@ -118,6 +117,7 @@ angular.module('trick.contact', ['ngRoute'])
       /** get User Input */
       var issue = document.getElementById('desc').value;
       var newType = document.getElementById('type').value;
+      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById("name").value);
       
       /** if name and issue isn't empty, save to db and redirect to frontpage, if not make error */
       if($scope.newName && issue !== "") {
@@ -139,7 +139,7 @@ angular.module('trick.contact', ['ngRoute'])
          * @type {string}
          * @description error text
          */
-        $scope.error = "You need to enter a value into all fields";
+        $scope.error = "Please describe your issue"
       }
     };
     
@@ -156,6 +156,7 @@ angular.module('trick.contact', ['ngRoute'])
       var newOrg = document.getElementById('org').value;
       var newLvl = document.getElementById('level').value;
       var newType = document.getElementById('type').value;
+      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById("name").value);
       
       /** if name and id0 and id1 and suggestedLvl and what organization is filled save to db and redirect to frontpage, if not make error */
       if($scope.newName && newId0 && newId1 && newLvl && newOrg) {
@@ -180,7 +181,15 @@ angular.module('trick.contact', ['ngRoute'])
          * @type {string}
          * @description error text
          */
-        $scope.error = "You need to enter a value into all fields"
+        if(!newId0 || !newId1) {
+          $scope.error = "Please Select what trick the error is affecting";
+        } else
+         if(!newOrg) {
+          $scope.error = "Please Select the ruleset the error is in";
+        } else 
+         if(!newLvl) {
+          $scope.error = "Please Select what level the trick should be";
+        };
       }
     };
 	
@@ -191,19 +200,25 @@ angular.module('trick.contact', ['ngRoute'])
      * @description function to submit a new Trick
      */
 	$scope.submitTrick = function() {
+      // if($scope.user.isAnonymous) {
+	    // $scope.error = "You need to submit a trick";
+		// return;
+	  // }
 	  /** get User Input */
 	  var newTrickName = document.getElementById('newTrickName').value;
       var newDesc = document.getElementById('newDesc').value;
+      var newTrickType = document.getElementById('newTrickType').value;
       var newVideoPath = document.getElementById('newVideo').value;
       var newVideo = document.getElementById('newVideo').files[0];
-      var newTrickType = document.getElementById('newTrickType').value;
       var ext = newVideoPath.split('.').pop();
       var filename = Math.random().toString(36).substring(7);
       var storageRef = firebase.storage().ref("submit/" + filename + "." + ext);
-      
+      var probar = document.getElementById("pro-bar");
+      var prolab = document.getElementById("pro-lab");
+      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById("name").value);
 		
-      /** if newTrickName and newDesc and newTrickType and newLink isn't empty, save to db */
-      if($scope.newName && newTrickName && newDesc && newTrickType && newLink) {
+      /** if newTrickName and newDesc and newTrickType and isn't empty, save to db */
+      if($scope.newName && newTrickName && newDesc && newTrickType && (newVideo.size < 100 * 1024 * 1024) && !$scope.user.isAnonymous) {
             /**
              * @name $scope.error
              * @type {undefined}
@@ -211,28 +226,29 @@ angular.module('trick.contact', ['ngRoute'])
              */
             $scope.error = undefined;
             /**
-             * @description generate random number as string - used to determinate savepath and video location
-             * @type {string}
+             * @name newMeta
+             * @type {object}
+             * @description set metadata
              */
-            var uploadTask = storageRef.put(newVideo);
+            var newMeta = {
+              customMetadata: {
+                'name': $scope.newName,
+                'trickName': newTrickName,
+                'desc': newDesc,
+                'trickType': newTrickType,
+                'email': $scope.user.email,
+                'uid': $scope.user.uid
+              }
+            };
+            var uploadTask = storageRef.put(newVideo, newMeta);
+            probar.style.width = "1%";
             uploadTask.on("state_changed", function progress(snapshot) {
-          var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          probar.style.width = progress + '%';
-          prolab.innerHTML = progress + '%';
-          if(progress >= 9) {
-            prolab.style.color = "white";
-          }
-        }, null, function() { // success
-          // update meta
-          $scope.person.$add({
-			  name: $scope.newName,
-              trickName: newTrickName,
-              desc: newDesc,
-              trickType: newTrickType,
-              video: newLink,
-			  type: newType
-            });
-        })
+              var progress = snapshot.bytesTransferred / snapshot.totalBytes * 100 | 0;
+              probar.style.width = progress + '%';
+              prolab.innerHTML = progress + '%';
+            }, function(e) { $scope.error = e }, function() { // success
+              prolab.innerHTML = "Thank you!"
+            })
           }
           else {
             /**
@@ -240,7 +256,21 @@ angular.module('trick.contact', ['ngRoute'])
              * @type {string}
              * @description error text
              */
-            $scope.error = "You need to enter a value into all fields"
+            if(!$scope.newName) {
+              $scope.error = "please enter a name";
+            } else
+             if (!newTrickName) {
+              $scope.error = "Please name the trick";
+            } else
+             if (!newDesc) {
+              $scope.error = "Please describe the trick with a few words";
+            } else
+             if (newVideo.size > 100 * 1024 * 1024) {
+              $scope.error = "The file is too big";
+            } else
+             if (!newTrickType) {
+               $scope.error = "please select what type of trick you are submitting";
+            };
           }
         }
 	

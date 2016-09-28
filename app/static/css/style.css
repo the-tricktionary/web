@@ -716,6 +716,32 @@ li {
   stroke-width : 2px !important;
 }
 
+.pc {
+  position      : relative;
+  width         : 600px;
+  height        : 30px;
+  margin-left   : auto;
+  margin-right  : auto;
+  border-radius : 3px;
+  margin-top    : .5em;
+  border-radius : 3px;
+}
+
+.pb {
+  position: absolute;
+  width: 0;
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--d-red);
+  transition: width .2s;
+}
+
+.prl {
+  text-align  : center;
+  line-height : 30px;
+  color       : var(--white);
+}
+
 /* everywhere else */
 
 * {

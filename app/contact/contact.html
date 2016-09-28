@@ -12,7 +12,7 @@
             <optgroup labeL="Type">
                 <option>Incorrect Level</option>
                 <option>General</option>
-			    <option>Trick Submission</option>
+			    <option ng-if="!user.isAnonymous">Trick Submission</option>
 			</optgroup>
         </select>
     </label>
@@ -80,6 +80,11 @@
         <li>Try to find a plain background that contrasts the color of your rope</li>
     </ul>
 	<input type="submit" value="Submit"/>
+    <div class="pc">
+        <div id="pro-bar" class="pb">
+            <div id="pro-lab" class="prl"></div>
+        </div>
+    </div>
 	<p class="gray small center">
         by submitting a trick you give us a non-exclusive
         licensce to modify, redistribute, publish your submitted data without accrediting you
@@ -114,6 +119,7 @@
     </div>
 </div>
 
-<div ng-repeat="person in people" ng-if="!person || admin" class="article hover" ng-click="$location.search('u', person.$id)">
+<div ng-repeat="person in people" ng-if="!person || admin" class="article hover pointer" ng-click="$location.search('u', person.$id)">
     <span>{{ person[keys(person)[0]].name }}</span>
+    <span class="pr">{{ keys(person).length - 3 }}</span>
 </div>
