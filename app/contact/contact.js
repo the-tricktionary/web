@@ -4,6 +4,7 @@
  * @memberOf trick
  * @requires ngRoute
  */
+
 angular.module('trick.contact', ['ngRoute'])
   
   .config([
@@ -48,6 +49,7 @@ angular.module('trick.contact', ['ngRoute'])
 	  }
 	  /**
        * Check if Admin
+       * Also regulated by db security rules
        */
       if($scope.user && ($scope.user.uid == "g0G3A7FxieN333lZ2RKclkmv9Uw1" || $scope.user.uid == 'Kpz3afszjBR0qwZYUrKURRJx2cm2')) {
         /**
@@ -63,19 +65,16 @@ angular.module('trick.contact', ['ngRoute'])
 	
 	/** Create reference to database path */
 	if($scope.admin) {
-      var ref = firebase.database().ref().child("contact");
-      var users = $firebaseArray(ref);
-      /**
-       * I hereby excuse for the following, horrible solution. it's not my desidcion.
-       */
-      users.$watch(function() {
-          var refs = [];   
-          $scope.users = [];          
-          for(var i = 0; i < users.length; i++) {
-            refs[i] = firebase.database().ref().child("contact/" + users[i].$id);
-            $scope.users[i] = $firebaseArray(refs[i]);
-          }
-      })
+      var u = $location.search().u;
+      if(u) {
+        var ref = firebase.database().ref().child("contact/" + u);
+        $scope.person = $firebaseArray(ref);
+        $scope.u = true;
+      } else {
+        var ref = firebase.database().ref().child("contact");
+        $scope.people = $firebaseArray(ref);
+        $scope.u = false;
+      }
     } else {
 	  var ref = firebase.database().ref().child("contact/" + $scope.user.uid);
       /**
@@ -84,7 +83,7 @@ angular.module('trick.contact', ['ngRoute'])
        * @memberOf trick.contact.ContactCtrl
        * @description create a synchronized array stored in scope
        */
-      $scope.users = $firebaseArray(ref);
+      $scope.person = $firebaseArray(ref);
 	}
 	
     });
@@ -128,7 +127,7 @@ angular.module('trick.contact', ['ngRoute'])
          * @description reset error
          */
         $scope.error = undefined;
-        $scope.users.$add({
+        $scope.person.$add({
           name: $scope.newName,
           desc: issue,
           type: newType
@@ -166,7 +165,7 @@ angular.module('trick.contact', ['ngRoute'])
          * @description reset error
          */
         $scope.error = undefined;
-        $scope.users.$add({
+        $scope.person.$add({
           name: $scope.newName,
           id0: newId0,
           id1: newId1,
@@ -195,9 +194,13 @@ angular.module('trick.contact', ['ngRoute'])
 	  /** get User Input */
 	  var newTrickName = document.getElementById('newTrickName').value;
       var newDesc = document.getElementById('newDesc').value;
-      var newLink = document.getElementById('newLink').value;
+      var newVideoPath = document.getElementById('newVideo').value;
+      var newVideo = document.getElementById('newVideo').files[0];
       var newTrickType = document.getElementById('newTrickType').value;
-	  var newType = document.getElementById('type').value;
+      var ext = newVideoPath.split('.').pop();
+      var filename = Math.random().toString(36).substring(7);
+      var storageRef = firebase.storage().ref("submit/" + filename + "." + ext);
+      
 		
       /** if newTrickName and newDesc and newTrickType and newLink isn't empty, save to db */
       if($scope.newName && newTrickName && newDesc && newTrickType && newLink) {
@@ -211,8 +214,17 @@ angular.module('trick.contact', ['ngRoute'])
              * @description generate random number as string - used to determinate savepath and video location
              * @type {string}
              */
-            //var random = (Math.random() * 1000000 ).toFixed(0);
-            $scope.users.$add({
+            var uploadTask = storageRef.put(newVideo);
+            uploadTask.on("state_changed", function progress(snapshot) {
+          var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          probar.style.width = progress + '%';
+          prolab.innerHTML = progress + '%';
+          if(progress >= 9) {
+            prolab.style.color = "white";
+          }
+        }, null, function() { // success
+          // update meta
+          $scope.person.$add({
 			  name: $scope.newName,
               trickName: newTrickName,
               desc: newDesc,
@@ -220,6 +232,7 @@ angular.module('trick.contact', ['ngRoute'])
               video: newLink,
 			  type: newType
             });
+        })
           }
           else {
             /**
@@ -250,65 +263,25 @@ angular.module('trick.contact', ['ngRoute'])
 	  /**
 	   * @name len
 	   * @type {number}
-	   * @description get length of $scope.users[$scope.users.$indexFor(issue.$id)].replies array or return 0 if nonexistent
+	   * @description get length of $scope.person[$scope.person.$indexFor(issue.$id)].replies array or return 0 if nonexistent
 	   */ 
-	  var len = ($scope.users[$scope.users.$indexFor(issue.$id)].replies ? $scope.users[$scope.users.$indexFor(issue.$id)].replies.length : 0);
+	  var len = ($scope.person[$scope.person.$indexFor(issue.$id)].replies ? $scope.person[$scope.person.$indexFor(issue.$id)].replies.length : 0);
 	  /**
-	   * @name $scope.users[$scope.users.$indexFor(issue.$id)].replies
+	   * @name $scope.person[$scope.person.$indexFor(issue.$id)].replies
 	   * @type {object}
 	   * @description return object replies if existing, else init empty object
 	   */
-	  $scope.users[$scope.users.$indexFor(issue.$id)].replies = ($scope.users[$scope.users.$indexFor(issue.$id)].replies ? $scope.users[$scope.users.$indexFor(issue.$id)].replies : {});
+	  $scope.person[$scope.person.$indexFor(issue.$id)].replies = ($scope.person[$scope.person.$indexFor(issue.$id)].replies ? $scope.person[$scope.person.$indexFor(issue.$id)].replies : {});
 	  /**
-	   * @name $scope.users[$scope.users.$indexFor(issue.$id)].replies[0 + len]
+	   * @name $scope.person[$scope.person.$indexFor(issue.$id)].replies[0 + len]
 	   * @type {object}
 	   * @description assign user's name and reply to a new child in object's array
 	   */
-	  $scope.users[$scope.users.$indexFor(issue.$id)].replies[0 + len] = {
+	  $scope.person[$scope.person.$indexFor(issue.$id)].replies[0 + len] = {
 	    name: $scope.newName,
 	    reply: newReplyText
 	  };
-	  $scope.users.$save(issue);
-	}
-    
-    /**
-     * @name $scope.newAdminReply
-     * @function
-     * @memberOf trick.contact.ContactCtrl
-     * @description reply to an issue
-	 * @param {object} issue
-	 * @param {string} newReplyText
-     */
-	$scope.newAdminReply = function(issue, user, newReplyText) {
-	  /**
-	   * If user is anonymous or not admin, refuse reply spam preventation
-	   */
-	  if($scope.user.isAnonymous || !$scope.admin) {
-	    $scope.error = "You need to be signed in to reply to an issue";
-		return;
-	  }
-	  /**
-	   * @name len
-	   * @type {number}
-	   * @description get length of issue.replies array or return 0 if nonexistent
-	   */ 
-   	  var len = (issue.replies ? issue.replies.length : 0);
-	  /**
-	   * @name $scope.users[$scope.users.$indexFor(issue.$id)].replies
-	   * @type {object}
-	   * @description return object replies if existing, else init empty object
-	   */
-	  issue.replies = (issue.replies ? issue.replies : {})
-	  /**
-	   * @name $scope.users[$scope.users.$indexFor(issue.$id)].replies[0 + len]
-	   * @type {object}
-	   * @description assign user's name and reply to a new child in object's array
-	   */
-	  issue.replies[0 + len] = {
-	    name: $scope.newName,
-	    reply: newReplyText
-	  };
-	  $scope.users[user].$save(user);
+	  $scope.person.$save(issue);
 	}
 	
 	/**
@@ -317,6 +290,8 @@ angular.module('trick.contact', ['ngRoute'])
      * @description Trust url constructed on page for video as usable
      */
     $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
+
+    $scope.keys = Object.keys;
     
-    $scope.newType = "";
+    $scope.$location = $location;
   });

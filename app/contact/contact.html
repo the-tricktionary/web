@@ -1,5 +1,6 @@
 <h1>Contact</h1>
 <div class="warning center" ng-if="error" ng-bind-html="error"></div>
+<a ng-if="u" ng-click="$location.search('u', null)" class="back"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
 <div class="center" ng-if="!admin">
     <label for="name">Name:</label>
     <input id="name" type="text" placeholder="Name" ng-model="newName" ng-disabled="user.displayName" required/>
@@ -52,9 +53,8 @@
         <input id="newDesc" type="text" placeholder="Description" ng-model="newDesc" required/>
     </div>
 	<div>
-	    <label for="newLink">Link to video:</label>
-        <input id="newLink" type="url" name="link" placeholder="Link to video" ng-model="newVideo"
-               ng-class="(form.link.$valid) == false ? 'input-warn' : null" required/>
+	    <label for="newVideo">Video:</label>
+        <input id="newVideo" type="file" name="video" placeholder="Video" ng-model="newVideo" required/>
 	</div>
 	<div>
         <label>
@@ -71,6 +71,14 @@
             </select>
         </label>
 	</div>
+    <ul class="list">
+        <li>Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.
+        <li>Please record your videos in landscape</li>
+        <li>Your videos can be no larger than 100Mb</li>
+        <li>If you are able to record in slow motion please do!</li>
+        <li>Please keep your recording as stable as possible, or set up your camera</li>
+        <li>Try to find a plain background that contrasts the color of your rope</li>
+    </ul>
 	<input type="submit" value="Submit"/>
 	<p class="gray small center">
         by submitting a trick you give us a non-exclusive
@@ -79,7 +87,7 @@
 </form>
 
 <h1 ng-if="!admin">Your Issues</h1>
-<div ng-if="!admin" ng-repeat="issue in users" class="article">
+<div ng-if="person" ng-repeat="issue in person" class="article">
     <h2>{{ issue.type }}</h2>
 	<h2>{{ issue.trickName }}</h2>
 	<h3>{{ issue.trickType }}</h3>
@@ -99,35 +107,13 @@
 	    	<input type="submit" value="Reply"/>
 	    </form>
 	</div>
-	<button ng-confirm-click="Do you really want to remove this issue?" confirmed-click="users.$remove(issue)" class="red btn-padding"><i class="fa fa-trash-o"></i> Delete</button>
+    <div class="mt">
+	    <button ng-confirm-click="Do you really want to remove this issue?" confirmed-click="person.$remove(issue)" class="red inline"><i class="fa fa-trash-o"></i> Delete</button>
+        <button ng-click="issue.resolved = true; person.$save(issue)" class="green inline" ng-hide="issue.resolved" ng-if="admin"><i class="fa fa-lock"></i> Resolve</button>
+	    <button ng-click="issue.resolved = false; person.$save(issue)" class="green inline" ng-show="issue.resolved" ng-if="admin"><i class="fa fa-unlock"></i> Reopen</button>
+    </div>
 </div>
 
-<div ng-repeat="user in users track by $index" ng-if="admin">
-    <div ng-repeat="issue in user" class="article">
-        <h2>{{ issue.name }}</h2>
-        <h2>{{ issue.type }}</h2>
-	    <h2>{{ issue.trickName }}</h2>
-	    <h3>{{ issue.trickType }}</h3>
-        <p>{{ issue.desc }}</p>
-        <p ng-if="issue.type == 'Incorrect Level'"><a
-                ng-href="https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}">https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}</a> should be level
-            <b>{{ issue.level }}</b> in <b>{{ issue.org }}</b>
-        </p>
-	    <p>
-            <a href="{{ issue.video }}" target="_blank">{{ issue.video }}</a>
-        </p>
-	    <div ng-if="issue.type != 'Trick Submission'">
-	        <h3 ng-if="issue.replies">Replies</h3>
-	        <h4 ng-repeat-start="reply in issue.replies">{{ reply.name }}</h4>
-	        <p ng-repeat-end>{{ reply.reply }}</p>
-	        <p ng-if="issue.resolved" class="gray">This issue has been closed and marked as resolved</p>
-	        <form ng-submit="newAdminReply(issue, $index, newReplyText)" class="center" ng-if="!issue.resolved && !user.isAnonymous">
-	            <textarea ng-model="newReplyText" placeholder="Your reply"></textarea>
-	        	<input type="submit" value="Reply"/>
-	        </form>
-	    </div>
-	    <button ng-confirm-click="Do you really want to remove this issue?" confirmed-click="users[$index].$remove(issue)" class="red inline"><i class="fa fa-trash-o"></i> Delete</button>
-	    <button ng-click="issue.resolved = true; users[$index].$save(issue)" class="green inline" ng-hide="issue.resolved"><i class="fa fa-lock"></i> Resolve</button>
-	    <button ng-click="issue.resolved = false; users[$index].$save(issue)" class="green inline" ng-show="issue.resolved"><i class="fa fa-unlock"></i> Reopen</button>
-	</div>
+<div ng-repeat="person in people" ng-if="!person || admin" class="article hover" ng-click="$location.search('u', person.$id)">
+    <span>{{ person[keys(person)[0]].name }}</span>
 </div>
