@@ -29,11 +29,11 @@ angular.module('trick.speed', ['ngRoute'])
    * @param {service} $location
    * @param {service} Auth
    */
-  .controller('SpeedCtrl', function($scope, $firebaseArray, $location, Auth) {
+  .controller('SpeedCtrl', function($scope, $firebaseArray, $location, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
       if($scope.user) {
         /** Create reference to databae path */
-        var ref = firebase.database().ref().child("speed/scores/" + $scope.user.uid);
+        var ref = Db.child("speed/scores/" + $scope.user.uid);
         /**
          * @name $scope.events
          * @function

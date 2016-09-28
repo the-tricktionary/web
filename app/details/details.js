@@ -22,7 +22,7 @@ angular.module('trick.details', ['ngRoute'])
    * @param {service} $routeParams
    * @param {service} $sce
    */
-  .controller('DetailsCtrl', function($scope, $firebaseObject, $routeParams, $sce) {
+  .controller('DetailsCtrl', function($scope, $firebaseObject, $routeParams, $sce, Db) {
     /**
      * @name $scope.id0
      * @type {string}
@@ -36,7 +36,7 @@ angular.module('trick.details', ['ngRoute'])
      */
     $scope.id1 = Number($routeParams.id1);
     /** Create reference to database path */
-    var ref = firebase.database().ref().child("tricks/" + $scope.id0 + "/subs/" + $scope.id1);
+    var ref = Db.child("tricks/" + $scope.id0 + "/subs/" + $scope.id1);
     /**
      * @name $scope.trick
      * @function

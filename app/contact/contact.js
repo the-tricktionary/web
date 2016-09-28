@@ -23,7 +23,7 @@ angular.module('trick.contact', ['ngRoute'])
    * @param {service} $location
    * @param {service} Auth
    */
-  .controller('ContactCtrl', function($scope, $firebaseArray, $location, $sce, Auth) {
+  .controller('ContactCtrl', function($scope, $firebaseArray, $location, $sce, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
 	  /**
 	   * Sign in as anon if signed out
@@ -67,16 +67,16 @@ angular.module('trick.contact', ['ngRoute'])
 	  if($scope.admin) {
         var u = $location.search().u;
         if(u) {
-          var ref = firebase.database().ref().child("contact/" + u);
+          var ref = Db.child("contact/" + u);
           $scope.person = $firebaseArray(ref);
           $scope.u = true;
         } else {
-          var ref = firebase.database().ref().child("contact");
+          var ref = Db.child("contact");
           $scope.people = $firebaseArray(ref);
           $scope.u = false;
         }
       } else {
-	    var ref = firebase.database().ref().child("contact/" + $scope.user.uid);
+	    var ref = Db.child("contact/" + $scope.user.uid);
         /**
          * @name $scope.contact
          * @function

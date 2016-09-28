@@ -30,7 +30,7 @@ angular.module('trick.speed.details', ['ngRoute'])
    * @param {service} $location
    * @param {service} Auth
    */
-  .controller('SpeedDetailsCtrl', function($scope, $firebaseObject, $routeParams, $location, $filter, Auth) {
+  .controller('SpeedDetailsCtrl', function($scope, $firebaseObject, $routeParams, $location, $filter, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
       if($scope.user) {
         /**
@@ -40,7 +40,7 @@ angular.module('trick.speed.details', ['ngRoute'])
          */
         $scope.id = $routeParams.id;
         /** Create reference to database path */
-        var ref = firebase.database().ref().child("speed/scores/" + $scope.user.uid + "/" + $scope.id);
+        var ref = Db.child("speed/scores/" + $scope.user.uid + "/" + $scope.id);
         /**
          * @name $scope.event
          * @function

@@ -75,6 +75,17 @@ angular.module('trick', [
     }
   ])
   
+  .factory("Db",
+    /**
+     * @function Db
+     * @memberOf trick.trick
+     * @return {object} Return database
+     * @require firebase
+     */
+      function() {
+      return firebase.database().ref();
+    })
+  
   .run(function($location, $rootScope, Auth) {
       $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
         if(error === "AUTH_REQUIRED") {
