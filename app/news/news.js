@@ -20,6 +20,7 @@ angular.module('trick.news', ['ngRoute', 'ngSanitize'])
    * @class trick.news.newsCtrl
    * @param {service} $scope
    * @param {service} $firebaseArray
+   * @param {service} Db
    */
   .controller('NewsCtrl', function($scope, $firebaseArray, Db) {
     /** Create reference to database path */

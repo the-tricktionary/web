@@ -38,6 +38,15 @@
             "value": "max-age=86400"
           }
         ]
+      },
+      {
+        "source": "/",
+        "headers": [
+          {
+            "key": "Link",
+            "value": "</static/js/trick.js>;rel=preload;as=script,</static/css/style.css>;rel=preload;as=style"
+          }
+        ]
       }
     ]
   }

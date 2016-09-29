@@ -20,7 +20,7 @@ angular.module('trick.about', ['ngRoute'])
    * @param {service} $scope
    * @param {service} $location
    * @param {service} $anchorScroll
-   *
+   * @param {service} Db
    */
   .controller('AboutCtrl', function($scope, $location, $anchorScroll) {
     /**

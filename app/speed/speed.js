@@ -28,6 +28,7 @@ angular.module('trick.speed', ['ngRoute'])
    * @param {service} $firebaseArray
    * @param {service} $location
    * @param {service} Auth
+   * @param {service} Db
    */
   .controller('SpeedCtrl', function($scope, $firebaseArray, $location, Auth, Db) {
     Auth.$onAuthStateChanged(function() {

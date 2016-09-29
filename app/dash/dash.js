@@ -21,6 +21,7 @@ angular.module('trick.dash', ['ngRoute'])
    * @param {service} $firebaseArray
    * @param {service} $anchorScroll
    * @param {service} $location
+   * @param {service} Db
    */
   .controller('DashCtrl', function($scope, $firebaseArray, $anchorScroll, $location, Db) {
     /** Create reference to database path */

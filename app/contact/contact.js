@@ -22,6 +22,7 @@ angular.module('trick.contact', ['ngRoute'])
    * @param {service} $firebaseArray
    * @param {service} $location
    * @param {service} Auth
+   * @param {service} Db
    */
   .controller('ContactCtrl', function($scope, $firebaseArray, $location, $sce, Auth, Db) {
     Auth.$onAuthStateChanged(function() {

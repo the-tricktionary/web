@@ -21,6 +21,7 @@ angular.module('trick.details', ['ngRoute'])
    * @param {service} $firebaseObject
    * @param {service} $routeParams
    * @param {service} $sce
+   * @param {service} Db
    */
   .controller('DetailsCtrl', function($scope, $firebaseObject, $routeParams, $sce, Db) {
     /**
