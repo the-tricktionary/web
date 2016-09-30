@@ -319,7 +319,8 @@ textarea:focus {
   }
 
   input[type=submit] {
-    width         : 100%;
+    width         : 97%;
+    width         : calc(100% - .6em);
     display       : block;
     margin-bottom : .5em;
     margin-top    : .5em;
@@ -348,7 +349,7 @@ textarea:focus {
   min-width : 2em;
   max-width : 2em;
   display   : inline !important;
-  word-wrap : break-word; 
+  word-wrap : break-word;
 }
 
 label.char {
