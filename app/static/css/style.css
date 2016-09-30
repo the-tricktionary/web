@@ -96,6 +96,7 @@ input[type=submit] {
   text-align       : center;
   cursor           : pointer;
   cursor           : hand;
+  outline          : none; 
 }
 
 .inline {
