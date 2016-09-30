@@ -46,6 +46,7 @@ angular.module('trick', [
   'trick.about.rafiki',
   'trick.speed',
   'trick.speed.details',
+  'trick.speed.compare',
   'firebase'
 ])
   

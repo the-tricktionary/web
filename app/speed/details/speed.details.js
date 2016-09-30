@@ -8,7 +8,7 @@ angular.module('trick.speed.details', ['ngRoute'])
   
   .config([
     '$routeProvider', function($routeProvider) {
-      $routeProvider.when('/speed/:id', {
+      $routeProvider.when('/speed/details/:id', {
         templateUrl: '/speed/details/speed.details.html',
         controller: 'SpeedDetailsCtrl',
         resolve: {
@@ -75,16 +75,28 @@ angular.module('trick.speed.details', ['ngRoute'])
           var outData = {
             labels: [],
             series: [
-              []
+              {
+                name: 'a',
+                data: []
+              }
             ]
           };
           var parseDataLength = parseData.length;
           for(var i = 0; i < parseDataLength; i++) {
-            outData.series[0].push(100 * (1 / (parseData[i] - parseData[i - 1])));
-            outData.labels.push($filter('date')((duration / parseDataLength * i * 1000), 'mm:ss'));
+            //outData.series[0].push(100 * (1 / (parseData[i] - parseData[i - 1])));
+            //outData.labels.push($filter('date')((duration / parseDataLength * i * 1000), 'mm:ss'));
+            outData.series[0].data[i] = {
+              //x: $filter('date')((duration / parseDataLength * i * 1000), 'mm:ss'),
+              x: (duration / parseDataLength * i * 1000),
+              y: 100 * (1 / (parseData[i] - parseData[i - 1]))
+            }
           }
-          outData.labels.shift();
-          outData.series[0].shift();
+          for(var i = 0; i <= duration; i++) {
+            outData.labels[i] = $filter('date')(i * 1000, 'mm:ss')
+          }
+          //outData.labels.shift();
+          outData.series[0].data.shift();
+          console.log(outData);
           return outData;
         };
         
@@ -96,7 +108,8 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @returns {*}
          */
         var arrayMax = function(array) {
-          return array.reduce(function(a, b) {
+          return array.map(function(el) { return el.y })
+           .reduce(function(a, b) {
             return Math.max(a, b);
           });
         };
@@ -128,10 +141,12 @@ angular.module('trick.speed.details', ['ngRoute'])
             showArea: true,
             showLine: true,
             showPoint: false,
-            high: arrayMax(chartData.series[0]) + 2,
+            high: arrayMax(chartData.series[0].data) + 2,
             axisX: {
+              type: Chartist.FixedScaleAxis,
+              divisor: 5,
               labelInterpolationFnc: function(value, index) {
-                return index % 10 === 0 ? value : null;
+                return $filter('date')(value, 'mm:ss');
               }
             },
             onlyInteger: true,

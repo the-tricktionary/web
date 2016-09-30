@@ -1,8 +1,9 @@
 <input placeholder="Name" id="name" ng-model="event.name" ng-change="event.$save();" ng-show="nameEdit" type="text"
        ng-keyup="($event.keyCode == 13 ? nameEdit = !nameEdit : null)" class="table" autofocus/>
-<h1 ng-show="!nameEdit">{{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date:'MMM d, y HH:mm:ss ' }}
+<h1 ng-show="!nameEdit">{{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date:'MMM d, y HH:mm:ss' }}
     <a
             ng-click="nameEdit = !nameEdit"><i class="fa fa-pencil fa-05x"></i></a></h1>
+<p><a ng-href="/speed/compare/{{ event.$id }}">Compare</a></p>
 <table>
     <tbody>
     <tr>

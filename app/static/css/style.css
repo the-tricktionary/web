@@ -148,21 +148,36 @@ button:disabled,
 table,
 .table {
   border-collapse : collapse;
-  width           : 49%;
+  width           : 100%;
+  max-width       : 600px;
   margin-right    : auto;
   margin-left     : auto;
+}
+
+th {
+  background-color : var(--white);
 }
 
 tr:nth-child(odd) {
   background-color : var(--rl-gray);
 }
 
-td {
+td,
+th {
   padding : .3em;
+  width   : 33%;
 }
 
-td:nth-child(even) {
+td:first-child {
   text-align : right;
+}
+
+td:nth-child(2) {
+  text-align : center;
+}
+
+td:last-child {
+  text-align : left;
 }
 
 input[type=submit] {

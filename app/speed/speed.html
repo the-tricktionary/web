@@ -2,7 +2,7 @@
 <p>Revisit scores you've tracked via the app <span class="gray">- compatible with version 2.5 and above of the app</span></p>
 <div class="box">
     <a class="parent"
-       ng-href="/speed/{{ event.$id }}"
+       ng-href="/speed/details/{{ event.$id }}"
        ng-repeat="event in events">
         {{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date}} <span class="gray">- {{ event.score }}</span>
     </a>

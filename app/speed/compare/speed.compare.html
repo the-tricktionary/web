@@ -1,0 +1,71 @@
+<table ng-if="!select">
+    <thead>
+        <tr>
+            <th>{{ (event.name ? event.name + " - " : "") }} {{ (event.$id * 1000) |
+                date:'MMM d, y HH:mm:ss ' }}</th>
+            <th></th>
+            <th>{{ (event1.name ? event1.name + " - " : "") }} {{ (event1.$id * 1000)
+                | date:'MMM d, y HH:mm:ss ' }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="s-2x">{{ event.score }}</td>
+            <td class="s-2x">Score</td>
+            <td class="s-2x">{{ event1.score }}</td>
+        </tr>
+        <tr>
+            <td class="gray">{{ event.noMissScore }}</td>
+            <td class="gray">No misses Score</td>
+            <td class="gray">{{ event1.noMissScore }}</td>
+        </tr>
+        <tr>
+            <td>{{ event.misses }}</td>
+            <td>Misses</td>
+            <td>{{ event1.misses }}</td>
+        </tr>
+        <tr>
+            <td>{{ event.jumpsLost }}</td>
+            <td>Jumps lost</td>
+            <td>{{ event1.jumpsLost }}</td>
+        </tr>
+
+        <tr>
+            <td>{{ event.avgJumps }}</td>
+            <td>Jumps per Second (Average)</td>
+            <td>{{ event1.avgJumps }}</td>
+        </tr>
+        <tr>
+            <td>{{ event.maxJumps }}</td>
+            <td>Jumps per Second (Max)</td>
+            <td>{{ event1.maxJumps }}</td>
+        </tr>
+        <tr>
+            <td>{{ (event.time == null) ? "" : (event.time * 1000) | date:'mm:ss' }}</td>
+            <td>Duration</td>
+            <td>{{ (event1.time == null) ? "" : (event1.time * 1000) | date:'mm:ss' }}</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="ct-chart ct-perfect-fourth"></div>
+                <h3 class="color-a pl">• {{ (event.name ? event.name : (event.$id * 1000) | date:'MMM d, y HH:mm:ss') }}</h3>
+                <h3 class="color-b pr">{{ (event1.name ? event1.name : (event1.$id * 1000) | date:'MMM d, y HH:mm:ss') }} •</h3>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h1 ng-if="select">Select an event to compare against</h2>
+<p class="gray" ng-if="select">
+    if you don't see any events listened below that's because you don't have any events with the same duration or don't have more than one event
+</p>
+<div class="box" ng-if="select">
+    <a class="parent" ng-href="/speed/compare/{{ id0 }}/{{ event.$id }}" ng-repeat="event in events"
+        ng-if="event.$id != id0 && event.time == time">
+        {{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date}} <span class="gray">- {{ event.score }}</span>
+    </a>
+</div>
+
+<div class="mt emb table">
+    <button class="green s-2x pl" ng-click="$location.path('/speed')">Back</button>
+</div>
