@@ -29,7 +29,7 @@ h1,
   color         : var(--black);
   font-size     : 2.5em !important;
   margin-bottom : 0;
-  min-width     : 80%; 
+  min-width     : 80%;
   text-align    : center;
 }
 
@@ -348,6 +348,7 @@ textarea:focus {
   min-width : 2em;
   max-width : 2em;
   display   : inline !important;
+  word-wrap : break-word; 
 }
 
 label.char {
