@@ -79,12 +79,6 @@ angular.module('trick.speed.compare', ['ngRoute'])
          * @description create a synchronized *object* stored in scope
          */
         $scope.event1 = $firebaseObject(ref1);
-        /**
-         * @name $scope.$location
-         * @function
-         * @description get the service $location into scope for use in template
-         */
-        $scope.$location = $location;
 
         /**
          * data structure declaration for chart's data
@@ -170,7 +164,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
           showPoint: false,
           axisX: {
             type: Chartist.FixedScaleAxis,
-            divisor: 5,
+            divisor: 10,
             labelInterpolationFnc: function(value) {
               return $filter('date')(value, 'mm:ss');
             }
@@ -210,9 +204,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
             [
               'screen and (max-width: 800px)', {
               axisX: {
-                labelInterpolationFnc: function(value, index) {
-                  return index % 17 === 0 ? value : null;
-                }
+                divisor: 5
               }
             }
             ]

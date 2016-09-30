@@ -1,89 +1,94 @@
 <!DOCTYPE html>
 <html ng-app="trick">
-<base href="/">
-<head>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="theme-color" content="#fe3500">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="A dictionary of jumprope tricks">
-    <meta name="keywords" content="Jumprope,Ropeskipping,jump,rope,skipping,tricks">
-    <meta name="google-site-verification" content="ZzDYoEkwyRD1HISpXxWpscpioOsg52FPDULxqpoiZqk" />
-    <link rel="manifest" href="/static/manifest.json">
-    <link rel="icon" href="/static/img/icon.png">
-    <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
-    <title>Tricktionary</title>
-    <!-- Resources -->
-    <script src="/static/js/angular.min.js"></script>
-    <script src="/static/js/angular-resource.min.js"></script>
-    <script src="/static/js/angular-route.min.js"></script>
-    <script src="/static/js/angular-sanitize.min.js"></script>
-    <script src="/static/js/firebase.js"></script>
-    <script src="/static/js/angularfire.min.js"></script>
-    <script src="/static/js/chartist.min.js"></script>
-    <script src="/static/js/chartist-plugin-axistitle.min.js"></script>
-    <script src="/static/js/addtohomescreen.js"></script>
-    <!-- DEPLOY -->
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/font-awesome.css">
-    <link rel="stylesheet" href="/static/css/chartist.css">
-    <link rel="stylesheet" href="/static/css/addtohomescreen.css">
-    <!-- Local angular modules -->
-    <script src="/trick.js"></script>
-    <script src="/dash/dash.js"></script>
-    <script src="/details/details.js"></script>
-    <script src="/news/news.js"></script>
-    <script src="/speed/speed.js"></script>
-    <script src="/speed/details/speed.details.js"></script>
-    <script src="/speed/compare/speed.compare.js"></script>
-    <script src="/about/about.js"></script>
-    <script src="/about/rafiki/about.rafiki.js"></script>
-    <script src="/contact/contact.js"></script>
-    <!-- END DEPLOY -->
-</head>
-<body>
-<nav>
-    <ul class="topnav">
-        <li ng-click="goHome()" class="pointer"><img src="/static/img/tricktionary2.svg"/>
-            <div>&nbsp;<span class="small">the</span>Tricktionary</div>
-        </li>
-        <li><a ng-href="/" onclick="toggleNav()">Tricks</a></li>
-		<li><a ng-href="/speed" onclick="toggleNav()">Speed</a></li>
-        <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
-        <li><a href="/android/" target="_blank" onclick="toggleNav()">App</a></li>
-        <li><a ng-href="/contact" onclick="toggleNav()">Contact</a></li>
-        <li ng-if="user && !user.isAnonymous"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
-        <li ng-if="!user || user.isAnonymous"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
-        <li class="icon" onclick="toggleNav()">&#9776;</li>
-    </ul>
-</nav>
+    <base href="/">
 
-<div ng-view>
-    <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i>
-    Loading... Enable javascript and/or clear cache.
-</div>
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="theme-color" content="#fe3500">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="description" content="A dictionary of jumprope tricks">
+        <meta name="keywords" content="Jumprope,Ropeskipping,jump,rope,skipping,tricks">
+        <meta name="google-site-verification" content="ZzDYoEkwyRD1HISpXxWpscpioOsg52FPDULxqpoiZqk"
+        />
+        <link rel="manifest" href="/static/manifest.json">
+        <link rel="icon" href="/static/img/icon.png">
+        <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+        <title>Tricktionary</title>
+        <!-- Resources -->
+        <script src="/static/js/angular.min.js"></script>
+        <script src="/static/js/angular-resource.min.js"></script>
+        <script src="/static/js/angular-route.min.js"></script>
+        <script src="/static/js/angular-sanitize.min.js"></script>
+        <script src="/static/js/firebase.js"></script>
+        <script src="/static/js/angularfire.min.js"></script>
+        <script src="/static/js/chartist.min.js"></script>
+        <script src="/static/js/chartist-plugin-axistitle.min.js"></script>
+        <script src="/static/js/addtohomescreen.js"></script>
+        <!-- DEPLOY -->
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/font-awesome.css">
+        <link rel="stylesheet" href="/static/css/chartist.css">
+        <link rel="stylesheet" href="/static/css/addtohomescreen.css">
+        <!-- Local angular modules -->
+        <script src="/trick.js"></script>
+        <script src="/dash/dash.js"></script>
+        <script src="/details/details.js"></script>
+        <script src="/news/news.js"></script>
+        <script src="/speed/speed.js"></script>
+        <script src="/speed/details/speed.details.js"></script>
+        <script src="/speed/compare/speed.compare.js"></script>
+        <script src="/about/about.js"></script>
+        <script src="/about/rafiki/about.rafiki.js"></script>
+        <script src="/contact/contact.js"></script>
+        <!-- END DEPLOY -->
+    </head>
 
-<script>
-    (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
+    <body>
+        <nav>
+            <ul class="topnav">
+                <li ng-click="goHome()" class="pointer"><img src="/static/img/tricktionary2.svg" />
+                    <div>&nbsp;<span class="small">the</span>Tricktionary</div>
+                </li>
+                <li><a ng-href="/" onclick="toggleNav()">Tricks</a></li>
+                <li><a ng-href="/speed" onclick="toggleNav()">Speed</a></li>
+                <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
+                <li><a href="/android/" target="_blank" onclick="toggleNav()">App</a></li>
+                <li><a ng-href="/contact" onclick="toggleNav()">Contact</a></li>
+                <li ng-if="user && !user.isAnonymous"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
+                <li ng-if="!user || user.isAnonymous"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
+                <li class="icon" onclick="toggleNav()">&#9776;</li>
+            </ul>
+        </nav>
+
+        <div ng-view>
+            <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i> Loading... Enable javascript
+            and/or clear cache.
+        </div>
+
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
                     (i[r].q = i[r].q || []).push(arguments)
                 }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script',
+                'https://www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-79206862-1', 'auto');
+            ga('create', 'UA-79206862-1', 'auto');
 
-</script>
-<div class="foot" class="mt">
-    <a ng-href="/about">Privacy Policy</a>
-</div>
+        </script>
+        <div class="foot" class="mt">
+            <a ng-href="/about">Privacy Policy</a>
+        </div>

@@ -15,6 +15,8 @@
   --white    : #fff;
 }
 
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+
 * {
   margin     : 0;
   padding    : 0;
@@ -22,7 +24,6 @@
 }
 
 /* Master Styles */
-
 h1 {
   color         : var(--black);
   font-size     : 2.5em;
@@ -51,10 +52,11 @@ img {
 }
 
 body {
-  margin      : .5em;
-  padding-top : 45px;
-  min-height  : 98vh;
-  position    : relative;
+  margin         : .5em;
+  padding-top    : 45px;
+  padding-bottom : 1em;
+  min-height     : 97vh;
+  position       : relative;
 }
 
 a {
@@ -78,6 +80,8 @@ ul ul {
   text-align : center;
   width      : 100%;
   font-size  : 11px;
+  position   : absolute;
+  bottom     : 0;
 }
 
 button,
@@ -245,7 +249,7 @@ label.mt {
 
 label i.fa {
   position      : absolute;
-  top           : -6px;
+  top           : -5px;
   right         : 0;
   padding-top   : 7px;
   padding-right : 5px;
@@ -259,7 +263,7 @@ label i.fa {
 select {
   font-size          : 1.2em;
   width              : 49%;
-  height             : 1.2em;
+  height             : 1.26em;
   border-radius      : 0;
   margin-top         : .5em;
   background-color   : transparent;
@@ -291,9 +295,9 @@ textarea:focus {
 
 @media screen and (max-width : 560px) {
   input[type=text],
-  input[type=submit],
   input[type=number],
   input[type=url],
+  input[type=file],
   select,
   textarea {
     width         : 100%;
@@ -302,13 +306,24 @@ textarea:focus {
     margin-top    : 0;
   }
 
+  input[type=submit] {
+    width         : 100%;
+    display       : block;
+    margin-bottom : .5em;
+    margin-top    : .5em;
+  }
+
   label {
-    display    : block;
+    display    : inline-block;
     margin-top : .5em;
   }
 
   label i.fa {
-    top : -2px;
+    top : 1.2em;
+  }
+
+  label.empty i.fa {
+    top : -1px;
   }
 
   label.mt {
@@ -324,7 +339,7 @@ textarea:focus {
 }
 
 label.char {
-  display : inline;
+  display : inline !important;
 }
 
 /* Navigation link styles */
@@ -733,7 +748,8 @@ li {
 
 .pc {
   position      : relative;
-  width         : 600px;
+  width         : 100%;
+  max-width     : 600px;
   height        : 30px;
   margin-left   : auto;
   margin-right  : auto;
@@ -760,5 +776,6 @@ li {
 /* everywhere else */
 
 * {
-  font-family : Helvetica, Arial, sans-serif;
+  /* font-family : Helvetica, Arial, sans-serif; */
+  font-family : 'PT Sans', sans-serif;
 }

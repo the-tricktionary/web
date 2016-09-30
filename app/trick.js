@@ -49,20 +49,24 @@ angular.module('trick', [
   'trick.speed.compare',
   'firebase'
 ])
-  
-  .config([
-    '$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-      /**
-       * @description ngRoute with html5 mode (no hashbang, but with fallback)
-       * @memberOf trick.trick
-       */
-      $locationProvider.html5Mode(true).hashPrefix('!');
-      
-      $routeProvider.otherwise({redirectTo: '/'});
+
+.config([
+    '$locationProvider', '$routeProvider',
+  function($locationProvider, $routeProvider) {
+    /**
+     * @description ngRoute with html5 mode (no hashbang, but with fallback)
+     * @memberOf trick.trick
+     */
+    $locationProvider.html5Mode(true)
+      .hashPrefix('!');
+
+    $routeProvider.otherwise({
+      redirectTo: '/'
+    });
     }
   ])
-  
-  .factory("Auth", [
+
+.factory("Auth", [
     "$firebaseAuth",
     /**
      * @function Auth
@@ -72,99 +76,101 @@ angular.module('trick', [
      * @require firebase
      */
       function($firebaseAuth) {
-      return $firebaseAuth();
+    return $firebaseAuth();
     }
   ])
-  
-  .factory("Db",
-    /**
-     * @function Db
-     * @memberOf trick.trick
-     * @return {object} Return database
-     * @require firebase
-     */
-      function() {
-      return firebase.database().ref();
-    })
-  
-  .run(function($location, $rootScope, Auth) {
-      $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
-        if(error === "AUTH_REQUIRED") {
-          $location.path('/');
-          $rootScope.error = 'You need to be signed in to access this page, please Sign In and try again.';
-        }
-      });
-  
-    /**
-     * @name $rootScope.signIn
-     * @function
-     * @memberOf trick
-     * @description function to sign In with google
-     */
-    $rootScope.signIn = function() {
-        $rootScope.user = null;
-        $rootScope.error = null;
-        Auth.$signInWithPopup("google")
-          .then(function(firebaseUser) {
-            $rootScope.user = firebaseUser;
-          })
-          .catch(function(error) {
-            $rootScope.error = error;
-          });
-      };
-  
-    /**
-     * @name $rootScope.signOut
-     * @function
-     * @memberOf trick
-     * @description function to sign Out
-     */
-      $rootScope.signOut = function() {
-        Auth.$signOut();
-      };
-  
-    /**
-     * @name $rootScope.goHome
-     * @function
-     * @memberOf trick
-     * @description function to go to /
-     */
-      $rootScope.goHome = function() {
-        $location.path('/');
-      };
-      
-      /**
-       * any time auth status updates, add the user data to scope
-       * @memberOf trick.trick
-       */
-      Auth.$onAuthStateChanged(function(firebaseUser) {
-        $rootScope.user = firebaseUser;
-      });
-      
-      ga('send', 'pageview');
-      /**
-       * Add to homescreen
-       */
-      addToHomescreen({
-        appID: 'com.jumpropejam.tricks',
-        startDelay: 5,
-        skipFirstVisit: true,
-        maxDisplayCount: 2
-      });
+
+.factory("Db",
+  /**
+   * @function Db
+   * @memberOf trick.trick
+   * @return {object} Return database
+   * @require firebase
+   */
+  function() {
+    return firebase.database()
+      .ref();
+  })
+
+.run(function($location, $rootScope, Auth) {
+  $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
+    if (error === "AUTH_REQUIRED") {
+      $location.path('/');
+      $rootScope.error =
+        'You need to be signed in to access this page, please Sign In and try again.';
     }
-  )
-  
-  .directive('ngConfirmClick', [
-        function(){
-            return {
-                link: function (scope, element, attr) {
-                    var msg = attr.ngConfirmClick || "Are you sure?";
-                    var clickAction = attr.confirmedClick;
-                    element.bind('click',function (event) {
-                        if ( window.confirm(msg) ) {
-                            scope.$eval(clickAction)
-                        }
-                    });
-                }
-            };
+  });
+
+  /**
+   * @name $rootScope.signIn
+   * @function
+   * @memberOf trick
+   * @description function to sign In with google
+   */
+  $rootScope.signIn = function() {
+    $rootScope.user = null;
+    $rootScope.error = null;
+    Auth.$signInWithPopup("google")
+      .then(function(firebaseUser) {
+        $rootScope.user = firebaseUser;
+      })
+      .catch(function(error) {
+        $rootScope.error = error;
+      });
+  };
+
+  /**
+   * @name $rootScope.signOut
+   * @function
+   * @memberOf trick
+   * @description function to sign Out
+   */
+  $rootScope.signOut = function() {
+    Auth.$signOut();
+  };
+
+  /**
+   * @name $rootScope.goHome
+   * @function
+   * @memberOf trick
+   * @description function to go to /
+   */
+  $rootScope.goHome = function() {
+    $location.path('/');
+  };
+
+  /**
+   * any time auth status updates, add the user data to scope
+   * @memberOf trick.trick
+   */
+  Auth.$onAuthStateChanged(function(firebaseUser) {
+    $rootScope.user = firebaseUser;
+  });
+
+  ga('send', 'pageview');
+  /**
+   * Add to homescreen
+   */
+  addToHomescreen({
+    appID: 'com.jumpropejam.tricks',
+    startDelay: 5,
+    skipFirstVisit: true,
+    maxDisplayCount: 1,
+    displayPace: 525948
+  });
+})
+
+.directive('ngConfirmClick', [
+        function() {
+    return {
+      link: function(scope, element, attr) {
+        var msg = attr.ngConfirmClick || "Are you sure?";
+        var clickAction = attr.confirmedClick;
+        element.bind('click', function(event) {
+          if (window.confirm(msg)) {
+            scope.$eval(clickAction)
+          }
+        });
+      }
+    };
     }])
