@@ -377,6 +377,8 @@ nav ul {
   overflow        : hidden;
   padding         : 0;
   margin          : 0;
+  height          : 45px; 
+  transition      : height .2s;
 }
 
 nav ul li {
@@ -462,7 +464,7 @@ nav ul li:hover:not(:first-child) {
 
 @media screen and (max-width : 680px) {
   nav.responsive {
-    height : 44px;
+    height : 50px;
   }
 
   nav ul li:not(:first-child) {
@@ -478,12 +480,13 @@ nav ul li:hover:not(:first-child) {
 
   ul.topnav.responsive {
     position : fixed;
+    height   : calc(44px + (3em * 6))
   }
 
   ul.topnav.responsive li.icon {
     position : fixed;
     right    : 0;
-    top      : 0;
+    top      : 2px;
   }
 
   ul.topnav.responsive li:not(.icon):not(:first-child) {
