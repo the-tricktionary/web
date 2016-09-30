@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @class trick.speed.details
+ * @class trick.speed.compare
  * @memberOf trick
  * @requires ngRoute
  */
@@ -25,11 +25,13 @@ angular.module('trick.speed.compare', ['ngRoute'])
   ])
 
 /**
- * @class trick.speed.details.SpeedDetailsCtrl
+ * @class trick.speed.compare.SpeedCompareCtrl
  * @param {service} $scope
  * @param {service} $firebaseObject
+ * @param {service} $firebaseArray
  * @param {service} $routeParams
  * @param {service} $location
+ * @param {service} $filter
  * @param {service} Auth
  * @param {service} Db
  */
@@ -40,17 +42,22 @@ angular.module('trick.speed.compare', ['ngRoute'])
       /**
        * @name $scope.id0
        * @type {string}
-       * @memberOf trick.speed.details.SpeedDetailsCtrl
+       * @memberOf trick.speed.compare.SpeedCompareCtrl
        */
       $scope.id0 = $routeParams.id0;
       /**
        * @name $scope.id1
        * @type {string}
-       * @memberOf trick.speed.details.SpeedDetailsCtrl
+       * @memberOf trick.speed.compare.SpeedCompareCtrl
        */
       $scope.id1 = $routeParams.id1;
 
       if ($scope.id0 && $scope.id1) {
+        /**
+         * @name $scope.select
+         * @type {Boolean}
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
+         */
         $scope.select = false;
         /** Create reference to database path */
         var ref = Db.child("speed/scores/" + $scope.user.uid + "/" +
@@ -58,7 +65,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
         /**
          * @name $scope.event
          * @function
-         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          * @description create a synchronized *object* stored in scope
          */
         $scope.event = $firebaseObject(ref);
@@ -68,7 +75,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
         /**
          * @name $scope.event1
          * @function
-         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          * @description create a synchronized *object* stored in scope
          */
         $scope.event1 = $firebaseObject(ref1);
@@ -79,6 +86,11 @@ angular.module('trick.speed.compare', ['ngRoute'])
          */
         $scope.$location = $location;
 
+        /**
+         * data structure declaration for chart's data
+         * @name outData
+         * @type {Object}
+         */
         var outData = {
           labels: [],
           series: [
@@ -99,9 +111,10 @@ angular.module('trick.speed.compare', ['ngRoute'])
 
         /**
          * @name parse
-         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          * @function
          * @param parseData
+         * @param n
          * @param duration
          * @returns {{labels: Array, series: *[]}}
          */
@@ -127,7 +140,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
         /**
          * @name arrayMax
          * @function
-         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          * @param array
          * @returns {*}
          */
@@ -142,7 +155,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
 
         /**
          * @name chartOptions
-         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          * @type {{chartPadding: {top: number, right: number, bottom: number, left: number}, showArea: boolean, showLine: boolean, showPoint: boolean, high: *, axisX: {labelInterpolationFnc: chartOptions.axisX.labelInterpolationFnc}, onlyInteger: boolean, plugins: *[]}}
          */
         var chartOptions = {
@@ -206,7 +219,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
           ];
 
         /**
-         * @description Create chart, update function not currently needed as chartData shouldn't change.
+         * @description Create chart
          */
         var chart = new Chartist.Line('.ct-chart', null, chartOptions,
           chartOptionsResponsive);
@@ -214,21 +227,26 @@ angular.module('trick.speed.compare', ['ngRoute'])
         /**
          * @name $scope.event.$watch
          * @function
-         * @memberOf trick.speed.details.SpeedDetailsCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          */
         $scope.event.$watch(function() {
           /**
            * @name chartData
-           * @memberOf trick.speed.details.SpeedDetailsCtrl
+           * @memberOf trick.speed.compare.SpeedCompareCtrl
            * @type {{labels: Array, series: *[]}}
            */
           parse($scope.event.graphData, 0, $scope.event.time);
         })
 
+        /**
+         * @name $scope.event1.$watch
+         * @function
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
+         */
         $scope.event1.$watch(function() {
           /**
            * @name chartData
-           * @memberOf trick.speed.details.SpeedDetailsCtrl
+           * @memberOf trick.speed.compare.SpeedCompareCtrl
            * @type {{labels: Array, series: *[]}}
            */
           parse($scope.event1.graphData, 1, $scope.event1.time);
@@ -236,15 +254,23 @@ angular.module('trick.speed.compare', ['ngRoute'])
 
       } else
       if (!$scope.id0) {
+        /**
+         * redir to /speed if no base selected
+         */
         $location.path('/speed');
       } else {
+        /**
+         * @name $scope.select
+         * @type {Boolean}
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
+         */
         $scope.select = true;
         /** Create reference to databae path */
         var ref = Db.child("speed/scores/" + $scope.user.uid);
         /**
          * @name $scope.events
          * @function
-         * @memberOf trick.speed.SpeedCtrl
+         * @memberOf trick.speed.compare.SpeedCompareCtrl
          * @description create a synchronized array stored in scope
          */
         $scope.events = $firebaseArray(ref);
