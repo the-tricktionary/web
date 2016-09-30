@@ -6,7 +6,7 @@
     },
     "news": {
       ".read": true,
-      ".write": false
+      ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
     },
     "submissions": {
       "$uid": {

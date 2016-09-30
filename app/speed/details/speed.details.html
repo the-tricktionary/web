@@ -1,50 +1,52 @@
-<input placeholder="Name" id="name" ng-model="event.name" ng-change="event.$save();" ng-show="nameEdit" type="text"
-       ng-keyup="($event.keyCode == 13 ? nameEdit = !nameEdit : null)" class="table" autofocus/>
+<input placeholder="Name" id="name" ng-model="event.name" ng-change="event.$save();"
+    ng-show="nameEdit" type="text" ng-keyup="($event.keyCode == 13 ? nameEdit = !nameEdit : null)"
+    class="table" autofocus/>
 <h1 ng-show="!nameEdit">{{ (event.name ? event.name + " - " : "") }}{{ (event.$id * 1000) | date:'MMM d, y HH:mm:ss' }}
     <a
             ng-click="nameEdit = !nameEdit"><i class="fa fa-pencil fa-05x"></i></a></h1>
 <p><a ng-href="/speed/compare/{{ event.$id }}">Compare</a></p>
 <table>
     <tbody>
-    <tr>
-        <td class="s-2x">Score</td>
-        <td class="s-2x">{{ event.score }}</td>
-    </tr>
-    <tr>
-        <td class="gray">No misses Score</td>
-        <td class="gray">{{ event.noMissScore }}</td>
-    </tr>
-    <tr>
-        <td>Misses</td>
-        <td>{{ event.misses }}</td>
-    </tr>
-    <tr>
-        <td>Jumps lost</td>
-        <td>{{ event.jumpsLost }}</td>
-    </tr>
+        <tr>
+            <td class="s-2x">Score</td>
+            <td class="s-2x">{{ event.score }}</td>
+        </tr>
+        <tr>
+            <td class="gray">No misses Score</td>
+            <td class="gray">{{ event.noMissScore }}</td>
+        </tr>
+        <tr>
+            <td>Misses</td>
+            <td>{{ event.misses }}</td>
+        </tr>
+        <tr>
+            <td>Jumps lost</td>
+            <td>{{ event.jumpsLost }}</td>
+        </tr>
 
-    <tr>
-        <td>Jumps per Second (Average)</td>
-        <td>{{ event.avgJumps }}</td>
-    </tr>
-    <tr>
-        <td>Jumps per Second (Max)</td>
-        <td>{{ event.maxJumps }}</td>
-    </tr>
-    <tr>
-        <td>Duration</td>
-        <td>{{ (event.time == null) ? "" : (event.time * 1000) | date:'mm:ss' }}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <div class="ct-chart ct-perfect-fourth"></div>
-            <h3 class="color-a">• Jumps Per Second</h3>
-        </td>
-    </tr>
+        <tr>
+            <td>Jumps per Second (Average)</td>
+            <td>{{ event.avgJumps }}</td>
+        </tr>
+        <tr>
+            <td>Jumps per Second (Max)</td>
+            <td>{{ event.maxJumps }}</td>
+        </tr>
+        <tr>
+            <td>Duration</td>
+            <td>{{ (event.time == null) ? "" : (event.time * 1000) | date:'mm:ss' }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="ct-chart ct-perfect-fourth"></div>
+                <h3 class="color-a">• Jumps Per Second</h3>
+            </td>
+        </tr>
     </tbody>
 </table>
 
 <div class="mt emb table">
     <button class="green s-2x pl" ng-click="$location.path('/speed')">Back</button>
-    <button class="red pr" ng-click="removeEvent()">Delete event</button>
+    <button class="red pr" ng-confirm-click="Do you really want to remove this Event?"
+        confirmed-click="removeEvent()">Delete event</button>
 </div>

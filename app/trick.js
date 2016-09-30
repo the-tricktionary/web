@@ -47,7 +47,8 @@ angular.module('trick', [
   'trick.speed',
   'trick.speed.details',
   'trick.speed.compare',
-  'firebase'
+  'firebase',
+  'hc.marked'
 ])
 
 .config([

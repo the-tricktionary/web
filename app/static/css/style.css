@@ -62,6 +62,8 @@ body {
 a {
   color           : var(--d-blue);
   text-decoration : none;
+  cursor          : hand;
+  cursor          : pointer;
 }
 
 a:hover {
@@ -96,7 +98,9 @@ input[type=submit] {
   text-align       : center;
   cursor           : pointer;
   cursor           : hand;
-  outline          : none; 
+  outline          : none;
+  margin-right     : .3em;
+  margin-left      : .3em;
 }
 
 .inline {
@@ -218,6 +222,11 @@ textarea {
 textarea {
   display   : block;
   max-width : 100%;
+}
+
+textarea.big {
+  min-width  : 80%;
+  min-height : 10em;
 }
 
 .search {
