@@ -562,7 +562,7 @@ div.box {
 
 .back {
   position : fixed;
-  top      : 40px;
+  top      : 50px;
   left     : 5px;
   color    : rgba(0,132,153,.5);
 }
