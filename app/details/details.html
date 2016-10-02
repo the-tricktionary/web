@@ -8,9 +8,9 @@
     <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
         frameborder="0" allowfullscreen></iframe>
     <div>
-        <span class="pl level"><span class="gray small">fisac-irsf Level:</span>        {{ trick.irsf }}</span>
-        <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.wjr
-        }}</span>
+        <span class="pl level"><span class="gray small">fisac-irsf Level:</span>{{
+        trick.irsf }}</span>
+        <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.wjr}}</span>
     </div>
 </div>
 <div class="box mb">
@@ -20,5 +20,8 @@
 </div>
 <br/>
 <div class="box">
-    <a class="parent" ng-href="/#{{ id0 + id1 }}">Back to dashboard</a>
+    <a class="parent" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
+        ng-if="!(id0 == 0 && id1 == 0)"><i class="fa fa-chevron-left"></i> Previous</a>
+    <a class="parent" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
+        ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
 </div>

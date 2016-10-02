@@ -97,8 +97,9 @@ angular.module('trick', [
   $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
     if (error === "AUTH_REQUIRED") {
       $location.path('/');
-      $rootScope.error =
-        'You need to be signed in to access this page, please Sign In and try again.';
+      $rootScope.Error(
+        'You need to be signed in to access this page, please Sign In and try again.'
+      );
     }
   });
 
@@ -110,13 +111,13 @@ angular.module('trick', [
    */
   $rootScope.signIn = function() {
     $rootScope.user = null;
-    $rootScope.error = null;
+    $rootScope.Error("", false);
     Auth.$signInWithPopup("google")
       .then(function(firebaseUser) {
         $rootScope.user = firebaseUser;
       })
       .catch(function(error) {
-        $rootScope.error = error;
+        $rootScope.Error(error);
       });
   };
 
@@ -139,6 +140,13 @@ angular.module('trick', [
   $rootScope.goHome = function() {
     $location.path('/');
   };
+
+  $rootScope.Error = function(e, bool) {
+    $rootScope.error = {
+      text: e,
+      show: (bool == undefined ? true : bool)
+    }
+  }
 
   /**
    * any time auth status updates, add the user data to scope
@@ -173,5 +181,6 @@ angular.module('trick', [
           }
         });
       }
-    };
-    }])
+    }
+      }
+    ])

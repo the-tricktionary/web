@@ -417,7 +417,7 @@ ul.topnav li.icon {
 
 nav img {
   height        : 32px;
-  margin-top    : 4px;
+  margin-top    : 6px;
   margin-bottom : 4px;
   margin-left   : .3em;
 }
@@ -542,11 +542,23 @@ nav ul li:hover:not(:first-child) {
 .warning {
   text-align    : center;
   display       : block;
+  position      : relative;
   width         : 100%;
   color         : var(--d-red);
   border        : 1px solid var(--d-red);
   padding       : .3em;
   margin-bottom : .5em;
+}
+
+.close {
+  position : absolute;
+  right    : .3em;
+  top      : 0;
+  color    : var(--d-red);
+}
+
+.close:hover {
+  color : var(--l-red);
 }
 
 div.box {
