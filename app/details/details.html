@@ -20,8 +20,8 @@
 </div>
 <br/>
 <div class="box">
-    <a class="parent" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
+    <a class="parent half" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
         ng-if="!(id0 == 0 && id1 == 0)"><i class="fa fa-chevron-left"></i> Previous</a>
-    <a class="parent" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
+    <a class="parent half" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
         ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
 </div>
