@@ -396,6 +396,8 @@ nav ul li a {
   color           : var(--white);
   width           : 100%;
   height          : 100%;
+  padding         : 3px 10px;
+  display         : block;
   cursor          : pointer;
   cursor          : hand;
 }
@@ -418,7 +420,7 @@ ul.topnav li.icon {
 nav img {
   height        : 32px;
   margin-top    : 6px;
-  margin-bottom : 4px;
+  margin-bottom : 2px;
   margin-left   : .3em;
 }
 
@@ -440,7 +442,6 @@ nav ul li div {
 }
 
 nav ul li:not(:first-child) {
-  padding          : 3px 10px;
   text-decoration  : none;
   display          : inline-block;
   background-color : var(--d-red);
@@ -471,6 +472,7 @@ nav ul li:hover:not(:first-child) {
 
   nav ul li:not(:first-child) {
     padding : 3px 10px;
+    display : block;
   }
 
   .topnav {
@@ -517,7 +519,8 @@ nav ul li:hover:not(:first-child) {
     width        : 100%;
     height       : 100%;
     padding-left : .1em;
-    padding-top  : 2px;
+    padding-top  : 0;
+    line-height  : 1; 
   }
 
   .sharing {
