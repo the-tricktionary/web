@@ -33,7 +33,9 @@ angular.module('trick.contact', ['ngRoute'])
      */
     if (!$scope.user) {
       Auth.$signInAnonymously()
-        .then(function(firebaseUser) {})
+        .then(function(firebaseUser) {
+          $scope.user = firebaseUser;
+        })
         .catch(function(error) {
           $scope.error = error;
         });
