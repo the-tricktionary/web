@@ -13,7 +13,7 @@
         <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.wjr}}</span>
     </div>
 </div>
-<div class="box" ng-if="user">
+<div class="box" ng-if="user && !user.isAnonymous">
     <a ng-click="done.$value = !done.$value; done.$save()" class="black pl"><i ng-class="(done.$value ? 'checked' : '')" class="checkbox"></i> Completed</a>
     <span></span>
 </div>
