@@ -4,6 +4,7 @@
 </div>
 <div class="warning center" ng-if="error.show">{{ error.text }} <a class="close" ng-click="error.show = !error.show"><i class="fa fa-times-circle"></i></a></div>
 <a href="#about" class="emt pr"><i class="fa fa-arrow-circle-down"></i></a>
+<a ng-click="hideDone = !hideDone" class="emt pl black"><i ng-class="(hideDone ? 'checked' : '')" class="checkbox"></i> Hide completed tricks</a>
 <div class="box loading" ng-if="!data.length">
     <span>
         <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
@@ -13,7 +14,8 @@
 <div class="box" ng-repeat="level in data">
     <h3 class="searchheader">Level {{ level.level }}</h3>
     <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
-        id="{{ level.id0 + '' + trick.id1 }}" ng-class="level.id0 + '' + trick.id1 == anchor ? 'pop' : ''">
+        id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
+        ng-hide="hideDone && done[level.id0][trick.id1]">
         {{ trick.name }}
     </a>
 </div>

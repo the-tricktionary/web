@@ -1,6 +1,7 @@
 :root {
   --l-red     : #fe3500;
   --d-red     : #da1100;
+  --l-yellow  : #feedb2;
   --d-yellow  : #fec500;
   --black     : #333;
   --l-black   : #292f2f;
@@ -73,6 +74,10 @@ a:hover {
 
 a.pop {
   border : 1px solid var(--d-yellow);
+}
+
+a.done {
+  background-color : var(--l-yellow)
 }
 
 ul ul {
@@ -149,6 +154,10 @@ button:disabled,
 
 .gray {
   color : var(--d-gray)
+}
+
+.black {
+  color : var(--black);
 }
 
 .red:hover {
@@ -258,6 +267,10 @@ label.mt {
   min-height : 1.5em;
 }
 
+.emt {
+  margin-top : 2em;
+}
+
 label i.fa {
   position      : absolute;
   top           : -5px;
@@ -302,6 +315,19 @@ textarea:focus {
 
 .input-warn:focus {
   border-bottom : 1px solid var(--l-red) !important;
+}
+
+.checkbox {
+  display          : inline-block;
+  width            : 1em;
+  height           : 1em;
+  background-color : var(--l-red);
+  border-radius    : 50%;
+  transition       : background-color .3s;
+}
+
+.checked {
+  background-color : var(--l-green);
 }
 
 @media screen and (max-width : 560px) {
@@ -721,7 +747,7 @@ div.box h3:first-child {
   margin-right   : auto;
   margin-left    : auto;
   padding        : 1em;
-  max-width      : 600px;
+  max-width      : 600px
 }
 
 .article:not(:last-child) {
@@ -733,6 +759,7 @@ p {
   max-width     : 600px;
   margin-left   : auto;
   margin-right  : auto;
+  color         : var(--black);
   text-align    : justify;
 }
 
