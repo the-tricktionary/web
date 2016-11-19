@@ -20,13 +20,14 @@ angular.module('trick.dash', ['ngRoute'])
  * @class trick.dash.DashCtrl
  * @param {service} $scope
  * @param {service} $firebaseArray
+ * @param {service} $firebaseObject
  * @param {service} $anchorScroll
  * @param {service} $location
  * @param {service} Db
+ * @param {service} Auth
  */
 .controller('DashCtrl', function($scope, $firebaseArray, $firebaseObject,
-  $anchorScroll,
-  $location, Db, Auth) {
+  $anchorScroll, $location, Db, Auth) {
   /** Create reference to database path */
   var ref = Db.child("tricks");
   /**
@@ -36,9 +37,9 @@ angular.module('trick.dash', ['ngRoute'])
    * @description create a synchronized array stored in scope
    */
   $scope.data = $firebaseArray(ref);
-  Auth.$onAuthStateChanged(function(user) {
-    if (user) {
-      var ref2 = Db.child("checklist/" + user.uid);
+  Auth.$onAuthStateChanged(function() {
+    if ($scope.user) {
+      var ref2 = Db.child("checklist/" + $scope.user.uid);
       $scope.done = $firebaseObject(ref2);
     }
   });
@@ -55,9 +56,9 @@ angular.module('trick.dash', ['ngRoute'])
   $anchorScroll();
   /**
    * return a list of classes to apply
-   * @param  {int} id0 [description]
-   * @param  {int} id1 [description]
-   * @return {string}     [description]
+   * @param  {int} id0
+   * @param  {int} id1
+   * @return {string}
    */
   $scope.class = function(id0, id1) {
     var x = "";

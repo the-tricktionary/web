@@ -23,9 +23,10 @@ angular.module('trick.details', ['ngRoute'])
  * @param {service} $routeParams
  * @param {service} $sce
  * @param {service} Db
+ * @param {service} Auth
  */
 .controller('DetailsCtrl', function($scope, $firebaseObject, $firebaseArray,
-  $routeParams, $sce, $location, Db) {
+  $routeParams, $sce, $location, Db, Auth) {
   /**
    * @name $scope.id0
    * @type {string}
@@ -47,6 +48,14 @@ angular.module('trick.details', ['ngRoute'])
    * @description create a synchronized *object* stored in scope
    */
   $scope.trick = $firebaseObject(ref.child($scope.id1));
+
+  Auth.$onAuthStateChanged(function() {
+    if ($scope.user) {
+      var ref2 = Db.child("checklist/" + $scope.user.uid + "/" +
+        $scope.id0 + "/" + $scope.id1);
+      $scope.done = $firebaseObject(ref2);
+    }
+  });
 
   if ($scope.id1 == 0 && $scope.id0 != 0) {
     /** Create reference to database path */
