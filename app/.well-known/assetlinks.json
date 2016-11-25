@@ -1,15 +1,13 @@
-[
-  {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
-    "target" : {
-      "namespace": "android_app",
-      "package_name": "trictionary.jumproper.com.jumpropetrictionary",
-      "sha256_cert_fingerprints": [
-        "F4:0B:67:84:E5:AD:C0:25:EF:91:9F:C7:A4:76:4A:F7:EF:FF:B8:B3",
-        "86:E6:21:02:0B:FC:21:35:A3:78:57:0D:AF:4E:6E:65:DC:92:18:FE"
-      ]
-    }
+[{
+  "relation": [
+    "delegate_permission/common.handle_all_urls"
+  ],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "trictionary.jumproper.com.jumpropetrictionary",
+    "sha256_cert_fingerprints": [
+      "F4:0B:67:84:E5:AD:C0:25:EF:91:9F:C7:A4:76:4A:F7:EF:FF:B8:B3",
+      "86:E6:21:02:0B:FC:21:35:A3:78:57:0D:AF:4E:6E:65:DC:92:18:FE"
+    ]
   }
-]
+}]

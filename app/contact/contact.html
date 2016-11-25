@@ -27,7 +27,7 @@
 </form>
 
 <form ng-if="newType == 'Incorrect Level'" ng-submit="submitLev()" class="center">
-    <label for="id0" class="char">https://tricks.jumpropejam.com/details/</label>
+    <label for="id0" class="char">https://the-tricktionary.com/details/</label>
     <input type="number" id="id0" ng-model="newId0" class="char" placeholder="0" min="0"
         max="4" required/>
     <label for="id1" class="char inline">/</label>
@@ -105,7 +105,7 @@
     <h2>{{ issue.trickName }}</h2>
     <h3>{{ issue.trickType }}</h3>
     <p ng-if="issue.type == 'General' || issue.type == 'Trick Submission'">{{ issue.desc }}</p>
-    <p ng-if="issue.type == 'Incorrect Level'"><a ng-href="https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}">https://tricks.jumpropejam.com/details/{{ issue.id0 }}/{{ issue.id1 }}</a>        should be level
+    <p ng-if="issue.type == 'Incorrect Level'"><a ng-href="https://the-tricktionary.com/details/{{ issue.id0 }}/{{ issue.id1 }}">https://the-tricktionary.com/details/{{ issue.id0 }}/{{ issue.id1 }}</a>        should be level
         <b>{{ issue.level }}</b> in <b>{{ issue.org }}</b>
     </p>
     <a href="{{ issue.video }}" target="_blank">{{ issue.video }}</a>
