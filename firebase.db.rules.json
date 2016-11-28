@@ -4,6 +4,10 @@
       ".read": true,
       ".write": false
     },
+    "globalnotice": {
+      ".read": true,
+      ".write": false
+    },
     "news": {
       ".read": true,
       ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"

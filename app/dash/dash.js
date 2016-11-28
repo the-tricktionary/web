@@ -37,10 +37,26 @@ angular.module('trick.dash', ['ngRoute'])
    * @description create a synchronized array stored in scope
    */
   $scope.data = $firebaseArray(ref);
+  /** Create reference to database path */
+  var ref2 = Db.child("globalnotice");
+  /**
+   * @name $scope.globalnotice
+   * @function
+   * @memberOf trick.dash.DashCtrl
+   * @description create a synchronized object stored in scope
+   */
+  $scope.globalnotice = $firebaseObject(ref2);
   Auth.$onAuthStateChanged(function() {
     if ($scope.user) {
-      var ref2 = Db.child("checklist/" + $scope.user.uid);
-      $scope.done = $firebaseObject(ref2);
+      /** Create reference to database path */
+      var ref3 = Db.child("checklist/" + $scope.user.uid);
+      /**
+       * @name $scope.done
+       * @function
+       * @memberOf trick.dash.DashCtrl
+       * @description create a synchronized array stored in scope
+       */
+      $scope.done = $firebaseObject(ref3);
     }
   });
   /**

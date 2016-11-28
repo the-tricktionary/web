@@ -3,6 +3,7 @@
         placeholder="Search (by name, prerequisites...)">
 </div>
 <div class="warning center" ng-if="error.show">{{ error.text }} <a class="close" ng-click="error.show = !error.show"><i class="fa fa-times-circle"></i></a></div>
+<div class="warning center" ng-if="globalnotice.$value">{{ globalnotice.$value }}</div>
 <a href="#about" class="emt pr"><i class="fa fa-arrow-circle-down"></i></a>
 <a ng-click="hideDone = !hideDone" class="emt pl black" ng-show="user && !user.isAnonymous"><i ng-class="(hideDone ? 'checked' : '')" class="checkbox"></i> Hide completed tricks</a>
 <div class="box loading" ng-if="!data.length">
