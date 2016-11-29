@@ -46,6 +46,15 @@ angular.module('trick.dash', ['ngRoute'])
    * @description create a synchronized object stored in scope
    */
   $scope.globalnotice = $firebaseObject(ref2);
+  $scope.until = function(date) {
+    var comp = new Date(date);
+    var now = new Date();
+    if (comp < now) {
+      return false
+    } else {
+      return true
+    }
+  };
   Auth.$onAuthStateChanged(function() {
     if ($scope.user) {
       /** Create reference to database path */
