@@ -249,11 +249,10 @@ textarea.big {
 }
 
 .search + * {
-  margin-top : 2em;
+  margin-top : 2.3em;
 }
 
 label {
-
   display   : inline;
   color     : var(--l-black);
   width     : 100%;
@@ -268,7 +267,7 @@ label.mt {
 }
 
 .emt {
-  margin-top : 2em;
+  margin-top : 2.2em;
 }
 
 label i.fa {
@@ -567,16 +566,24 @@ nav ul li:hover:not(:first-child) {
 }
 
 /* content */
-
+.error,
 .warning {
   text-align    : center;
   display       : block;
   position      : relative;
   width         : 100%;
+  padding       : 1em;
+  margin-bottom : .3em;
+}
+
+.error {
   color         : var(--d-red);
   border        : 1px solid var(--d-red);
-  padding       : .3em;
-  margin-bottom : .5em;
+}
+
+.warning {
+  color         : var(--black);
+  border        : 1px solid var(--d-yellow);
 }
 
 .close {
@@ -694,12 +701,6 @@ div.box h3:first-child {
   height       : 28.124vw;
   margin-right : auto;
   margin-left  : auto;
-}
-
-.warning {
-  color   : var(--d-red);
-  border  : 1px solid var(--d-red);
-  padding : 1em;
 }
 
 @media all and (max-width : 1325px) {
