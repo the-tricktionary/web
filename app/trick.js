@@ -157,7 +157,7 @@ angular.module('trick', [
   });
   
   if ($location.path().indexOf('speed/details') > -1 || $location.path().indexOf('speed/compare') > -1) {
-    var page = $location.path().replace(/speed\/(details|compare)\/.*/g , x => "speed/" + x.split("/")[1]);
+    var page = $location.path().replace(/speed\/(details|compare)\/.*/g , function(x) { "speed/" + x.split("/")[1] });
   } else {
     var page = $location.path();
   }
