@@ -155,13 +155,18 @@ angular.module('trick', [
   Auth.$onAuthStateChanged(function(firebaseUser) {
     $rootScope.user = firebaseUser;
   });
-
-  ga('send', 'pageview');
+  
+  if ($location.path().indexOf('speed/details') > -1 || $location.path().indexOf('speed/compare') > -1) {
+    var page = $location.path().replace(/speed\/(details|compare)\/.*/g , x => "speed/" + x.split("/")[1]);
+  } else {
+    var page = $location.path();
+  }
+  ga('send', 'pageview', page);
   /**
    * Add to homescreen
    */
   addToHomescreen({
-    appID: 'com.jumpropejam.tricks',
+    appID: 'com.the-tricktionary',
     startDelay: 5,
     skipFirstVisit: true,
     maxDisplayCount: 1,
