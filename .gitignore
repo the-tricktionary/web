@@ -1,9 +1,9 @@
 .firebaserc
-utils/backups/*
+util/backups/*
 node_modules
 **/*.log
 public/
-utils/email-data/*
+util/email-data/*
 # Created by https://www.gitignore.io/api/osx
 
 ### OSX ###
