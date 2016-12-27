@@ -1,6 +1,6 @@
 {
   "name": "the-tricktionary",
-  "version": "1.5.4",
+  "version": "1.5.6",
   "description": "",
   "homepage": "https://the-tricktionary.com",
   "repository": {
@@ -8,13 +8,11 @@
     "url": "the-tricktionary/web"
   },
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "firebase-admin": "^4.0.4",
     "mailgun-js": "^0.7.15",
     "moment": "^2.17.1",
     "objectdiff": "^1.1.0"
-  },
-  "devDependencies": {
     "firebase-tools": "*",
     "jsdoc": "^3.3.0",
     "lite-server": "*",
