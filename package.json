@@ -8,7 +8,9 @@
     "url": "the-tricktionary/web"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "firebase-admin": "^4.0.4"
+  },
   "devDependencies": {
     "firebase-tools": "*",
     "jsdoc": "^3.3.0",
