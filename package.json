@@ -8,7 +8,12 @@
     "url": "the-tricktionary/web"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "firebase-admin": "^4.0.4",
+    "mailgun-js": "^0.7.15",
+    "moment": "^2.17.1",
+    "objectdiff": "^1.1.0"
+  },
   "devDependencies": {
     "firebase-tools": "*",
     "jsdoc": "^3.3.0",
