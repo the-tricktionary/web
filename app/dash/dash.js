@@ -93,4 +93,11 @@ angular.module('trick.dash', ['ngRoute'])
     }
     return x;
   }
+
+  if ($location.search()
+    .utm_source == "oldjrj") {
+    $scope.Error(
+      'You are using an outdated url to reach the tricktionary, we highly reccomend updating your bookmarks to <a href="https://the-tricktionary.com">https://the-tricktionary.com</a>'
+    );
+  }
 });
