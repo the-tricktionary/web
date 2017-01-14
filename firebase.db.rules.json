@@ -42,7 +42,7 @@
     },
     "booklets": {
       ".read": true,
-      ".write: false
+      ".write": false
     }
   }
 }
