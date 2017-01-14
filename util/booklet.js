@@ -59,7 +59,7 @@ ref.on("value", function(snapshot) {
   tex += '\\documentclass[12pt]{article}\n'
   
   if (papersize == "letter" ) {
-    tex += '\\usepackage[paperheight=5.5in,paperwidth=8.5in]{geometry}\n'
+    tex += '\\usepackage[paperheight=8.5in,paperwidth=5.5in]{geometry}\n'
   } else {
     tex += '\\usepackage[a5paper]{geometry}\n'
   }
