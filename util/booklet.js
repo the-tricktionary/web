@@ -1,8 +1,8 @@
-var admin  = require("firebase-admin");
-var fs     = require("fs");
-var moment = require("moment");
-var exec   = require("child_process").exec;
-//var gcloud = require("google-cloud");
+var admin   = require("firebase-admin");
+var fs      = require("fs");
+var moment  = require("moment");
+var exec    = require("child_process").exec;
+var storage = require('@google-cloud/storage');
 var child;
 var papersize;
 
@@ -27,6 +27,11 @@ admin.initializeApp({
   databaseURL: "https://project-5641153190345267944.firebaseio.com"
 });
 
+//initialize google cloud for storage
+var gcs = storage({
+  keyFilename: 'email-data/google-storageadmin.json',
+});
+
 dlog("init done");
 
 // Get current datetime
@@ -40,7 +45,11 @@ dlog("creating " + filename);
 var db  = admin.database();
 var ref = db.ref("/");
 
+//create storage reference
+var bucket = gcs.bucket('project-5641153190345267944.appspot.com');
+
 ref.on("value", function(snapshot) {
+  dlog("data reciecved");
   var keys = [];
   var data = snapshot.val().tricks;
   var types = snapshot.val().tricktypes;
@@ -59,6 +68,7 @@ ref.on("value", function(snapshot) {
   tex += '\\newlist{todolist}{itemize}{2}\n'
   tex += '\\setlist[todolist]{label=$\\square$,leftmargin=0pt,itemsep=0pt,parsep=0pt}\n'
   tex += '\\title{the Tricktionary}\n'
+  tex += '\\author{}\n'
   tex += '\\begin{document}\n'
   tex += '\\clearpage\\maketitle\n'
   tex += '\\thispagestyle{empty}\n'
@@ -98,7 +108,7 @@ ref.on("value", function(snapshot) {
 
   // speed sheets
   for (var pages = 0; pages < 4; pages++) {
-    tex += '\\section*{Speed - }\n'
+    tex += '\\section*{Speed event:  }\n'
     tex += '\\noindent \\begin{tabularx}{\\linewidth}{|X|X|}\n'
     tex += '\\hline\n'
     tex += 'Date & Count \\\\\n'
@@ -135,6 +145,7 @@ ref.on("value", function(snapshot) {
   bookletTex += '\\usepackage{pdfpages}\n'
   bookletTex += '\\includepdfset{pages=-}\n'
   bookletTex += '\\title{the Tricktionary}\n'
+  bookletTex += '\\author{}\n'
   bookletTex += '\\begin{document}\n'
   bookletTex += '\\includepdf[pages=-,landscape,booklet=true]{booklets/raw-' + filename +'.pdf}\n'
   bookletTex += '\\end{document}\n'
@@ -164,8 +175,17 @@ ref.on("value", function(snapshot) {
             }
             if (error === null) {
               dlog("booklet pdf generated");
-              // upload bookelt pdf to firebase storage
-              process.exit();            
+              dlog("uploading booklet pdf to firebase storage")
+              var options = {
+                destination: 'booklets/' + filename + '.pdf'
+              }
+              bucket.upload('booklets/' + filename + '.pdf', options, function(err, file) {
+                if(!err) {
+                  dlog("booklet successfully uploaded");
+                  dlog("saving filename to db");
+                  db.ref("/booklets/latest/" + papersize).set("booklets/" + filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
+                }
+              })
             }
           })
         }
@@ -175,7 +195,7 @@ ref.on("value", function(snapshot) {
 });
 
 setTimeout(function() {
-  console.log("backup failed, timeout");
+  console.log("booklet crration failed, timeout");
   process.exit(1);
 }, 180000);
 
