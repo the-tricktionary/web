@@ -85,7 +85,7 @@ function buildEmailHtml(arr) {
     html += "<ul>";
     arr.forEach(function(obj) {
       if (obj.changed == "added" ) {
-        html += '<li><a href="https://the-tricktionarycom/contact?u=' + obj.user + '">' + obj.value.name + ' - ' + obj.value.type + '</a></li>';
+        html += '<li><a href="https://the-tricktionarycom/contact?u=' + obj.user + '&i=' + obj.key + '">' + obj.value.name + ' - ' + obj.value.type + '</a></li>';
       }
     })
     html += "</ul>"

@@ -1,6 +1,9 @@
 var admin  = require("firebase-admin");
 var fs     = require("fs");
 var moment = require("moment");
+var sys = require('sys')
+var exec = require('child_process').exec;
+var child;
 
 var serviceAccount = require("./email-data/firebase-adminsdk.json");
 
@@ -22,22 +25,34 @@ dlog("init done");
 // Get current datetime
 var now = moment().format("YYYYMMDD-HHmmss");
 
-dlog("backing up db " + now);
+var filename = "booklet-" + now;
+
+dlog("creating " + filename);
 
 // create db reference
 var db  = admin.database();
 var ref = db.ref("/");
 
 ref.on("value", function(data) {
-  dlog("recieved data, writing to file ./backups/backup-" + now + ".json")
-  fs.writeFile('./backups/backup-' + now + '.json', JSON.stringify(data.val()), function(err) {
+  // construct tex file
+  
+  
+   fs.writeFile('./booklets/' + filename + '.tex', texcont, function(err) {
     if (err) throw err;
-    dlog("backup saved");
-    process.exit();
+    dlog("tex booklet saved");
+    //exec pdflatex
+    child = exec("pdflatex -synctex=1 -interaction=nonstopmode " + filename + ".tex", function (error, stdout, stderr) {
+      dlog('stdout: ' + stdout);
+      dlog('stderr: ' + stderr);
+      if (error !== null) {
+        dlog('exec error: ' + error);
+      }
+    });
   });
-})
+}
 
 setTimeout(function() {
   console.log("backup failed, timeout");
   process.exit(1);
-}, 60000);
+}, 180000);
+
