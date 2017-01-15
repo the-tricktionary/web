@@ -5,13 +5,16 @@ var exec    = require("child_process").exec;
 var storage = require('@google-cloud/storage');
 var child;
 var papersize;
+var detailed;
 
 var serviceAccount = require("./email-data/firebase-adminsdk.json");
 
 if (process.argv.indexOf("test") !== -1) {
+  var debug = true;
   function dlog(msg) { console.log(msg) }
   dlog("running in debug mode")
 } else {
+  var debug = false;
   function dlog(msg) { return true; }
 }
 
@@ -19,6 +22,12 @@ if (process.argv.indexOf("letter") !== -1) {
   papersize = "letter"
 } else {
   papersize = "a4"
+}
+
+if (process.argv.indexOf("detailed") !== -1) {
+  detailed = true;
+} else {
+  detaied = false;
 }
 
 // initialize firebase app
@@ -37,7 +46,7 @@ dlog("init done");
 // Get current datetime
 var now = moment().format("YYYYMMDD-HHmmss");
 
-var filename = "booklet-" + now + "-" + papersize;
+var filename = "booklet-" + now + "-" + papersize + (detailed ? "-detailed" : "");
 
 dlog("creating " + filename);
 
@@ -95,7 +104,12 @@ ref.on("value", function(snapshot) {
             tex += '\\begin{todolist}\n'
             leveltypes[type] = true;
           }
-          tex += '\\item ' + data[key].subs[subKey].name + '\n'
+          if (detailed) {
+            tex += '\\item \\textbf{' + data[key].subs[subKey].name + '}\\\\\n'
+            tex += data[key].subs[subKey].description + '\n'
+          } else {
+            tex += '\\item ' + data[key].subs[subKey].name + '\n'
+          }
         }
       })
       if(leveltypes[type]) {
@@ -183,7 +197,13 @@ ref.on("value", function(snapshot) {
                 if(!err) {
                   dlog("booklet successfully uploaded");
                   dlog("saving filename to db");
-                  db.ref("/booklets/latest/" + papersize).set(filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
+                  
+                  if(debug) {
+                    dlog("not saving filename in debug mode");
+                    process.exit();
+                  } else {
+                    db.ref("/booklets/latest/" + papersize + (detailed ? "-detailed" : "")).set(filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
+                  }
                 }
               })
             }
