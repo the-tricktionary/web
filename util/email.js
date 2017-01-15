@@ -44,6 +44,9 @@ dlog("init done");
 
 function checker(obj) {
   diffedchilds = [];
+  if(obj.changed == "equal") {
+    return "equal";
+  }
   Object.keys(obj.value).forEach(function(key) { 
     if (obj.value[key].changed !== "equal") {
       dlog("diff in " + key + ": " + obj.value[key].changed );
@@ -82,11 +85,11 @@ function buildAdminEmailHtml(arr) {
     // html += "No new or updated issues this week.<br/>"
     return null;
   } else {
-    html += "This week the following users have created new issues:<br/>"
+    html += "Yesterday, the following issues was created yesterday:<br/>"
     html += "<ul>";
     arr.forEach(function(obj) {
       if (obj.changed == "added" ) {
-        html += '<li><a href="https://the-tricktionarycom/contact?u=' + obj.user + '&i=' + obj.key + '">' + obj.value.name + ' - ' + obj.value.type + '</a></li>';
+        html += '<li><a href="https://the-tricktionary.com/contact?u=' + obj.user + '&i=' + obj.key + '">' + obj.value.type + ' - ' + obj.value.desc.substring(0, 20) + '</a></li>';
       }
     })
     html += "</ul>"
@@ -94,7 +97,7 @@ function buildAdminEmailHtml(arr) {
     html += "<ul>"
     arr.forEach(function(obj) {
       if (obj.changed == "object change") {
-        html += '<li><a href="https://the-tricktionarycom/contact?u=' + obj.user + '">' + obj.value.name + ' - ' + obj.value.type + '</a></li>';
+        html += '<li><a href="https://the-tricktionary.com/contact?u=' + obj.user + '">' + obj.value.type.value + ' - ' + obj.value.desc.value.substring(0, 20) + '</a></li>';
         sendUserEmail(obj);
       }
     })
@@ -107,19 +110,19 @@ function sendUserEmail(issue) {
   if(issue.value.email) {
     var html = ""
     html += "Hello,<br/>You have recieved updates (most certainly replies) to one of the issues you created on the Tricktionary:<br/>"
-    html += '<a href="https://the-tricktionary.com/contact?i=' + issue.key + '">' + issue.value.type + ' - ' + substring(issue.value.desc) + '</a><br/>'
+    html += '<a href="https://the-tricktionary.com/contact?i=' + issue.key + '">' + issue.value.type.value + ' - ' + issue.value.desc.value.substring(0, 20) + '</a><br/>'
     html += "Thank you for using the tricktionary<br/><br/>"
     html += '<a href="https://the-tricktionary.com/contact?unsub=' + issue.key + '">Unsubscribe from email updates on this issue</a>'
     var emailData = {
       from:    "the Tricktionary <noreply@" + mailgunConf.domain + ">",
-      to:      issue.value.email,
+      to:      issue.value.email.value,
       subject: "Updates to one of your issues on the Tricktionary",
       html:    html
     }
     mailgun.messages().send(emailData, function(err, body) {
       if (err) throw err;
-      dlog("email to user sent");
-    }
+      dlog("email to user sent for issue " + issue.user + "/" + issue.key);
+    })
   }
 }
 
@@ -131,25 +134,33 @@ ref.on("value", function(data) {
   if (!init) {
     var diff = objectdiff.diff(last, data.val());
     var checked = checker(diff);
-    var changed = checker1(diff, checked);
-    // send email
-    var emailData = {
-      from:    "the Tricktionary <noreply@" + mailgunConf.domain + ">",
-      to:      mailgunConf.to,
-      subject: "Daily contact summary " + moment().format("YYYY-MM-DD"),
-      html:    buildAdminEmailHtml(changed)
-    };
-    if(emailData.html !== null) {
-      mailgun.messages().send(emailData, function(err, body) {
-        if (err) throw err;
-        dlog("mail sent");
-        fs.writeFile('./email-data/last.json', JSON.stringify(data.val()), function(err) {
+    if (checked !== "equal") {
+      var changed = checker1(diff, checked);
+      // send email
+      var emailData = {
+        from:    "the Tricktionary <noreply@" + mailgunConf.domain + ">",
+        to:      mailgunConf.to,
+        subject: "Daily contact summary " + moment().format("YYYY-MM-DD"),
+        html:    buildAdminEmailHtml(changed)
+      };
+      if(emailData.html !== null) {
+        mailgun.messages().send(emailData, function(err, body) {
           if (err) throw err;
-          dlog("last.json written");
-          console.log("success");
-          process.exit();
+          dlog("mail sent");
+          fs.writeFile('./email-data/last.json', JSON.stringify(data.val()), function(err) {
+            if (err) throw err;
+            dlog("last.json written");
+            console.log("success");
+            process.exit();
+          });
         });
-      });
+      } else {
+        dlog("nothing new")
+        process.exit();
+      }
+    } else {
+      dlog("nothing new")
+      process.exit();
     }
   } else {
     fs.writeFile('./email-data/last.json', JSON.stringify(data.val()), function(err) {
