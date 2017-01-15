@@ -144,6 +144,24 @@ angular.module('trick.contact', ['ngRoute'])
      */
     $scope.i = $location.search()
       .i;
+    /**
+     * @name $scope.unsub
+     * @type {?string}
+     * @description contains id of a specific issue to be unsubscribed from updates about
+     */
+    $scope.unsub = $location.search()
+      .unsub;
+
+    if ($scope.unsub && $scope.unsub !== "") {
+      ref.child($scope.unsub + "/email")
+        .set(null, function(err) {
+          if (err) {
+            $scope.Error(err)
+          } else {
+            $scope.Error("Unsubscribed from further updates about issue")
+          }
+        })
+    }
 
     /**
      * @name $scope.submitGen
@@ -155,6 +173,8 @@ angular.module('trick.contact', ['ngRoute'])
       /** get User Input */
       var issue = document.getElementById('desc')
         .value;
+      var email = document.getElementById('genemail')
+        .checked;
       var newType = document.getElementById('type')
         .value;
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
@@ -172,7 +192,8 @@ angular.module('trick.contact', ['ngRoute'])
         $scope.person.$add({
           name: $scope.newName,
           desc: issue,
-          type: newType
+          type: newType,
+          email: (email ? $scope.user.email : null)
         });
       } else {
         /**
@@ -200,6 +221,8 @@ angular.module('trick.contact', ['ngRoute'])
         .value;
       var newLvl = document.getElementById('level')
         .value;
+      var email = document.getElementById('ilemail')
+        .checked;
       var newType = document.getElementById('type')
         .value;
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
@@ -220,7 +243,8 @@ angular.module('trick.contact', ['ngRoute'])
           id1: newId1,
           level: newLvl,
           org: newOrg,
-          type: newType
+          type: newType,
+          email: (email ? $scope.user.email : null)
         });
       } else {
         /**

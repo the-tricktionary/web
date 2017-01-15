@@ -25,6 +25,7 @@
 <form ng-if="newType == 'General'" ng-submit="submitGen()" class="center">
     <label for="desc">Describe your issue:</label>
     <textarea id="desc" ng-model="issue" required></textarea>
+    <input type="checkbox" ng-model="emailupdates" id="genemail" /><label for="genemail">Recieve email updates about this issue</label>
     <input type="submit" value="Submit" />
 </form>
 
@@ -46,6 +47,7 @@
             <option value="wjr rules">wjr rules</option>
         </select>
     </label>
+    <div><input type="checkbox" ng-model="emailupdates" id="ilemail" /><label for="ilemail">Recieve email updates about this issue</label></div>
     <input type="submit" value="Submit" />
 </form>
 
@@ -97,7 +99,8 @@
     </div>
     <p class="gray small center">
         by submitting a trick you give us a non-exclusive licensce to modify, redistribute,
-        publish your submitted data without accrediting you
+        publish your submitted data without accrediting you, tough we aim to accredit
+        all submittors.
     </p>
     </form>
 
@@ -106,7 +109,7 @@
         <h2 ng-class="(i == issue.$id ? 'black' : '')">{{ issue.type }}</h2>
         <h2>{{ issue.trickName }}</h2>
         <h3>{{ issue.trickType }}</h3>
-        <p ng-if="issue.type == 'General' || issue.type == 'Trick Submission'">{{ issue.desc }}</p>
+        <p>{{ issue.desc }}</p>
         <p ng-if="issue.type == 'Incorrect Level'"><a ng-href="https://the-tricktionary.com/details/{{ issue.id0 }}/{{ issue.id1 }}">https://the-tricktionary.com/details/{{ issue.id0 }}/{{ issue.id1 }}</a>            should be level
             <b>{{ issue.level }}</b> in <b>{{ issue.org }}</b>
         </p>
@@ -128,6 +131,10 @@
                     ng-hide="issue.resolved" ng-if="admin"><i class="fa fa-lock"></i> Resolve</button>
                     <button ng-click="issue.resolved = false; person.$save(issue)" class="green inline"
                         ng-show="issue.resolved" ng-if="admin"><i class="fa fa-unlock"></i> Reopen</button>
+                        <button ng-click="issue.email = user.email; person.$save(issue)" class="green inline"
+                            ng-hide="issue.email" ng-if="!admin"><i class="fa fa-envelope-o"></i> Subscribe to updates</button>
+                            <button ng-click="issue.email = null; person.$save(issue)" class="green inline" ng-hide="!issue.email"
+                                ng-if="!admin"><i class="fa fa-envelope-o"></i> Unsubscribe from updates</button>
         </div>
     </div>
 
