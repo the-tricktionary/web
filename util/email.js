@@ -76,7 +76,7 @@ function checker1(obj, arr) {
   return diffedchilds;
 }
 
-function buildEmailHtml(arr) {
+function buildAdminEmailHtml(arr) {
   var html = ""
   if (arr.length == 0) {
     html += "No new or updated issues this week.<br/>"
@@ -94,11 +94,32 @@ function buildEmailHtml(arr) {
     arr.forEach(function(obj) {
       if (obj.changed == "object change") {
         html += '<li><a href="https://the-tricktionarycom/contact?u=' + obj.user + '">' + obj.value.name + ' - ' + obj.value.type + '</a></li>';
+        sendUserEmail(obj);
       }
     })
   }
   html += "</ul>"
   return html;
+}
+
+sendUserEmail(issue) {
+  if(issue.value.email) {
+    var html = ""
+    html += "Hello,<br/>You have recieved updates (most certainly replies) to one of the issues you created on the Tricktionary:<br/>"
+    html += '<a href="https://the-tricktionary.com/contact?i=' + issue.key + '">' + issue.value.type + ' - ' + substring(issue.value.desc) + '</a><br/>'
+    html += "Thank you for using the tricktionary<br/><br/>"
+    html += '<a href="https://the-tricktionary.com/contact?unsub=' + issue.key + '">Unsubscribe from email updates on this issue</a>'
+    var emailData = {
+      from:    "the Tricktionary <noreply@" + mailgunConf.domain + ">",
+      to:      issue.value.email,
+      subject: "Updates to one of your issues on the Tricktionary",
+      html:    html
+    }
+    mailgun.messages().send(emailData, function(err, body) {
+      if (err) throw err;
+      dlog("email to user sent");
+    }
+  }
 }
 
 // create db reference to contacts
