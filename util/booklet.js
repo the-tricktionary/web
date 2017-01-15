@@ -83,7 +83,7 @@ ref.on("value", function(snapshot) {
   tex += '\\thispagestyle{empty}\n'
   tex += '\\vfill\n'
   tex += '\\begin{small}\n'
-  tex += '\\noindent detailed information about tricks are \\\\\n'
+  tex += '\\noindent Detailed information about tricks are \\\\\n'
   tex += 'avilable on the-tricktionary.com or \\\\\n'
   tex += 'in the Tricktionary\'s android app.\n'
   tex += '\\end{small}\n'
