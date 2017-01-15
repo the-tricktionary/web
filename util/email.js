@@ -79,7 +79,8 @@ function checker1(obj, arr) {
 function buildAdminEmailHtml(arr) {
   var html = ""
   if (arr.length == 0) {
-    html += "No new or updated issues this week.<br/>"
+    // html += "No new or updated issues this week.<br/>"
+    return null;
   } else {
     html += "This week the following users have created new issues:<br/>"
     html += "<ul>";
@@ -135,19 +136,21 @@ ref.on("value", function(data) {
     var emailData = {
       from:    "the Tricktionary <noreply@" + mailgunConf.domain + ">",
       to:      mailgunConf.to,
-      subject: "Weekly contact summary " + moment().format("YYYY-MM-DD"),
+      subject: "Daily contact summary " + moment().format("YYYY-MM-DD"),
       html:    buildEmailHtml(changed)
     };
-    mailgun.messages().send(emailData, function(err, body) {
-      if (err) throw err;
-      dlog("mail sent");
-      fs.writeFile('./email-data/last.json', JSON.stringify(data.val()), function(err) {
+    if(emailData.html !== null) {
+      mailgun.messages().send(emailData, function(err, body) {
         if (err) throw err;
-        dlog("last.json written");
-        console.log("success");
-        process.exit();
+        dlog("mail sent");
+        fs.writeFile('./email-data/last.json', JSON.stringify(data.val()), function(err) {
+          if (err) throw err;
+          dlog("last.json written");
+          console.log("success");
+          process.exit();
+        });
       });
-    });
+    }
   } else {
     fs.writeFile('./email-data/last.json', JSON.stringify(data.val()), function(err) {
       if (err) throw err;
