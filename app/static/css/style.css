@@ -1,856 +1,822 @@
 :root {
-  --l-red     : #fe3500;
-  --d-red     : #da1100;
-  --l-yellow  : #feedb2;
-  --d-yellow  : #fec500;
-  --black     : #333;
-  --l-black   : #292f2f;
-  --m-gray    : #666;
-  --d-gray    : #aaa;
-  --h-gray    : #cfd8dc;
-  --l-gray    : #ccc;
-  --rl-gray   : #eee;
-  --l-green   : #32cd32;
-  --d-blue    : #008499;
-  --l-blue    : #3baec4;
-  --white     : #fff;
-  --nav-items : 6;
+  --l-red: #fe3500;
+  --d-red: #da1100;
+  --l-yellow: #feedb2;
+  --d-yellow: #fec500;
+  --black: #333;
+  --l-black: #292f2f;
+  --m-gray: #666;
+  --d-gray: #aaa;
+  --h-gray: #cfd8dc;
+  --l-gray: #ccc;
+  --rl-gray: #eee;
+  --l-green: #32cd32;
+  --d-blue: #008499;
+  --l-blue: #3baec4;
+  --white: #fff;
+  --nav-items: 6;
 }
 
 * {
-  margin     : 0;
-  padding    : 0;
-  box-sizing : border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
 
 /* Master Styles */
-h1,
-.h1 {
-  color         : var(--black);
-  font-size     : 2.5em !important;
-  margin-bottom : 0;
-  min-width     : 80%;
-  text-align    : center;
+
+h1, .h1 {
+  color: var(--black);
+  font-size: 2.5em !important;
+  margin-bottom: 0;
+  min-width: 80%;
+  text-align: center;
 }
 
-h2,
-h3 {
-  color       : var(--d-gray);
-  font-weight : lighter;
-  text-align  : center;
+h2, h3 {
+  color: var(--d-gray);
+  font-weight: lighter;
+  text-align: center;
 }
 
-h1 + h2 {
-  margin-top : 0;
+h1+h2 {
+  margin-top: 0;
 }
 
-.small,
-.small::before {
-  font-size : 0.5em;
+.small, .small::before {
+  font-size: 0.5em;
 }
 
 img {
-  max-width : 100% !important;
+  max-width: 100% !important;
 }
 
 body {
-  margin         : .5em;
-  padding-top    : 45px;
-  padding-bottom : 1em;
-  min-height     : 97vh;
-  position       : relative;
+  margin: .5em;
+  padding-top: 45px;
+  padding-bottom: 1em;
+  min-height: 97vh;
+  position: relative;
 }
 
 a {
-  color           : var(--d-blue);
-  text-decoration : none;
-  cursor          : hand;
-  cursor          : pointer;
+  color: var(--d-blue);
+  text-decoration: none;
+  cursor: hand;
+  cursor: pointer;
 }
 
 a:hover {
-  color : var(--l-blue);
+  color: var(--l-blue);
 }
 
 a.pop {
-  border : 1px solid var(--d-yellow);
+  border: 1px solid var(--d-yellow);
 }
 
 a.done {
-  background-color : var(--l-yellow)
+  background-color: var(--l-yellow)
 }
 
 ul ul {
-  padding-left : 2em;
+  padding-left: 2em;
 }
 
 .foot {
-  text-align : center;
-  width      : 100%;
-  font-size  : 11px;
-  position   : absolute;
-  bottom     : 0;
+  text-align: center;
+  width: 100%;
+  font-size: 11px;
+  position: absolute;
+  bottom: 0;
 }
 
-button,
-.button,
-input[type=submit] {
-  background-color : var(--rl-gray);
-  border           : none;
-  padding          : 5px 10px;
-  border-radius    : 4px;
-  text-decoration  : none;
-  color            : var(--black);
-  text-align       : center;
-  cursor           : pointer;
-  cursor           : hand;
-  outline          : none;
-  margin-right     : .3em;
-  margin-left      : .3em;
+button, .button, input[type=submit] {
+  background-color: var(--rl-gray);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--black);
+  text-align: center;
+  cursor: pointer;
+  cursor: hand;
+  outline: none;
+  margin-right: .3em;
+  margin-left: .3em;
+  margin-bottom: : .3em;
 }
 
 .inline {
-  display : inline !important;
+  display: inline !important;
 }
 
-button:hover,
-.button:hover,
-input[type=submit]:hover {
-  background-color : var(--h-gray);
+button:hover, .button:hover, input[type=submit]:hover {
+  background-color: var(--h-gray);
 }
 
-button:disabled,
-.button:disabled {
-  background-color : var(--rl-gray);
-  color            : var(--d-gray);
-  cursor           : auto;
+button:disabled, .button:disabled {
+  background-color: var(--rl-gray);
+  color: var(--d-gray);
+  cursor: auto;
 }
 
 .lg {
-  width : 100% !important;
+  width: 100% !important;
 }
 
 .s-2x {
-  font-size : 2em;
+  font-size: 2em;
 }
 
 .sm {
-  width : 3em;
+  width: 3em;
 }
 
 .red {
-  background-color : var(--l-red);
-  color            : var(--white);
-  display          : block;
-  padding          : 5px 5px;
+  background-color: var(--l-red);
+  color: var(--white);
+  display: block;
+  padding: 5px 5px;
 }
 
 .green {
-  background : var(--l-green);
-  color      : var(--white);
-  display    : block;
-  padding    : 5px 10px;
+  background: var(--l-green);
+  color: var(--white);
+  display: block;
+  padding: 5px 10px;
 }
 
 .gray {
-  color : var(--d-gray)
+  color: var(--d-gray)
 }
 
 .black {
-  color : var(--black);
+  color: var(--black);
 }
 
 .red:hover {
-  background-color : var(--d-red);
+  background-color: var(--d-red);
 }
 
-table,
-.table {
-  border-collapse : collapse;
-  width           : 100%;
-  max-width       : 600px;
-  margin-right    : auto;
-  margin-left     : auto;
+table, .table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 th {
-  background-color : var(--white);
+  background-color: var(--white);
 }
 
 tr:nth-child(odd) {
-  background-color : var(--rl-gray);
+  background-color: var(--rl-gray);
 }
 
-td,
-th {
-  padding : .3em;
-  width   : 33%;
+td, th {
+  padding: .3em;
+  width: 33%;
 }
 
 td:first-child {
-  text-align : right;
+  text-align: right;
 }
 
 td:nth-child(2) {
-  text-align : center;
+  text-align: center;
 }
 
 td:last-child {
-  text-align : left;
+  text-align: left;
 }
 
 input[type=submit] {
-  margin-top : 1em;
-  width      : 50%;
-  font-size  : 1.5em;
+  margin-top: 1em;
+  width: 50%;
+  font-size: 1.5em;
 }
 
 .center {
-  text-align : center;
+  text-align: center;
 }
 
 .header {
-  margin-top : -45px;
+  margin-top: -45px;
 }
 
-input[type=text],
-input[type=number],
-input[type=url],
-input[type=file],
-textarea {
-  outline            : none;
-  border             : none;
-  border-bottom      : 1px solid var(--l-gray);
-  font-size          : 1.5em;
-  width              : 49%;
-  padding-top        : .5em;
-  -webkit-transition : border-bottom .5s;
-  transition         : border-bottom .5s;
-  margin             : auto;
+input[type=text], input[type=number], input[type=url], input[type=file], textarea {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--l-gray);
+  font-size: 1.5em;
+  width: 49%;
+  padding-top: .5em;
+  -webkit-transition: border-bottom .5s;
+  transition: border-bottom .5s;
+  margin: auto;
 }
 
 textarea {
-  display   : block;
-  max-width : 100%;
+  display: block;
+  max-width: 100%;
 }
 
 textarea.big {
-  min-width  : 80%;
-  min-height : 10em;
+  min-width: 80%;
+  min-height: 10em;
 }
 
 .search {
-  position : fixed;
-  width    : 100vw;
-  top      : 40px;
-  right    : 0;
-  left     : 0;
-  z-index  : 100000;
+  position: fixed;
+  width: 100vw;
+  top: 40px;
+  right: 0;
+  left: 0;
+  z-index: 100000;
 }
 
-.search + * {
-  margin-top : 2.3em;
+.search+* {
+  margin-top: 2.3em;
 }
 
 label {
-  display   : inline;
-  color     : var(--l-black);
-  width     : 100%;
-  position  : relative;
-  height    : 1.5em;
-  font-size : 1.5em;
+  display: inline;
+  color: var(--l-black);
+  width: 100%;
+  position: relative;
+  height: 1.5em;
+  font-size: 1.5em;
 }
 
 label.mt {
-  display    : block;
-  min-height : 1.5em;
+  display: block;
+  min-height: 1.5em;
 }
 
 .emt {
-  margin-top : 2.2em;
+  margin-top: 2.2em;
 }
 
 label i.fa {
-  position      : absolute;
-  top           : -5px;
-  right         : 0;
-  padding-top   : 7px;
-  padding-right : 5px;
-  width         : 2em;
-  height        : 1.5em;
-  z-index       : 2;
-  direction     : rtl;
-  background    : linear-gradient(to right, transparent, var(--white));
+  position: absolute;
+  top: -5px;
+  right: 0;
+  padding-top: 7px;
+  padding-right: 5px;
+  width: 2em;
+  height: 1.5em;
+  z-index: 2;
+  direction: rtl;
+  background: linear-gradient(to right, transparent, var(--white));
 }
 
 select {
-  font-size          : 1.2em;
-  width              : 49%;
-  height             : 1.26em;
-  border-radius      : 0;
-  margin-top         : .5em;
-  background-color   : transparent;
-  -webkit-appearance : none;
-  border             : none;
-  position           : static;
-  border-bottom      : 1px solid var(--l-gray);
-  transition         : border-bottom .5s;
-  outline            : 0;
-  bottom             : -2px;
+  font-size: 1.2em;
+  width: 49%;
+  height: 1.26em;
+  border-radius: 0;
+  margin-top: .5em;
+  background-color: transparent;
+  -webkit-appearance: none;
+  border: none;
+  position: static;
+  border-bottom: 1px solid var(--l-gray);
+  transition: border-bottom .5s;
+  outline: 0;
+  bottom: -2px;
 }
 
 .search-query {
-  width      : 100% !important;
-  text-align : center !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
-input[type=text]:focus,
-input[type=number]:focus,
-input[type=url]:focus,
-select:focus,
-textarea:focus {
-  border-bottom : 1px solid var(--d-yellow);
+input[type=text]:focus, input[type=number]:focus, input[type=url]:focus, select:focus, textarea:focus {
+  border-bottom: 1px solid var(--d-yellow);
 }
 
 .input-warn:focus {
-  border-bottom : 1px solid var(--l-red) !important;
+  border-bottom: 1px solid var(--l-red) !important;
 }
 
 .checkbox {
-  display          : inline-block;
-  width            : 1em;
-  height           : 1em;
-  background-color : var(--l-red);
-  border-radius    : 50%;
-  transition       : background-color .3s;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: var(--l-red);
+  border-radius: 50%;
+  transition: background-color .3s;
 }
 
 .checked {
-  background-color : var(--l-green);
+  background-color: var(--l-green);
 }
 
-@media screen and (max-width : 560px) {
-  input[type=text],
-  input[type=number],
-  input[type=url],
-  input[type=file],
-  select,
-  textarea {
-    width         : 100%;
-    display       : block;
-    margin-bottom : .5em;
-    margin-top    : 0;
+@media screen and (max-width: 560px) {
+  input[type=text], input[type=number], input[type=url], input[type=file], select, textarea {
+    width: 100%;
+    display: block;
+    margin-bottom: .5em;
+    margin-top: 0;
   }
-
   input[type=submit] {
-    width         : 97%;
-    width         : calc(100% - .6em);
-    display       : block;
-    margin-bottom : .5em;
-    margin-top    : .5em;
+    width: 97%;
+    width: calc(100% - .6em);
+    display: block;
+    margin-bottom: .5em;
+    margin-top: .5em;
   }
-
   label {
-    display    : inline-block;
-    margin-top : .5em;
+    display: inline-block;
+    margin-top: .5em;
   }
-
   label i.fa {
-    top : 1.2em;
+    top: 1.2em;
   }
-
   label.empty i.fa {
-    top : -1px;
+    top: -1px;
   }
-
   label.mt {
-    min-height : 3em;
+    min-height: 3em;
   }
 }
 
 .char {
-  width     : 2em;
-  min-width : 2em;
-  max-width : 2em;
-  display   : inline !important;
-  word-wrap : break-word;
+  width: 2em;
+  min-width: 2em;
+  max-width: 2em;
+  display: inline !important;
+  word-wrap: break-word;
 }
 
 label.char {
-  display : inline !important;
+  display: inline !important;
 }
+
 
 /* Navigation link styles */
 
 nav {
-  position         : fixed;
-  top              : 0;
-  right            : 0;
-  left             : 0;
-  width            : 100%;
-  height           : 45px;
-  vertical-align   : middle;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  vertical-align: middle;
   /*white-space      : nowrap;*/
-  background-color : var(--l-red);
-  border-bottom    : 1px solid var(--d-red);
-  z-index          : 100050;
+  background-color: var(--l-red);
+  border-bottom: 1px solid var(--d-red);
+  z-index: 100050;
 }
 
 nav ul {
-  list-style-type : none;
-  overflow        : hidden;
-  padding         : 0;
-  margin          : 0;
+  list-style-type: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 .topnav {
-  height          : 45px;
-  transition      : height .2s;
+  height: 45px;
+  transition: height .2s;
 }
 
 nav ul li {
-  display     : inline;
-  margin-top  : 6px;
-  margin-left : 0 !important;
-  height      : 28px;
+  display: inline;
+  margin-top: 6px;
+  margin-left: 0 !important;
+  height: 28px;
 }
 
 nav ul li a {
-  text-align      : center;
-  text-decoration : none;
-  color           : var(--white);
-  width           : 100%;
-  height          : 100%;
-  padding         : 3px 10px;
-  display         : block;
-  cursor          : pointer;
-  cursor          : hand;
+  text-align: center;
+  text-decoration: none;
+  color: var(--white);
+  width: 100%;
+  height: 100%;
+  padding: 3px 10px;
+  display: block;
+  cursor: pointer;
+  cursor: hand;
 }
 
 .pointer {
-  cursor : pointer;
-  cursor : hand;
+  cursor: pointer;
+  cursor: hand;
 }
 
 nav ul li a:hover {
-  color : var(--white);
+  color: var(--white);
 }
 
 ul.topnav li.icon {
-  display : none;
-  cursor  : pointer;
-  cursor  : hand;
+  display: none;
+  cursor: pointer;
+  cursor: hand;
 }
 
 nav img {
-  height        : 32px;
-  margin-top    : 6px;
-  margin-bottom : 2px;
-  margin-left   : .3em;
+  height: 32px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  margin-left: .3em;
 }
 
 .logo {
-  height : 32px;
+  height: 32px;
 }
 
 h3.copyright {
-  margin-top : 2em;
+  margin-top: 2em;
 }
 
 nav ul li div {
-  display     : inline-block;
-  white-space : nowrap;
-  color       : var(--white);
-  top         : 8px;
-  font-size   : 24px;
-  position    : absolute;
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--white);
+  top: 8px;
+  font-size: 24px;
+  position: absolute;
 }
 
 nav ul li:not(:first-child) {
-  text-decoration  : none;
-  display          : inline-block;
-  background-color : var(--d-red);
-  border-radius    : 4px;
-  float            : right;
-  margin-top       : 8px;
-  margin-right     : .3em;
-  color            : var(--white);
+  text-decoration: none;
+  display: inline-block;
+  background-color: var(--d-red);
+  border-radius: 4px;
+  float: right;
+  margin-top: 8px;
+  margin-right: .3em;
+  color: var(--white);
 }
 
 nav a:visited {
-  color : var(--white);
+  color: var(--white);
 }
 
 nav ul li:hover:not(:first-child) {
-  color            : var(--rl-gray);
-  background-color : var(--d-yellow);
+  color: var(--rl-gray);
+  background-color: var(--d-yellow);
 }
 
 .sharing {
-  font-size : 2em !important;
+  font-size: 2em !important;
 }
 
-@media screen and (max-width : 680px) {
+@media screen and (max-width: 680px) {
   nav.responsive {
-    height : 45px;
+    height: 45px;
   }
-
   nav ul li:not(:first-child) {
-    padding : 3px 10px;
-    display : block;
+    padding: 3px 10px;
+    display: block;
   }
-
   .topnav {
-    position : fixed;
+    position: fixed;
   }
-
   ul.topnav li.icon {
-    float   : right;
-    display : inline-block;
-    color   : var(--white);
+    float: right;
+    display: inline-block;
+    color: var(--white);
   }
-
   ul.topnav.responsive {
-    position : fixed;
-    height   : calc(44px + (3em * var(--nav-items)))
+    position: fixed;
+    height: calc(44px + (3em * var(--nav-items)))
   }
-
   ul.topnav li.icon {
-    position : fixed;
-    right    : 0;
-    top      : 0;
+    position: fixed;
+    right: 0;
+    top: 0;
   }
-
   ul.topnav li:not(.icon):not(:first-child) {
-    display        : block;
-    width          : 100vw;
-    vertical-align : middle;
-    height         : 3em;
-    border-radius  : 0;
-    margin         : 0;
-    padding        : 0;
+    display: block;
+    width: 100vw;
+    vertical-align: middle;
+    height: 3em;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
   }
-
   ul.topnav li:not(.icon):not(:first-child):not(:last-child) {
-    border-bottom : 1px solid var(--l-red);
+    border-bottom: 1px solid var(--l-red);
   }
-
   ul.topnav li:not(.icon):not(:first-child) a {
-    display      : block;
-    text-align   : left;
-    color        : var(--white);
-    font-size    : 2.6em;
-    margin       : 0;
-    width        : 100%;
-    height       : 100%;
-    padding-left : .1em;
-    padding-top  : 0;
-    line-height  : 1;
+    display: block;
+    text-align: left;
+    color: var(--white);
+    font-size: 2.6em;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: .1em;
+    padding-top: 0;
+    line-height: 1;
   }
-
   .sharing {
-    font-size : 6em !important;
+    font-size: 6em !important;
   }
-
-  table,
-  .table {
-    width : 100%;
+  table, .table {
+    width: 100%;
   }
-
   input.table {
-    width         : 100%;
-    display       : block;
-    margin-bottom : .5em;
-    margin-top    : 0;
+    width: 100%;
+    display: block;
+    margin-bottom: .5em;
+    margin-top: 0;
   }
 }
+
 
 /* content */
-.error,
-.warning {
-  text-align    : center;
-  display       : block;
-  position      : relative;
-  width         : 100%;
-  padding       : 1em;
-  margin-bottom : .3em;
+
+.error, .warning {
+  text-align: center;
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 1em;
+  margin-bottom: .3em;
 }
 
 .error {
-  color         : var(--d-red);
-  border        : 1px solid var(--d-red);
+  color: var(--d-red);
+  border: 1px solid var(--d-red);
 }
 
 .warning {
-  color         : var(--black);
-  border        : 1px solid var(--d-yellow);
+  color: var(--black);
+  border: 1px solid var(--d-yellow);
 }
 
 .close {
-  position : absolute;
-  right    : .3em;
-  top      : 0;
-  color    : var(--d-red);
+  position: absolute;
+  right: .3em;
+  top: 0;
+  color: var(--d-red);
 }
 
 .close:hover {
-  color : var(--l-red);
+  color: var(--l-red);
 }
 
 div.box {
-  text-align      : center;
-  width           : 100%;
-  position        : relative;
-  display         : flex;
-  flex-direction  : row;
-  flex-wrap       : wrap;
-  justify-content : space-around;
-  align-items     : stretch;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
 }
 
 .back {
-  position : fixed;
-  top      : 50px;
-  left     : 5px;
-  color    : rgba(0,132,153,.5);
+  position: fixed;
+  top: 50px;
+  left: 5px;
+  color: rgba(0, 132, 153, .5);
 }
 
 div.box-space {
-  text-align      : center;
-  width           : 100%;
-  position        : relative;
-  display         : flex;
-  flex-direction  : row;
-  flex-wrap       : wrap;
-  justify-content : space-between;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 div.mb {
-  margin-bottom : 2em;
+  margin-bottom: 2em;
 }
 
 div.emb {
-  margin-bottom : 5em;
+  margin-bottom: 5em;
 }
 
 a.em {
-  padding-left : 1em;
+  padding-left: 1em;
 }
 
 h3.pl {
-  text-align : left;
+  text-align: left;
 }
 
 .pr {
-  float : right;
+  float: right;
 }
 
 .pl {
-  float : left;
+  float: left;
 }
 
 .pr .level {
-  padding-right : .5em;
+  padding-right: .5em;
 }
 
 .level {
-  font-size : 2em;
+  font-size: 2em;
 }
 
 .gray {
-  color : var(--d-gray);
+  color: var(--d-gray);
 }
 
 div.box h3 {
-  width       : 100%;
-  color       : var(--black);
-  font-weight : lighter;
-  font-size   : 1.5em;
-  margin      : 1em 0 0;
-  padding     : 0;
-  text-align  : center;
+  width: 100%;
+  color: var(--black);
+  font-weight: lighter;
+  font-size: 1.5em;
+  margin: 1em 0 0;
+  padding: 0;
+  text-align: center;
 }
 
 div.box h3:first-child {
-  margin-top : 0;
+  margin-top: 0;
 }
 
 .parent {
-  background-color : var(--rl-gray);
-  border-radius    : 5px;
-  padding          : 1em;
-  text-align       : center;
-  margin-bottom    : .5em;
-  margin-right     : .25em;
-  margin-left      : .25em;
-  width            : 19%;
-  text-decoration  : none;
-  color            : var(--black);
-  cursor           : pointer;
-  cursor           : hand;
+  background-color: var(--rl-gray);
+  border-radius: 5px;
+  padding: 1em;
+  text-align: center;
+  margin-bottom: .5em;
+  margin-right: .25em;
+  margin-left: .25em;
+  width: 19%;
+  text-decoration: none;
+  color: var(--black);
+  cursor: pointer;
+  cursor: hand;
 }
 
-.parent:hover,
-.hover:hover {
-  background-color : var(--l-gray);
-  color            : var(--black);
+.parent:hover, .hover:hover {
+  background-color: var(--l-gray);
+  color: var(--black);
 }
 
 .video {
-  width        : 50vw;
-  height       : 28.124vw;
-  margin-right : auto;
-  margin-left  : auto;
+  width: 50vw;
+  height: 28.124vw;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-@media all and (max-width : 1325px) {
+@media all and (max-width: 1325px) {
   .parent {
-    width : 23%;
+    width: 23%;
   }
 }
 
-@media all and (max-width : 1050px) {
+@media all and (max-width: 1050px) {
   .parent {
-    width : 31%;
+    width: 31%;
   }
 }
 
-@media all and (max-width : 970px) {
+@media all and (max-width: 970px) {
   .parent {
-    width : 48%;
+    width: 48%;
   }
 }
 
-@media all and (max-width : 815px) {
+@media all and (max-width: 815px) {
   .parent {
-    width : 100%;
+    width: 100%;
   }
 }
 
-@media all and (max-width : 800px) {
+@media all and (max-width: 800px) {
   .video {
-    width  : 100%;
-    height : 54vw;
+    width: 100%;
+    height: 54vw;
   }
 }
 
 .half {
-  width : 48%;
+  width: 48%;
 }
 
-@media all and (max-width : 415px) {
+@media all and (max-width: 415px) {
   .half {
-    width : 100%;
+    width: 100%;
   }
 }
 
 .article {
-  margin-right   : auto;
-  margin-left    : auto;
-  padding        : 1em;
-  max-width      : 600px
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1em;
+  max-width: 600px
 }
 
 .article:not(:last-child) {
-  border-bottom : 1px solid var(--d-gray);
+  border-bottom: 1px solid var(--d-gray);
 }
 
 p {
-  margin-bottom : .3em;
-  max-width     : 600px;
-  margin-left   : auto;
-  margin-right  : auto;
-  color         : var(--black);
-  text-align    : justify;
+  margin-bottom: .3em;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--black);
+  text-align: justify;
 }
 
 ul.list {
-  margin-bottom : .3em;
-  max-width     : 400px;
-  margin-left   : auto;
-  margin-right  : auto;
-  text-align    : justify;
-  margin-top    : .3em;
+  margin-bottom: .3em;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: justify;
+  margin-top: .3em;
 }
 
-
 img.rafiki {
-  max-height : 40vh;
-  float      : right;
+  max-height: 40vh;
+  float: right;
 }
 
 li {
-  margin-left : 2em;
+  margin-left: 2em;
 }
 
 .mt {
-  margin-top : 1.3em;
+  margin-top: 1.3em;
 }
 
 .loading {
-  height        : 70vh;
-  align-content : center;
+  height: 70vh;
+  align-content: center;
 }
 
+
 /* Charts */
+
 .ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
-  stroke : var(--d-red) !important;
+  stroke: var(--d-red) !important;
 }
 
 .ct-series-a .ct-slice-pie, .ct-series-a .ct-area {
-  fill : var(--d-red) !important;
+  fill: var(--d-red) !important;
 }
 
 .color-a {
-  color : var(--d-red);
+  color: var(--d-red);
 }
 
 .ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-bar, .ct-series-b .ct-slice-donut {
-  stroke : var(--l-red) !important;
+  stroke: var(--l-red) !important;
 }
 
 .ct-series-b .ct-slice-pie, .ct-series-b .ct-area {
-  fill : var(--l-red) !important;
+  fill: var(--l-red) !important;
 }
 
 .color-b {
-  color : var(--l-red);
+  color: var(--l-red);
 }
 
 .ct-line {
-  stroke-width : 2px !important;
+  stroke-width: 2px !important;
 }
 
 .pc {
-  position      : relative;
-  width         : 100%;
-  max-width     : 600px;
-  height        : 30px;
-  margin-left   : auto;
-  margin-right  : auto;
-  border-radius : 3px;
-  margin-top    : .5em;
-  border-radius : 3px;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 3px;
+  margin-top: .5em;
+  border-radius: 3px;
 }
 
 .pb {
-  position         : absolute;
-  width            : 0;
-  height           : 100%;
-  border-radius    : 3px;
-  background-color : var(--d-red);
-  transition       : width .2s;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--d-red);
+  transition: width .2s;
 }
 
 .prl {
-  text-align  : center;
-  line-height : 30px;
-  color       : var(--white);
+  text-align: center;
+  line-height: 30px;
+  color: var(--white);
 }
+
 
 /* everywhere else */
 
 * {
   /* font-family : Helvetica, Arial, sans-serif; */
-  font-family : 'PT Sans', sans-serif;
+  font-family: 'PT Sans', sans-serif;
 }

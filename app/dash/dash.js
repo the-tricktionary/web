@@ -121,12 +121,24 @@ angular.module('trick.dash', ['ngRoute'])
         .then(function(url) {
           document.getElementById("a4booklet")
             .href = url;
-        })
+        });
       storageRef.child(booklets.letter)
         .getDownloadURL()
         .then(function(url) {
           document.getElementById("letterbooklet")
             .href = url;
-        })
+        });
+      storageRef.child(booklets.a4detailed)
+        .getDownloadURL()
+        .then(function(url) {
+          document.getElementById("a4detailedbooklet")
+            .href = url;
+        });
+      storageRef.child(booklets.letterdetailed)
+        .getDownloadURL()
+        .then(function(url) {
+          document.getElementById("letterdetailedbooklet")
+            .href = url;
+        });
     })
   });
