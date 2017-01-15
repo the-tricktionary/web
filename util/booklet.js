@@ -202,7 +202,7 @@ ref.on("value", function(snapshot) {
                     dlog("not saving filename in debug mode");
                     process.exit();
                   } else {
-                    db.ref("/booklets/latest/" + papersize + (detailed ? "-detailed" : "")).set(filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
+                    db.ref("/booklets/latest/" + papersize + (detailed ? "detailed" : "")).set(filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
                   }
                 }
               })
