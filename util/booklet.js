@@ -183,7 +183,7 @@ ref.on("value", function(snapshot) {
                 if(!err) {
                   dlog("booklet successfully uploaded");
                   dlog("saving filename to db");
-                  db.ref("/booklets/latest/" + papersize).set("booklets/" + filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
+                  db.ref("/booklets/latest/" + papersize).set(filename + ".pdf", function(error) { if(error) { proccess.exit(1);} else { dlog("filename for latest updated in db"); process.exit() }})
                 }
               })
             }

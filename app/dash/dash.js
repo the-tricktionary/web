@@ -46,6 +46,19 @@ angular.module('trick.dash', ['ngRoute'])
    * @description create a synchronized object stored in scope
    */
   $scope.globalnotice = $firebaseObject(ref2);
+  /** Create reference to database path */
+  var ref3 = Db.child("booklets/latest")
+  /**
+   * @name latest
+   * @function
+   * @memberOf trick.dash.DashCtrl
+   * @description create a syncronised object stored in a variable
+   */
+  var booklets = $firebaseObject(ref3);
+
+  var storage = firebase.storage()
+  var storageRef = storage.ref("booklets/");
+
   $scope.until = function(date) {
     var comp = new Date(date);
     var now = new Date();
@@ -100,4 +113,10 @@ angular.module('trick.dash', ['ngRoute'])
       'You are using an outdated url to reach the tricktionary, we highly reccomend updating your bookmarks to <a href="https://the-tricktionary.com">https://the-tricktionary.com</a>'
     );
   }
+
+  booklets.$watch(function() {
+    $scope.bookletDl = {}
+    storageRef.child(booklets.a4).getDownloadURL().then(function(url) { $scope.bookletDl.a4 = url})
+    storageRef.child(booklets.letter).getDownloadURL().then(function(url) { $scooe.bookletDl.letter = url})
+  })
 });
