@@ -5,15 +5,17 @@
  * @requires ngRoute
  */
 angular.module('trick.speed', ['ngRoute'])
-  
+
   .config([
-    '$routeProvider', function($routeProvider) {
+    '$routeProvider',
+    function($routeProvider) {
       $routeProvider.when('/speed', {
         templateUrl: '/speed/speed.html',
         controller: 'SpeedCtrl',
         resolve: {
           "currentAuth": [
-            "Auth", function(Auth) {
+            "Auth",
+            function(Auth) {
               return Auth.$requireSignIn();
             }
           ]
@@ -32,7 +34,7 @@ angular.module('trick.speed', ['ngRoute'])
    */
   .controller('SpeedCtrl', function($scope, $firebaseArray, $location, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
-      if($scope.user) {
+      if ($scope.user && !$scope.user.isAnonymous) {
         /** Create reference to databae path */
         var ref = Db.child("speed/scores/" + $scope.user.uid);
         /**
@@ -42,8 +44,7 @@ angular.module('trick.speed', ['ngRoute'])
          * @description create a synchronized array stored in scope
          */
         $scope.events = $firebaseArray(ref);
-      }
-      else {
+      } else {
         $location.path('/');
       }
     })

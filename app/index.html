@@ -13,7 +13,8 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="description" content="A dictionary of jumprope tricks">
         <meta name="keywords" content="Jumprope,Ropeskipping,jump,rope,skipping,tricks">
-        <meta name="google-site-verification" content="xAU96Y3b_An5qAtS5Xu6fBbH2CwmuSSHoWpVnXc73Ps"/>
+        <meta name="google-site-verification" content="xAU96Y3b_An5qAtS5Xu6fBbH2CwmuSSHoWpVnXc73Ps"
+        />
         <link rel="manifest" href="/static/manifest.json">
         <link rel="icon" href="/static/img/icon.png">
         <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
@@ -41,6 +42,8 @@
         <script src="/trick.js"></script>
         <script src="/dash/dash.js"></script>
         <script src="/details/details.js"></script>
+        <script src="/coach/coach.js"></script>
+        <script src="/share/share.js"></script>
         <script src="/news/news.js"></script>
         <script src="/speed/speed.js"></script>
         <script src="/speed/details/speed.details.js"></script>
@@ -62,6 +65,8 @@
                 <li><a ng-href="/news" onclick="toggleNav()">News</a></li>
                 <li><a href="/android/" target="_blank" onclick="toggleNav()">App</a></li>
                 <li><a ng-href="/contact" onclick="toggleNav()">Contact</a></li>
+                <li><a ng-href="/coach" onclick="toggleNav()">Coach</a></li>
+                <li><a ng-href="/share" onclick="toggleNav()">Share</a></li>
                 <li ng-if="user && !user.isAnonymous"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
                 <li ng-if="!user || user.isAnonymous"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
                 <li class="icon" onclick="toggleNav()">&#9776;</li>

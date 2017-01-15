@@ -1,0 +1,26 @@
+<h1>Coach</h1>
+<p>
+    Your students can share their stats with you and you can display your team here.
+    to have students appear, ask them to go to <a ng-href="/share">Share</a>    and fill in <span>{{ uid }}</span> as coach, or ask them to click on the following
+    link:
+    <a ng-href="https://the-tricktionary.com/share?coach={{ uid }}">https://the-tricktionary.com/share?coach={{ uid }}</a>    Note that an user can have multiple coaches.
+</p>
+<div ng-repeat="level in data">
+    <h2>Level {{ level.level }}</h2>
+    <div class="tablewrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="colheader">Trick</th>
+                    <th class="colheight" ng-repeat="student in students">{{ student.$value }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="trick in level.subs">
+                    <td class="colheader">{{ trick.name }}</td>
+                    <td class="colheight" ng-repeat="student in students"><i class="fa fa-check" ng-if="checklists[student.$id][level.id0][trick.id1]"></i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

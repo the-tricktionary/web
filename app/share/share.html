@@ -1,0 +1,19 @@
+<h1>Share</h1>
+<p>
+    You can currently share your progress with coaches, in the near future you'll also
+    be able to share a public profile and your speed events.
+</p>
+<div class="center">
+    <form ng-submit="addCoach()">
+        <input type="text" placeholder="coach id" ng-model="uid" />
+        <input type="submit" value="add as coach" />
+    </form>
+</div>
+<h2>Coaches</h2>
+<p>
+    <ul class="list">
+        <li ng-repeat="coach in coaches">{{ coach.$id }}
+            <a ng-confirm-click="Do you really want to remove this person as coach?" confirmed-click="delCoach(coach.$id)"><i class="fa fa-trash-o"></i></a>
+        </li>
+    </ul>
+</p>
