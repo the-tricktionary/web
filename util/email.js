@@ -103,7 +103,7 @@ function buildAdminEmailHtml(arr) {
   return html;
 }
 
-sendUserEmail(issue) {
+function sendUserEmail(issue) {
   if(issue.value.email) {
     var html = ""
     html += "Hello,<br/>You have recieved updates (most certainly replies) to one of the issues you created on the Tricktionary:<br/>"
@@ -137,7 +137,7 @@ ref.on("value", function(data) {
       from:    "the Tricktionary <noreply@" + mailgunConf.domain + ">",
       to:      mailgunConf.to,
       subject: "Daily contact summary " + moment().format("YYYY-MM-DD"),
-      html:    buildEmailHtml(changed)
+      html:    buildAdminEmailHtml(changed)
     };
     if(emailData.html !== null) {
       mailgun.messages().send(emailData, function(err, body) {
