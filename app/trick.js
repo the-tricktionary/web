@@ -28,6 +28,8 @@ function toggleNav() {
  * @requires ngRoute
  * @requires trick.dash
  * @requires trick.details
+ * @requires trick.coach
+ * @requires trick.profile
  * @requires trick.news
  * @requires trick.contact
  * @requires trick.about
@@ -41,7 +43,7 @@ angular.module('trick', [
   'trick.dash',
   'trick.details',
   'trick.coach',
-  'trick.share',
+  'trick.profile',
   'trick.news',
   'trick.contact',
   'trick.about',
