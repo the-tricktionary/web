@@ -43,7 +43,7 @@
         <script src="/dash/dash.js"></script>
         <script src="/details/details.js"></script>
         <script src="/coach/coach.js"></script>
-        <script src="/share/share.js"></script>
+        <script src="/profile/profile.js"></script>
         <script src="/news/news.js"></script>
         <script src="/speed/speed.js"></script>
         <script src="/speed/details/speed.details.js"></script>
@@ -66,7 +66,7 @@
                 <li><a href="/android/" target="_blank" onclick="toggleNav()">App</a></li>
                 <li><a ng-href="/contact" onclick="toggleNav()">Contact</a></li>
                 <li><a ng-href="/coach" onclick="toggleNav()">Coach</a></li>
-                <li><a ng-href="/share" onclick="toggleNav()">Share</a></li>
+                <li><a ng-href="/profile" onclick="toggleNav()">Profile</a></li>
                 <li ng-if="user && !user.isAnonymous"><a ng-click="signOut()" onclick="toggleNav()">Sign Out</a></li>
                 <li ng-if="!user || user.isAnonymous"><a ng-click="signIn()" onclick="toggleNav()">Sign In</a></li>
                 <li class="icon" onclick="toggleNav()">&#9776;</li>

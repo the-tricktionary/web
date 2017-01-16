@@ -1,17 +1,17 @@
 'use strict';
 /**
- * @class trick.ahare
+ * @class trick.profile
  * @memberOf trick
  * @requires ngRoute
  */
-angular.module('trick.share', ['ngRoute'])
+angular.module('trick.profile', ['ngRoute'])
 
   .config([
     '$routeProvider',
   function($routeProvider) {
-      $routeProvider.when('/share', {
-        templateUrl: '/share/share.html',
-        controller: 'ShareCtrl',
+      $routeProvider.when('/profile', {
+        templateUrl: '/profile/profile.html',
+        controller: 'ProfileCtrl',
         resolve: {
           "currentAuth": [
             "Auth",
@@ -25,20 +25,23 @@ angular.module('trick.share', ['ngRoute'])
   ])
 
   /**
-   * @class trick.share.ShareCtrl
+   * @class trick.profile.ProfileCtrl
    * @param {service} $scope
    * @param {service} $firebaseArray
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('ShareCtrl', function($scope, $firebaseArray, $firebaseObject,
-    $location, Auth, Db) {
+  .controller('ProfileCtrl', function($scope, $firebaseArray,
+    $firebaseObject, $location, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
       if ($scope.user && !$scope.user.isAnonymous) {
         var ref = Db.child('users/' + $scope.user.uid + '/coaches')
         $scope.coaches = $firebaseArray(ref);
 
-        $scope.addCoach = function() {
+        $scope.addCoach = function(uid) {
+          if (uid) {
+            $scope.uid = uid;
+          }
           var ref1 = Db.child('users/' + $scope.uid + "/students/" +
             $scope.user
             .uid);
