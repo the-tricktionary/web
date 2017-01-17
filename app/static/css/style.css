@@ -293,6 +293,10 @@ label.mt {
   min-height: 1.5em;
 }
 
+span.block {
+  display: block;
+}
+
 .emt {
   margin-top: 2.2em;
 }
@@ -611,6 +615,15 @@ div.box {
   align-items: stretch;
 }
 
+div.box-center {
+  justify-content: center;
+  align-items: center;
+}
+
+div.box-center * {
+  margin: .3em;
+}
+
 .back {
   position: fixed;
   top: 50px;
@@ -778,6 +791,13 @@ ul.list {
 img.rafiki {
   max-height: 40vh;
   float: right;
+}
+
+img.profile {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  text-align: right;
 }
 
 li {

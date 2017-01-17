@@ -35,21 +35,25 @@ angular.module('trick.profile', ['ngRoute'])
     $firebaseObject, $location, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
       if ($scope.user && !$scope.user.isAnonymous) {
-        var ref = Db.child('users/' + $scope.user.uid + '/coaches')
-        $scope.coaches = $firebaseArray(ref);
+        var profileRef = Db.child('users/' + $scope.user.uid + '/profile');
+        $scope.profileSettings = $firebaseObject(profileRef);
+
+        var coachesRef = Db.child('users/' + $scope.user.uid + '/coaches')
+        $scope.coaches = $firebaseArray(coachesRef);
 
         $scope.addCoach = function(uid) {
           if (uid) {
             $scope.uid = uid;
           }
-          var ref1 = Db.child('users/' + $scope.uid + "/students/" +
+          var studentsRef = Db.child('users/' + $scope.uid +
+            "/students/" +
             $scope.user
             .uid);
-          ref1.set($scope.user.displayName, function(err) {
+          studentsRef.set($scope.user.displayName, function(err) {
             if (err) {
               $scope.Error(err);
             } else {
-              ref.child($scope.uid)
+              coachesRef.child($scope.uid)
                 .set(true, function(err) {
                   if (err) {
                     $scope.Error(err);
@@ -62,13 +66,14 @@ angular.module('trick.profile', ['ngRoute'])
         }
 
         $scope.delCoach = function(uid) {
-          var ref1 = Db.child('users/' + uid + "/students/" + $scope.user
+          var studentsRef = Db.child('users/' + uid + "/students/" +
+            $scope.user
             .uid);
-          ref1.set(null, function(err) {
+          studentsRef.set(null, function(err) {
             if (err) {
               $scope.Error(err);
             } else {
-              ref.child(uid)
+              coachesRef.child(uid)
                 .set(null, function(err) {
                   $scope.Error(err);
                 })
@@ -82,7 +87,7 @@ angular.module('trick.profile', ['ngRoute'])
           $scope.addCoach($scope.fastcoach);
         }
       } else {
-        $loaction.path('/');
+        $location.path('/');
       }
     })
   })

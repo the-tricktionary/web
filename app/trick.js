@@ -44,6 +44,7 @@ angular.module('trick', [
   'trick.details',
   'trick.coach',
   'trick.profile',
+  'trick.profile.details',
   'trick.news',
   'trick.contact',
   'trick.about',
@@ -97,7 +98,7 @@ angular.module('trick', [
         .ref();
     })
 
-  .run(function($location, $rootScope, Auth) {
+  .run(function($location, $rootScope, Auth, Db) {
     $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
       if (error === "AUTH_REQUIRED") {
         $location.path('/');
@@ -119,6 +120,14 @@ angular.module('trick', [
       Auth.$signInWithPopup("google")
         .then(function(firebaseUser) {
           $rootScope.user = firebaseUser;
+          setTimeout(function() {
+            Db.child('users/' + $rootScope.user.uid + '/profile')
+              .update({
+                "name": $rootScope.user.displayName.split(' '),
+                "email": $rootScope.user.email,
+                "image": $rootScope.user.providerData[0].photoURL
+              })
+          }, 1000);
         })
         .catch(function(error) {
           $rootScope.Error(error);

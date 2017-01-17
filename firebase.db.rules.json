@@ -21,7 +21,8 @@
     "checklist": {
       ".read": true,
       "$uid": {
-        ".write": "$uid === auth.uid"
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid || root.child('users/' + $uid + '/profile/public').val() === true || root.child('users/' + $uid + '/coaches/' + auth.uid).val() === true"
       }
     },
     "contact": {
@@ -35,12 +36,17 @@
     "speed": {
       "scores": {
         "$uid": {
-          ".write": "$uid == auth.uid"
+          ".write": "$uid == auth.uid",
+          ".read": "$uid === auth.uid || (root.child('users/' + $uid + '/profile/public').val() === true && root.child('users/' + $uid + '/profile/speed').val() === true)"
         },
         ".read": true
       }
     },
     "booklets": {
+      ".read": true,
+      ".write": false
+    },
+    "stats": {
       ".read": true,
       ".write": false
     },
@@ -56,6 +62,10 @@
         },
         "coaches": {
           ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "profile": {
+          ".read": "$uid === auth.uid || data.child('public').val() === true",
           ".write": "$uid === auth.uid"
         }
       }
