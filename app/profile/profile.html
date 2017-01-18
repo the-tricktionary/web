@@ -4,7 +4,7 @@
     profile page.
 </p>
 <div class="center">
-    <h2>Profile Page</h2
+    <h2>Profile Page</h2>
     <p>
         You can always see your complete profile on
         <a ng-href="/profile/{{ user.uid }}">the-tricktionary.com/profile/{{ user.uid }}</a>        by enabling a public profile you will make that profile public to everyone.
@@ -12,6 +12,10 @@
         highscores or neither. If you choose neither your public profile page will
         just show the ammount of tricks you've completed. if you have your profile
         set to public you can share the above link.
+    </p>
+    <p>
+        Speed highscores aren't yet avilable, but enabling it will prepare you for when it
+        becomes.
     </p>
     <a ng-click="profileSettings.public = !profileSettings.public; profileSettings.$save()"
         class="black"><i ng-class="(profileSettings.public ? 'checked' : '')" class="checkbox"></i>        Enable public profile</a>
