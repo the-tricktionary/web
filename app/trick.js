@@ -124,7 +124,6 @@ angular.module('trick', [
             Db.child('users/' + $rootScope.user.uid + '/profile')
               .update({
                 "name": $rootScope.user.displayName.split(' '),
-                "email": $rootScope.user.email,
                 "image": $rootScope.user.providerData[0].photoURL
               })
           }, 1000);

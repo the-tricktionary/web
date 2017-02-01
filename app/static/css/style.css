@@ -15,6 +15,7 @@
   --l-blue: #3baec4;
   --white: #fff;
   --nav-items: 8;
+  --content-max-width: 600px;
 }
 
 * {
@@ -171,7 +172,7 @@ button:disabled, .button:disabled {
 table, .table {
   border-collapse: collapse;
   width: 100%;
-  max-width: 600px;
+  max-width: var(--content-max-width);
   margin-right: auto;
   margin-left: auto;
 }
@@ -335,6 +336,10 @@ select {
   text-align: center !important;
 }
 
+.searchheader {
+  width: 100%;
+}
+
 input[type=text]:focus, input[type=number]:focus, input[type=url]:focus, select:focus, textarea:focus {
   border-bottom: 1px solid var(--d-yellow);
 }
@@ -419,6 +424,7 @@ nav ul {
   overflow: hidden;
   padding: 0;
   margin: 0;
+  width: auto;
 }
 
 .topnav {
@@ -763,7 +769,7 @@ div.box h3:first-child {
   margin-right: auto;
   margin-left: auto;
   padding: 1em;
-  max-width: 600px
+  max-width: var(--content-max-width);
 }
 
 .article:not(:last-child) {
@@ -772,7 +778,7 @@ div.box h3:first-child {
 
 p {
   margin-bottom: .3em;
-  max-width: 600px;
+  max-width: var(--content-max-width);
   margin-left: auto;
   margin-right: auto;
   color: var(--black);
@@ -781,7 +787,7 @@ p {
 
 ul.list {
   margin-bottom: .3em;
-  max-width: 400px;
+  max-width: var(--content-max-width);
   margin-left: auto;
   margin-right: auto;
   text-align: justify;
@@ -847,7 +853,7 @@ li {
 .pc {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: var(--content-max-width);
   height: 30px;
   margin-left: auto;
   margin-right: auto;

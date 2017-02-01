@@ -102,7 +102,9 @@ angular.module('trick.dash', ['ngRoute'])
     /** Configure $anchorScroll to take the navbar into consideration*/
     $anchorScroll.yOffset = 200;
     /** Scroll To anchor */
-    $anchorScroll();
+    setTimeout(function() {
+      $anchorScroll()
+    }, 100);
     /**
      * return a list of classes to apply
      * @param  {int} id0

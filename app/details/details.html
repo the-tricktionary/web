@@ -3,15 +3,18 @@
 <h2>{{ trick.type }}</h2>
 <p>{{ trick.description }}</br>
     <a ng-href="/contact?id0={{ id0 }}&id1={{ id1 }}"><i class="fa fa-exclamation-triangle"></i> Report an issue with this trick</a>
+    <span class="pr"><a ng-href="/profile/{{ trick.by }}"><i class="fa fa-user"></i> Submitter</a></span>
 </p>
 <div class="video">
     <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
         frameborder="0" allowfullscreen></iframe>
-    <div>
-        <span class="pl level"><span class="gray small">fisac-irsf Level:</span>{{
-        trick.irsf }}</span>
-        <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.wjr}}</span>
-    </div>
+        <div>
+            <span class="pl level"><span class="gray small">fisac-irsf Level:</span>{{
+            trick.irsf }}</span>
+            <span class="pr level"><span class="gray small">wjr Level:</span> {{
+            trick.wjr}}
+            </span>
+        </div>
 </div>
 <div class="box" ng-if="user && !user.isAnonymous">
     <a ng-click="done.$value = !done.$value; done.$save()" class="black pl"><i ng-class="(done.$value ? 'checked' : '')" class="checkbox"></i> Completed</a>
@@ -26,6 +29,6 @@
 <div class="box">
     <a class="parent half" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
         ng-if="!(id0 == 0 && id1 == 0)"><i class="fa fa-chevron-left"></i> Previous</a>
-    <a class="parent half" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
-        ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
+        <a class="parent half" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
+            ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
 </div>
