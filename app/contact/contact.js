@@ -22,12 +22,11 @@ angular.module('trick.contact', ['ngRoute'])
    * @param {service} $scope
    * @param {service} $firebaseArray
    * @param {service} $location
-   * @param {service} $sce
    * @param {service} $anchorScroll
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('ContactCtrl', function($scope, $firebaseArray, $location, $sce,
+  .controller('ContactCtrl', function($scope, $firebaseArray, $location,
     $anchorScroll,
     Auth, Db) {
     Auth.$onAuthStateChanged(function() {
@@ -53,6 +52,12 @@ angular.module('trick.contact', ['ngRoute'])
          * @description contains user's Display name
          */
         $scope.newName = $scope.user.displayName;
+        /**
+         * @name $scope.newEmail
+         * @type {string}
+         * @description contains user's email
+         */
+        $scope.newEmail = $scope.user.email;
       }
       /**
        * Check if Admin
@@ -179,9 +184,12 @@ angular.module('trick.contact', ['ngRoute'])
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
           "name")
         .value);
+      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById(
+          "email")
+        .value)
 
       /** if name and issue isn't empty, save to db and redirect to frontpage, if not make error */
-      if ($scope.newName && issue !== "") {
+      if ($scope.newName && $scope.newEmail && issue !== "") {
         /**
          * @name $scope.error
          * @type {undefined}
@@ -192,7 +200,7 @@ angular.module('trick.contact', ['ngRoute'])
           name: $scope.newName,
           desc: issue,
           type: newType,
-          email: (email ? $scope.user.email : null)
+          email: (email ? $scope.newEmail : null)
         });
       } else {
         /**
@@ -226,9 +234,13 @@ angular.module('trick.contact', ['ngRoute'])
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
           "name")
         .value);
+      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById(
+          "email")
+        .value)
 
       /** if name and id0 and id1 and suggestedLvl and what organization is filled save to db and redirect to frontpage, if not make error */
-      if ($scope.newName && newId0 && newId1 && newLvl && newOrg) {
+      if ($scope.newName && $scope.newEmail && newId0 && newId1 && newLvl &&
+        newOrg) {
         /**
          * @name $scope.error
          * @type {undefined}
@@ -242,7 +254,7 @@ angular.module('trick.contact', ['ngRoute'])
           level: newLvl,
           org: newOrg,
           type: newType,
-          email: (email ? $scope.user.email : null)
+          email: (email ? $scope.newEmail : null)
         });
       } else {
         /**
@@ -296,10 +308,14 @@ angular.module('trick.contact', ['ngRoute'])
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
           "name")
         .value);
+      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById(
+          "email")
+        .value)
 
       /** if newTrickName and newDesc and newTrickType and isn't empty, save to db */
-      if ($scope.newName && newTrickName && newDesc && newTrickType && (
-          newVideo.size < 100 * 1024 * 1024) && !$scope.user.isAnonymous) {
+      if ($scope.newName && $scope.newEmail && newTrickName && newDesc &&
+        newTrickType && (
+          newVideo.size < (100 * 1024 * 1024)) && !$scope.user.isAnonymous) {
         /**
          * @name $scope.error
          * @type {undefined}
@@ -317,7 +333,7 @@ angular.module('trick.contact', ['ngRoute'])
             'trickName': newTrickName,
             'desc': newDesc,
             'trickType': newTrickType,
-            'email': $scope.user.email,
+            'email': $scope.newEmail,
             'uid': $scope.user.uid
           }
         };
@@ -348,7 +364,7 @@ angular.module('trick.contact', ['ngRoute'])
         if (!newDesc) {
           $scope.Error("Please describe the trick with a few words");
         } else
-        if (newVideo.size > 100 * 1024 * 1024) {
+        if (newVideo.size > (100 * 1024 * 1024)) {
           $scope.Error("The file is too big");
         } else
         if (!newTrickType) {
@@ -401,13 +417,6 @@ angular.module('trick.contact', ['ngRoute'])
       };
       $scope.person.$save(issue);
     }
-
-    /**
-     * @name $scope.trustAsResourceUrl
-     * @function
-     * @description Trust url constructed on page for video as usable
-     */
-    $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
 
     $scope.keys = Object.keys
 

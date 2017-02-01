@@ -6,6 +6,9 @@
 <div class="center" ng-if="!admin">
     <label for="name">Name:</label>
     <input id="name" type="text" placeholder="Name" ng-model="newName" ng-disabled="user.displayName"
+        required/></br>
+    <label for="email">Email:</label>
+    <input id="email" type="email" placeholder="Email" ng-model="newEmail" ng-disabled="user.email"
         required/>
 </div>
 <div class="center" ng-hide="admin">
