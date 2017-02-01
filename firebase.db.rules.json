@@ -36,10 +36,16 @@
     "speed": {
       "scores": {
         "$uid": {
-          ".write": "$uid == auth.uid",
-          ".read": "$uid === auth.uid || (root.child('users/' + $uid + '/profile/public').val() === true && root.child('users/' + $uid + '/profile/speed').val() === true)"
+          ".write": "$uid === auth.uid",
+          ".read": "$uid === auth.uid"
         },
         ".read": true
+      },
+      "highscores": {
+        "$uid": {
+          ".read": "$uid === auth.uid || (root.child('users/' + $uid + '/profile/public').val() === true && root.child('users/' + $uid + '/profile/speed').val() === true)",
+          ".write": "$uid === auth.uid"
+        }
       }
     },
     "booklets": {
@@ -66,6 +72,10 @@
         },
         "profile": {
           ".read": "$uid === auth.uid || data.child('public').val() === true",
+          ".write": "$uid === auth.uid"
+        },
+        "hideCompleted": {
+          ".read": "$uid === auth.uid",
           ".write": "$uid === auth.uid"
         }
       }

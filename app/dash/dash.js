@@ -80,6 +80,16 @@ angular.module('trick.dash', ['ngRoute'])
          * @description create a synchronized array stored in scope
          */
         $scope.done = $firebaseObject(ref3);
+        /** Create reference to database path */
+        var ref4 = Db.child("users/" + $scope.user.uid +
+          "/hideCompleted");
+        /**
+         * @name $scope.hideDone
+         * @function
+         * @memberOf trick.dash.DashCtrl
+         * @description create a synchronized Object stored in scope
+         */
+        $scope.hideDone = $firebaseObject(ref4);
       }
     });
     /**

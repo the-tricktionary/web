@@ -30,7 +30,7 @@ angular.module('trick.profile.details', ['ngRoute'])
     $scope.checklist = $firebaseObject(checklistRef);
     var trickRef = Db.child('tricks');
     $scope.tricks = $firebaseArray(trickRef);
-    //var speedRef = Db.child('speed/scores/' + $scope.profile);
+    //var speedRef = Db.child('speed/highscores/' + $scope.profile);
     //$scope.speed = $firebaseArray(speedRef);
     var userInfo = Db.child('users/' + $scope.profile + '/profile');
     $scope.info = $firebaseObject(userInfo);
