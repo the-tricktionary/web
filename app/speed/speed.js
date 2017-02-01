@@ -34,6 +34,7 @@ angular.module('trick.speed', ['ngRoute'])
    */
   .controller('SpeedCtrl', function($scope, $firebaseArray, $location, Auth, Db) {
     Auth.$onAuthStateChanged(function() {
+      $scope.Subpage("Speed");
       if ($scope.user && !$scope.user.isAnonymous) {
         /** Create reference to databae path */
         var ref = Db.child("speed/scores/" + $scope.user.uid);

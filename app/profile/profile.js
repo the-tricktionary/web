@@ -33,6 +33,7 @@ angular.module('trick.profile', ['ngRoute'])
    */
   .controller('ProfileCtrl', function($scope, $firebaseArray,
     $firebaseObject, $location, Auth, Db) {
+    $scope.Subpage("Profile")
     Auth.$onAuthStateChanged(function() {
       if ($scope.user && !$scope.user.isAnonymous) {
         var profileRef = Db.child('users/' + $scope.user.uid + '/profile');

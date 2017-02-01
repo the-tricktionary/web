@@ -18,7 +18,8 @@
         <link rel="manifest" href="/static/manifest.json">
         <link rel="icon" href="/static/img/icon.png">
         <link rel="apple-touch-icon" href="/static/img/icon-ios.png">
-        <title>Tricktionary</title>
+        <title ng-if="!subpage">Tricktionary</title>
+        <title ng-if="subpage">Tricktionary{{ (subpage ? " - " + subpage : "") }}</title>
         <!-- Resources -->
         <script src="/static/js/angular.min.js"></script>
         <script src="/static/js/angular-resource.min.js"></script>

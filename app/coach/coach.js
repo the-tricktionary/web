@@ -34,6 +34,7 @@ angular.module('trick.coach', ['ngRoute'])
   .controller('CoachCtrl', function($scope, $firebaseArray, $firebaseObject,
     Auth, Db) {
     Auth.$onAuthStateChanged(function() {
+      $scope.Subpage("Coach");
       if ($scope.user && !$scope.user.isAnonymous) {
         var ref = Db.child('tricks')
         var ref1 = Db.child('users/' + $scope.user.uid + '/students')

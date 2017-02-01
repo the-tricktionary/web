@@ -36,6 +36,7 @@ angular.module('trick.speed.details', ['ngRoute'])
   .controller('SpeedDetailsCtrl', function($scope, $firebaseObject,
     $routeParams,
     $location, $filter, Auth, Db) {
+    $scope.Subpage("Speed Event")
     Auth.$onAuthStateChanged(function() {
       if ($scope.user && !$scope.user.isAnonymous) {
         /**
@@ -54,6 +55,13 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @description create a synchronized *object* stored in scope
          */
         $scope.event = $firebaseObject(ref);
+
+        $scope.event.$loaded()
+          .then(function() {
+            $scope.Subpage(($scope.event.name ? $scope.event.name :
+              $filter('date')($scope.event.$id * 1000,
+                'MMM d, y HH:mm:ss')))
+          })
 
         $scope.removeEvent = function() {
           if (confirm("Are you sure you want to remove this event?")) {

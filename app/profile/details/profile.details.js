@@ -25,6 +25,7 @@ angular.module('trick.profile.details', ['ngRoute'])
    */
   .controller('ProfileDetailsCtrl', function($scope, $firebaseArray,
     $firebaseObject, $location, $routeParams, Auth, Db) {
+    $scope.Subpage("Profile")
     $scope.profile = $routeParams.uid;
     var checklistRef = Db.child('checklist/' + $scope.profile);
     $scope.checklist = $firebaseObject(checklistRef);
@@ -34,6 +35,11 @@ angular.module('trick.profile.details', ['ngRoute'])
     //$scope.speed = $firebaseArray(speedRef);
     var userInfo = Db.child('users/' + $scope.profile + '/profile');
     $scope.info = $firebaseObject(userInfo);
+
+    $scope.info.$loaded()
+      .then(function() {
+        $scope.Subpage($scope.info.name[0] + "'s Profile")
+      })
 
     $scope.keys = function(obj) {
       var length = Object.keys(obj)

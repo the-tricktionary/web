@@ -160,6 +160,10 @@ angular.module('trick', [
       }
     }
 
+    $rootScope.Subpage = function(name) {
+      $rootScope.subpage = name
+    }
+
     /**
      * any time auth status updates, add the user data to scope
      * @memberOf trick.trick

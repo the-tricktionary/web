@@ -37,6 +37,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
    */
   .controller('SpeedCompareCtrl', function($scope, $firebaseObject,
     $firebaseArray, $routeParams, $location, $filter, Auth, Db) {
+    $scope.Subpage("Compare")
     Auth.$onAuthStateChanged(function() {
       if ($scope.user && !$scope.user.isAnonymous) {
         /**

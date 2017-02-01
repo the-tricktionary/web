@@ -28,6 +28,7 @@ angular.module('trick.dash', ['ngRoute'])
    */
   .controller('DashCtrl', function($scope, $firebaseArray, $firebaseObject,
     $anchorScroll, $location, Db, Auth) {
+    $scope.Subpage(undefined);
     /** Create reference to database path */
     var trickRef = Db.child("tricks");
     /**

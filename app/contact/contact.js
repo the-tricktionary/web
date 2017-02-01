@@ -30,6 +30,7 @@ angular.module('trick.contact', ['ngRoute'])
     $anchorScroll,
     Auth, Db) {
     Auth.$onAuthStateChanged(function() {
+      $scope.Subpage("Contact")
       /**
        * Sign in as anon if signed out
        */
