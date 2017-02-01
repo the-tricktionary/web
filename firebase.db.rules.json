@@ -1,22 +1,8 @@
 {
   "rules": {
-    "tricks": {
+    "booklets": {
       ".read": true,
       ".write": false
-    },
-    "globalnotice": {
-      ".read": true,
-      ".write": false
-    },
-    "news": {
-      ".read": true,
-      ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
-    },
-    "submissions": {
-      "$uid": {
-        ".read": "$uid === auth.uid",
-        ".write": "$uid === auth.uid"
-      }
     },
     "checklist": {
       ".read": true,
@@ -31,6 +17,14 @@
         ".write": "$uid === auth.uid"
       },
       ".read": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
+      ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
+    },
+    "globalnotice": {
+      ".read": true,
+      ".write": false
+    },
+    "news": {
+      ".read": true,
       ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
     },
     "speed": {
@@ -48,11 +42,15 @@
         }
       }
     },
-    "booklets": {
+    "stats": {
       ".read": true,
       ".write": false
     },
-    "stats": {
+    "tricks": {
+      ".read": true,
+      ".write": false
+    },
+    "tricktypes": {
       ".read": true,
       ".write": false
     },
