@@ -29,33 +29,43 @@ angular.module('trick.dash', ['ngRoute'])
   .controller('DashCtrl', function($scope, $firebaseArray, $firebaseObject,
     $anchorScroll, $location, Db, Auth) {
     /** Create reference to database path */
-    var ref = Db.child("tricks");
+    var trickRef = Db.child("tricks");
     /**
      * @name $scope.data
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a synchronized array stored in scope
      */
-    $scope.data = $firebaseArray(ref);
+    $scope.data = $firebaseArray(trickRef);
     /** Create reference to database path */
-    var ref2 = Db.child("globalnotice");
+    var globRef = Db.child("globalnotice");
     /**
      * @name $scope.globalnotice
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a synchronized object stored in scope
      */
-    $scope.globalnotice = $firebaseObject(ref2);
+    $scope.globalnotice = $firebaseObject(globRef);
     /** Create reference to database path */
-    var ref3 = Db.child("booklets/latest")
+    var bookletRef = Db.child("booklets/latest")
     /**
-     * @name latest
+     * @name $scope.booklets
      * @function
      * @memberOf trick.dash.DashCtrl
-     * @description create a syncronised object stored in a variable
+     * @description create a syncronised object stored in scope
      */
-    var booklets = $firebaseObject(ref3);
-    $scope.bookletDl = {}
+    var booklets = $firebaseObject(bookletRef);
+    $scope.bookletDl = {};
+    /** Create reference to database path */
+    var typeRef = Db.child("tricktypes");
+    /**
+     * @name $scope.types
+     * @function
+     * @memberOf trick.dash.DashCtrl
+     * @description create a syncronised object stored in scope
+     */
+    $scope.types = $firebaseObject(typeRef);
+    $scope.typeifs = {};
 
     var storage = firebase.storage()
     var storageRef = storage.ref("booklets/");
@@ -72,16 +82,16 @@ angular.module('trick.dash', ['ngRoute'])
     Auth.$onAuthStateChanged(function() {
       if ($scope.user) {
         /** Create reference to database path */
-        var ref3 = Db.child("checklist/" + $scope.user.uid);
+        var checkRef = Db.child("checklist/" + $scope.user.uid);
         /**
          * @name $scope.done
          * @function
          * @memberOf trick.dash.DashCtrl
          * @description create a synchronized array stored in scope
          */
-        $scope.done = $firebaseObject(ref3);
+        $scope.done = $firebaseObject(checkRef);
         /** Create reference to database path */
-        var ref4 = Db.child("users/" + $scope.user.uid +
+        var compRef = Db.child("users/" + $scope.user.uid +
           "/hideCompleted");
         /**
          * @name $scope.hideDone
@@ -89,7 +99,7 @@ angular.module('trick.dash', ['ngRoute'])
          * @memberOf trick.dash.DashCtrl
          * @description create a synchronized Object stored in scope
          */
-        $scope.hideDone = $firebaseObject(ref4);
+        $scope.hideDone = $firebaseObject(compRef);
       }
     });
     /**

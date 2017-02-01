@@ -20,11 +20,14 @@
     </div>
     <div class="box" ng-repeat="level in data">
         <h2 class="searchheader">Level {{ level.level }}</h2>
-        <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
-            id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
-            ng-hide="hideDone.value && done[level.id0][trick.id1]">
-            {{ trick.name }}
-            </a>
+        <div ng-repeat="type in types" class="box">
+            <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ type }}</h3>
+            <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
+                id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
+                ng-hide="hideDone.value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
+                {{ trick.name }}
+                </a>
+        </div>
     </div>
     <h3 id="about">About the Tricktionary</h3>
     <p>
@@ -110,4 +113,6 @@
     </p>
     <p>
         To report an error in the data, see the <a ng-href="/contact">Contact</a>        page.
+    </p>
+    </p>
     </p>
