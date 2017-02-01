@@ -22,14 +22,17 @@
 </div>
 <br/>
 
-<form ng-if="newType == 'General'" ng-submit="submitGen()" class="center">
+<form ng-if="newType == 'General'" ng-submit="submitGen(emailupdates)" class="center">
     <label for="desc">Describe your issue:</label>
     <textarea id="desc" ng-model="issue" required></textarea>
-    <input type="checkbox" ng-model="emailupdates" id="genemail" /><label for="genemail">Recieve email updates about this issue</label>
+    <div class="mt">
+        <a ng-click="emailupdates = !emailupdates" class="emt black"><i ng-class="(emailupdates ? 'checked' : '')" class="checkbox"></i> Recieve
+            email updates about this issue</a>
+    </div>
     <input type="submit" value="Submit" />
 </form>
 
-<form ng-if="newType == 'Incorrect Level'" ng-submit="submitLev()" class="center">
+<form ng-if="newType == 'Incorrect Level'" ng-submit="submitLev(emailupdates)" class="center">
     <label for="id0" class="char">https://the-tricktionary.com/details/</label>
     <input type="number" id="id0" ng-model="newId0" class="char" placeholder="0" min="0"
         max="4" required/>
@@ -47,7 +50,10 @@
             <option value="wjr rules">wjr rules</option>
         </select>
     </label>
-    <div><input type="checkbox" ng-model="emailupdates" id="ilemail" /><label for="ilemail">Recieve email updates about this issue</label></div>
+    <div class="mt">
+        <a ng-click="emailupdates = !emailupdates" class="emt black"><i ng-class="(emailupdates ? 'checked' : '')" class="checkbox"></i> Recieve
+            email updates about this issue</a>
+    </div>
     <input type="submit" value="Submit" />
 </form>
 

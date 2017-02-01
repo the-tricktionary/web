@@ -169,12 +169,11 @@ angular.module('trick.contact', ['ngRoute'])
      * @memberOf trick.contact.ContactCtrl
      * @description function to submit a general question
      */
-    $scope.submitGen = function() {
+    $scope.submitGen = function(emailupdates) {
       /** get User Input */
       var issue = document.getElementById('desc')
         .value;
-      var email = document.getElementById('genemail')
-        .checked;
+      var email = emailupdates;
       var newType = document.getElementById('type')
         .value;
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
@@ -211,7 +210,7 @@ angular.module('trick.contact', ['ngRoute'])
      * @memberOf trick.contact.ContactCtrl
      * @description function to submit a report of an incorrect level
      */
-    $scope.submitLev = function() {
+    $scope.submitLev = function(emailupdates) {
       /** get User Input */
       var newId0 = document.getElementById('id0')
         .value;
@@ -221,8 +220,7 @@ angular.module('trick.contact', ['ngRoute'])
         .value;
       var newLvl = document.getElementById('level')
         .value;
-      var email = document.getElementById('ilemail')
-        .checked;
+      var email = emailupdates;
       var newType = document.getElementById('type')
         .value;
       $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
