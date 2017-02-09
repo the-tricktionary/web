@@ -7,9 +7,9 @@
     <a class="close" ng-click="error.show = !error.show"><i class="fa fa-times-circle"></i></a>
 </div>
 <a href="#about" class="pr" ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"><i class="fa fa-arrow-circle-down"></i></a>
-<a ng-click="hideDone.value = !hideDone.value; hideDone.$save()" class="pl black"
+<a ng-click="hideDone.$value = !hideDone.$value; hideDone.$save()" class="pl black"
     ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"
-    ng-show="user && !user.isAnonymous"><i ng-class="(hideDone.value ? 'checked' : '')" class="checkbox"></i> Hide completed
+    ng-show="user && !user.isAnonymous"><i ng-class="(hideDone.$value ? 'checked' : '')" class="checkbox"></i> Hide completed
     tricks
     </a>
     <div class="box loading" ng-if="!data.length">
@@ -24,7 +24,7 @@
             <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ type }}</h3>
             <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
                 id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
-                ng-hide="hideDone.value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
+                ng-hide="hideDone.$value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
                 {{ trick.name }}
                 </a>
         </div>
