@@ -1,16 +1,36 @@
 <h1>{{ (info.name ? info.name[0] + "'s": "") }} Profile</h1>
 <div class="box box-center">
-    <img class="profile" ng-src="{{ info.image }}" />
+    <img class="profile" ng-src="{{ info.image }}" ng-if="info.image" />
+    <span class="profile" ng-if="!info.image"><i class="fa fa-spinner fa-spin fa-4x fa-fw"></i></span>
     <div>
         <span class="block"><b>Total:</b> {{ total(checklist) }}</span>
         <span class="block" ng-repeat="(key, level) in checklist"><b>Level {{ Number(key) + 1 }}:</b> {{ keys(level) }}</span>
     </div>
 </div>
 
-<div ng-if="profile === user.uid || info.checklist" class="box" ng-repeat="level in tricks">
-    <h3 class="searchheader">Level {{ level.level }}</h3>
-    <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name'"
-        ng-class="class(level.id0, trick.id1)" ng-show="checklist[level.id0][trick.id1]">
-        {{ trick.name }}
-        </a>
+<div class="center" ng-if="!info.image">
+
+</div>
+
+<div ng-if="profile === user.uid || info.speed">
+    <h2>Speed Highscores</h2>
+    <div ng-repeat="duration in highscores" class="box">
+        <div ng-repeat="highscore in duration">
+            <h3>{{ (highscore.time * 1000) | date:'mm:ss' }} {{ abbr(highscore.event) }} - {{ highscore.score }}</h3>
+            <div class="ct-chart ct-perfect-fourth" id="{{ highscore.event + highscore.time }}"></div>
+            {{ buildChart(highscore.graphData, highscore.time, highscore.event + highscore.time)
+            }}
+        </div>
+    </div>
+</div>
+
+<div ng-if="profile === user.uid || info.checklist">
+    <h2>Checklist</h2>
+    <div class="box" ng-repeat="level in tricks">
+        <h3 class="searchheader">Level {{ level.level }}</h3>
+        <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name'"
+            ng-class="class(level.id0, trick.id1)" ng-show="checklist[level.id0][trick.id1]">
+            {{ trick.name }}
+            </a>
+    </div>
 </div>

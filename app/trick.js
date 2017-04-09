@@ -40,6 +40,7 @@ function toggleNav() {
  */
 angular.module('trick', [
   'ngRoute',
+  'ngTouch',
   'trick.dash',
   'trick.details',
   'trick.coach',
@@ -52,6 +53,7 @@ angular.module('trick', [
   'trick.speed',
   'trick.speed.details',
   'trick.speed.compare',
+  'trick.speed.new',
   'firebase',
   'hc.marked'
 ])
