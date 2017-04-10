@@ -5,7 +5,6 @@
       ".write": false
     },
     "checklist": {
-      ".read": true,
       "$uid": {
         ".write": "$uid === auth.uid",
         ".read": "$uid === auth.uid || root.child('users/' + $uid + '/profile/public').val() === true || root.child('users/' + $uid + '/coaches/' + auth.uid).val() === true"
@@ -32,8 +31,7 @@
         "$uid": {
           ".write": "$uid === auth.uid",
           ".read": "$uid === auth.uid"
-        },
-        ".read": true
+        }
       },
       "highscores": {
         "$uid": {
@@ -46,9 +44,26 @@
       ".read": true,
       ".write": false
     },
+    "translators": {
+      ".write": false,
+      "$uid": {
+        ".read": "auth.uid == $uid"
+      }
+    },
     "tricks": {
       ".read": true,
-      ".write": false
+      ".write": false,
+      "$level": {
+        "subs": {
+          "$sub": {
+            "i18n": {
+              "$lang": {
+                ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
+              }
+            }
+          }
+        }
+      }
     },
     "tricktypes": {
       ".read": true,
@@ -80,3 +95,4 @@
     }
   }
 }
+
