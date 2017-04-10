@@ -1,5 +1,0 @@
-{
-  "use": ["postcss-cssnext", "postcss-csso"],
-  "local-plugins": true,
-  "dir": "public/static/cssa"
-}

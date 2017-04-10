@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-postcss -c postcss.json app/static/css/*.css
+postcss "app/static/css/*.css" --use postcss-cssnext --use postcss-csso --dir "public/static/cssa" --no-map
 cat public/static/cssa/*.css > public/static/css/style.css
 rm -rf public/static/cssa
 
