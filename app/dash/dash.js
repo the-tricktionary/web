@@ -58,7 +58,7 @@ angular.module('trick.dash', ['ngRoute'])
     var booklets = $firebaseObject(bookletRef);
     $scope.bookletDl = {};
     /** Create reference to database path */
-    var typeRef = Db.child("tricktypes");
+    var typeRef = Db.child("tricktypes/en");
     /**
      * @name $scope.types
      * @function
