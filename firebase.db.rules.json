@@ -67,7 +67,10 @@
     },
     "tricktypes": {
       ".read": true,
-      ".write": false
+      ".write": false,
+      "$lang": {
+        ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
+      }
     },
     "users": {
       "$uid": {
@@ -95,4 +98,3 @@
     }
   }
 }
-
