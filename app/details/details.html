@@ -1,7 +1,9 @@
 <a ng-href="/#{{ id0 + '' + id1 }}" class="back"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
-<h1>{{ trick.name }}</h1>
-<h2>{{ trick.type }}</h2>
-<p>{{ trick.description }}</br>
+<h1>{{ (lang.$value && lang.value != 'en' && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name
+    : trick.name ) }}</h1>
+<h2>{{ type }}</h2>
+<p>{{ (lang.$value && lang.value != 'en' && trick.i18n[lang.$value].description ? trick.i18n[lang.$value].description
+    : trick.description ) }}</br>
     <a ng-href="/contact?id0={{ id0 }}&id1={{ id1 }}"><i class="fa fa-exclamation-triangle"></i> Report an issue with this trick</a>
     <span class="pr"><a ng-href="/profile/{{ trick.by }}"><i class="fa fa-user"></i> Submitter</a></span>
 </p>
@@ -23,7 +25,10 @@
 <div class="box mb">
     <h3 class="pl" ng-if="trick.prerequisites[0].name != 'None' || trick.prerequisites.length == 0">Prerequisites</h3>
     <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="/details/{{ pre.id0 }}/{{ pre.id1 }}"
-        ng-if="pre.name != 'None'">{{ pre.name }}</a>
+        ng-if="pre.name != 'None'">{{ (lang.$value && lang.$value != 'en' && tricks[pre.id0].subs[pre.id1].i18n[lang.$value].name
+        ? tricks[pre.id0].subs[pre.id1].i18n[lang.$value].name : tricks[pre.id0].subs[pre.id1].name)
+        }}
+        </a>
 </div>
 <br/>
 <div class="box">

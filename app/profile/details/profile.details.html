@@ -30,7 +30,8 @@
         <h3 class="searchheader">Level {{ level.level }}</h3>
         <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name'"
             ng-class="class(level.id0, trick.id1)" ng-show="checklist[level.id0][trick.id1]">
-            {{ trick.name }}
+            {{ (lang.$value && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name :
+            trick.name) }}
             </a>
     </div>
 </div>

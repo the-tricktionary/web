@@ -17,7 +17,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="trick in level.subs">
-                    <td class="colheader">{{ trick.name }}</td>
+                    <td class="colheader">{{ (lang.$value && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name
+                        : trick.name) }}</td>
                     <td class="colheight" ng-repeat="student in students"><i class="fa fa-check" ng-if="checklists[student.$id][level.id0][trick.id1]"></i></td>
                 </tr>
             </tbody>

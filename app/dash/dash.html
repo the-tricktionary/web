@@ -1,6 +1,12 @@
 <div class="search">
     <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
         placeholder="Search (by name, prerequisites...)">
+        <label>
+        <i class="fa fa-caret-down" ></i>
+        <select ng-model="lang.$value" ng-change="lang.$save()">
+            <option ng-repeat="(val, desc) in langs" value="{{ val }}">{{ desc }}</option>
+        </select>
+    </label>
 </div>
 <div class="warning center" ng-if="globalnotice.message && until(globalnotice.until)">{{ globalnotice.message }}</div>
 <div class="error center" ng-if="error.show"><span ng-bind-html="error.text"></span>
@@ -14,18 +20,19 @@
     </a>
     <div class="box loading" ng-if="!data.length">
         <span>
-        <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
-        Loading tricks
-    </span>
+    <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
+    Loading tricks
+</span>
     </div>
     <div class="box" ng-repeat="level in data">
         <h2 class="searchheader">Level {{ level.level }}</h2>
-        <div ng-repeat="type in types" class="box">
-            <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ type }}</h3>
+        <div ng-repeat="type in types.en track by $index" class="box">
+            <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ types[(lang.$value ? lang.$value : 'en')][$index] || types.en[$index] }}</h3>
             <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
                 id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
                 ng-hide="hideDone.$value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
-                {{ trick.name }}
+                {{ (lang.$value && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name :
+                trick.name) }}
                 </a>
         </div>
     </div>
@@ -113,6 +120,4 @@
     </p>
     <p>
         To report an error in the data, see the <a ng-href="/contact">Contact</a>        page.
-    </p>
-    </p>
     </p>

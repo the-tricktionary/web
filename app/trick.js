@@ -26,6 +26,8 @@ function toggleNav() {
 /**
  * @namespace trick
  * @requires ngRoute
+ * @requires ngTouch
+ * @requires ngCookies
  * @requires trick.dash
  * @requires trick.details
  * @requires trick.coach
@@ -41,6 +43,7 @@ function toggleNav() {
 angular.module('trick', [
   'ngRoute',
   'ngTouch',
+  'ngCookies',
   'trick.dash',
   'trick.details',
   'trick.coach',
@@ -100,7 +103,7 @@ angular.module('trick', [
         .ref();
     })
 
-  .run(function($location, $rootScope, Auth, Db) {
+  .run(function($location, $rootScope, $cookies, $firebaseObject, Auth, Db) {
     $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
       if (error === "AUTH_REQUIRED") {
         $location.path('/');
@@ -172,7 +175,19 @@ angular.module('trick', [
      */
     Auth.$onAuthStateChanged(function(firebaseUser) {
       $rootScope.user = firebaseUser;
-    });
+
+      if ($rootScope.user) {
+        var langRef = Db.child("users/" + $rootScope.user.uid + "/lang");
+        $rootScope.lang = $firebaseObject(langRef)
+      } else {
+        $rootScope.lang = {
+          "$value": $cookies.get("lang"),
+          "$save": function() {
+            $cookies.put("lang", $rootScope.lang.$value)
+          },
+        }
+      }
+    })
 
     if ($location.path()
       .indexOf('speed/details') > -1 || $location.path()

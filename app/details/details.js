@@ -40,18 +40,40 @@ angular.module('trick.details', ['ngRoute'])
      */
     $scope.id1 = Number($routeParams.id1);
     /** Create reference to database path */
-    var ref = Db.child("tricks/" + $scope.id0 + "/subs");
+    var ref = Db.child("tricks");
+    /**
+     * @name $scope.tricks
+     * @function
+     * @memberOf trick.details.DetailsCtrl
+     * @description create a synchronized array stored in scope
+     */
+    $scope.tricks = $firebaseArray(ref);
     /**
      * @name $scope.trick
      * @function
      * @memberOf trick.details.DetailsCtrl
      * @description create a synchronized *object* stored in scope
      */
-    $scope.trick = $firebaseObject(ref.child($scope.id1));
+    $scope.trick = $firebaseObject(ref.child($scope.id0 + "/subs/" + $scope.id1));
+
+    var typeRef = Db.child("tricktypes")
+    var tricktypes = $firebaseObject(typeRef);
 
     $scope.trick.$loaded()
       .then(function() {
-        $scope.Subpage($scope.trick.name)
+        $scope.Subpage(($scope.lang.$value && $scope.trick.i18n[$scope.lang
+            .$value].name ? $scope.trick.i18n[$scope.lang.$value].name :
+          $scope.trick.name))
+      })
+
+    tricktypes.$loaded()
+      .then(function() {
+        for (var i = 0; i < tricktypes.en.length; i++) {
+          if (tricktypes.en[i] == $scope.trick.type) {
+            $scope.type = tricktypes[$scope.lang.$value || 'en'][i] ||
+              tricktypes.en[i]
+          }
+        }
       })
 
     Auth.$onAuthStateChanged(function() {
@@ -59,6 +81,8 @@ angular.module('trick.details', ['ngRoute'])
         var ref2 = Db.child("checklist/" + $scope.user.uid + "/" +
           $scope.id0 + "/" + $scope.id1);
         $scope.done = $firebaseObject(ref2);
+        var langRef = Db.child("users/" + $scope.user.uid + "/lang");
+        $scope.lang = $firebaseObject(langRef);
       }
     });
 

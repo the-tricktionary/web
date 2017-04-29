@@ -293,11 +293,12 @@ textarea.big {
 
 .search {
   position: fixed;
-  width: 100vw;
+  width: 100%;
   top: 40px;
   right: 0;
   left: 0;
   z-index: 100000;
+  display: flex;
 }
 
 .search+* {
@@ -358,6 +359,28 @@ select {
 .search-query {
   width: 100% !important;
   text-align: center !important;
+  flex-grow: 5;
+  border-right: 1px solid var(--l-gray) !important;
+}
+
+.search label {
+  flex-grow: 1;
+  margin-top: 0;
+  max-width: 7em;
+}
+
+.search label i.fa {
+  top: 5px;
+}
+
+.search label select {
+  background: #fff;
+  margin-top: 0;
+  width: 100%;
+  font-size: 1em;
+  padding-top: .5em;
+  padding-left: .5em;
+  height: 44px;
 }
 
 .searchheader {
