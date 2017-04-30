@@ -361,12 +361,23 @@ select {
   text-align: center !important;
   flex-grow: 5;
   border-right: 1px solid var(--l-gray) !important;
+  transition: border-right .5s !important;
+}
+
+.search-query:focus {
+  border-right: 0 solid var(--white) !important;
+}
+
+.search-query:focus+label {
+  visibility: hidden;
+  width: 0;
 }
 
 .search label {
   flex-grow: 1;
   margin-top: 0;
   max-width: 7em;
+  transition: width .5s, visibility .5s;
 }
 
 .search label i.fa {
