@@ -8,7 +8,7 @@
  */
 var config = {
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
-  authDomain: "project-5641153190345267944.firebaseapp.com",
+  authDomain: "the-tricktionary.com",
   databaseURL: "https://project-5641153190345267944.firebaseio.com",
   storageBucket: "project-5641153190345267944.appspot.com"
 };

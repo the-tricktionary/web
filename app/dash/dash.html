@@ -111,7 +111,7 @@
     </select>
   </label></p>
 <p><a id="a4booklet" target="_blank" ng-if="booklet.lang && booklet.size && booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')]"
-    ng-href="{{ booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')] }}"><button><i class="fa fa-file-pdf-o"></i> Download Booklet</button></a></p>
+    ng-href="{{ booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')] }}"><button><i class="fa fa-file-pdf-o"></i> Download {{ (booklet.detailed ? 'Detailed' : '') }} Booklet in {{ langs[booklet.lang] }} on {{ booklet.size }} Paper</button></a></p>
 <h3 id="rafiki">The Rafiki Outreach Program</h3>
 <p>
   the Tricktionary is a proud supporter of the Rafiki Outreach Program, read more about
