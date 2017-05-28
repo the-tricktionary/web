@@ -1,7 +1,7 @@
 <div class="search">
-    <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
-        placeholder="Search (by name, prerequisites...)">
-        <label>
+  <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
+    placeholder="Search (by name, prerequisites...)">
+  <label>
         <i class="fa fa-caret-down" ></i>
         <select ng-model="lang.$value" ng-change="lang.$save()">
             <option ng-repeat="(val, desc) in langs" value="{{ val }}">{{ desc }}</option>
@@ -10,114 +10,125 @@
 </div>
 <div class="warning center" ng-if="globalnotice.message && until(globalnotice.until)">{{ globalnotice.message }}</div>
 <div class="error center" ng-if="error.show"><span ng-bind-html="error.text"></span>
-    <a class="close" ng-click="error.show = !error.show"><i class="fa fa-times-circle"></i></a>
+  <a class="close" ng-click="error.show = !error.show"><i class="fa fa-times-circle"></i></a>
 </div>
 <a href="#about" class="pr" ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"><i class="fa fa-arrow-circle-down"></i></a>
 <a ng-click="hideDone.$value = !hideDone.$value; hideDone.$save()" class="pl black"
-    ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"
-    ng-show="user && !user.isAnonymous"><i ng-class="(hideDone.$value ? 'checked' : '')" class="checkbox"></i> Hide completed
+  ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"
+  ng-show="user && !user.isAnonymous"><i ng-class="(hideDone.$value ? 'checked' : '')" class="checkbox"></i> Hide completed
     tricks
     </a>
-    <div class="box loading" ng-if="!data.length">
-        <span>
+<div class="box loading" ng-if="!data.length">
+  <span>
     <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
     Loading tricks
 </span>
-    </div>
-    <div class="box" ng-repeat="level in data">
-        <h2 class="searchheader">Level {{ level.level }}</h2>
-        <div ng-repeat="type in types.en track by $index" class="box">
-            <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ types[(lang.$value ? lang.$value : 'en')][$index] || types.en[$index] }}</h3>
-            <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
-                id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
-                ng-hide="hideDone.$value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
+</div>
+<div class="box" ng-repeat="level in data">
+  <h2 class="searchheader">Level {{ level.level }}</h2>
+  <div ng-repeat="type in types.en track by $index" class="box">
+    <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ types[(lang.$value ? lang.$value : 'en')][$index] || types.en[$index] }}</h3>
+    <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
+      id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
+      ng-hide="hideDone.$value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
                 {{ (lang.$value && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name :
                 trick.name) }}
                 </a>
-        </div>
-    </div>
-    <h3 id="about">About the Tricktionary</h3>
-    <p>
-        The sport of competitive jump roping is a continually growing international community
-        of some of the world's most talented athletes. This app aims to help anyone
-        hoping to become involved in this phenomenal sport by giving anyone with
-        a phone the power to learn all levels and types of jump rope skills. The
-        Tricktionary is organized by type (Basics, Multiples, Power, Rope Manipulation,
-        and Releases) and by level (1-4). It provides a description, a video, prerequisites,
-        and what to learn next for each trick.
-    </p>
-    <p>
-        A new and powerful tool included in The Jump Rope Tricktionary's Android&trade; app
-        is the speed timer. With this tool you can time and click speed and be provided
-        with useful statistics about the event. The app displays score, speed, number
-        of misses, an estimated score assuming no misses occurred, and a graph of
-        the jumpers instantaneous speed throughout the entire event.
-    </p>
-    <p>
-        Also included in the app is the Show Writer. This enables coaches and jumpers to
-        quickly write jump rope shows in which each athlete has the maximum amount
-        of break time between each of their routines.
-    </p>
-    <p>
-        The tricktionary is currently available as an
-        <a href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary"
-            target="_blank">Android&trade; app</a> and as this webapp, but don't worry, an iOS&trade;
-            app is comming right up.
-    </p>
-    <p>
-        As a few last words, if you believe this service is something that we should continue
-        working on we present to you four buttons to share this site to various social
-        medias, we won't ask you to press them but as we're still small it'd make
-        a difference:<br/>
-        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//the-tricktionary.com">
+  </div>
+</div>
+<h3 id="about">About the Tricktionary</h3>
+<p>
+  The sport of competitive jump roping is a continually growing international community
+  of some of the world's most talented athletes. This app aims to help anyone hoping
+  to become involved in this phenomenal sport by giving anyone with a phone the power
+  to learn all levels and types of jump rope skills. The Tricktionary is organized
+  by type (Basics, Multiples, Power, Rope Manipulation, and Releases) and by level
+  (1-4). It provides a description, a video, prerequisites, and what to learn next
+  for each trick.
+</p>
+<p>
+  A new and powerful tool included in The Jump Rope Tricktionary's Android&trade; app
+  is the speed timer. With this tool you can time and click speed and be provided
+  with useful statistics about the event. The app displays score, speed, number of
+  misses, an estimated score assuming no misses occurred, and a graph of the jumpers
+  instantaneous speed throughout the entire event.
+</p>
+<p>
+  Also included in the app is the Show Writer. This enables coaches and jumpers to
+  quickly write jump rope shows in which each athlete has the maximum amount of break
+  time between each of their routines.
+</p>
+<p>
+  The tricktionary is currently available as an
+  <a href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary"
+    target="_blank">Android&trade; app</a> and as this webapp, but don't worry, an
+  iOS&trade; app is comming right up.
+</p>
+<p>
+  As a few last words, if you believe this service is something that we should continue
+  working on we present to you four buttons to share this site to various social
+  medias, we won't ask you to press them but as we're still small it'd make a difference:<br/>
+  <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//the-tricktionary.com">
             <i class="fa fa-facebook-square sharing"></i>
         </a>
-        <a target="_blank" href="https://twitter.com/home?status=Check%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%3A%0Ahttps%3A//the-tricktionary.com%0A%23jumpropeisasport">
+  <a target="_blank" href="https://twitter.com/home?status=Check%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%3A%0Ahttps%3A//the-tricktionary.com%0A%23jumpropeisasport">
             <i class="fa fa-twitter-square sharing"></i>
         </a>
-        <a target="_blank" href="https://plus.google.com/share?url=https%3A//the-tricktionary.com">
+  <a target="_blank" href="https://plus.google.com/share?url=https%3A//the-tricktionary.com">
             <i class="fa fa-google-plus-square sharing"></i>
         </a>
-        <a target="_blank" href="mailto:?&subject=the Jump Rope Tricktionary&body=Hey!%0A%0ACheck%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%0Ahttps%3A//the-tricktionary.com">
+  <a target="_blank" href="mailto:?&subject=the Jump Rope Tricktionary&body=Hey!%0A%0ACheck%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%0Ahttps%3A//the-tricktionary.com">
             <i class="fa fa-envelope-square sharing"></i>
         </a>
-    </p>
-    <p>
-        Domains are not free, they cost about $15 per year. If you would like to support
-        us with a small donation to keep this site and app running we would owe you
-        a huge thanks.<br/>
-        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2">
+</p>
+<p>
+  Domains are not free, they cost about $15 per year. If you would like to support
+  us with a small donation to keep this site and app running we would owe you a huge
+  thanks.
+  <br/>
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2">
             <button><i class="fa fa-paypal"></i> Donate</button>
         </a>
-        </br>
-        <span class="small gray">Note that donating will not result in any advantages in the Tricktionary - we aim to keep being a free service. </span>
-    </p>
-    <h3 id="booklets">the Tricktionary booklet</h3>
-    <p>
-        the Tricktionary is avilable as a printable booklet. The booklet contains all tricks
-        listed on the site as well as four speed protocols. We strongly reccomend
-        printing double sided, else you'll have to manually glue the sides together.<br/>
-        <a id="a4booklet" target="_blank"><button><i class="fa fa-file-pdf-o"></i> Download A4 version</button></a>
-        <a id="letterbooklet" target="_blank"><button><i class="fa fa-file-pdf-o"></i> Download letter version</button></a>
-        <a id="a4detailedbooklet" target="_blank"><button><i class="fa fa-file-pdf-o"></i> Download detailed A4 version</button></a>
-        <a id="letterdetailedbooklet" target="_blank"><button><i class="fa fa-file-pdf-o"></i> Download detailed letter version</button></a>
-    </p>
-    <h3 id="rafiki">The Rafiki Outreach Program</h3>
-    <p>
-        the Tricktionary is a proud supporter of the Rafiki Outreach Program, read more about
-        it <a ng-href="/about/rafiki">here</a>.
-    </p>
-    <h3 id="levels">Explanation of Levels</h3>
-    <p>
-        On some occurrences you might notice levels with a dash between two or more numbers,
-        this means that the trick is actually a composition of multiple tricks, the
-        first digit is the level of the first occuring trick followed by a dash and
-        the level of the second trick, and so on.
-    </p>
-    <p>
-        A typical example of this is a standard <a href="/details/1/8">Pushup</a>        which in fisac-irsf's rulebook is split into two separate tricks, one where
-        you jump into the pushup, and one when you jump out from it.
-    </p>
-    <p>
-        To report an error in the data, see the <a ng-href="/contact">Contact</a>        page.
-    </p>
+  </br>
+  <span class="small gray">Note that donating will not result in any advantages in the Tricktionary - we aim to keep being a free service. </span>
+</p>
+<h3 id="booklets">the Tricktionary booklet</h3>
+<p>
+  the Tricktionary is avilable as a printable booklet. The booklet contains all tricks
+  listed on the site as well as four speed protocols. We strongly reccomend printing
+  double sided, else you'll have to manually glue the sides together.
+</p>
+<p><label>Booklet language:
+    <select ng-model="booklet.lang">
+      <option ng-repeat="(lang, val) in booklets" ng-value="lang">{{ langs[lang] }}</option>
+    </select>
+  </label></p>
+<p><a ng-click="booklet.detailed = !booklet.detailed" class="black"><i ng-class="(booklet.detailed ? 'checked' : '')" class="checkbox"></i> Detailed</a></p>
+<p><label>Size:
+    <select ng-model="booklet.size">
+      <option value="a4">A4</option>
+      <option value="letter">US Letter</option>
+    </select>
+  </label></p>
+<p><a id="a4booklet" target="_blank" ng-if="booklet.lang && booklet.size && booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')]"
+    ng-href="{{ booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')] }}"><button><i class="fa fa-file-pdf-o"></i> Download Booklet</button></a></p>
+<h3 id="rafiki">The Rafiki Outreach Program</h3>
+<p>
+  the Tricktionary is a proud supporter of the Rafiki Outreach Program, read more about
+  it <a ng-href="/about/rafiki">here</a>.
+</p>
+<h3 id="levels">Explanation of Levels</h3>
+<p>
+  On some occurrences you might notice levels with a dash between two or more numbers,
+  this means that the trick is actually a composition of multiple tricks, the first
+  digit is the level of the first occuring trick followed by a dash and the level
+  of the second trick, and so on.
+</p>
+<p>
+  A typical example of this is a standard <a href="/details/1/8">Pushup</a> which
+  in fisac-irsf's rulebook is split into two separate tricks, one where you jump
+  into the pushup, and one when you jump out from it.
+</p>
+<p>
+  To report an error in the data, see the <a ng-href="/contact">Contact</a> page.
+</p>

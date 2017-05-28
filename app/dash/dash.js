@@ -55,8 +55,7 @@ angular.module('trick.dash', ['ngRoute'])
      * @memberOf trick.dash.DashCtrl
      * @description create a syncronised object stored in scope
      */
-    var booklets = $firebaseObject(bookletRef);
-    $scope.bookletDl = {};
+    $scope.booklets = $firebaseObject(bookletRef);
     /** Create reference to database path */
     var typeRef = Db.child("tricktypes");
     /**
@@ -75,9 +74,6 @@ angular.module('trick.dash', ['ngRoute'])
      * @description create a syncronised object stored in scope
      */
     $scope.langs = $firebaseObject(langsRef);
-
-    var storage = firebase.storage()
-    var storageRef = storage.ref("booklets/");
 
     $scope.until = function(date) {
       var comp = new Date(date);
@@ -145,31 +141,4 @@ angular.module('trick.dash', ['ngRoute'])
         'You are using an outdated url to reach the tricktionary, we highly reccomend updating your bookmarks to <a href="https://the-tricktionary.com">https://the-tricktionary.com</a>'
       );
     }
-
-    booklets.$watch(function() {
-      storageRef.child(booklets.a4)
-        .getDownloadURL()
-        .then(function(url) {
-          document.getElementById("a4booklet")
-            .href = url;
-        });
-      storageRef.child(booklets.letter)
-        .getDownloadURL()
-        .then(function(url) {
-          document.getElementById("letterbooklet")
-            .href = url;
-        });
-      storageRef.child(booklets.a4detailed)
-        .getDownloadURL()
-        .then(function(url) {
-          document.getElementById("a4detailedbooklet")
-            .href = url;
-        });
-      storageRef.child(booklets.letterdetailed)
-        .getDownloadURL()
-        .then(function(url) {
-          document.getElementById("letterdetailedbooklet")
-            .href = url;
-        });
-    })
   });
