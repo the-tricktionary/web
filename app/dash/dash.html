@@ -1,6 +1,6 @@
 <div class="search">
-  <input type="text" ng-model="trickList.search" class="search-query" id="projects_search"
-    placeholder="Search (by name, prerequisites...)">
+  <input type="text" ng-focus="trickList.focus = true" ng-blur="trickList.focus = false"
+    ng-model="trickList.search" class="search-query" id="projects_search" placeholder="Search{{ (trickList.focus ? ' (by name, prerequisites...)' : '') }}">
   <label>
         <i class="fa fa-caret-down" ></i>
         <select ng-model="lang.$value" ng-change="lang.$save()">
