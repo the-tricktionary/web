@@ -16,7 +16,7 @@
     "objectdiff": "^1.1.0"
   },
   "devDependencies": {
-    "firebase-tools": "*",
+    "firebase-tools": "firebase/firebase-tools",
     "jsdoc": "^3.3.0",
     "lite-server": "*",
     "minami": "^1.1.1",
