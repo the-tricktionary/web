@@ -180,6 +180,10 @@ button:disabled, .button:disabled {
   color: var(--black);
 }
 
+.gold {
+  color: var(--d-yellow);
+}
+
 .red:hover {
   background-color: var(--d-red);
 }

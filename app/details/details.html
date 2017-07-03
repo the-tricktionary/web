@@ -3,37 +3,38 @@
     : trick.name ) }}</h1>
 <h2>{{ type }}</h2>
 <p>{{ (lang.$value && lang.value != 'en' && trick.i18n[lang.$value].description ? trick.i18n[lang.$value].description
-    : trick.description ) }}</br>
-    <a ng-href="/contact?id0={{ id0 }}&id1={{ id1 }}"><i class="fa fa-exclamation-triangle"></i> Report an issue with this trick</a>
-    <span class="pr"><a ng-href="/profile/{{ trick.by }}"><i class="fa fa-user"></i> Submitter</a></span>
+  : trick.description ) }}</br>
+  <a ng-href="/contact?id0={{ id0 }}&id1={{ id1 }}"><i class="fa fa-exclamation-triangle"></i> Report an issue with this trick</a>
+  <span class="pr"><a ng-href="/profile/{{ trick.by }}"><i class="fa fa-user"></i> Submitter</a></span>
 </p>
 <div class="video">
-    <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
-        frameborder="0" allowfullscreen></iframe>
-        <div>
-            <span class="pl level"><span class="gray small">fisac-irsf Level:</span>{{
-            trick.irsf }}</span>
-            <span class="pr level"><span class="gray small">wjr Level:</span> {{
-            trick.wjr}}
-            </span>
-        </div>
+  <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
+    frameborder="0" allowfullscreen></iframe>
+  <div>
+    <span class="pl level"><span class="gray small">fisac-irsf Level:</span> {{ trick.levels.irsf.level
+    }} <i ng-if="trick.levels.irsf.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified[0] == '1' ? 'gold' : 'gray')"></i>
+    </span>
+    <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.levels.wjr.level
+    }} <i ng-if="trick.levels.wjr.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified[0] == '1' ? 'gold' : 'gray')"></i>
+    </span>
+  </div>
 </div>
 <div class="box" ng-if="user && !user.isAnonymous">
-    <a ng-click="done.$value = !done.$value; done.$save()" class="black pl"><i ng-class="(done.$value ? 'checked' : '')" class="checkbox"></i> Completed</a>
-    <span></span>
+  <a ng-click="done.$value = !done.$value; done.$save()" class="black pl"><i ng-class="(done.$value ? 'checked' : '')" class="checkbox"></i> Completed</a>
+  <span></span>
 </div>
 <div class="box mb">
-    <h3 class="pl" ng-if="trick.prerequisites[0].name != 'None' || trick.prerequisites.length == 0">Prerequisites</h3>
-    <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="/details/{{ pre.id0 }}/{{ pre.id1 }}"
-        ng-if="pre.name != 'None'">{{ (lang.$value && lang.$value != 'en' && tricks[pre.id0].subs[pre.id1].i18n[lang.$value].name
+  <h3 class="pl" ng-if="trick.prerequisites[0].name != 'None' || trick.prerequisites.length == 0">Prerequisites</h3>
+  <a class="parent" ng-repeat="pre in trick.prerequisites" ng-href="/details/{{ pre.id0 }}/{{ pre.id1 }}"
+    ng-if="pre.name != 'None'">{{ (lang.$value && lang.$value != 'en' && tricks[pre.id0].subs[pre.id1].i18n[lang.$value].name
         ? tricks[pre.id0].subs[pre.id1].i18n[lang.$value].name : tricks[pre.id0].subs[pre.id1].name)
         }}
         </a>
 </div>
 <br/>
 <div class="box">
-    <a class="parent half" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
-        ng-if="!(id0 == 0 && id1 == 0)"><i class="fa fa-chevron-left"></i> Previous</a>
-        <a class="parent half" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
-            ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
+  <a class="parent half" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
+    ng-if="!(id0 == 0 && id1 == 0)"><i class="fa fa-chevron-left"></i> Previous</a>
+  <a class="parent half" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
+    ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
 </div>
