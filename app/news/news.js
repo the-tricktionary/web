@@ -51,10 +51,7 @@ angular.module('trick.news', ['ngRoute', 'ngSanitize'])
          * @description true if the authenticated user is an administrator, only for display purposes - access is managed in db
          */
         $scope.admin = true;
-        /**
-         * [newNews description]
-         * @return {[type]} [description]
-         */
+
         $scope.newArticle = function() {
           $scope.news.$add({
               author: $scope.user.displayName.split(" ")[0],
