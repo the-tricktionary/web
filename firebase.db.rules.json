@@ -66,9 +66,10 @@
               }
             },
             "levels": {
+              ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
               "$federation": {
                 "verified": {
-                  ".write": "root.child('verifiers').child(auth.uid).child('federation').val() == $federation && root.child('verifiers').child(auth.uid).exists() && !data.exists() || root.child('verifiers').child(auth.uid).child('vLevel').val() >= data.child('vLevel').val()"
+                  ".write": "root.child('verifiers').child(auth.uid).child('federation').val() == $federation && root.child('verifiers').child(auth.uid).exists() && (data.val() == false || !data.exists() || root.child('verifiers').child(auth.uid).child('vLevel').val() >= data.child('vLevel').val())"
                 }
               }
             }
@@ -92,6 +93,10 @@
             ".read": "$studentuid === auth.uid",
             ".write": "$studentuid === auth.uid"
           }
+        },
+        "fcm": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
         },
         "coaches": {
           ".read": "$uid === auth.uid",
