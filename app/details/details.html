@@ -12,10 +12,10 @@
     frameborder="0" allowfullscreen></iframe>
   <div>
     <span class="pl level"><span class="gray small">fisac-irsf Level:</span> {{ trick.levels.irsf.level
-    }} <i ng-if="trick.levels.irsf.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified[0] == '1' ? 'gold' : 'gray')"></i>
+    }} <i ng-if="trick.levels.irsf.verified.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified.vLevel == '1' ? 'gold' : 'gray')"></i>
     </span>
     <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.levels.wjr.level
-    }} <i ng-if="trick.levels.wjr.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified[0] == '1' ? 'gold' : 'gray')"></i>
+    }} <i ng-if="trick.levels.wjr.verified.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified.vLevel == '1' ? 'gold' : 'gray')"></i>
     </span>
   </div>
 </div>

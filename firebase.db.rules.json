@@ -64,6 +64,13 @@
               "$lang": {
                 ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
               }
+            },
+            "levels": {
+              "$federation": {
+                "verified": {
+                  ".write": "root.child('verifiers').child(auth.uid).child('federation').val() == $federation && root.child('verifiers').child(auth.uid).exists() && !data.exists() || root.child('verifiers').child(auth.uid).child('vLevel').val() >= data.child('vLevel').val()"
+                }
+              }
             }
           }
         }
@@ -102,6 +109,12 @@
           ".read": "$uid === auth.uid",
           ".write": "$uid === auth.uid"
         }
+      }
+    },
+    "verifiers": {
+      ".write": false,
+      "$uid": {
+        ".read": "auth.uid == $uid"
       }
     }
   }
