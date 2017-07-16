@@ -1,8 +1,8 @@
-<h1>{{ score }} - {{ toGo | date:'mm:ss' }}</h1>
+<h1>{{ score }} - {{ toGo * 1000 | date:'mm:ss' }}</h1>
 <button class="clicker" ng-click="add()">+</button>
 <div ng-hide="started" class="center">
-    <div>
-        <label for="type">Duration:
+  <div>
+    <label for="type">Duration:
             <i class="fa fa-caret-down"></i>
             <select ng-model="duration">
                 <option value="0">Infinite</option>
@@ -13,13 +13,13 @@
                 <option value="-1">Custom<option>
             </select>
       </label>
-    </div>
-    <div ng-show="duration == -1">
-        <label for="cdur">Custom duration:</label>
-        <input id="cdur" ng-model="cdur" type="number" placeholder="seconds" min="0" />
-    </div>
-    <div ng-show="duration != -1">
-        <label for="event">Event:
+  </div>
+  <div ng-show="duration == -1">
+    <label for="cdur">Custom duration:</label>
+    <input id="cdur" ng-model="cdur" type="number" placeholder="seconds" min="0" />
+  </div>
+  <div ng-show="duration != -1">
+    <label for="event">Event:
           <i class="fa fa-caret-down"></i>
           <select id="event" ng-model="event">
               <optgroup label="No time" ng-show="duration == 0">
@@ -53,9 +53,9 @@
               </optgroup>
           </select>
     </label>
-    </div>
-    <button ng-click="start()" class="mt">Start Event</button>
+  </div>
+  <button ng-click="start()" class="mt">Start Event</button>
 </div>
 <div ng-show="started" class="center">
-    <button ng-click="templStop()" class="mt">Stop Event</button>
+  <button ng-click="templStop()" class="mt">Stop Event</button>
 </div>
