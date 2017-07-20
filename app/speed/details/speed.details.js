@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular, Chartist, confirm */
 /**
  * @class trick.speed.details
  * @memberOf trick
@@ -8,19 +9,19 @@ angular.module('trick.speed.details', ['ngRoute'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/speed/details/:id', {
         templateUrl: '/speed/details/speed.details.html',
         controller: 'SpeedDetailsCtrl',
         resolve: {
-          "currentAuth": [
-            "Auth",
-          function(Auth) {
-              return Auth.$requireSignIn();
+          'currentAuth': [
+            'Auth',
+            function (Auth) {
+              return Auth.$requireSignIn()
             }
           ]
         }
-      });
+      })
     }
   ])
 
@@ -33,42 +34,42 @@ angular.module('trick.speed.details', ['ngRoute'])
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('SpeedDetailsCtrl', function($scope, $firebaseObject,
+  .controller('SpeedDetailsCtrl', function ($scope, $firebaseObject,
     $routeParams,
     $location, $filter, Auth, Db) {
-    $scope.Subpage("Speed Event")
-    Auth.$onAuthStateChanged(function() {
+    $scope.Subpage('Speed Event')
+    Auth.$onAuthStateChanged(function () {
       if ($scope.user && !$scope.user.isAnonymous) {
         /**
          * @name $scope.id0
          * @type {string}
          * @memberOf trick.speed.details.SpeedDetailsCtrl
          */
-        $scope.id = $routeParams.id;
+        $scope.id = $routeParams.id
         /** Create reference to database path */
-        var ref = Db.child("speed/scores/" + $scope.user.uid + "/" +
-          $scope.id);
+        var ref = Db.child('speed/scores/' + $scope.user.uid + '/' +
+          $scope.id)
         /**
          * @name $scope.event
          * @function
          * @memberOf trick.speed.details.SpeedDetailsCtrl
          * @description create a synchronized *object* stored in scope
          */
-        $scope.event = $firebaseObject(ref);
+        $scope.event = $firebaseObject(ref)
 
         $scope.event.$loaded()
-          .then(function() {
-            $scope.Subpage(($scope.event.name ? $scope.event.name :
-              $filter('date')($scope.event.$id * 1000,
-                'MMM d, y HH:mm:ss')))
+          .then(function () {
+            $scope.Subpage(($scope.event.name
+              ? $scope.event.name
+              : $filter('date')($scope.event.$id * 1000, 'MMM d, y HH:mm:ss')))
           })
 
-        $scope.removeEvent = function() {
-          if (confirm("Are you sure you want to remove this event?")) {
-            $scope.event.$remove();
-            $location.path("/speed");
+        $scope.removeEvent = function () {
+          if (confirm('Are you sure you want to remove this event?')) {
+            $scope.event.$remove()
+            $location.path('/speed')
           }
-        };
+        }
 
         /**
          * @name parse
@@ -78,7 +79,7 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @param duration
          * @returns {{labels: Array, series: *[]}}
          */
-        var parse = function(parseData, duration) {
+        var parse = function (parseData, duration) {
           var outData = {
             labels: [],
             series: [
@@ -87,20 +88,21 @@ angular.module('trick.speed.details', ['ngRoute'])
                 data: []
               }
             ]
-          };
-          var parseDataLength = parseData.length;
-          for (var i = 0; i < parseDataLength; i++) {
+          }
+          var parseDataLength = parseData.length
+          var i
+          for (i = 0; i < parseDataLength; i++) {
             outData.series[0].data[i] = {
               x: (duration / parseDataLength * i * 1000),
               y: 100 * (1 / (parseData[i] - parseData[i - 1]))
             }
           }
-          for (var i = 0; i <= duration; i++) {
+          for (i = 0; i <= duration; i++) {
             outData.labels[i] = $filter('date')(i * 1000, 'mm:ss')
           }
-          outData.series[0].data.shift();
-          return outData;
-        };
+          outData.series[0].data.shift()
+          return outData
+        }
 
         /**
          * @name arrayMax
@@ -109,27 +111,27 @@ angular.module('trick.speed.details', ['ngRoute'])
          * @param array
          * @returns {*}
          */
-        var arrayMax = function(array) {
-          return array.map(function(el) {
-              return el.y
+        var arrayMax = function (array) {
+          return array.map(function (el) {
+            return el.y
+          })
+            .reduce(function (a, b) {
+              return Math.max(a, b)
             })
-            .reduce(function(a, b) {
-              return Math.max(a, b);
-            });
-        };
+        }
 
         /**
          * @name $scope.event.$watch
          * @function
          * @memberOf trick.speed.details.SpeedDetailsCtrl
          */
-        $scope.event.$watch(function() {
+        $scope.event.$watch(function () {
           /**
            * @name chartData
            * @memberOf trick.speed.details.SpeedDetailsCtrl
            * @type {{labels: Array, series: *[]}}
            */
-          var chartData = parse($scope.event.graphData, $scope.event.time);
+          var chartData = parse($scope.event.graphData, $scope.event.time)
           /**
            * @name chartOptions
            * @memberOf trick.speed.details.SpeedDetailsCtrl
@@ -149,8 +151,8 @@ angular.module('trick.speed.details', ['ngRoute'])
             axisX: {
               type: Chartist.FixedScaleAxis,
               divisor: 5,
-              labelInterpolationFnc: function(value, index) {
-                return $filter('date')(value, 'mm:ss');
+              labelInterpolationFnc: function (value, index) {
+                return $filter('date')(value, 'mm:ss')
               }
             },
             onlyInteger: true,
@@ -177,7 +179,7 @@ angular.module('trick.speed.details', ['ngRoute'])
                 }
               })
             ]
-          };
+          }
 
           /**
            * @name chartOptionsResponsive
@@ -190,17 +192,16 @@ angular.module('trick.speed.details', ['ngRoute'])
                 axisX: {
                   divisor: 5
                 }
-            }
+              }
             ]
-          ];
+          ]
           /**
            * @description Create chart, update function not currently needed as chartData shouldn't change.
            */
-          new Chartist.Line('.ct-chart', chartData, chartOptions,
-            chartOptionsResponsive);
+          new Chartist.Line('.ct-chart', chartData, chartOptions, chartOptionsResponsive) // eslint-disable-line
         })
       } else {
-        $location.path('/');
+        $location.path('/')
       }
     })
-  });
+  })

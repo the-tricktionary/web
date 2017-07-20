@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular */
 /**
  * @class trick.dash
  * @memberOf trick
@@ -8,11 +9,11 @@ angular.module('trick.dash', ['ngRoute'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/', {
         templateUrl: '/dash/dash.html',
         controller: 'DashCtrl'
-      });
+      })
     }
   ])
 
@@ -26,119 +27,118 @@ angular.module('trick.dash', ['ngRoute'])
    * @param {service} Db
    * @param {service} Auth
    */
-  .controller('DashCtrl', function($scope, $firebaseArray, $firebaseObject,
+  .controller('DashCtrl', function ($scope, $firebaseArray, $firebaseObject,
     $anchorScroll, $location, Db, Auth) {
-    $scope.Subpage(undefined);
+    $scope.Subpage(undefined)
     /** Create reference to database path */
-    var trickRef = Db.child("tricks");
+    var trickRef = Db.child('tricks')
     /**
      * @name $scope.data
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a synchronized array stored in scope
      */
-    $scope.data = $firebaseArray(trickRef);
+    $scope.data = $firebaseArray(trickRef)
     /** Create reference to database path */
-    var globRef = Db.child("globalnotice");
+    var globRef = Db.child('globalnotice')
     /**
      * @name $scope.globalnotice
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a synchronized object stored in scope
      */
-    $scope.globalnotice = $firebaseObject(globRef);
+    $scope.globalnotice = $firebaseObject(globRef)
     /** Create reference to database path */
-    var bookletRef = Db.child("booklets/latest")
+    var bookletRef = Db.child('booklets/latest')
     /**
      * @name $scope.booklets
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a syncronised object stored in scope
      */
-    $scope.booklets = $firebaseObject(bookletRef);
+    $scope.booklets = $firebaseObject(bookletRef)
     /** Create reference to database path */
-    var typeRef = Db.child("tricktypes");
+    var typeRef = Db.child('tricktypes')
     /**
      * @name $scope.types
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a syncronised object stored in scope
      */
-    $scope.types = $firebaseObject(typeRef);
-    $scope.typeifs = {};
-    var langsRef = Db.child("langs");
+    $scope.types = $firebaseObject(typeRef)
+    $scope.typeifs = {}
+    var langsRef = Db.child('langs')
     /**
      * @name $scope.langs
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a syncronised object stored in scope
      */
-    $scope.langs = $firebaseObject(langsRef);
+    $scope.langs = $firebaseObject(langsRef)
 
-    $scope.until = function(date) {
-      var comp = new Date(date);
-      var now = new Date();
+    $scope.until = function (date) {
+      var comp = new Date(date)
+      var now = new Date()
       if (comp < now) {
         return false
       } else {
         return true
       }
-    };
-    Auth.$onAuthStateChanged(function() {
+    }
+    Auth.$onAuthStateChanged(function () {
       if ($scope.user) {
         /** Create reference to database path */
-        var checkRef = Db.child("checklist/" + $scope.user.uid);
+        var checkRef = Db.child('checklist/' + $scope.user.uid)
         /**
          * @name $scope.done
          * @function
          * @memberOf trick.dash.DashCtrl
          * @description create a synchronized array stored in scope
          */
-        $scope.done = $firebaseObject(checkRef);
+        $scope.done = $firebaseObject(checkRef)
         /** Create reference to database path */
-        var compRef = Db.child("users/" + $scope.user.uid +
-          "/hideCompleted");
+        var compRef = Db.child('users/' + $scope.user.uid +
+          '/hideCompleted')
         /**
          * @name $scope.hideDone
          * @function
          * @memberOf trick.dash.DashCtrl
          * @description create a synchronized Object stored in scope
          */
-        $scope.hideDone = $firebaseObject(compRef);
+        $scope.hideDone = $firebaseObject(compRef)
       }
-    });
+    })
     /**
      * @name $scope.anchor
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description Store URL's anchor value (`#disclaimer` for example) in the scope
      */
-    var anchor = $location.hash();
-    /** Configure $anchorScroll to take the navbar into consideration*/
-    $anchorScroll.yOffset = 200;
+    var anchor = $location.hash()
+    /** Configure $anchorScroll to take the navbar into consideration */
+    $anchorScroll.yOffset = 200
     /** Scroll To anchor */
-    setTimeout(function() {
+    setTimeout(function () {
       $anchorScroll()
-    }, 100);
+    }, 100)
     /**
      * return a list of classes to apply
      * @param  {int} id0
      * @param  {int} id1
      * @return {string}
      */
-    $scope.class = function(id0, id1) {
-      var x = "";
-      x += (id0 + '' + id1 == anchor ? 'pop ' : '');
+    $scope.class = function (id0, id1) {
+      var x = ''
+      x += (id0 + '' + id1 === anchor ? 'pop ' : '')
       if ($scope.user && $scope.done && $scope.done[id0]) {
-        x += ($scope.done[id0][id1] == true ? 'done' : '');
+        x += ($scope.done[id0][id1] === true ? 'done' : '')
       }
-      return x;
+      return x
     }
 
-    if ($location.search()
-      .utm_source == "oldjrj") {
+    if ($location.search().utm_source === 'oldjrj') {
       $scope.Error(
         'You are using an outdated url to reach the tricktionary, we highly reccomend updating your bookmarks to <a href="https://the-tricktionary.com">https://the-tricktionary.com</a>'
-      );
+      )
     }
-  });
+  })

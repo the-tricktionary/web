@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular, Chartist */
 /**
  * @class trick.profile.details
  * @memberOf trick
@@ -8,11 +9,11 @@ angular.module('trick.profile.details', ['ngRoute'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/profile/:uid', {
         templateUrl: '/profile/details/profile.details.html',
         controller: 'ProfileDetailsCtrl'
-      });
+      })
     }
   ])
 
@@ -23,67 +24,67 @@ angular.module('trick.profile.details', ['ngRoute'])
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('ProfileDetailsCtrl', function($scope, $firebaseArray,
+  .controller('ProfileDetailsCtrl', function ($scope, $firebaseArray,
     $firebaseObject, $location, $routeParams, $filter, Auth, Db) {
-    $scope.Subpage("Profile")
-    $scope.profile = $routeParams.uid;
-    var checklistRef = Db.child('checklist/' + $scope.profile);
-    $scope.checklist = $firebaseObject(checklistRef);
-    var trickRef = Db.child('tricks');
-    $scope.tricks = $firebaseArray(trickRef);
-    var speedRef = Db.child('speed/highscores/' + $scope.profile);
-    $scope.highscores = $firebaseArray(speedRef);
-    var userInfo = Db.child('users/' + $scope.profile + '/profile');
-    $scope.info = $firebaseObject(userInfo);
+    $scope.Subpage('Profile')
+    $scope.profile = $routeParams.uid
+    var checklistRef = Db.child('checklist/' + $scope.profile)
+    $scope.checklist = $firebaseObject(checklistRef)
+    var trickRef = Db.child('tricks')
+    $scope.tricks = $firebaseArray(trickRef)
+    var speedRef = Db.child('speed/highscores/' + $scope.profile)
+    $scope.highscores = $firebaseArray(speedRef)
+    var userInfo = Db.child('users/' + $scope.profile + '/profile')
+    $scope.info = $firebaseObject(userInfo)
 
     var abbrs = {
       pt1: {
-        sr: "Single Rope",
-        dd: "Double Dutch",
+        sr: 'Single Rope',
+        dd: 'Double Dutch'
       },
       pt2: {
-        s: "", // Single (One person)
-        p: "Pair",
-        t: "Three people",
-        f: "Team",
+        s: '', // Single (One person)
+        p: 'Pair',
+        t: 'Three people',
+        f: 'Team'
       },
       pt3: {
-        s: "Speed",
-        p: "Power",
-        t: "Tripple Unders"
+        s: 'Speed',
+        p: 'Power',
+        t: 'Tripple Unders'
       }
     }
 
     $scope.info.$loaded()
-      .then(function() {
+      .then(function () {
         $scope.Subpage($scope.info.name[0] + "'s Profile")
       })
 
-    $scope.keys = function(obj) {
+    $scope.keys = function (obj) {
       var length = Object.keys(obj)
-        .length;
-      return length;
+        .length
+      return length
     }
 
-    $scope.total = function(obj) {
-      var total = 0;
+    $scope.total = function (obj) {
+      var total = 0
       var keys = Object.keys(obj)
       keys.pop()
       keys.pop()
       keys.pop()
-      keys.forEach(function(key) {
+      keys.forEach(function (key) {
         total += (Object.keys(obj[key])
           .length)
       })
-      return total;
+      return total
     }
 
-    $scope.abbr = function(abbr) {
+    $scope.abbr = function (abbr) {
       var pt1 = abbr.substring(0, 2)
       var pt2 = abbr.substring(2, 3)
       var pt3 = abbr.substring(3, 4)
       var hr = abbrs.pt1[pt1] + ' ' + abbrs.pt2[pt2] + ' ' + abbrs.pt3[pt3]
-      return hr;
+      return hr
     }
 
     /**
@@ -94,7 +95,7 @@ angular.module('trick.profile.details', ['ngRoute'])
      * @param duration
      * @returns {{labels: Array, series: *[]}}
      */
-    var parse = function(parseData, duration) {
+    var parse = function (parseData, duration) {
       var outData = {
         labels: [],
         series: [
@@ -103,20 +104,21 @@ angular.module('trick.profile.details', ['ngRoute'])
             data: []
           }
         ]
-      };
-      var parseDataLength = parseData.length;
-      for (var i = 0; i < parseDataLength; i++) {
+      }
+      var parseDataLength = parseData.length
+      var i
+      for (i = 0; i < parseDataLength; i++) {
         outData.series[0].data[i] = {
           x: (duration / parseDataLength * i * 1000),
           y: 100 * (1 / (parseData[i] - parseData[i - 1]))
         }
       }
-      for (var i = 0; i <= duration; i++) {
+      for (i = 0; i <= duration; i++) {
         outData.labels[i] = $filter('date')(i * 1000, 'mm:ss')
       }
-      outData.series[0].data.shift();
-      return outData;
-    };
+      outData.series[0].data.shift()
+      return outData
+    }
 
     /**
      * @name arrayMax
@@ -125,22 +127,22 @@ angular.module('trick.profile.details', ['ngRoute'])
      * @param array
      * @returns {*}
      */
-    var arrayMax = function(array) {
-      return array.map(function(el) {
-          return el.y
+    var arrayMax = function (array) {
+      return array.map(function (el) {
+        return el.y
+      })
+        .reduce(function (a, b) {
+          return Math.max(a, b)
         })
-        .reduce(function(a, b) {
-          return Math.max(a, b);
-        });
-    };
+    }
 
-    $scope.buildChart = function(data, dur, el) {
+    $scope.buildChart = function (data, dur, el) {
       /**
        * @name chartData
        * @memberOf trick.speed.details.SpeedDetailsCtrl
        * @type {{labels: Array, series: *[]}}
        */
-      var chartData = parse(data, dur);
+      var chartData = parse(data, dur)
       /**
        * @name chartOptions
        * @memberOf trick.speed.details.SpeedDetailsCtrl
@@ -160,8 +162,8 @@ angular.module('trick.profile.details', ['ngRoute'])
         axisX: {
           type: Chartist.FixedScaleAxis,
           divisor: 5,
-          labelInterpolationFnc: function(value, index) {
-            return $filter('date')(value, 'mm:ss');
+          labelInterpolationFnc: function (value, index) {
+            return $filter('date')(value, 'mm:ss')
           }
         },
         onlyInteger: true,
@@ -188,7 +190,7 @@ angular.module('trick.profile.details', ['ngRoute'])
             }
           })
         ]
-      };
+      }
 
       /**
        * @name chartOptionsResponsive
@@ -201,15 +203,14 @@ angular.module('trick.profile.details', ['ngRoute'])
             axisX: {
               divisor: 5
             }
-        }
+          }
         ]
-      ];
+      ]
       /**
        * @description Create chart, update function not currently needed as chartData shouldn't change.
        */
-      new Chartist.Line('#' + el, chartData, chartOptions,
-        chartOptionsResponsive);
+      new Chartist.Line('#' + el, chartData, chartOptions, chartOptionsResponsive) // eslint-disable-line 
     }
 
-    $scope.Number = Number;
+    $scope.Number = Number
   })
