@@ -33,8 +33,6 @@
 </div>
 <br/>
 <div class="box">
-  <a class="parent half" ng-href="/details/{{ (id1 == 0 ? id0 - 1 : id0) }}/{{ (id1 == 0 ? prevMax : id1 - 1) }}"
-    ng-if="!(id0 == 0 && id1 == 0)"><i class="fa fa-chevron-left"></i> Previous</a>
-  <a class="parent half" ng-href="/details/{{ (id1 == thisMax ? id0 + 1 : id0) }}/{{ (id1 == thisMax ? 0 : id1 + 1) }}"
-    ng-if="!(id0 == levMax && id1 == thisMax)">Next <i class="fa fa-chevron-right"></i></a>
+  <a class="parent half" ng-href="/details/{{ prev.id0 }}/{{ prev.id1 }}" ng-if="!prev.hide"><i class="fa fa-chevron-left"></i> Previous</a>
+  <a class="parent half" ng-href="/details/{{ next.id0 }}/{{ next.id1 }}" ng-if="!next.hide">Next <i class="fa fa-chevron-right"></i></a>
 </div>
