@@ -67,11 +67,12 @@ angular.module('trick.speed.new', ['ngRoute'])
         }
 
         $scope.start = function () {
+          $scope.duration = Number($scope.duration)
           if ($scope.duration === -1) {
             $scope.duration = $scope.cdur
           }
           $scope.started = true
-          $scope.toGo = $scope.duration * 1000
+          $scope.toGo = $scope.duration
           $scope.score = 0
           jumps = [
             performance.now()
@@ -104,7 +105,8 @@ angular.module('trick.speed.new', ['ngRoute'])
         }
 
         $scope.stop = function (jumps) {
-          $scope.started = false
+          // $scope.started = false
+          $scope.saving = true
           $scope.timer(0, false)
           navigator.vibrate(500)
           for (var i = jumps.length - 1; i >= 0; i--) {
