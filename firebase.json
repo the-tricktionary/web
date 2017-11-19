@@ -13,6 +13,10 @@
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/api/i18n",
+        "function": "i18nApi"
       }
     ],
     "ignore": [],
