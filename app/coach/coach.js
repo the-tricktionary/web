@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular */
 /**
  * @class trick.coach
  * @memberOf trick
@@ -8,19 +9,19 @@ angular.module('trick.coach', ['ngRoute'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/coach', {
         templateUrl: '/coach/coach.html',
         controller: 'CoachCtrl',
         resolve: {
-          "currentAuth": [
-            "Auth",
-            function(Auth) {
-              return Auth.$requireSignIn();
+          'currentAuth': [
+            'Auth',
+            function (Auth) {
+              return Auth.$requireSignIn()
             }
           ]
         }
-      });
+      })
     }
   ])
 
@@ -31,32 +32,30 @@ angular.module('trick.coach', ['ngRoute'])
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('CoachCtrl', function($scope, $firebaseArray, $firebaseObject,
+  .controller('CoachCtrl', function ($scope, $firebaseArray, $firebaseObject, $location,
     Auth, Db) {
-    Auth.$onAuthStateChanged(function() {
-      $scope.Subpage("Coach");
+    Auth.$onAuthStateChanged(function () {
+      $scope.Subpage('Coach')
       if ($scope.user && !$scope.user.isAnonymous) {
         var ref = Db.child('tricks')
         var ref1 = Db.child('users/' + $scope.user.uid + '/students')
-        $scope.data = $firebaseArray(ref);
-        $scope.students = $firebaseArray(ref1);
-        $scope.checklists = {};
-        var refs = [];
+        $scope.data = $firebaseArray(ref)
+        $scope.students = $firebaseArray(ref1)
+        $scope.checklists = {}
+        var refs = []
 
         $scope.students.$loaded()
-          .then(function() {
+          .then(function () {
             for (var student = 0; student < $scope.students.length; student++) {
-              refs[student] = Db.child('checklist/' + $scope.students[
-                  student]
-                .$id);
+              refs[student] = Db.child('checklist/' + $scope.students[student].$id)
               $scope.checklists[$scope.students[student].$id] =
                 $firebaseArray(refs[student])
             }
           })
 
-        $scope.uid = $scope.user.uid;
+        $scope.uid = $scope.user.uid
       } else {
-        $location.path('/');
+        $location.path('/')
       }
     })
   })

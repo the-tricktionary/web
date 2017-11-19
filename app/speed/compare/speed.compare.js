@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular, Chartist */
 /**
  * @class trick.speed.compare
  * @memberOf trick
@@ -8,19 +9,19 @@ angular.module('trick.speed.compare', ['ngRoute'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/speed/compare/:id0?/:id1?', {
         templateUrl: '/speed/compare/speed.compare.html',
         controller: 'SpeedCompareCtrl',
         resolve: {
-          "currentAuth": [
-            "Auth",
-          function(Auth) {
-              return Auth.$requireSignIn();
+          'currentAuth': [
+            'Auth',
+            function (Auth) {
+              return Auth.$requireSignIn()
             }
           ]
         }
-      });
+      })
     }
   ])
 
@@ -35,23 +36,24 @@ angular.module('trick.speed.compare', ['ngRoute'])
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('SpeedCompareCtrl', function($scope, $firebaseObject,
+  .controller('SpeedCompareCtrl', function ($scope, $firebaseObject,
     $firebaseArray, $routeParams, $location, $filter, Auth, Db) {
-    $scope.Subpage("Compare")
-    Auth.$onAuthStateChanged(function() {
+    $scope.Subpage('Compare')
+    Auth.$onAuthStateChanged(function () {
       if ($scope.user && !$scope.user.isAnonymous) {
         /**
          * @name $scope.id0
          * @type {string}
          * @memberOf trick.speed.compare.SpeedCompareCtrl
          */
-        $scope.id0 = $routeParams.id0;
+        $scope.id0 = $routeParams.id0
         /**
          * @name $scope.id1
          * @type {string}
          * @memberOf trick.speed.compare.SpeedCompareCtrl
          */
-        $scope.id1 = $routeParams.id1;
+        $scope.id1 = $routeParams.id1
+        var ref
 
         if ($scope.id0 && $scope.id1) {
           /**
@@ -59,27 +61,27 @@ angular.module('trick.speed.compare', ['ngRoute'])
            * @type {Boolean}
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            */
-          $scope.select = false;
+          $scope.select = false
           /** Create reference to database path */
-          var ref = Db.child("speed/scores/" + $scope.user.uid + "/" +
-            $scope.id0);
+          ref = Db.child('speed/scores/' + $scope.user.uid + '/' +
+            $scope.id0)
           /**
            * @name $scope.event
            * @function
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            * @description create a synchronized *object* stored in scope
            */
-          $scope.event = $firebaseObject(ref);
+          $scope.event = $firebaseObject(ref)
           /** Create reference to database path */
-          var ref1 = Db.child("speed/scores/" + $scope.user.uid + "/" +
-            $scope.id1);
+          var ref1 = Db.child('speed/scores/' + $scope.user.uid + '/' +
+            $scope.id1)
           /**
            * @name $scope.event1
            * @function
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            * @description create a synchronized *object* stored in scope
            */
-          $scope.event1 = $firebaseObject(ref1);
+          $scope.event1 = $firebaseObject(ref1)
 
           /**
            * data structure declaration for chart's data
@@ -102,7 +104,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
                 ]
               }
             ]
-          };
+          }
 
           /**
            * @name parse
@@ -113,24 +115,24 @@ angular.module('trick.speed.compare', ['ngRoute'])
            * @param duration
            * @returns {{labels: Array, series: *[]}}
            */
-          var parse = function(parseData, n, duration) {
-            outData.labels = [];
-            outData.series[n].data = [];
-            var parseDataLength = parseData.length;
-            for (var i = 0; i < parseDataLength; i++) {
+          var parse = function (parseData, n, duration) {
+            outData.labels = []
+            outData.series[n].data = []
+            var parseDataLength = parseData.length
+            var i
+            for (i = 0; i < parseDataLength; i++) {
               outData.series[n].data[i] = {
                 x: (duration / parseDataLength * i * 1000),
                 y: 100 * (1 / (parseData[i] - parseData[i - 1]))
               }
             }
-            for (var i = 0; i <= duration; i++) {
+            for (i = 0; i <= duration; i++) {
               outData.labels[i] = $filter('date')(i * 1000, 'mm:ss')
             }
-            outData.series[n].data.shift();
-            chartOptions.high = arrayMax(outData.series[0].data.concat(
-                outData.series[1].data)) + 2,
-              chart.update(outData, chartOptions);
-          };
+            outData.series[n].data.shift()
+            chartOptions.high = arrayMax(outData.series[0].data.concat(outData.series[1].data)) + 2
+            chart.update(outData, chartOptions)
+          }
 
           /**
            * @name arrayMax
@@ -139,14 +141,14 @@ angular.module('trick.speed.compare', ['ngRoute'])
            * @param array
            * @returns {*}
            */
-          var arrayMax = function(array) {
-            return array.map(function(el) {
-                return el.y
+          var arrayMax = function (array) {
+            return array.map(function (el) {
+              return el.y
+            })
+              .reduce(function (a, b) {
+                return Math.max(a, b)
               })
-              .reduce(function(a, b) {
-                return Math.max(a, b);
-              });
-          };
+          }
 
           /**
            * @name chartOptions
@@ -166,8 +168,8 @@ angular.module('trick.speed.compare', ['ngRoute'])
             axisX: {
               type: Chartist.FixedScaleAxis,
               divisor: 10,
-              labelInterpolationFnc: function(value) {
-                return $filter('date')(value, 'mm:ss');
+              labelInterpolationFnc: function (value) {
+                return $filter('date')(value, 'mm:ss')
               }
             },
             onlyInteger: true,
@@ -194,7 +196,7 @@ angular.module('trick.speed.compare', ['ngRoute'])
                 }
               })
             ]
-          };
+          }
 
           /**
            * @name chartOptionsResponsive
@@ -207,28 +209,28 @@ angular.module('trick.speed.compare', ['ngRoute'])
                 axisX: {
                   divisor: 5
                 }
-            }
+              }
             ]
-          ];
+          ]
 
           /**
            * @description Create chart
            */
           var chart = new Chartist.Line('.ct-chart', null, chartOptions,
-            chartOptionsResponsive);
+            chartOptionsResponsive)
 
           /**
            * @name $scope.event.$watch
            * @function
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            */
-          $scope.event.$watch(function() {
+          $scope.event.$watch(function () {
             /**
              * @name chartData
              * @memberOf trick.speed.compare.SpeedCompareCtrl
              * @type {{labels: Array, series: *[]}}
              */
-            parse($scope.event.graphData, 0, $scope.event.time);
+            parse($scope.event.graphData, 0, $scope.event.time)
           })
 
           /**
@@ -236,45 +238,44 @@ angular.module('trick.speed.compare', ['ngRoute'])
            * @function
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            */
-          $scope.event1.$watch(function() {
+          $scope.event1.$watch(function () {
             /**
              * @name chartData
              * @memberOf trick.speed.compare.SpeedCompareCtrl
              * @type {{labels: Array, series: *[]}}
              */
-            parse($scope.event1.graphData, 1, $scope.event1.time);
+            parse($scope.event1.graphData, 1, $scope.event1.time)
           })
-
         } else
         if (!$scope.id0) {
           /**
            * redir to /speed if no base selected
            */
-          $location.path('/speed');
+          $location.path('/speed')
         } else {
           /**
            * @name $scope.select
            * @type {Boolean}
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            */
-          $scope.select = true;
+          $scope.select = true
           /** Create reference to databae path */
-          var ref = Db.child("speed/scores/" + $scope.user.uid);
+          ref = Db.child('speed/scores/' + $scope.user.uid)
           /**
            * @name $scope.events
            * @function
            * @memberOf trick.speed.compare.SpeedCompareCtrl
            * @description create a synchronized array stored in scope
            */
-          $scope.events = $firebaseArray(ref);
-          $scope.events.$watch(function() {
-            ($scope.events.$indexFor($scope.id0) >= 0 ? $scope.time =
-              $scope.events[$scope.events.$indexFor($scope.id0)].time :
-              null);
+          $scope.events = $firebaseArray(ref)
+          $scope.events.$watch(function () {
+            ($scope.events.$indexFor($scope.id0) >= 0
+            ? $scope.time = $scope.events[$scope.events.$indexFor($scope.id0)].time
+            : null)
           })
         }
       } else {
-        $location.path('/');
+        $location.path('/')
       }
     })
-  });
+  })

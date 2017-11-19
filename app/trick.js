@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular, firebase, ga, addToHomescreen */
 /**
  * Initialize firebase
  * @function initializeApp
@@ -7,20 +8,20 @@
  * @require firebase
  */
 var config = {
-  apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
-  authDomain: "the-tricktionary.com",
-  databaseURL: "https://project-5641153190345267944.firebaseio.com",
-  storageBucket: "project-5641153190345267944.appspot.com"
-};
-firebase.initializeApp(config);
+  apiKey: 'AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM',
+  authDomain: 'the-tricktionary.com',
+  databaseURL: 'https://project-5641153190345267944.firebaseio.com',
+  storageBucket: 'project-5641153190345267944.appspot.com'
+}
+firebase.initializeApp(config)
 
 /**
  * Hide/Show nav on mobile
  * @function toggleNav
  */
-function toggleNav() {
-  document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
-  document.getElementsByTagName("nav")[0].classList.toggle("responsive");
+function toggleNav () { // eslint-disable-line
+  document.getElementsByClassName('topnav')[0].classList.toggle('responsive')
+  document.getElementsByTagName('nav')[0].classList.toggle('responsive')
 }
 
 /**
@@ -63,22 +64,22 @@ angular.module('trick', [
 
   .config([
     '$locationProvider', '$routeProvider',
-  function($locationProvider, $routeProvider) {
+    function ($locationProvider, $routeProvider) {
       /**
        * @description ngRoute with html5 mode (no hashbang, but with fallback)
        * @memberOf trick.trick
        */
       $locationProvider.html5Mode(true)
-        .hashPrefix('!');
+        .hashPrefix('!')
 
       $routeProvider.otherwise({
         redirectTo: '/'
-      });
+      })
     }
   ])
 
-  .factory("Auth", [
-    "$firebaseAuth",
+  .factory('Auth', [
+    '$firebaseAuth',
     /**
      * @function Auth
      * @memberOf trick.trick
@@ -86,32 +87,32 @@ angular.module('trick', [
      * @return {object} Return auth state
      * @require firebase
      */
-      function($firebaseAuth) {
-      return $firebaseAuth();
+    function ($firebaseAuth) {
+      return $firebaseAuth()
     }
   ])
 
-  .factory("Db",
+  .factory('Db',
     /**
      * @function Db
      * @memberOf trick.trick
      * @return {object} Return database
      * @require firebase
      */
-    function() {
+    function () {
       return firebase.database()
-        .ref();
+        .ref()
     })
 
-  .run(function($location, $rootScope, $cookies, $firebaseObject, Auth, Db) {
-    $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
-      if (error === "AUTH_REQUIRED") {
-        $location.path('/');
+  .run(function ($location, $rootScope, $cookies, $firebaseObject, Auth, Db) {
+    $rootScope.$on('$routeChangeError', function (event, next, previous, error) {
+      if (error === 'AUTH_REQUIRED') {
+        $location.path('/')
         $rootScope.Error(
           'You need to be signed in to access this page, please Sign In and try again.'
-        );
+        )
       }
-    });
+    })
 
     /**
      * @name $rootScope.signIn
@@ -119,24 +120,24 @@ angular.module('trick', [
      * @memberOf trick
      * @description function to sign In with google
      */
-    $rootScope.signIn = function() {
-      $rootScope.user = null;
-      $rootScope.Error("", false);
-      Auth.$signInWithPopup("google")
-        .then(function(firebaseUser) {
-          $rootScope.user = firebaseUser;
-          setTimeout(function() {
+    $rootScope.signIn = function () {
+      $rootScope.user = null
+      $rootScope.Error('', false)
+      Auth.$signInWithPopup('google')
+        .then(function (firebaseUser) {
+          $rootScope.user = firebaseUser
+          setTimeout(function () {
             Db.child('users/' + $rootScope.user.uid + '/profile')
               .update({
-                "name": $rootScope.user.displayName.split(' '),
-                "image": $rootScope.user.providerData[0].photoURL
+                'name': $rootScope.user.displayName.split(' '),
+                'image': $rootScope.user.providerData[0].photoURL
               })
-          }, 1000);
+          }, 1000)
         })
-        .catch(function(error) {
-          $rootScope.Error(error);
-        });
-    };
+        .catch(function (error) {
+          $rootScope.Error(error)
+        })
+    }
 
     /**
      * @name $rootScope.signOut
@@ -144,9 +145,9 @@ angular.module('trick', [
      * @memberOf trick
      * @description function to sign Out
      */
-    $rootScope.signOut = function() {
-      Auth.$signOut();
-    };
+    $rootScope.signOut = function () {
+      Auth.$signOut()
+    }
 
     /**
      * @name $rootScope.goHome
@@ -154,18 +155,18 @@ angular.module('trick', [
      * @memberOf trick
      * @description function to go to /
      */
-    $rootScope.goHome = function() {
-      $location.path('/');
-    };
+    $rootScope.goHome = function () {
+      $location.path('/')
+    }
 
-    $rootScope.Error = function(e, bool) {
+    $rootScope.Error = function (e, bool) {
       $rootScope.error = {
         text: e,
-        show: (bool == undefined ? true : bool)
+        show: (bool === undefined ? true : bool)
       }
     }
 
-    $rootScope.Subpage = function(name) {
+    $rootScope.Subpage = function (name) {
       $rootScope.subpage = name
     }
 
@@ -173,33 +174,33 @@ angular.module('trick', [
      * any time auth status updates, add the user data to scope
      * @memberOf trick.trick
      */
-    Auth.$onAuthStateChanged(function(firebaseUser) {
-      $rootScope.user = firebaseUser;
+    Auth.$onAuthStateChanged(function (firebaseUser) {
+      $rootScope.user = firebaseUser
 
       if ($rootScope.user) {
-        var langRef = Db.child("users/" + $rootScope.user.uid + "/lang");
+        var langRef = Db.child('users/' + $rootScope.user.uid + '/lang')
         $rootScope.lang = $firebaseObject(langRef)
       } else {
         $rootScope.lang = {
-          "$value": $cookies.get("lang"),
-          "$save": function() {
-            $cookies.put("lang", $rootScope.lang.$value)
-          },
+          '$value': $cookies.get('lang'),
+          '$save': function () {
+            $cookies.put('lang', $rootScope.lang.$value)
+          }
         }
       }
     })
 
-    if ($location.path()
-      .indexOf('speed/details') > -1 || $location.path()
-      .indexOf('speed/compare') > -1) {
-      var page = $location.path()
-        .replace(/speed\/(details|compare)\/.*/g, function(x) {
-          "speed/" + x.split("/")[1]
-        });
+    var page
+    if ($location.path().indexOf('speed/details') > -1 ||
+    $location.path().indexOf('speed/compare') > -1) {
+      page = $location.path()
+        .replace(/speed\/(details|compare)\/.*/g, function (x) {
+          return 'speed/' + x.split('/')[1]
+        })
     } else {
-      var page = $location.path();
+      page = $location.path()
     }
-    ga('send', 'pageview', page);
+    ga('send', 'pageview', page)
     /**
      * Add to homescreen
      */
@@ -209,21 +210,21 @@ angular.module('trick', [
       skipFirstVisit: true,
       maxDisplayCount: 1,
       displayPace: 525948
-    });
+    })
   })
 
   .directive('ngConfirmClick', [
-        function() {
+    function () {
       return {
-        link: function(scope, element, attr) {
-          var msg = attr.ngConfirmClick || "Are you sure?";
-          var clickAction = attr.confirmedClick;
-          element.bind('click', function(event) {
+        link: function (scope, element, attr) {
+          var msg = attr.ngConfirmClick || 'Are you sure?'
+          var clickAction = attr.confirmedClick
+          element.bind('click', function (event) {
             if (window.confirm(msg)) {
               scope.$eval(clickAction)
             }
-          });
+          })
         }
       }
-      }
-    ])
+    }
+  ])

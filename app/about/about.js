@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular */
 /**
  * @class trick.about
  * @memberOf trick
@@ -8,11 +9,11 @@ angular.module('trick.about', ['ngRoute'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/about', {
         templateUrl: '/about/about.html',
         controller: 'AboutCtrl'
-      });
+      })
     }
   ])
 
@@ -23,20 +24,20 @@ angular.module('trick.about', ['ngRoute'])
    * @param {service} $anchorScroll
    * @param {service} Db
    */
-  .controller('AboutCtrl', function($scope, $location, $anchorScroll) {
-    $scope.Subpage("About");
+  .controller('AboutCtrl', function ($scope, $location, $anchorScroll) {
+    $scope.Subpage('About')
     /**
      * @name $scope.anchor
      * @function
      * @memberOf trick.about.AboutCtrl
      * @description Store URL's anchor value (`#disclaimer` for example) in the scope
      */
-    $scope.anchor = $location.hash();
-    /** Configure $anchorScroll to take the navbar into consideration*/
-    $anchorScroll.yOffset = 40;
+    $scope.anchor = $location.hash()
+    /** Configure $anchorScroll to take the navbar into consideration */
+    $anchorScroll.yOffset = 40
     /** Scroll To anchor */
-    $anchorScroll();
+    $anchorScroll()
 
     $scope.year = new Date()
-      .getFullYear();
-  });
+      .getFullYear()
+  })

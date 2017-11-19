@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular */
 /**
  * @class trick.about.rafiki
  * @memberOf trick
@@ -8,14 +9,14 @@ angular.module('trick.about.rafiki', ['ngRoute'])
 
   .config([
     '$routeProvider',
-    function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/about/rafiki', {
         templateUrl: '/about/rafiki/about.rafiki.html',
         controller: 'AboutRafikiCtrl'
-      });
+      })
     }
   ])
 
-  .controller('AboutRafikiCtrl', function($scope) {
-    $scope.Subpage("About Rafiki")
-  });
+  .controller('AboutRafikiCtrl', function ($scope) {
+    $scope.Subpage('About Rafiki')
+  })

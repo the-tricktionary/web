@@ -1,6 +1,6 @@
 {
   "name": "the-tricktionary",
-  "version": "1.13.3",
+  "version": "1.15.0",
   "description": "A list of jumprope tricks with name, description and video",
   "homepage": "https://the-tricktionary.com",
   "repository": {
@@ -10,8 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/storage": "^1.0.0",
-    "firebase-admin": "^4.0.4",
-    "mailgun-js": "^0.7.15",
+    "firebase-admin": "^5.4.3",
+    "mailgun-js": "^0.10.1",
     "moment": "^2.17.1",
     "objectdiff": "^1.1.0"
   },

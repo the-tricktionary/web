@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+/* global angular */
 /**
  * @class trick.news
  * @memberOf trick
@@ -9,11 +10,11 @@ angular.module('trick.news', ['ngRoute', 'ngSanitize'])
 
   .config([
     '$routeProvider',
-  function($routeProvider) {
+    function ($routeProvider) {
       $routeProvider.when('/news', {
         templateUrl: '/news/news.html',
         controller: 'NewsCtrl'
-      });
+      })
     }
   ])
 
@@ -25,48 +26,48 @@ angular.module('trick.news', ['ngRoute', 'ngSanitize'])
    * @param {service} Auth
    * @param {service} Db
    */
-  .controller('NewsCtrl', function($scope, $firebaseArray, $filter, Auth, Db) {
-    $scope.Subpage("News");
+  .controller('NewsCtrl', function ($scope, $firebaseArray, $filter, Auth, Db) {
+    $scope.Subpage('News')
     /** Create reference to database path */
-    var ref = Db.child("news");
+    var ref = Db.child('news')
     /**
      * @name $scope.news
      * @function
      * @memberOf trick.news.newsCtrl
      * @description create a synchronized array stored in scope
      */
-    $scope.news = $firebaseArray(ref);
+    $scope.news = $firebaseArray(ref)
 
-    Auth.$onAuthStateChanged(function() {
+    Auth.$onAuthStateChanged(function () {
       /**
        * Check if Admin
        * Also regulated by db security rules
        */
-      if ($scope.user && ($scope.user.uid ==
-          "g0G3A7FxieN333lZ2RKclkmv9Uw1" || $scope.user.uid ==
+      if ($scope.user && ($scope.user.uid ===
+          'g0G3A7FxieN333lZ2RKclkmv9Uw1' || $scope.user.uid ===
           'Kpz3afszjBR0qwZYUrKURRJx2cm2')) {
         /**
          * @name $scope.admin
          * @type {boolean}
          * @description true if the authenticated user is an administrator, only for display purposes - access is managed in db
          */
-        $scope.admin = true;
+        $scope.admin = true
 
-        $scope.newArticle = function() {
+        $scope.newArticle = function () {
           $scope.news.$add({
-              author: $scope.user.displayName.split(" ")[0],
-              date: $filter('date')(new Date(), 'yyyy-MM-dd'),
-              title: document.getElementById("title")
+            author: $scope.user.displayName.split(' ')[0],
+            date: $filter('date')(new Date(), 'yyyy-MM-dd'),
+            title: document.getElementById('title')
                 .value,
-              content: document.getElementById("content")
+            content: document.getElementById('content')
                 .value
-            })
-            .then(function() {
-              $scope.edit = false;
+          })
+            .then(function () {
+              $scope.edit = false
             })
         }
       } else {
-        $scope.admin = false;
+        $scope.admin = false
       }
     })
-  });
+  })
