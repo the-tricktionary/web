@@ -117,7 +117,7 @@
         <h2 ng-class="(i == issue.$id ? 'black' : '')">{{ issue.type }}</h2>
         <h2>{{ issue.trickName }}</h2>
         <h3>{{ issue.trickType }}</h3>
-        <p>{{ issue.desc }}</p>
+        <div marked="issue.desc"></div>
         <p ng-if="issue.type == 'Incorrect Level'"><a ng-href="https://the-tricktionary.com/details/{{ issue.id0 }}/{{ issue.id1 }}">https://the-tricktionary.com/details/{{ issue.id0 }}/{{ issue.id1 }}</a>            should be level
             <b>{{ issue.level }}</b> in <b>{{ issue.org }}</b>
         </p>
@@ -125,7 +125,7 @@
         <div ng-if="issue.type != 'Trick Submission'">
             <h3 ng-if="issue.replies">Replies</h3>
             <h4 ng-repeat-start="reply in issue.replies">{{ reply.name }}</h4>
-            <p ng-repeat-end>{{ reply.reply }}</p>
+            <div marked="reply.reply" ng-repeat-end></div>
             <p ng-if="issue.resolved" class="gray">This issue has been closed and marked as resolved</p>
             <form ng-submit="newReply(issue, newReplyText)" class="center" ng-if="!issue.resolved && !user.isAnonymous">
                 <textarea ng-model="newReplyText" placeholder="Your reply"></textarea>

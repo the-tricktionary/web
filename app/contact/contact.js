@@ -84,8 +84,7 @@ angular.module('trick.contact', ['ngRoute'])
 
       /** Create reference to database path */
       if ($scope.admin) {
-        var u = $location.search()
-          .u
+        var u = $location.search().u
         if (u) {
           ref = Db.child('contact/' + u)
           $scope.person = $firebaseArray(ref)
@@ -176,17 +175,11 @@ angular.module('trick.contact', ['ngRoute'])
      */
     $scope.submitGen = function (emailupdates) {
       /** get User Input */
-      var issue = document.getElementById('desc')
-        .value
+      var issue = document.getElementById('desc').value
       var email = emailupdates
-      var newType = document.getElementById('type')
-        .value
-      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
-          'name')
-        .value)
-      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById(
-          'email')
-        .value)
+      var newType = document.getElementById('type').value
+      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById('name').value)
+      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById('email').value)
 
       /** if name and issue isn't empty, save to db and redirect to frontpage, if not make error */
       if ($scope.newName && $scope.newEmail && issue !== '') {
@@ -201,6 +194,9 @@ angular.module('trick.contact', ['ngRoute'])
           desc: issue,
           type: newType,
           email: (email ? $scope.newEmail : null)
+        }).then(function () {
+          $scope.issue = undefined
+          $scope.newType = undefined
         })
       } else {
         /**
@@ -220,23 +216,14 @@ angular.module('trick.contact', ['ngRoute'])
      */
     $scope.submitLev = function (emailupdates) {
       /** get User Input */
-      var newId0 = document.getElementById('id0')
-        .value
-      var newId1 = document.getElementById('id1')
-        .value
-      var newOrg = document.getElementById('org')
-        .value
-      var newLvl = document.getElementById('level')
-        .value
+      var newId0 = document.getElementById('id0').value
+      var newId1 = document.getElementById('id1').value
+      var newOrg = document.getElementById('org').value
+      var newLvl = document.getElementById('level').value
       var email = emailupdates
-      var newType = document.getElementById('type')
-        .value
-      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
-          'name')
-        .value)
-      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById(
-          'email')
-        .value)
+      var newType = document.getElementById('type').value
+      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById('name').value)
+      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById('email').value)
 
       /** if name and id0 and id1 and suggestedLvl and what organization is filled save to db and redirect to frontpage, if not make error */
       if ($scope.newName && $scope.newEmail && newId0 && newId1 && newLvl &&
@@ -255,6 +242,12 @@ angular.module('trick.contact', ['ngRoute'])
           org: newOrg,
           type: newType,
           email: (email ? $scope.newEmail : null)
+        }).then(function () {
+          $scope.newType = undefined
+          $scope.newId0 = undefined
+          $scope.newId1 = undefined
+          $scope.newLvl = undefined
+          $scope.newOrg = undefined
         })
       } else {
         /**
@@ -281,36 +274,19 @@ angular.module('trick.contact', ['ngRoute'])
      * @description function to submit a new Trick
      */
     $scope.submitTrick = function () {
-      // if($scope.user.isAnonymous) {
-      // $scope.error = "You need to submit a trick";
-      // return;
-      // }
       /** get User Input */
-      var newTrickName = document.getElementById('newTrickName')
-        .value
-      var newDesc = document.getElementById('newDesc')
-        .value
-      var newTrickType = document.getElementById('newTrickType')
-        .value
-      var newVideoPath = document.getElementById('newVideo')
-        .value
-      var newVideo = document.getElementById('newVideo')
-        .files[0]
-      var ext = newVideoPath.split('.')
-        .pop()
-      var filename = Math.random()
-        .toString(36)
-        .substring(7)
-      var storageRef = firebase.storage()
-        .ref('submit/' + filename + '.' + ext)
+      var newTrickName = document.getElementById('newTrickName').value
+      var newDesc = document.getElementById('newDesc').value
+      var newTrickType = document.getElementById('newTrickType').value
+      var newVideoPath = document.getElementById('newVideo').value
+      var newVideo = document.getElementById('newVideo').files[0]
+      var ext = newVideoPath.split('.').pop()
+      var filename = Math.random().toString(36).substring(7)
+      var storageRef = firebase.storage().ref('submit/' + filename + '.' + ext)
       var probar = document.getElementById('pro-bar')
       var prolab = document.getElementById('pro-lab')
-      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById(
-          'name')
-        .value)
-      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById(
-          'email')
-        .value)
+      $scope.newName = ($scope.newName ? $scope.newName : document.getElementById('name').value)
+      $scope.newEmail = ($scope.newEmail ? $scope.newEmail : document.getElementById('email').value)
 
       /** if newTrickName and newDesc and newTrickType and isn't empty, save to db */
       if ($scope.newName && $scope.newEmail && newTrickName && newDesc &&
