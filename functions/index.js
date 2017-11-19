@@ -1,6 +1,84 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
+const express = require('express')
 admin.initializeApp(functions.config().firebase)
+
+let app = express()
+
+app.get('/:lang', (req, res) => {
+  let lang = req.params.lang
+  let ref = admin.database().ref('i18n')
+
+  ref.once('value', snapshot => {
+    let data = snapshot.val()
+    let untranslatable = ''
+    let translated = ''
+
+    data.untranslatable.forEach(obj => {
+      if (typeof obj === 'undefined') return
+      if (typeof obj.values !== 'undefined') {
+        untranslatable += `  <string-array name="${obj.id}">\n`
+
+        obj.values.forEach(value => {
+          untranslatable += `    <item>${value}</item>\n`
+        })
+
+        untranslatable += `  </string-array>\n`
+      } else {
+        untranslatable += `  <string name="${obj.id}" translatable="false">${obj.value}</string>\n`
+      }
+    })
+
+    for (let id in data.translated[lang]) {
+      if (Array.isArray(data.translated[lang][id])) {
+        translated += `  <string-array name="${id}">\n`
+
+        data.translated[lang][id].forEach(value => {
+          translated += `    <item>${value}</item>\n`
+        })
+
+        translated += `  </string-array>\n`
+      } else {
+        translated += `  <string name="${id}" translatable="false">${data.translated[lang][id]}</string>\n`
+      }
+    }
+
+    let output = `<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="lang_code">${lang}</string>
+
+  <!-- Private/Untranslatable strings -->
+${untranslatable}
+
+  <!-- Translable strings that has been translated -->
+${translated}
+</resources>\n`
+
+    res.send(output)
+  })
+})
+
+app.get('/', (req, res) => {
+  let ref = admin.database().ref('/langs')
+
+  ref.once('value', snapshot => {
+    let data = snapshot.val()
+    let keys = Object.keys(data)
+    let output = ''
+
+    keys.forEach(lang => {
+      output += lang + '\n'
+      return true
+    })
+
+    console.log(data, keys, output)
+
+    res.send(output)
+  })
+})
+
+// Expose Express API as a single Cloud Function:
+exports.i18nApi = functions.https.onRequest(app)
 
 exports.sendSuggestedLevelNotification = functions.database.ref(
     '/tricks/{level}/subs/{trick}/levels/{federation}')
