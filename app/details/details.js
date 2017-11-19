@@ -57,8 +57,8 @@ angular.module('trick.details', ['ngRoute'])
      */
     $scope.trick = $firebaseObject(ref.child($scope.id0).child('subs').child($scope.id1))
 
-    var typeRef = Db.child('tricktypes')
-    var tricktypes = $firebaseObject(typeRef)
+    var i18nRef = Db.child('i18n/translated')
+    var i18n = $firebaseObject(i18nRef)
 
     $scope.trick.$loaded()
       .then(function () {
@@ -67,12 +67,12 @@ angular.module('trick.details', ['ngRoute'])
           : $scope.trick.name))
       })
 
-    tricktypes.$loaded()
+    i18n.$loaded()
       .then(function () {
-        for (var i = 0; i < tricktypes.en.length; i++) {
-          if (tricktypes.en[i] === $scope.trick.type) {
-            $scope.type = tricktypes[$scope.lang.$value || 'en'][i] ||
-              tricktypes.en[i]
+        for (var i = 0; i < i18n.en.tricktypes.length; i++) {
+          if (i18n.en.tricktypes[i] === $scope.trick.type) {
+            $scope.type = i18n[$scope.lang.$value || 'en'].tricktypes[i] ||
+              i18n.en.tricktypes[i]
           }
         }
       })

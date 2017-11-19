@@ -24,7 +24,6 @@
   box-sizing: border-box;
 }
 
-
 /* Master Styles */
 
 h1, .h1 {
@@ -468,7 +467,6 @@ label.char {
   display: inline !important;
 }
 
-
 /* Navigation link styles */
 
 nav {
@@ -642,7 +640,6 @@ nav ul li:hover:not(:first-child) {
     margin-top: 0;
   }
 }
-
 
 /* content */
 
@@ -821,6 +818,10 @@ div.box h3:first-child {
   }
 }
 
+.inl-blck {
+  display: inline-block;
+}
+
 .half {
   width: 48%;
 }
@@ -885,7 +886,6 @@ li {
   align-content: center;
 }
 
-
 /* Charts */
 
 .ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
@@ -942,7 +942,6 @@ li {
   line-height: 30px;
   color: var(--white);
 }
-
 
 /* everywhere else */
 

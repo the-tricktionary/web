@@ -191,12 +191,11 @@ angular.module('trick', [
     })
 
     var page
-    if ($location.path()
-      .indexOf('speed/details') > -1 || $location.path()
-      .indexOf('speed/compare') > -1) {
+    if ($location.path().indexOf('speed/details') > -1 ||
+    $location.path().indexOf('speed/compare') > -1) {
       page = $location.path()
         .replace(/speed\/(details|compare)\/.*/g, function (x) {
-          'speed/' + x.split('/')[1]
+          return 'speed/' + x.split('/')[1]
         })
     } else {
       page = $location.path()

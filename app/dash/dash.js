@@ -58,14 +58,14 @@ angular.module('trick.dash', ['ngRoute'])
      */
     $scope.booklets = $firebaseObject(bookletRef)
     /** Create reference to database path */
-    var typeRef = Db.child('tricktypes')
+    var translationRef = Db.child('i18n').child('translated')
     /**
-     * @name $scope.types
+     * @name $scope.i18n
      * @function
      * @memberOf trick.dash.DashCtrl
      * @description create a syncronised object stored in scope
      */
-    $scope.types = $firebaseObject(typeRef)
+    $scope.i18n = $firebaseObject(translationRef)
     $scope.typeifs = {}
     var langsRef = Db.child('langs')
     /**
