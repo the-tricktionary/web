@@ -28,8 +28,7 @@ angular.module('trick.contact', ['ngRoute'])
    * @param {service} Db
    */
   .controller('ContactCtrl', function ($scope, $firebaseArray, $location,
-    $anchorScroll,
-    Auth, Db) {
+    $anchorScroll, Auth, Db, marked) {
     Auth.$onAuthStateChanged(function () {
       $scope.Subpage('Contact')
       /**
