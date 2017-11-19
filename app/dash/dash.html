@@ -26,8 +26,8 @@
 </div>
 <div class="box" ng-repeat="level in data">
   <h2 class="searchheader">Level {{ level.level }}</h2>
-  <div ng-repeat="type in types.en track by $index" class="box">
-    <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ types[(lang.$value ? lang.$value : 'en')][$index] || types.en[$index] }}</h3>
+  <div ng-repeat="type in i18n.en.tricktypes track by $index" class="box">
+    <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ i18n[(lang.$value ? lang.$value : 'en')].tricktypes[$index] || i18n.en.tricktypes[$index] }}</h3>
     <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
       id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)"
       ng-hide="hideDone.$value && done[level.id0][trick.id1]" ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">

@@ -1,5 +1,9 @@
 {
   "rules": {
+    "admins": {
+      ".read": true,
+      ".write": false
+    },
     "booklets": {
       ".read": true,
       ".write": false
@@ -15,12 +19,21 @@
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
       },
-      ".read": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
-      ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
+      ".read": "root.child('admins').child(auth.uid).exists() && root.child('admins').child(auth.uid).val() === true",
+      ".write": "root.child('admins').child(auth.uid).exists() && root.child('admins').child(auth.uid).val() === true"
     },
     "globalnotice": {
       ".read": true,
       ".write": false
+    },
+    "i18n": {
+      ".read": true,
+      ".write": "root.child('admins').child(auth.uid).exists() && root.child('admins').child(auth.uid).val() === true",
+      "translated": {
+        "$lang": {
+          ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
+        }
+      }
     },
     "langs": {
       ".read": true,
@@ -28,7 +41,7 @@
     },
     "news": {
       ".read": true,
-      ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'"
+      ".write": "root.child('admins').child(auth.uid).exists() && root.child('admins').child(auth.uid).val() === true"
     },
     "speed": {
       "scores": {
@@ -66,7 +79,7 @@
               }
             },
             "levels": {
-              ".write": "auth.uid === 'g0G3A7FxieN333lZ2RKclkmv9Uw1' || auth.uid === 'Kpz3afszjBR0qwZYUrKURRJx2cm2'",
+              ".write": "root.child('admins').child(auth.uid).exists() && root.child('admins').child(auth.uid).val() === true",
               "$federation": {
                 "verified": {
                   ".write": "root.child('verifiers').child(auth.uid).child('federation').val() == $federation && root.child('verifiers').child(auth.uid).exists() && (data.val() == false || !data.exists() || root.child('verifiers').child(auth.uid).child('vLevel').val() >= data.child('vLevel').val())"
