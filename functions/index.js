@@ -5,6 +5,24 @@ admin.initializeApp(functions.config().firebase)
 
 let app = express()
 
+function xmlStringify(obj, untranslatable) {
+  if (typeof obj === 'undefined') return
+  let output = ''
+  if (typeof obj.values !== 'undefined') {
+    output += `  <string-array name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>\n`
+
+    obj.values.forEach(value => {
+      output += `    <item>${value}</item>\n`
+    })
+
+    output += `  </string-array>\n`
+  } else {
+    output += `  <string name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>${obj.value}</string>\n`
+  }
+
+  return output
+}
+
 app.get('/:lang', (req, res) => {
   let lang = req.params.lang
   let ref = admin.database().ref('i18n')
@@ -13,34 +31,35 @@ app.get('/:lang', (req, res) => {
     let data = snapshot.val()
     let untranslatable = ''
     let translated = ''
+    let done = []
+    let notTranslated = ''
 
     data.untranslatable.forEach(obj => {
-      if (typeof obj === 'undefined') return
-      if (typeof obj.values !== 'undefined') {
-        untranslatable += `  <string-array name="${obj.id}">\n`
-
-        obj.values.forEach(value => {
-          untranslatable += `    <item>${value}</item>\n`
-        })
-
-        untranslatable += `  </string-array>\n`
-      } else {
-        untranslatable += `  <string name="${obj.id}" translatable="false">${obj.value}</string>\n`
-      }
+      untranslatable += xmlStringify(obj, true)
     })
 
     for (let id in data.translated[lang]) {
+      let obj = {id}
       if (Array.isArray(data.translated[lang][id])) {
-        translated += `  <string-array name="${id}">\n`
-
-        data.translated[lang][id].forEach(value => {
-          translated += `    <item>${value}</item>\n`
-        })
-
-        translated += `  </string-array>\n`
+        obj.values = data.translated[lang][id]
       } else {
-        translated += `  <string name="${id}" translatable="false">${data.translated[lang][id]}</string>\n`
+        obj.value = data.translated[lang][id]
       }
+      done.push(obj.id)
+
+      translated += xmlStringify(obj)
+    }
+
+    for (let id in data.translated.en) {
+      if (done.indexOf(id) >= 0) continue
+      let obj = {id}
+      if (Array.isArray(data.translated.en[id])) {
+        obj.values = data.translated.en[id]
+      } else {
+        obj.value = data.translated.en[id]
+      }
+
+      notTranslated += xmlStringify(obj)
     }
 
     let output = `<?xml version="1.0" encoding="utf-8"?>
@@ -52,6 +71,9 @@ ${untranslatable}
 
   <!-- Translable strings that has been translated -->
 ${translated}
+
+  <!-- Translatable strings that haven't been translated -->
+${notTranslated}
 </resources>\n`
 
     res.send(output)
@@ -64,12 +86,7 @@ app.get('/', (req, res) => {
   ref.once('value', snapshot => {
     let data = snapshot.val()
     let keys = Object.keys(data)
-    let output = ''
-
-    keys.forEach(lang => {
-      output += lang + '\n'
-      return true
-    })
+    let output = keys.join(',')
 
     console.log(data, keys, output)
 

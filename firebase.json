@@ -11,12 +11,12 @@
         "destination": "/static/img/icon.png"
       },
       {
-        "source": "**",
-        "destination": "/index.html"
-      },
-      {
         "source": "/api/i18n",
         "function": "i18nApi"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ],
     "ignore": [],
