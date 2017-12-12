@@ -5,19 +5,19 @@ admin.initializeApp(functions.config().firebase)
 
 let app = express()
 
-function xmlStringify(obj, untranslatable) {
+function xmlStringify (obj, untranslatable) {
   if (typeof obj === 'undefined') return
   let output = ''
   if (typeof obj.values !== 'undefined') {
     output += `  <string-array name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>\n`
 
     obj.values.forEach(value => {
-      output += `    <item>${value}</item>\n`
+      output += `    <item>${value.replace(/\n/g, '\\n')}</item>\n`
     })
 
     output += `  </string-array>\n`
   } else {
-    output += `  <string name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>${obj.value}</string>\n`
+    output += `  <string name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>${obj.value.replace(/\n/g, '\\n')}</string>\n`
   }
 
   return output
@@ -29,14 +29,16 @@ app.get('/:lang', (req, res) => {
 
   ref.once('value', snapshot => {
     let data = snapshot.val()
+    let langsRef = admin.database().ref('langs')
     let untranslatable = ''
     let translated = ''
     let done = []
     let notTranslated = ''
 
-    data.untranslatable.forEach(obj => {
+    for (let id in data.untranslatable) {
+      let obj = data.untranslatable[id]
       untranslatable += xmlStringify(obj, true)
-    })
+    }
 
     for (let id in data.translated[lang]) {
       let obj = {id}
@@ -62,10 +64,20 @@ app.get('/:lang', (req, res) => {
       notTranslated += xmlStringify(obj)
     }
 
-    let output = `<?xml version="1.0" encoding="utf-8"?>
+    langsRef.once('value', langSnap => {
+      let langsData = langSnap.val()
+      let obj = {
+        id: 'languages',
+        values: Object.values(langsData)
+      }
+      let langs = ''
+
+      langs += xmlStringify(obj)
+
+      let output = `<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="lang_code">${lang}</string>
-
+${langs}
   <!-- Private/Untranslatable strings -->
 ${untranslatable}
 
@@ -76,7 +88,8 @@ ${translated}
 ${notTranslated}
 </resources>\n`
 
-    res.send(output)
+      res.send(output)
+    })
   })
 })
 
