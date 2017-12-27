@@ -1,7 +1,12 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 const express = require('express')
+const values = require('object.values')
 admin.initializeApp(functions.config().firebase)
+
+if (!Object.values) {
+  values.shim()
+}
 
 let app = express()
 
