@@ -44,25 +44,11 @@ angular.module('trick.profile', ['ngRoute'])
         $scope.coaches = $firebaseArray(coachesRef)
 
         $scope.addCoach = function (uid) {
-          if (uid) {
-            $scope.uid = uid
-          }
-          var studentsRef = Db.child('users/' + $scope.uid +
-            '/students/' +
-            $scope.user
-            .uid)
-          studentsRef.set($scope.user.displayName, function (err) {
+          coachesRef.child(uid).set(true, function (err) {
             if (err) {
               $scope.Error(err)
             } else {
-              coachesRef.child($scope.uid)
-                .set(true, function (err) {
-                  if (err) {
-                    $scope.Error(err)
-                  } else {
-                    $scope.coach = ''
-                  }
-                })
+              $scope.coach = ''
             }
           })
         }

@@ -126,7 +126,7 @@
         "profile": {
           ".read": "$uid === auth.uid || data.child('public').val() === true",
           ".write": "$uid === auth.uid",
-          ".validate": "data.child('username').val() === newData.child('username').val() || !data.child('username').exists()"
+          ".validate": "(data.child('username').val() === newData.child('username').val() || !data.child('username').exists() || data.child('username').val() === $uid) && !newData.child('username').val().matches(/[^A-Za-z0-9]/) && newData.child('username').val().length <= 20"
         },
         "hideCompleted": {
           ".read": "$uid === auth.uid",

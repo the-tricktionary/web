@@ -1,9 +1,10 @@
 <h1>Coach</h1>
 <p>
     Your students can share their stats with you and you can display your team here.
-    to have students appear, ask them to go to their <a ng-href="/profile">Profile page</a>    and fill in <span>{{ uid }}</span> as coach, or ask them to click on the following
-    link:
-    <a ng-href="/profile?coach={{ uid }}">https://the-tricktionary.com/profile?coach={{ uid }}</a>    Note that an user can have multiple coaches.
+    to have students appear, ask them to go to their <a ng-href="/profile">Profile page</a>
+    and fill in your username: <span>{{ uname.$value }}</span>
+    as coach, or ask them to click on the following link:
+    <a ng-href="/profile?coach={{ uname.$value | lowercase }}">https://the-tricktionary.com/profile?coach={{ uname.$value | lowercase }}</a>    Note that an user can have multiple coaches.
 </p>
 <div ng-repeat="level in data">
     <h2>Level {{ level.level }}</h2>

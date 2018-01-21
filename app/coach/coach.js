@@ -38,9 +38,12 @@ angular.module('trick.coach', ['ngRoute'])
       $scope.Subpage('Coach')
       if ($scope.user && !$scope.user.isAnonymous) {
         var ref = Db.child('tricks')
-        var ref1 = Db.child('users/' + $scope.user.uid + '/students')
         $scope.data = $firebaseArray(ref)
+        var ref1 = Db.child('users/' + $scope.user.uid + '/students')
         $scope.students = $firebaseArray(ref1)
+        var profileRef = Db.child('users/' + $scope.user.uid + '/profile/username')
+        $scope.uname = $firebaseObject(profileRef)
+
         $scope.checklists = {}
         var refs = []
 

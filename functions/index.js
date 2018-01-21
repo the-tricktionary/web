@@ -190,3 +190,50 @@ exports.moveUsernames = functions.database.ref('/users/{uid}/profile/username')
 
     return event.data.adminRef.root.child('usernames').child(data.toLowerCase()).set(event.params.uid)
   })
+
+exports.moveCoaches = functions.database.ref('/users/{uid}/coaches/{uname}')
+    .onWrite(event => {
+      const data = event.data.val()
+
+      let getCUid = () => {
+        let cuid
+        if (event.params.uname.length > 20) {
+          cuid = event.params.uname
+          return getUname(cuid)
+        } else {
+          return event.data.adminRef.root.child('usernames').child(event.params.uname).once('value', snapshot => {
+            cuid = snapshot.val()
+            if (cuid === null || cuid === undefined) {
+              return true
+            }
+            if (data !== true) {
+              return event.data.adminRef.root.child('users').child(cuid).child('students').child(event.params.uid).remove()
+            }
+            getUname(cuid)
+          })
+        }
+      }
+
+      let getUname = cuid => {
+        let uname
+        return event.data.adminRef.parent.parent.child('profile').once('value', snapshot => {
+          var data = snapshot.val()
+          if (typeof data.name === 'undefined') {
+            uname = data.username
+          } else {
+            uname = data.name.join(' ')
+          }
+          return set(cuid, uname)
+        })
+      }
+
+      let set = (cuid, uname) => {
+        if (data === true) {
+          return event.data.adminRef.root.child('users').child(cuid).child('students').child(event.params.uid).set(uname)
+        } else {
+          return true
+        }
+      }
+
+      getCUid()
+    })

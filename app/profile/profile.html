@@ -3,7 +3,13 @@
     You can share your progress with coaches, and teams. You can also enable a public
     profile page.
 </p>
-<div ng-if="!profileSettings.username">
+<div class="box loading" ng-if="!profileSettings.username && !profileSettings.$resolved">
+  <span>
+    <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
+    Loading
+</span>
+</div>
+<div ng-if="!profileSettings.username && profileSettings.$resolved">
   <p>You do not have an username set, to access these functionalities you must have a username set</p>
   <div class="center">
       <form ng-submit="setUsername(newUsername)">
@@ -26,12 +32,8 @@
         <a ng-href="/profile/{{ profileSettings.username | lowercase }}">the-tricktionary.com/profile/{{ profileSettings.username | lowercase }}</a>        by enabling a public profile you will make that profile public to everyone.
         You can choose wether to show a list of tricks you've completed, your speed
         highscores or neither. If you choose neither your public profile page will
-        just show the ammount of tricks you've completed. if you have your profile
+        just show the ammount of tricks you've completed. If you have your profile
         set to public you can share the above link.
-    </p>
-    <p>
-        Speed highscores aren't yet avilable, but enabling it will prepare you for when it
-        becomes.
     </p>
     <a ng-click="profileSettings.public = !profileSettings.public; profileSettings.$save()"
         class="black"><i ng-class="(profileSettings.public ? 'checked' : '')" class="checkbox"></i>        Enable public profile</a>
@@ -47,7 +49,7 @@
 <div ng-if="profileSettings.username">
     <h2>Add a coach</h2>
     <div class="center">
-        <form ng-submit="addCoach()">
+        <form ng-submit="addCoach(uid)">
             <input type="text" placeholder="coach id" ng-model="uid" />
             <input type="submit" value="add as coach" />
         </form>
