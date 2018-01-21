@@ -186,7 +186,6 @@ angular.module('trick.login', ['ngRoute', 'ngSanitize'])
         $scope.auth.email = email
         $scope.auth.password = password
         $scope.signIn('email')
-        $scope.apply()
       })
       .catch(function (err) {
         $scope.Err('email', err)

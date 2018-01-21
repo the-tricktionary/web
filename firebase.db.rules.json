@@ -97,6 +97,10 @@
         ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
       }
     },
+    "usernames": {
+      ".read": true,
+      ".write": false
+    },
     "users": {
       "$uid": {
         "students": {

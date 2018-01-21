@@ -46,7 +46,7 @@ angular.module('trick.profile.details', ['ngRoute'])
 
       $scope.info.$loaded()
         .then(function () {
-          $scope.Subpage($scope.info.name[0] + "'s Profile")
+          $scope.Subpage(($scope.info.name ? $scope.info.name[0] + "'s " : '') + 'Profile')
         })
     })
 
@@ -71,19 +71,17 @@ angular.module('trick.profile.details', ['ngRoute'])
     $scope.keys = function (obj) {
       if (typeof obj === 'undefined') return
 
-      var length = Object.keys(obj)
-        .length
-      return length
+      var keys = Object.keys(obj)
+      return keys.length
     }
 
     $scope.total = function (obj) {
       if (typeof obj === 'undefined') return
 
       var total = 0
-      var keys = Object.keys(obj)
-      keys.pop()
-      keys.pop()
-      keys.pop()
+      var keys = Object.keys(obj).filter(function (str) {
+        return str[0] !== '$'
+      })
       keys.forEach(function (key) {
         total += (Object.keys(obj[key])
           .length)

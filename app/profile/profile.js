@@ -68,6 +68,7 @@ angular.module('trick.profile', ['ngRoute'])
         }
 
         $scope.setUsername = function (uname) {
+          console.log(uname)
           $scope.error = ''
           if (RegExp('[^A-Za-z0-9]').test(uname)) {
             $scope.error = 'Your username can only contain alphanumerical characters (A-Z, a-z, 0-9)'
