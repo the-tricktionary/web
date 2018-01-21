@@ -163,7 +163,7 @@ angular.module('trick.speed.new', ['ngRoute'])
             })
         }
 
-        function avgJumps (arr) { // eslint-disable-line
+        var avgJumps = function (arr) { // eslint-disable-line
           var avg = 0
           for (var i = 1; i < arr.length; i++) {
             avg += 100 * (1 / (arr[i] - arr[i - 1]))
@@ -173,7 +173,7 @@ angular.module('trick.speed.new', ['ngRoute'])
           return avg
         }
 
-        function maxJumps (arr) { // eslint-disable-line
+        var maxJumps = function (arr) { // eslint-disable-line
           var max = 0
           var jps = 0
           for (var i = 1; i < arr.length; i++) {
@@ -187,7 +187,7 @@ angular.module('trick.speed.new', ['ngRoute'])
           return max
         }
 
-        function misses (arr, avgjps) { // eslint-disable-line
+        var misses = function (arr, avgjps) { // eslint-disable-line
           var misses = 0
           var curjps = 0
           for (var i = 1; i < arr.length; i++) {
@@ -199,7 +199,7 @@ angular.module('trick.speed.new', ['ngRoute'])
           return misses
         }
 
-        function scrubTimes (arr) { // eslint-disable-line
+        var scrubTimes = function (arr) { // eslint-disable-line
           var scrubbed = []
           for (var i = 1; i < arr.length; i += 2) {
             scrubbed.push(Math.round((arr[i] + arr[i - 1]) / 2))

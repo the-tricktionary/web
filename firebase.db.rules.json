@@ -125,7 +125,8 @@
         },
         "profile": {
           ".read": "$uid === auth.uid || data.child('public').val() === true",
-          ".write": "$uid === auth.uid"
+          ".write": "$uid === auth.uid",
+          ".validate": "data.child('username').val() === newData.child('username').val() || !data.child('username').exists()"
         },
         "hideCompleted": {
           ".read": "$uid === auth.uid",
