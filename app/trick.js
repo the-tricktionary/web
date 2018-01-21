@@ -31,6 +31,7 @@ function toggleNav () { // eslint-disable-line
  * @requires ngCookies
  * @requires trick.dash
  * @requires trick.details
+ * @requires trick.login
  * @requires trick.coach
  * @requires trick.profile
  * @requires trick.news
@@ -47,6 +48,7 @@ angular.module('trick', [
   'ngCookies',
   'trick.dash',
   'trick.details',
+  'trick.login',
   'trick.coach',
   'trick.profile',
   'trick.profile.details',

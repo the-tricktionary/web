@@ -92,3 +92,4 @@ docs/
 
 *.key*
 !*.key.encnginx.conf
+package-lock.json

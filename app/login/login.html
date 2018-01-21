@@ -1,0 +1,41 @@
+<h2>Login</h2>
+<div class="center">
+  <div ng-if="success != ''" class="warning">{{ success }}</div>
+  <label>
+    <input type="email" ng-model="auth.email" placeholder="Email"/>
+  </label><br/>
+  <label>
+    <input type="password" ng-model="auth.password" placeholder="Password"/>
+  </label>
+  <div ng-if="err.email != ''" class="error">{{ err.email }}</div>
+  <div ng-if="!user">
+    <button ng-click="signIn('email')">Login</button>
+    <button ng-click="emailSignUp('email')">Register</button>
+  </div>
+  <div ng-if="user">
+    <button ng-click="change('email')">Change Email Address</button>
+    <button ng-click="change('password')">{{ (!display.password ? 'Change' : 'Create') }} Password</button>
+  </div>
+  <div class="center gray mt mb">or</div>
+</div>
+<div class="center">
+  <label>
+    <input type="text" ng-model="auth.phone" placeholder="Phone Number (Starts with +)"/>
+  </label><br/>
+  <label ng-show="display.phoneCode">
+    <input type="password" ng-model="auth.phoneCode" placeholder="Verification Code"/>
+  </label>
+  <div id="phone-sign-in"></div>
+  <div ng-if="err.phone != ''" class="error">{{ err.phone }}</div>
+  <button ng-click="signIn('phone')" id="phone-sign-in" ng-if="display.phone">{{ (display.phoneCode ? (user ? 'Connect Phone Number' : 'Login') : 'Send Verification Code') }}</button>
+  <button ng-click="change('phone')" id="phone-sign-in" ng-if="!display.phone">Change Phone Number</button>
+  <div class="center gray">You will recieve an SMS with a Verification Code, normal rates apply</div>
+  <div class="center gray mt mb">or</div>
+</div>
+<div class="center">
+  <button ng-click="signIn('google')" ng-if="display['google.com']">{{ (user ? 'Connect' : 'Login with') }} Google</button>
+  <!-- <button ng-click="signIn('facebook')" ng-if="display['facebook.com']">{{ (user ? 'Connect' : 'Login with') }} Facebook</button> -->
+  <!-- <button ng-click="signIn('twitter')" ng-if="display['twitter.com']">{{ (user ? 'Connect' : 'Login with') }} Twitter</button> -->
+  <!-- <button ng-click="signIn('github')" ng-if="display['github.com']">{{ (user ? 'Connect' : 'Login with') }} GitHub</button> -->
+  <div ng-if="err.social != ''" class="error">{{ err.social }}</div>
+</div>

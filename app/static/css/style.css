@@ -272,7 +272,7 @@ input[type=submit] {
   margin-top: -45px;
 }
 
-input[type=text], input[type=number], input[type=url], input[type=file], input[type=email], textarea {
+input[type=text], input[type=number], input[type=url], input[type=file], input[type=email], input[type=password], textarea {
   outline: none;
   border: none;
   border-bottom: 1px solid var(--l-gray);
@@ -401,7 +401,7 @@ select {
   width: 100%;
 }
 
-input[type=text]:focus, input[type=number]:focus, input[type=email]:focus, input[type=url]:focus, select:focus, textarea:focus {
+input[type=text]:focus, input[type=number]:focus, input[type=email]:focus, input[type=password]:focus, input[type=url]:focus, select:focus, textarea:focus {
   border-bottom: 1px solid var(--d-yellow);
 }
 
@@ -423,7 +423,7 @@ input[type=text]:focus, input[type=number]:focus, input[type=email]:focus, input
 }
 
 @media screen and (max-width: 560px) {
-  input[type=text], input[type=number], input[type=url], input[type=email], input[type=file], select, textarea {
+  input[type=text], input[type=number], input[type=url], input[type=email], input[type=password], input[type=file], select, textarea {
     width: 100%;
     display: block;
     margin-bottom: .5em;
