@@ -28,7 +28,7 @@ angular.module('trick.profile.details', ['ngRoute'])
     $firebaseObject, $location, $routeParams, $filter, Auth, Db) {
     $scope.Subpage('Profile')
 
-    Db.child('/usernames').child($routeParams.uname).on('value', function (snapshot) {
+    Db.child('/usernames').child($routeParams.uname.toLowerCase()).on('value', function (snapshot) {
       $scope.uid = snapshot.val()
 
       if ($scope.uid === null) {

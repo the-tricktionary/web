@@ -188,5 +188,5 @@ exports.moveUsernames = functions.database.ref('/users/{uid}/profile/username')
   .onWrite(event => {
     const data = event.data.val()
 
-    return event.data.adminRef.root.child('usernames').child(data).set(event.params.uid)
+    return event.data.adminRef.root.child('usernames').child(data.toLowerCase()).set(event.params.uid)
   })

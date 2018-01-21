@@ -68,6 +68,11 @@ angular.module('trick.profile', ['ngRoute'])
         }
 
         $scope.setUsername = function (uname) {
+          $scope.error = ''
+          if (RegExp('[^A-Za-z0-9]').test(uname)) {
+            $scope.error = 'Your username can only contain alphanumerical characters (A-Z, a-z, 0-9)'
+            return
+          }
           $scope.checking = true
           Db.child('/usernames').child(uname).once('value', function (snapshot) {
             var data = snapshot.val()
