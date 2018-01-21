@@ -67,6 +67,22 @@ angular.module('trick.profile', ['ngRoute'])
           })
         }
 
+        $scope.setUsername = function (uname) {
+          $scope.checking = true
+          Db.child('/usernames').child(uname).once('value', function (snapshot) {
+            var data = snapshot.val()
+            console.log(data)
+            if (data === null || data === $scope.user.uid) {
+              $scope.profileSettings.username = uname
+              $scope.profileSettings.$save()
+            } else {
+              $scope.error = 'Username does alredy exist, please choose another one'
+              $scope.checking = false
+              $scope.$apply()
+            }
+          })
+        }
+
         $scope.delCoach = function (uid) {
           var studentsRef = Db.child('users/' + uid + '/students/' +
             $scope.user

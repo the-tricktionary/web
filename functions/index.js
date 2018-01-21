@@ -183,3 +183,10 @@ exports.moveTranslatableToTranslatedEnglish = functions.database.ref('/i18n/tran
 
     return event.data.adminRef.parent.parent.child('translated').child('en').child(id).set(value)
   })
+
+exports.moveUsernames = functions.database.ref('/users/{uid}/profile/username')
+  .onWrite(event => {
+    const data = event.data.val()
+
+    return event.data.adminRef.root.child('usernames').child(data).set(event.params.uid)
+  })
