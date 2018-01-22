@@ -105,11 +105,7 @@
       "$uid": {
         "students": {
           ".read": "$uid === auth.uid",
-          ".write": "$uid === auth.uid",
-          "$studentuid": {
-            ".read": "$studentuid === auth.uid",
-            ".write": "$studentuid === auth.uid"
-          }
+          ".write": "$uid === auth.uid"
         },
         "fcm": {
           ".read": "$uid === auth.uid",

@@ -76,19 +76,7 @@ angular.module('trick.profile', ['ngRoute'])
         }
 
         $scope.delCoach = function (uid) {
-          var studentsRef = Db.child('users/' + uid + '/students/' +
-            $scope.user
-            .uid)
-          studentsRef.set(null, function (err) {
-            if (err) {
-              $scope.Error(err)
-            } else {
-              coachesRef.child(uid)
-                .set(null, function (err) {
-                  $scope.Error(err)
-                })
-            }
-          })
+          coachesRef.child(uid).remove()
         }
 
         $scope.fastcoach = $location.search()
