@@ -3,7 +3,7 @@
     <a class="close" ng-click="error.show = !error.show"><i class="fa fa-times-circle"></i></a>
 </div>
 <a ng-if="u" ng-click="$location.search('u', null)" class="back"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
-<div class="center" ng-if="!admin">
+<div class="center">
     <label for="name">Name:</label>
     <input id="name" type="text" placeholder="Name" ng-model="newName" ng-disabled="user.displayName"
         required/></br>
@@ -11,7 +11,7 @@
     <input id="email" type="email" placeholder="Email" ng-model="newEmail" ng-disabled="user.email"
         required/>
 </div>
-<div class="center" ng-hide="admin">
+<div class="center">
     <label for="type">Type:
         <i class="fa fa-caret-down"></i>
         <select id="type" ng-model="newType" required>
@@ -112,7 +112,7 @@
     </p>
     </form>
 
-    <h1 ng-if="!admin">Your Issues</h1>
+    <h1>Your Issues</h1>
     <div ng-if="person" ng-repeat="issue in person" class="article" ng-attr-id="{{ issue.$id }}">
         <h2 ng-class="(i == issue.$id ? 'black' : '')">{{ issue.type }}</h2>
         <h2>{{ issue.trickName }}</h2>
@@ -134,20 +134,10 @@
         </div>
         <div class="mt">
             <button ng-confirm-click="Do you really want to remove this issue?" confirmed-click="person.$remove(issue)"
-                class="red inline"><i class="fa fa-trash-o"></i> Delete</button>
-                <button ng-click="issue.resolved = true; person.$save(issue)" class="green inline"
-                    ng-hide="issue.resolved" ng-if="admin"><i class="fa fa-lock"></i> Resolve</button>
-                    <button ng-click="issue.resolved = false; person.$save(issue)" class="green inline"
-                        ng-show="issue.resolved" ng-if="admin"><i class="fa fa-unlock"></i> Reopen</button>
-                        <button ng-click="issue.email = user.email; person.$save(issue)" class="green inline"
-                            ng-hide="issue.email" ng-if="!admin"><i class="fa fa-envelope-o"></i> Subscribe to updates</button>
-                            <button ng-click="issue.email = null; person.$save(issue)" class="green inline" ng-hide="!issue.email"
-                                ng-if="!admin"><i class="fa fa-envelope-o"></i> Unsubscribe from updates</button>
+              class="red inline"><i class="fa fa-trash-o"></i> Delete</button>
+            <button ng-click="issue.email = user.email; person.$save(issue)" class="green inline"
+              ng-hide="issue.email"><i class="fa fa-envelope-o"></i> Subscribe to updates</button>
+            <button ng-click="issue.email = null; person.$save(issue)" class="green inline" ng-hide="!issue.email">
+              <i class="fa fa-envelope-o"></i> Unsubscribe from updates</button>
         </div>
     </div>
-
-    <div ng-repeat="person in people" ng-if="!person || admin" class="article hover pointer"
-        ng-click="$location.search('u', person.$id)">
-        <span>{{ person[keys(person)[0]].name }}</span>
-        <span class="pr">{{ keys(person).length - 3 }}</span>
-        </div>

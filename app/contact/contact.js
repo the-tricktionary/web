@@ -43,7 +43,6 @@ angular.module('trick.contact', ['ngRoute'])
             $scope.Error(error)
           })
       }
-      var ref
       /**
        * Set user's name if not anon
        */
@@ -61,63 +60,26 @@ angular.module('trick.contact', ['ngRoute'])
          */
         $scope.newEmail = $scope.user.email
       }
-      /**
-       * Check if Admin
-       * Also regulated by db security rules
-       */
-      if ($scope.user && ($scope.user.uid ===
-          'g0G3A7FxieN333lZ2RKclkmv9Uw1' || $scope.user.uid ===
-          'Kpz3afszjBR0qwZYUrKURRJx2cm2')) {
-        /**
-         * @name $scope.admin
-         * @type {boolean}
-         * @description true if the authenticated user is an administrator, only for display purposes - access is managed in db
-         */
-        $scope.admin = true
-      } else {
-        $scope.admin = false
-      }
 
       /** Configure $anchorScroll to take the navbar into consideration */
       $anchorScroll.yOffset = 200
 
       /** Create reference to database path */
-      if ($scope.admin) {
-        var u = $location.search().u
-        if (u) {
-          ref = Db.child('contact/' + u)
-          $scope.person = $firebaseArray(ref)
-          $scope.u = true
-          if ($scope.i) {
-            $scope.person.$loaded()
-              .then(function () {
-                setTimeout(function () {
-                  $anchorScroll($scope.i)
-                }, 500)
-              })
-          }
-        } else {
-          ref = Db.child('contact')
-          $scope.people = $firebaseArray(ref)
-          $scope.u = false
-        }
-      } else {
-        ref = Db.child('contact/' + $scope.user.uid)
+      var ref = Db.child('contact/' + $scope.user.uid)
         /**
          * @name $scope.contact
          * @function
          * @memberOf trick.contact.ContactCtrl
          * @description create a synchronized array stored in scope
          */
-        $scope.person = $firebaseArray(ref)
-        if ($scope.i) {
-          $scope.person.$loaded()
+      $scope.person = $firebaseArray(ref)
+      if ($scope.i) {
+        $scope.person.$loaded()
             .then(function () {
               setTimeout(function () {
                 $anchorScroll($scope.i)
               }, 500)
             })
-        }
       }
     })
 

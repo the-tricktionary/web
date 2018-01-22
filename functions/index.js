@@ -153,7 +153,7 @@ exports.sendSuggestedLevelNotification = functions.database.ref(
               title: 'New Level Suggested',
               body: `A new ${event.params.federation} Level has been suggested for ${trick.name}`,
               icon: 'https://the-tricktionary.com/static/img/icon.png',
-              click_action: 'https://levels.the-tricktionary.com/admin#' +
+              click_action: 'https://admin.the-tricktionary.com/levels#' +
                 (event.params.level) + '' + (event.params.trick)
             }
           }
