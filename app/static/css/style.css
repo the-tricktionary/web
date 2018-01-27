@@ -4,9 +4,8 @@
   --l-yellow: #feedb2;
   --d-yellow: #fec500;
   --black: #333;
-  --l-black: #292f2f;
   --m-gray: #666;
-  --d-gray: #aaa;
+  --d-gray: #292f2f;
   --h-gray: #cfd8dc;
   --l-gray: #ccc;
   --rl-gray: #eee;
@@ -310,7 +309,7 @@ textarea.big {
 
 label {
   display: inline;
-  color: var(--l-black);
+  color: var(--d-gray);
   width: 100%;
   position: relative;
   height: 1.5em;

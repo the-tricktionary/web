@@ -47,18 +47,40 @@
         </div>
 </div>
 <div ng-if="profileSettings.username">
-    <h2>Add a coach</h2>
+    <h2>Friends</h2>
+    <h3>Send a friend request</h3>
     <div class="center">
-        <form ng-submit="addCoach(uid)">
-            <input type="text" placeholder="coach username" ng-model="uid" />
+        <form ng-submit="addFriend(frUname)">
+            <input type="text" placeholder="friend's username" ng-model="frUname" />
+            <input type="submit" value="Send friend request" />
+        </form>
+    </div>
+    <h3 ng-if="friendrequests.length > 0">Friend Requests</h3>
+    <div ng-repeat="request in friendrequests">
+      {{ request.username || request.$id }}
+      <button ng-click="addFriend(request.username, request.$id)">Accept Friend Request</button>
+      <button ng-click="friendrequests.$remove(request)">Ignore Friend Request</button>
+    </div>
+    <h3 ng-if="friends.length > 0">Friends</h3>
+    <div ng-repeat="friend in friends">
+      {{ friend.username || friend.$id }}
+      <button ng-click="friends.$remove(friend)">{{ (friend.mutual ? 'Remove Friend' : 'Cancel Request') }}</button>
+    </div>
+</div>
+<div ng-if="profileSettings.username">
+    <h2>Coaches</h2>
+    <h3>Add a coach</h3>
+    <div class="center">
+        <form ng-submit="addCoach(coUname)">
+            <input type="text" placeholder="coach's username" ng-model="coUname" />
             <input type="submit" value="add as coach" />
         </form>
     </div>
-    <h3>Your coaches</h3>
+    <h3 ng-if="coaches.length > 0">Your coaches</h3>
     <p>
         <ul class="list">
             <li ng-repeat="coach in coaches">{{ coach.$id }}
-                <a ng-confirm-click="Do you really want to remove this person as coach?" confirmed-click="delCoach(coach.$id)"><i class="fa fa-trash-o"></i></a>
+                <a ng-confirm-click="Do you really want to remove this person as coach?" confirmed-click="removeCoach(coach.$id)"><i class="fa fa-trash-o"></i></a>
             </li>
         </ul>
     </p>

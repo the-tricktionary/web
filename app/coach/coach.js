@@ -44,6 +44,13 @@ angular.module('trick.coach', ['ngRoute'])
         var profileRef = Db.child('users/' + $scope.user.uid + '/profile/username')
         $scope.uname = $firebaseObject(profileRef)
 
+        $scope.uname.$loaded().then(function () {
+          console.log($scope.uname)
+          if (typeof $scope.uname.$value === 'undefined' || !$scope.uname.$value) {
+            $location.path('/profile').search({err: 'cnun'})
+          }
+        })
+
         $scope.checklists = {}
         var refs = []
 

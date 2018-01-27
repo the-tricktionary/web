@@ -11,7 +11,9 @@ var config = {
   apiKey: 'AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM',
   authDomain: 'the-tricktionary.com',
   databaseURL: 'https://project-5641153190345267944.firebaseio.com',
-  storageBucket: 'project-5641153190345267944.appspot.com'
+  projectId: 'project-5641153190345267944',
+  storageBucket: 'project-5641153190345267944.appspot.com',
+  messagingSenderId: '1048157266079'
 }
 firebase.initializeApp(config)
 
@@ -102,11 +104,21 @@ angular.module('trick', [
      * @require firebase
      */
     function () {
-      return firebase.database()
-        .ref()
+      return firebase.database().ref()
     })
 
-  .run(function ($location, $rootScope, $cookies, $firebaseObject, Auth, Db) {
+  .factory('Messaging',
+    /**
+     * @function Messaging
+     * @memberOf trick.trick
+     * @return {object} Return messaging object
+     * @require firebase
+     */
+    function () {
+      return firebase.messaging()
+    })
+
+  .run(function ($location, $rootScope, $cookies, $firebaseObject, Auth, Db, Messaging) {
     $rootScope.$on('$routeChangeError', function (event, next, previous, error) {
       if (error === 'AUTH_REQUIRED') {
         $location.path('/')
@@ -182,6 +194,16 @@ angular.module('trick', [
       if ($rootScope.user) {
         var langRef = Db.child('users/' + $rootScope.user.uid + '/lang')
         $rootScope.lang = $firebaseObject(langRef)
+        Messaging.onTokenRefresh(function () {
+          Messaging.getToken()
+            .then(function (refreshedToken) {
+              console.log('Token refreshed.')
+              Db.child('users').child($rootScope.user.uid).child('fcm').child('web').push(refreshedToken)
+            })
+            .catch(function (err) {
+              console.log('Unable to retrieve refreshed token ', err)
+            })
+        })
       } else {
         $rootScope.lang = {
           '$value': $cookies.get('lang'),
@@ -210,7 +232,7 @@ angular.module('trick', [
       appID: 'com.the-tricktionary',
       startDelay: 5,
       skipFirstVisit: true,
-      maxDisplayCount: 1,
+      maxDisplayCount: 2,
       displayPace: 525948
     })
   })

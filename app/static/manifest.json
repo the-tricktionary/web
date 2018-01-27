@@ -6,6 +6,7 @@
   "background_color": "#fe3500",
   "theme_color": "#fe3500",
   "offline_enabled": true,
+  "gcm_sender_id": "103953800507",
   "description": "A dictionary of jumprope tricks categorised after difficulty and completed with prerequisites and videos.",
   "lang": "en",
   "prefer_related_applications": true,

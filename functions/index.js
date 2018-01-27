@@ -115,14 +115,12 @@ app.get('/', (req, res) => {
 // Expose Express API as a single Cloud Function:
 exports.i18nApi = functions.https.onRequest(app)
 
-exports.sendSuggestedLevelNotification = functions.database.ref(
-    '/tricks/{level}/subs/{trick}/levels/{federation}')
+exports.sendSuggestedLevelNotification = functions.database.ref('/tricks/{level}/subs/{trick}/levels/{federation}')
   .onWrite(event => {
     const data = event.data.val()
     console.log(data)
     if (typeof data.verified.suggestion !== 'undefined') {
-      var ref = admin.database()
-        .ref('/users')
+      var ref = admin.database().ref('/users')
 
       return ref.once('value', snapshot => {
         var users = snapshot.val()
@@ -139,6 +137,19 @@ exports.sendSuggestedLevelNotification = functions.database.ref(
           typeof users['Kpz3afszjBR0qwZYUrKURRJx2cm2'].fcm !== 'undefined' &&
           users['Kpz3afszjBR0qwZYUrKURRJx2cm2'].fcm['levels-web'] !== 'undefined') {
           tokens.push(users['Kpz3afszjBR0qwZYUrKURRJx2cm2'].fcm['levels-web'])
+        }
+
+        if (typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'] !== 'undefined' &&
+          typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm !== 'undefined' &&
+          typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm['android'] !==
+          'undefined') {
+          tokens.push(users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm['android'])
+        }
+
+        if (typeof users['Kpz3afszjBR0qwZYUrKURRJx2cm2'] !== 'undefined' &&
+          typeof users['Kpz3afszjBR0qwZYUrKURRJx2cm2'].fcm !== 'undefined' &&
+          users['Kpz3afszjBR0qwZYUrKURRJx2cm2'].fcm['android'] !== 'undefined') {
+          tokens.push(users['Kpz3afszjBR0qwZYUrKURRJx2cm2'].fcm['android'])
         }
 
         var trickRef = admin.database()
@@ -237,3 +248,89 @@ exports.moveCoaches = functions.database.ref('/users/{uid}/coaches/{uname}')
 
       getCUid()
     })
+
+exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
+  .onWrite(event => {
+    const data = event.data.val()
+
+    let renameToUid = (uid, uname) => {
+      event.data.adminRef.root.child('users').child(event.params.uid).child('friends').child(uname).remove()
+      event.data.adminRef.root.child('users').child(event.params.uid).child('friends').child(uid).set({mutual: false, username: uname.toLowerCase()})
+      return 'renamed'
+    }
+
+    let checkMutual = uid => {
+      if (data === null || typeof data === 'undefined') {
+        return removeFriend(uid)
+      }
+      return event.data.adminRef.root.child('users').child(uid).child('friends').child(event.params.uid).once('value', snapshot => {
+        const otherData = snapshot.val()
+
+        if ((otherData === null || typeof otherData === 'undefined') && (data !== null || typeof data !== 'undefined')) {
+          sendFriendRequest(uid)
+        } else {
+          event.data.adminRef.root.child('users').child(event.params.uid).child('friends').child(uid).child('mutual').set(true)
+          event.data.adminRef.root.child('users').child(uid).child('friends').child(event.params.uid).child('mutual').set(true)
+        }
+      })
+    }
+
+    let sendFriendRequest = uid => {
+      return event.data.adminRef.root.child('users').child(event.params.uid).child('profile').once('value', snapshot => {
+        const profile = snapshot.val()
+
+        event.data.adminRef.root.child('users').child(uid).child('friendrequests').child(event.params.uid).set({username: profile.username, name: profile.name})
+
+        event.data.adminRef.root.child('users').child(uid).child('fcm').once('value', snapshot => {
+          let fcm = snapshot.val()
+
+          if (fcm === null || typeof fcm === 'undefined') return 'no notification targets'
+
+          let payload = {
+            notification: {
+              title: 'Friend Request',
+              body: `${profile.username} has sent you a friend request`,
+              icon: 'https://the-tricktionary.com/static/img/icon.png',
+              click_action: 'https://the-tricktionary.com/profile#friends'
+            }
+          }
+
+          let tokens = Object.values(fcm)
+
+          tokens = tokens.map(objOrStr => (typeof objOrStr === 'string' ? objOrStr : Object.values(objOrStr)))
+            .reduce((a, b) => a.concat(b), [])
+
+          return admin.messaging()
+          .sendToDevice(tokens, payload)
+          .then(function (response) {
+            // See the MessagingDevicesResponse reference documentation for
+            // the contents of response.
+            console.log('Successfully sent message:', response)
+          })
+          .catch(function (error) {
+            console.log('Error sending message:', error)
+          })
+        })
+      })
+    }
+
+    let removeFriend = uid => {
+      event.data.adminRef.root.child('users').child(uid).child('friends').child(event.params.uid).remove()
+      event.data.adminRef.root.child('users').child(uid).child('friendrequests').child(event.params.uid).remove()
+      return 'removed'
+    }
+
+    let cuid
+    if (event.params.uname.length > 20) {
+      cuid = event.params.uname
+      return checkMutual(cuid)
+    } else {
+      return event.data.adminRef.root.child('usernames').child(event.params.uname.toLowerCase()).once('value', snapshot => {
+        cuid = snapshot.val()
+        if (cuid === null || cuid === undefined) {
+          return event.data.adminRef.remove()
+        }
+        return renameToUid(cuid, event.params.uname)
+      })
+    }
+  })
