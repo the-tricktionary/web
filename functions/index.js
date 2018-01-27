@@ -286,7 +286,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
 
           if (fcm === null || typeof fcm === 'undefined') return 'no notification targets'
 
-          let payload = {
+          let payloadWeb = {
             notification: {
               title: 'Friend Request',
               body: `${profile.username} has sent you a friend request`,
@@ -294,14 +294,30 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
               click_action: 'https://the-tricktionary.com/profile#friends'
             }
           }
+          let payloadAndroid = {
+            notification: {
+              title: 'Friend Request',
+              body: `${profile.username} has sent you a friend request`
+              // click_action: ''
+            }
+          }
 
-          let tokens = Object.values(fcm)
+          let tokensWeb = (typeof fcm.web === 'string' ? fcm.web : Object.values(fcm.web))
+          let tokensAndroid = (typeof fcm.android === 'string' ? fcm.android : Object.values(fcm.android))
 
-          tokens = tokens.map(objOrStr => (typeof objOrStr === 'string' ? objOrStr : Object.values(objOrStr)))
-            .reduce((a, b) => a.concat(b), [])
+          admin.messaging()
+          .sendToDevice(tokensWeb, payloadWeb)
+          .then(function (response) {
+            // See the MessagingDevicesResponse reference documentation for
+            // the contents of response.
+            console.log('Successfully sent message:', response)
+          })
+          .catch(function (error) {
+            console.log('Error sending message:', error)
+          })
 
-          return admin.messaging()
-          .sendToDevice(tokens, payload)
+          admin.messaging()
+          .sendToDevice(tokensAndroid, payloadAndroid)
           .then(function (response) {
             // See the MessagingDevicesResponse reference documentation for
             // the contents of response.
