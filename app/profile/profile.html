@@ -57,14 +57,17 @@
     </div>
     <h3 ng-if="friendrequests.length > 0">Friend Requests</h3>
     <div ng-repeat="request in friendrequests">
-      {{ request.username || request.$id }}
-      <button ng-click="addFriend(request.username, request.$id)">Accept Friend Request</button>
-      <button ng-click="friendrequests.$remove(request)">Ignore Friend Request</button>
+      <span>{{ request.username || request.$id }}</span>
+      <div>
+        <button ng-click="addFriend(request.username, request.$id)" class="green inline"><i class="fa fa-user-plus"></i> Accept Friend Request</button>
+        <button ng-click="friendrequests.$remove(request)" class="red inline"><i class="fa fa-user-times"></i> Ignore Friend Request</button>
+      </div>
     </div>
     <h3 ng-if="friends.length > 0">Friends</h3>
     <div ng-repeat="friend in friends">
-      {{ friend.username || friend.$id }}
-      <button ng-click="friends.$remove(friend)">{{ (friend.mutual ? 'Remove Friend' : 'Cancel Request') }}</button>
+      <a ng-if="friend.mutual && friend.username" href="/profile/{{ friend.username }}">{{ friend.username || friend.$id }}</a>
+      <span ng-if="!friend.mutual || !friend.username">{{ friend.username || friend.$id }}</span>
+      <button ng-confirm-click="Do you really want to remove {{ friend.username || friend.$id }} as a friend?" confirmed-click="friends.$remove(friend)" class="red"><i class="fa fa-user-times"></i> {{ (friend.mutual ? 'Remove Friend' : 'Cancel Request') }}</button>
     </div>
 </div>
 <div ng-if="profileSettings.username">
@@ -77,11 +80,7 @@
         </form>
     </div>
     <h3 ng-if="coaches.length > 0">Your coaches</h3>
-    <p>
-        <ul class="list">
-            <li ng-repeat="coach in coaches">{{ coach.$id }}
-                <a ng-confirm-click="Do you really want to remove this person as coach?" confirmed-click="removeCoach(coach.$id)"><i class="fa fa-trash-o"></i></a>
-            </li>
-        </ul>
-    </p>
+    <div ng-repeat="coach in coaches">{{ coach.$id }}
+        <button ng-confirm-click="Do you really want to remove {{ coach.$id }} as coach?" confirmed-click="removeCoach(coach.$id)" class="red"><i class="fa fa-user-times"></i> Remove Coach</button>
+    </div>
 </div>

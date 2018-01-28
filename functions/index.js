@@ -259,6 +259,13 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
       return 'renamed'
     }
 
+    let setUsername = (uid) => {
+      return event.data.adminRef.root.child('users').child(uid).child('profile').child('username').once('value', snapshot => {
+        let uname = snapshot.val()
+        event.data.adminRef.child('username').set(uname)
+      })
+    }
+
     let checkMutual = uid => {
       if (data === null || typeof data === 'undefined') {
         return removeFriend(uid)
@@ -302,30 +309,31 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
             }
           }
 
-          let tokensWeb = (typeof fcm.web === 'string' ? fcm.web : Object.values(fcm.web))
-          let tokensAndroid = (typeof fcm.android === 'string' ? fcm.android : Object.values(fcm.android))
+          if (fcm.web !== null || typeof fcm.web !== 'undefined') {
+            let tokensWeb = (typeof fcm.web === 'string' ? fcm.web : Object.values(fcm.web))
+            admin.messaging().sendToDevice(tokensWeb, payloadWeb)
+              .then(function (response) {
+                // See the MessagingDevicesResponse reference documentation for
+                // the contents of response.
+                console.log('Successfully sent message:', response)
+              })
+              .catch(function (error) {
+                console.log('Error sending message:', error)
+              })
+          }
 
-          admin.messaging()
-          .sendToDevice(tokensWeb, payloadWeb)
-          .then(function (response) {
-            // See the MessagingDevicesResponse reference documentation for
-            // the contents of response.
-            console.log('Successfully sent message:', response)
-          })
-          .catch(function (error) {
-            console.log('Error sending message:', error)
-          })
-
-          admin.messaging()
-          .sendToDevice(tokensAndroid, payloadAndroid)
-          .then(function (response) {
-            // See the MessagingDevicesResponse reference documentation for
-            // the contents of response.
-            console.log('Successfully sent message:', response)
-          })
-          .catch(function (error) {
-            console.log('Error sending message:', error)
-          })
+          if (fcm.android !== null || typeof fcm.android !== 'undefined') {
+            let tokensAndroid = (typeof fcm.android === 'string' ? fcm.android : Object.values(fcm.android))
+            admin.messaging().sendToDevice(tokensAndroid, payloadAndroid)
+              .then(function (response) {
+              // See the MessagingDevicesResponse reference documentation for
+              // the contents of response.
+                console.log('Successfully sent message:', response)
+              })
+              .catch(function (error) {
+                console.log('Error sending message:', error)
+              })
+          }
         })
       })
     }
@@ -339,6 +347,9 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
     let cuid
     if (event.params.uname.length > 20) {
       cuid = event.params.uname
+      if (event.data.val().username === null || typeof event.data.val().username === 'undefined') {
+        return setUsername(cuid)
+      }
       return checkMutual(cuid)
     } else {
       return event.data.adminRef.root.child('usernames').child(event.params.uname.toLowerCase()).once('value', snapshot => {
