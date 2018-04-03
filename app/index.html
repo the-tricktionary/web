@@ -35,6 +35,9 @@
         <script src="/static/js/addtohomescreen.js"></script>
         <script src="/static/js/marked.min.js"></script>
         <script src="/static/js/angular-marked.js"></script>
+        <!-- Sentry error tracking -->
+        <script src="https://cdn.ravenjs.com/3.24.0/angular/raven.min.js" crossorigin="anonymous"></script>
+        <script>Raven.config('https://0dbff428cd014c82a58decd52e2bd08b@sentry.io/281154').install()</script>
         <!-- DEPLOY -->
         <!-- Stylesheets -->
         <link rel="stylesheet" href="/static/css/style.css">
@@ -102,9 +105,7 @@
             ga('create', 'UA-79206862-1', 'auto');
 
         </script>
-        <!-- Sentry error tracking -->
-        <script src="https://cdn.ravenjs.com/3.24.0/angular/raven.min.js" crossorigin="anonymous"></script>
-        <script>Raven.config('https://0dbff428cd014c82a58decd52e2bd08b@sentry.io/281154').install();</script>
+
         <div class="foot" class="mt">
             <a ng-href="/about">Privacy Policy</a>
         </div>
