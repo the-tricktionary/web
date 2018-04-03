@@ -28,6 +28,7 @@ function toggleNav () { // eslint-disable-line
 
 /**
  * @namespace trick
+ * @requires ngRaven
  * @requires ngRoute
  * @requires ngTouch
  * @requires ngCookies
@@ -45,6 +46,7 @@ function toggleNav () { // eslint-disable-line
  * @requires firebase
  */
 angular.module('trick', [
+  'ngRaven',
   'ngRoute',
   'ngTouch',
   'ngCookies',
