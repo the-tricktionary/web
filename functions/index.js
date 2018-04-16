@@ -2,7 +2,7 @@ const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 const express = require('express')
 const values = require('object.values')
-admin.initializeApp(functions.config().firebase)
+admin.initializeApp()
 
 if (!Object.values) {
   values.shim()
@@ -116,8 +116,8 @@ app.get('/', (req, res) => {
 exports.i18nApi = functions.https.onRequest(app)
 
 exports.sendSuggestedLevelNotification = functions.database.ref('/tricks/{level}/subs/{trick}/levels/{federation}')
-  .onWrite(event => {
-    const data = event.data.val()
+  .onWrite((change, context) => {
+    const data = change.afetr.val()
     console.log(data)
     if (typeof data.verified.suggestion !== 'undefined') {
       var ref = admin.database().ref('/users')
@@ -154,18 +154,18 @@ exports.sendSuggestedLevelNotification = functions.database.ref('/tricks/{level}
 
         var trickRef = admin.database()
           .ref('/tricks')
-          .child(event.params.level)
+          .child(context.params.level)
           .child('subs')
-          .child(event.params.trick)
+          .child(context.params.trick)
         return trickRef.once('value', snapshot => {
           var trick = snapshot.val()
           var payload = {
             notification: {
               title: 'New Level Suggested',
-              body: `A new ${event.params.federation} Level has been suggested for ${trick.name}`,
+              body: `A new ${context.params.federation} Level has been suggested for ${trick.name}`,
               icon: 'https://the-tricktionary.com/static/img/icon.png',
               click_action: 'https://admin.the-tricktionary.com/levels#' +
-                (event.params.level) + '' + (event.params.trick)
+                (context.params.level) + '' + (context.params.trick)
             }
           }
 
@@ -185,84 +185,84 @@ exports.sendSuggestedLevelNotification = functions.database.ref('/tricks/{level}
   })
 
 exports.moveTranslatableToTranslatedEnglish = functions.database.ref('/i18n/translatable/{string}')
-  .onWrite(event => {
-    const data = event.data.val()
+  .onWrite((change, context) => {
+    const data = change.after.val()
     console.log(data)
 
     const id = data.id
     const value = (typeof data.value === 'undefined' ? data.values : data.value)
 
-    return event.data.adminRef.parent.parent.child('translated').child('en').child(id).set(value)
+    return change.after.ref.parent.parent.child('translated').child('en').child(id).set(value)
   })
 
 exports.moveUsernames = functions.database.ref('/users/{uid}/profile/username')
-  .onWrite(event => {
-    const data = event.data.val()
+  .onWrite((change, context) => {
+    const data = change.after.val()
 
-    return event.data.adminRef.root.child('usernames').child(data.toLowerCase()).set(event.params.uid)
+    return change.after.ref.root.child('usernames').child(data.toLowerCase()).set(context.params.uid)
   })
 
 exports.moveCoaches = functions.database.ref('/users/{uid}/coaches/{uname}')
-    .onWrite(event => {
-      const data = event.data.val()
+  .onWrite((change, context) => {
+    const data = change.after.val()
 
-      let getCUid = () => {
-        let cuid
-        if (event.params.uname.length > 20) {
-          cuid = event.params.uname
-          return getUname(cuid)
-        } else {
-          return event.data.adminRef.root.child('usernames').child(event.params.uname).once('value', snapshot => {
-            cuid = snapshot.val()
-            if (cuid === null || cuid === undefined) {
-              return true
-            }
-            if (data !== true) {
-              return event.data.adminRef.root.child('users').child(cuid).child('students').child(event.params.uid).remove()
-            }
-            getUname(cuid)
-          })
-        }
-      }
-
-      let getUname = cuid => {
-        let uname
-        return event.data.adminRef.parent.parent.child('profile').once('value', snapshot => {
-          var data = snapshot.val()
-          if (typeof data.name === 'undefined') {
-            uname = data.username
-          } else {
-            uname = data.name.join(' ')
+    let getCUid = () => {
+      let cuid
+      if (context.params.uname.length > 20) {
+        cuid = context.params.uname
+        return getUname(cuid)
+      } else {
+        return change.after.ref.root.child('usernames').child(context.params.uname).once('value', snapshot => {
+          cuid = snapshot.val()
+          if (cuid === null || cuid === undefined) {
+            return true
           }
-          return set(cuid, uname)
+          if (data !== true) {
+            return change.after.ref.root.child('users').child(cuid).child('students').child(context.params.uid).remove()
+          }
+          getUname(cuid)
         })
       }
+    }
 
-      let set = (cuid, uname) => {
-        if (data === true) {
-          return event.data.adminRef.root.child('users').child(cuid).child('students').child(event.params.uid).set(uname)
+    let getUname = cuid => {
+      let uname
+      return change.after.ref.parent.parent.child('profile').once('value', snapshot => {
+        var data = snapshot.val()
+        if (typeof data.name === 'undefined') {
+          uname = data.username
         } else {
-          return true
+          uname = data.name.join(' ')
         }
-      }
+        return set(cuid, uname)
+      })
+    }
 
-      getCUid()
-    })
+    let set = (cuid, uname) => {
+      if (data === true) {
+        return change.after.ref.root.child('users').child(cuid).child('students').child(context.params.uid).set(uname)
+      } else {
+        return true
+      }
+    }
+
+    getCUid()
+  })
 
 exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
-  .onWrite(event => {
-    const data = event.data.val()
+  .onWrite((change, context) => {
+    const data = change.after.val()
 
     let renameToUid = (uid, uname) => {
-      event.data.adminRef.root.child('users').child(event.params.uid).child('friends').child(uname).remove()
-      event.data.adminRef.root.child('users').child(event.params.uid).child('friends').child(uid).set({mutual: false, username: uname.toLowerCase()})
+      change.after.ref.root.child('users').child(context.params.uid).child('friends').child(uname).remove()
+      change.after.ref.root.child('users').child(context.params.uid).child('friends').child(uid).set({mutual: false, username: uname.toLowerCase()})
       return 'renamed'
     }
 
     let setUsername = (uid) => {
-      return event.data.adminRef.root.child('users').child(uid).child('profile').child('username').once('value', snapshot => {
+      return change.after.ref.root.child('users').child(uid).child('profile').child('username').once('value', snapshot => {
         let uname = snapshot.val()
-        event.data.adminRef.child('username').set(uname)
+        change.after.ref.child('username').set(uname)
       })
     }
 
@@ -270,25 +270,25 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
       if (data === null || typeof data === 'undefined') {
         return removeFriend(uid)
       }
-      return event.data.adminRef.root.child('users').child(uid).child('friends').child(event.params.uid).once('value', snapshot => {
+      return change.after.ref.root.child('users').child(uid).child('friends').child(context.params.uid).once('value', snapshot => {
         const otherData = snapshot.val()
 
         if ((otherData === null || typeof otherData === 'undefined') && (data !== null || typeof data !== 'undefined')) {
           sendFriendRequest(uid)
         } else {
-          event.data.adminRef.root.child('users').child(event.params.uid).child('friends').child(uid).child('mutual').set(true)
-          event.data.adminRef.root.child('users').child(uid).child('friends').child(event.params.uid).child('mutual').set(true)
+          change.after.ref.root.child('users').child(context.params.uid).child('friends').child(uid).child('mutual').set(true)
+          change.after.ref.root.child('users').child(uid).child('friends').child(context.params.uid).child('mutual').set(true)
         }
       })
     }
 
     let sendFriendRequest = uid => {
-      return event.data.adminRef.root.child('users').child(event.params.uid).child('profile').once('value', snapshot => {
+      return change.after.ref.root.child('users').child(context.params.uid).child('profile').once('value', snapshot => {
         const profile = snapshot.val()
 
-        event.data.adminRef.root.child('users').child(uid).child('friendrequests').child(event.params.uid).set({username: profile.username, name: profile.name})
+        change.after.ref.root.child('users').child(uid).child('friendrequests').child(context.params.uid).set({username: profile.username, name: profile.name})
 
-        event.data.adminRef.root.child('users').child(uid).child('fcm').once('value', snapshot => {
+        change.after.ref.root.child('users').child(uid).child('fcm').once('value', snapshot => {
           let fcm = snapshot.val()
 
           if (fcm === null || typeof fcm === 'undefined') return 'no notification targets'
@@ -339,25 +339,25 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
     }
 
     let removeFriend = uid => {
-      event.data.adminRef.root.child('users').child(uid).child('friends').child(event.params.uid).remove()
-      event.data.adminRef.root.child('users').child(uid).child('friendrequests').child(event.params.uid).remove()
+      change.after.ref.root.child('users').child(uid).child('friends').child(context.params.uid).remove()
+      change.after.ref.root.child('users').child(uid).child('friendrequests').child(context.params.uid).remove()
       return 'removed'
     }
 
     let cuid
-    if (event.params.uname.length > 20) {
-      cuid = event.params.uname
-      if (event.data.val().username === null || typeof event.data.val().username === 'undefined') {
+    if (context.params.uname.length > 20) {
+      cuid = context.params.uname
+      if (data.username === null || typeof data.username === 'undefined') {
         return setUsername(cuid)
       }
       return checkMutual(cuid)
     } else {
-      return event.data.adminRef.root.child('usernames').child(event.params.uname.toLowerCase()).once('value', snapshot => {
+      return change.after.ref.root.child('usernames').child(context.params.uname.toLowerCase()).once('value', snapshot => {
         cuid = snapshot.val()
         if (cuid === null || cuid === undefined) {
-          return event.data.adminRef.remove()
+          return change.after.ref.remove()
         }
-        return renameToUid(cuid, event.params.uname)
+        return renameToUid(cuid, context.params.uname)
       })
     }
   })
