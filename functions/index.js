@@ -286,7 +286,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
       return change.after.ref.root.child('users').child(context.params.uid).child('profile').once('value', snapshot => {
         const profile = snapshot.val()
 
-        change.after.ref.root.child('users').child(uid).child('friendrequests').child(context.params.uid).set({username: profile.username, name: profile.name})
+        change.after.ref.root.child('users').child(uid).child('friendrequests').child(context.params.uid).set({username: profile.username, name: profile.name || []})
 
         change.after.ref.root.child('users').child(uid).child('fcm').once('value', snapshot => {
           let fcm = snapshot.val()
