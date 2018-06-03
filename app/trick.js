@@ -200,7 +200,13 @@ angular.module('trick', [
           Messaging.getToken()
             .then(function (refreshedToken) {
               console.log('Token refreshed.')
-              Db.child('users').child($rootScope.user.uid).child('fcm').child('web').push(refreshedToken)
+              Db.child('users').child($rootScope.user.uid).child('fcm').child('web').once('value', function (snapshot) {
+                var data = snapshot.data()
+                var tokens = Object.keys(data).map(function (id) { return data[id] })
+                if (tokens.indexOf(refreshedToken) < 0) {
+                  Db.child('users').child($rootScope.user.uid).child('fcm').child('web').push(refreshedToken)
+                }
+              })
             })
             .catch(function (err) {
               console.log('Unable to retrieve refreshed token ', err)
