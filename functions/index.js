@@ -8,6 +8,8 @@ if (!Object.values) {
   values.shim()
 }
 
+const uniqueFilter = (val, inx, self) => self.indexOf(val) === inx
+
 let app = express()
 
 function xmlStringify (obj, untranslatable) {
@@ -128,8 +130,7 @@ exports.sendSuggestedLevelNotification = functions.database.ref('/tricks/{level}
 
         if (typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'] !== 'undefined' &&
           typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm !== 'undefined' &&
-          typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm['levels-web'] !==
-          'undefined') {
+          typeof users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm['levels-web'] !== 'undefined') {
           tokens.push(users['g0G3A7FxieN333lZ2RKclkmv9Uw1'].fcm['levels-web'])
         }
 
@@ -310,7 +311,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
           }
 
           if (fcm.web !== null || typeof fcm.web !== 'undefined') {
-            let tokensWeb = (typeof fcm.web === 'string' ? fcm.web : Object.values(fcm.web))
+            let tokensWeb = (typeof fcm.web === 'string' ? fcm.web : Object.values(fcm.web).filter(uniqueFilter))
             admin.messaging().sendToDevice(tokensWeb, payloadWeb)
               .then(function (response) {
                 // See the MessagingDevicesResponse reference documentation for
@@ -323,7 +324,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
           }
 
           if (fcm.android !== null || typeof fcm.android !== 'undefined') {
-            let tokensAndroid = (typeof fcm.android === 'string' ? fcm.android : Object.values(fcm.android))
+            let tokensAndroid = (typeof fcm.android === 'string' ? fcm.android : Object.values(fcm.android).filter(uniqueFilter))
             admin.messaging().sendToDevice(tokensAndroid, payloadAndroid)
               .then(function (response) {
               // See the MessagingDevicesResponse reference documentation for
