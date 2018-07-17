@@ -943,6 +943,12 @@ li {
   color: var(--white);
 }
 
+pre {
+  max-width: var(--content-max-width);
+  margin: auto;
+  white-space: pre-wrap;
+}
+
 /* everywhere else */
 
 * {

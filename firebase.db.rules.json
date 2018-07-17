@@ -69,7 +69,7 @@
     },
     "tricks": {
       ".read": true,
-      ".write": false,
+      ".write": "root.child('admins').child(auth.uid).exists()",
       "$level": {
         "subs": {
           "$sub": {
