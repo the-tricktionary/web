@@ -2,6 +2,7 @@
 <h1>{{ (lang.$value && lang.value != 'en' && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name
     : trick.name ) }}</h1>
 <h2>{{ type }}</h2>
+<h3 ng-if="trick.alternativeNames.length > 0">Also known as {{ trick.alternativeNames.join(', ') }}</h3>
 <p>{{ (lang.$value && lang.value != 'en' && trick.i18n[lang.$value].description ? trick.i18n[lang.$value].description
   : trick.description ) }}</br>
   <a ng-href="/contact?id0={{ id0 }}&id1={{ id1 }}"><i class="fa fa-exclamation-triangle"></i> Report an issue with this trick</a>
