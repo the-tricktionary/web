@@ -697,6 +697,7 @@ div.box-center * {
   top: 50px;
   left: 5px;
   color: rgba(0, 132, 153, .5);
+  z-index: 10000;
 }
 
 div.box-space {
