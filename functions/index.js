@@ -117,6 +117,10 @@ app.get('/', (req, res) => {
 // Expose Express API as a single Cloud Function:
 exports.i18nApi = functions.https.onRequest(app)
 
+exports.updateUserCount = functions.auth.user().onCreate(user => {
+  return admin.database().ref('stats/users/registered').transaction(userCount => (userCount || 0) + 1)
+})
+
 exports.sendSuggestedLevelNotification = functions.database.ref('/tricks/{level}/subs/{trick}/levels/{federation}')
   .onWrite((change, context) => {
     const data = change.afetr.val()
