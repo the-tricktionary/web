@@ -120,6 +120,8 @@ angular.module('trick.dash', ['ngRoute'])
     /** Scroll To anchor */
     setTimeout(function () {
       $anchorScroll()
+      adsbygoogle = window.adsbygoogle || []
+      adsbygoogle.push({})
     }, 100)
     /**
      * return a list of classes to apply
