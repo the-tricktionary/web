@@ -11,11 +11,11 @@
 <div class="video">
   <iframe class="video" ng-src="{{ trustAsResourceUrl('https://www.youtube-nocookie.com/embed/' + trick.video + '?autoplay=1&loop=1&playsinline=1&rel=0') }}"
     frameborder="0" allowfullscreen></iframe>
-  <div>
-    <span class="pl level"><span class="gray small">fisac-irsf Level:</span> {{ trick.levels.irsf.level
+  <div class="levels">
+    <span class="level"><span class="gray small">fisac-irsf Level:</span> {{ trick.levels.irsf.level
     }} <i ng-if="trick.levels.irsf.verified.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified.vLevel == '1' ? 'gold' : 'gray')"></i>
     </span>
-    <span class="pr level"><span class="gray small">wjr Level:</span> {{ trick.levels.wjr.level
+    <span class="level"><span class="gray small">wjr Level:</span> {{ trick.levels.wjr.level
     }} <i ng-if="trick.levels.wjr.verified.verified" class="fa fa-check small" ng-class="(trick.levels.irsf.verified.vLevel == '1' ? 'gold' : 'gray')"></i>
     </span>
   </div>

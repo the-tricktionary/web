@@ -104,7 +104,7 @@ angular.module('trick.profile', ['ngRoute'])
         }
 
         $scope.addFriend = function (uname, uid) {
-          friendsRef.child(uname).set({mutual: false}, function (err) {
+          friendsRef.child(uname).set({ mutual: false }, function (err) {
             if (err) {
               $scope.Error(err)
             } else {

@@ -48,7 +48,7 @@ app.get('/:lang', (req, res) => {
     }
 
     for (let id in data.translated[lang]) {
-      let obj = {id}
+      let obj = { id }
       if (Array.isArray(data.translated[lang][id])) {
         obj.values = data.translated[lang][id]
       } else {
@@ -61,7 +61,7 @@ app.get('/:lang', (req, res) => {
 
     for (let id in data.translated.en) {
       if (done.indexOf(id) >= 0) continue
-      let obj = {id}
+      let obj = { id }
       if (Array.isArray(data.translated.en[id])) {
         obj.values = data.translated.en[id]
       } else {
@@ -251,7 +251,7 @@ exports.moveCoaches = functions.database.ref('/users/{uid}/coaches/{uname}')
       }
     }
 
-    getCUid()
+    return getCUid()
   })
 
 exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
@@ -260,7 +260,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
 
     let renameToUid = (uid, uname) => {
       change.after.ref.root.child('users').child(context.params.uid).child('friends').child(uname).remove()
-      change.after.ref.root.child('users').child(context.params.uid).child('friends').child(uid).set({mutual: false, username: uname.toLowerCase()})
+      change.after.ref.root.child('users').child(context.params.uid).child('friends').child(uid).set({ mutual: false, username: uname.toLowerCase() })
       return 'renamed'
     }
 
@@ -291,7 +291,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
       return change.after.ref.root.child('users').child(context.params.uid).child('profile').once('value', snapshot => {
         const profile = snapshot.val()
 
-        change.after.ref.root.child('users').child(uid).child('friendrequests').child(context.params.uid).set({username: profile.username, name: profile.name || []})
+        change.after.ref.root.child('users').child(uid).child('friendrequests').child(context.params.uid).set({ username: profile.username, name: profile.name || [] })
 
         change.after.ref.root.child('users').child(uid).child('fcm').once('value', snapshot => {
           let fcm = snapshot.val()
