@@ -858,6 +858,7 @@ div.box h3:first-child {
   margin-left: auto;
   padding: 1em;
   max-width: var(--content-max-width);
+  position: relative;
 }
 
 .article:not(:last-child) {
