@@ -11,15 +11,15 @@
   "lang": "en",
   "prefer_related_applications": true,
   "icons": [{
-    "src": "static/img/icon.png",
+    "src": "/static/img/icon.png",
     "sizes": "2048x2048",
     "type": "image/png"
   }, {
-    "src": "static/img/icon512.png",
+    "src": "/static/img/icon512.png",
     "sizes": "512x512",
     "type": "image/png"
   }, {
-    "src": "static/img/tricktionary2.svg",
+    "src": "/static/img/tricktionary2.svg",
     "sizes": "2048x2048",
     "type": "image/svg+xml"
   }],

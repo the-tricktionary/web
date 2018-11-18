@@ -369,3 +369,5 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
 
 // Mirrors
 exports.tricksToFirestore = functions.database.ref('/tricks/{level}/subs/{trick}').onWrite(require('./mirrors/tricksToFirestore'))
+exports.languagesToFirestore = functions.database.ref('/langs/{lang}').onWrite(require('./mirrors/languagesToFirestore'))
+exports.tricktypesToFirestore = functions.database.ref('/tricktypes/{lang}').onWrite(require('./mirrors/tricktypesToFirestore'))

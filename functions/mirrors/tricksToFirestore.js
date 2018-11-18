@@ -1,18 +1,6 @@
 const admin = require('firebase-admin')
 const firestore = admin.firestore()
-
-// from https://gist.github.com/mathewbyrne/1280286
-function slugify (text) {
-  return text.toString().toLocaleLowerCase().trim()
-    .replace(/&/g, '-and-') // Replace & with 'and'
-    .replace(/[\s\W-]+/g, '-') // Replace spaces, non-word characters and dashes with a single dash (-)
-    .replace(/^-+|-+$/g, '') // remove leading, trailing -
-}
-
-function typeRenewer (str) {
-  return str.toString().toLocaleLowerCase().trim()
-    .replace(/s$/g, '')
-}
+const common = require('./common')
 
 module.exports = (change, context) => {
   let trick = change.after.val()
@@ -21,8 +9,8 @@ module.exports = (change, context) => {
   trick.oldid = trick.id1
   trick.videos = {}
   trick.videos.youtube = trick.video
-  trick.slug = slugify(trick.name)
-  trick.type = typeRenewer(trick.type)
+  trick.slug = common.slugify(trick.name)
+  trick.type = common.typeRenewer(trick.type)
 
   delete trick.id1
   delete trick.video
@@ -30,7 +18,8 @@ module.exports = (change, context) => {
   delete trick.irsf
 
   trick.prerequisites = trick.prerequisites.filter(obj => {
-    let name = obj.name.toLocaleLowerCase()
+    console.log(trick.level, trick.oldid, obj)
+    let name = obj.name.toString().toLocaleLowerCase()
     return name !== 'none'
   })
 
@@ -46,9 +35,13 @@ module.exports = (change, context) => {
     .get()
     .then(snapshot => {
       if (snapshot.empty) {
-        return srTricks.add(trick)
+        return srTricks.add(trick).then(ref => {
+          console.log('Added document with ID: ', ref.id)
+        })
       } else {
-        return snapshot.docs[0].ref.set(trick)
+        return snapshot.docs[0].ref.set(trick).then(() => {
+          console.log('Modified document with ID: ', snapshot.docs[0].ref.id)
+        })
       }
     })
 }
