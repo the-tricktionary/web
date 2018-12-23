@@ -1,0 +1,31 @@
+name:               String          (Name of the trick)
+description:        String          (english description of the trick)
+level:              Number          (int of which "level"/category the trick has in the tricktionary)
+type:               String          (The category of the trick)
+by:                 String          (user id/username of the user that submitted the trick)
+slug:               String          (URL-safe name of the trick, will be used in the webapp 2.0.0)
+slowMoStart:        Number          (How many seconds into the video the slow motion start)
+videos:             Object/Map
+  youtube:          String          (video id of the youtube video (what you'd put after youtube.com/vatch?v=))
+prerequisites       Array           (well I forgot those a bit in the mirroring, this will be replaced. It's a list of tricks that you should complete prior to completing this one, I'm thinking it'll be references to firebase datastore documents with the prerequisie tricks)
+  id0:              Number          (DO NOT USE)
+  id1:              Number          (DO NOT USE)
+  name:             String          (AVOID USING)
+levels:             Object/Map
+  irsf:             Object/Map
+    level:          String/Number   (level in the FISAC-IRSF rule book)
+    verified:       Object/Map
+      date:         String          (YYYY-MM-DD when the trick's level was verified by a judge or official)
+      vLevel:       Number          (the authority of whoever verified the level 1 = Official, 0 = Judge)
+      verified:     Boolean         (if the trick's level is verified or not)
+      suggestion:   String          (if the verifier has suggested another level for the trick)
+      verifier:     String          (user id of the user who verified the trick)
+  wjr:              Object/Map      (see irsf)
+  ijru:             Object/Map      (see irsf)
+i18n:               Object/Map
+  (lang):           Object/Map      (ISO 639-1 language code (de, sv, fr...))
+    name:           String          (translated version of the name)
+    description:    String          (translated version of the description)
+alternativeNames:   Array           (Array of strings with alternative english names for the trick)
+
+oldid:              Number           (deprecated legacy value to keep track of the trick's position in the old database DO NOT USE THIS)

@@ -1,0 +1,148 @@
+{
+  "rules": {
+    "admins": {
+      ".read": true,
+      ".write": false
+    },
+    "booklets": {
+      ".read": true,
+      ".write": false
+    },
+    "checklist": {
+      "$uid": {
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid || root.child('users/' + $uid + '/profile/public').val() === true || root.child('users/' + $uid + '/coaches/' + auth.uid).val() === true"
+      }
+    },
+    "contact": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      },
+      ".read": "root.child('admins').child(auth.uid).exists()",
+      ".write": "root.child('admins').child(auth.uid).exists()"
+    },
+    "globalnotice": {
+      ".read": true,
+      ".write": false
+    },
+    "i18n": {
+      ".read": true,
+      ".write": "root.child('admins').child(auth.uid).exists()",
+      "translated": {
+        "$lang": {
+          ".write": "root.child('translators').child(auth.uid).val() == $lang"
+        }
+      }
+    },
+    "langs": {
+      ".read": true,
+      ".write": "root.child('admins').child(auth.uid).exists()"
+    },
+    "news": {
+      ".read": true,
+      ".write": "root.child('admins').child(auth.uid).exists()"
+    },
+    "speed": {
+      "scores": {
+        "$uid": {
+          ".write": "$uid === auth.uid",
+          ".read": "$uid === auth.uid"
+        }
+      },
+      "highscores": {
+        "$uid": {
+          ".read": "$uid === auth.uid || (root.child('users/' + $uid + '/profile/public').val() === true && root.child('users/' + $uid + '/profile/speed').val() === true) || root.child('users/').child($uid).child('friends').child(auth.uid).child('mutual').val() === true",
+          ".write": "$uid === auth.uid"
+        }
+      }
+    },
+    "stats": {
+      ".read": true,
+      ".write": false
+    },
+    "translators": {
+      ".write": false,
+      "$uid": {
+        ".read": "auth.uid == $uid"
+      }
+    },
+    "tricks": {
+      ".read": true,
+      ".write": "root.child('admins').child(auth.uid).exists()",
+      "$level": {
+        "subs": {
+          "$sub": {
+            "i18n": {
+              "$lang": {
+                ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
+              }
+            },
+            "levels": {
+              ".write": "root.child('admins').child(auth.uid).exists()",
+              "$federation": {
+                "verified": {
+                  ".write": "root.child('verifiers').child(auth.uid).child('federation').val() == $federation && root.child('verifiers').child(auth.uid).exists() && (data.val() == false || !data.exists() || root.child('verifiers').child(auth.uid).child('vLevel').val() >= data.child('vLevel').val())"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "tricktypes": {
+      ".read": true,
+      ".write": false,
+      "$lang": {
+        ".write": "root.child('translators').child(auth.uid).val() == $lang && root.child('translators').child(auth.uid).exists()"
+      }
+    },
+    "usernames": {
+      ".read": true,
+      ".write": false
+    },
+    "users": {
+      "$uid": {
+        "coaches": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "fcm": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "friendrequests": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "friends": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "hideCompleted": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "lang": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "profile": {
+          ".read": "$uid === auth.uid || data.child('public').val() === true || data.parent().child('friends').child(auth.uid).child('mutual').val() === true",
+          ".write": "$uid === auth.uid",
+          ".validate": "(data.child('username').val() === newData.child('username').val() || !data.child('username').exists() || data.child('username').val() === $uid) && !newData.child('username').val().matches(/[^A-Za-z0-9]/) && newData.child('username').val().length <= 20"
+        },
+        "students": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        }
+      }
+    },
+    "verifiers": {
+      ".write": false,
+      "$uid": {
+        ".read": "auth.uid == $uid"
+      }
+    }
+  }
+}

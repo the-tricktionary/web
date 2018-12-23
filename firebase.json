@@ -1,0 +1,55 @@
+{
+  "database": {
+    "rules": "firebase.db.rules.json"
+  },
+  "hosting": {
+    "public": "public",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [{
+        "source": "/favicon.ico",
+        "destination": "/static/img/icon.png"
+      },
+      {
+        "source": "/api/i18n",
+        "function": "i18nApi"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "ignore": [],
+    "redirects": [{
+        "source": "/android",
+        "destination": "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
+        "type": 301
+      },
+      {
+        "source": "/play",
+        "destination": "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
+        "type": 301
+      }
+    ],
+    "headers": [{
+        "source": "**/*.@(css|js|html|png|svg|woff|woff2|eot|ttf|otf)",
+        "headers": [{
+            "key": "Cache-Control",
+            "value": "max-age=86400"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
+        ]
+      },
+      {
+        "source": "/",
+        "headers": [{
+          "key": "Link",
+          "value": "</static/js/trick.js>;rel=preload;as=script,</static/css/style.css>;rel=preload;as=style"
+        }]
+      }
+    ]
+  }
+}
