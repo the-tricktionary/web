@@ -53,13 +53,13 @@ interface Type {
   tricks: Trick[];
 }
 
-interface TrickList {
+interface ListOfTricks {
   [prop: string]: Trick;
 }
 
 @Component
 export default class TrickList extends Vue {
-  @Prop() private tricks!: TrickList;
+  @Prop() private tricks!: ListOfTricks;
 
   get structure (): Level[] {
     let trickIDs: string[] = Object.keys(this.tricks)
