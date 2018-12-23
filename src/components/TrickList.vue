@@ -27,36 +27,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-interface Trick {
-  by: string;
-  description: string;
-  level: number;
-  name: string;
-  oldid?: number;
-  slowMoStart?: number;
-  slug: string;
-  type: string;
-  id: string;
-
-  videos: any;
-  i18n: any;
-  levels: any;
-}
-
-interface Level {
-  name: number;
-  types: Type[];
-}
-
-interface Type {
-  name: string;
-  tricks: Trick[];
-}
-
-interface ListOfTricks {
-  [prop: string]: Trick;
-}
-
 @Component
 export default class TrickList extends Vue {
   @Prop() private tricks!: ListOfTricks;
