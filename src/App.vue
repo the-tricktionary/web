@@ -136,4 +136,9 @@ nav a img {
   padding: 6px;
   margin-top: 4px;
 }
+
+p {
+  max-width: 600px;
+  margin: auto;
+}
 </style>

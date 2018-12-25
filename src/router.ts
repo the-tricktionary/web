@@ -13,12 +13,23 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/trick/:type/:slug',
+      name: 'trick-details',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk (trick.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () => import(/* webpackChunkName: "trick" */ './views/TrickDetails.vue')
+    },
+    {
+      path: '/details/:id0/:id1',
+      name: 'trick-details-old',
+      // route level code-splitting
+      // this generates a separate chunk (trick.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "trick" */ './views/TrickDetails.vue'),
+      props: {
+        oldLink: true
+      }
     }
   ]
 })

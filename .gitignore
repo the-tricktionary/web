@@ -6,6 +6,8 @@ util/backups
 util/email-data
 util/booklets
 !util/*/.keep
+dist/
+
 # Created by https://www.gitignore.io/api/osx
 
 ### OSX ###

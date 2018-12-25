@@ -13,5 +13,11 @@ import TrickList from '@/components/TrickList.vue'; // @ is an alias to /src
     TrickList
   }
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  mounted () {
+    this.$store.dispatch('tricksSR/fetchAndAdd', {
+      where: [['level', '>=', 0]]
+    })
+  }
+}
 </script>

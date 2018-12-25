@@ -13,7 +13,7 @@
         <div v-for="type in level.types" :key="type.name" class="box">
           <h3>{{ type.name }}</h3>
           <router-link
-            :to="'/details/' + trick.slug"
+            :to="`/trick/${trickType}/${trick.slug}`"
             class="parent"
             v-for="trick in type.tricks"
             :key="trick.id"
@@ -30,6 +30,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class TrickList extends Vue {
   @Prop() private tricks!: ListOfTricks;
+  @Prop({ default: 'sr' }) private trickType!: string;
 
   get structure (): Level[] {
     let trickIDs: string[] = Object.keys(this.tricks)
