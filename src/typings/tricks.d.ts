@@ -5,6 +5,7 @@ interface Trick {
   name: string;
   oldid?: number;
   slowMoStart?: number;
+  alternativeNames?: string[];
   slug: string;
   type: string;
   id: string;
