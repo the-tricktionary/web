@@ -1,12 +1,6 @@
 <div class="search">
-  <input
-    type="text"
-    ng-focus="trickList.focus = true"
-    ng-blur="trickList.focus = false"
-    ng-model="trickList.search"
-    class="search-query"
-    id="projects_search"
-    placeholder="Search{{ (trickList.focus ? ' (by name, prerequisites...)' : '') }}">
+  <input type="text" ng-focus="trickList.focus = true" ng-blur="trickList.focus = false" ng-model="trickList.search"
+    class="search-query" id="projects_search" placeholder="Search{{ (trickList.focus ? ' (by name, prerequisites...)' : '') }}">
   <label>
     <i class="fa fa-caret-down"></i>
     <select ng-model="lang.$value" ng-change="lang.$save()">
@@ -14,32 +8,24 @@
     </select>
   </label>
 </div>
-<div
-  class="warning center"
-  ng-if="globalnotice.message && until(globalnotice.until)">{{ globalnotice.message }}</div>
+<div class="warning center" ng-if="globalnotice.message && until(globalnotice.until)" marked="globalnotice.message"></div>
 <div class="error center" ng-if="error.show">
   <span ng-bind-html="error.text"></span>
   <a class="close" ng-click="error.show = !error.show">
     <i class="fa fa-times-circle"></i>
   </a>
 </div>
-<a
-  href="#about"
-  class="pr"
-  ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')">
+<a href="#about" class="pr" ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')">
   <i class="fa fa-arrow-circle-down"></i>
 </a>
-<a
-  ng-click="hideDone.$value = !hideDone.$value; hideDone.$save()"
-  class="pl black"
-  ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"
+<a ng-click="hideDone.$value = !hideDone.$value; hideDone.$save()" class="pl black" ng-class="(error.show || globalnotice.message && until(globalnotice.until) ? '' : 'emt')"
   ng-show="user && !user.isAnonymous">
   <i ng-class="(hideDone.$value ? 'checked' : '')" class="checkbox"></i>
   Hide completed tricks
 </a>
 <div class="box loading" ng-if="!data.length">
   <span>
-    <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br/>
+    <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i><br />
     Loading tricks
   </span>
 </div>
@@ -47,17 +33,13 @@
   <h2 class="searchheader">Level
     {{ level.level }}</h2>
   <div ng-repeat="type in i18n.en.tricktypes track by $index" class="box">
-    <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ i18n[(lang.$value ? lang.$value : 'en')].tricktypes[$index] || i18n.en.tricktypes[$index] }}</h3>
-    <a
-      class="parent"
-      ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}"
-      ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
-      id="{{ level.id0 + '' + trick.id1 }}"
-      ng-class="class(level.id0, trick.id1)"
-      ng-hide="hideDone.$value && done[level.id0][trick.id1]"
+    <h3 class="searchheader" ng-show="typeifs[level.id0][type]">{{ i18n[(lang.$value ? lang.$value :
+      'en')].tricktypes[$index] || i18n.en.tricktypes[$index] }}</h3>
+    <a class="parent" ng-href="/details/{{ level.id0 }}/{{ trick.id1 }}" ng-repeat="trick in level.subs | orderBy:'name' | filter:trickList.search"
+      id="{{ level.id0 + '' + trick.id1 }}" ng-class="class(level.id0, trick.id1)" ng-hide="hideDone.$value && done[level.id0][trick.id1]"
       ng-if="trick.type == type && (typeifs[level.id0][type] ? true : typeifs[level.id0][type] = true)">
       {{ (lang.$value && trick.i18n[lang.$value].name ? trick.i18n[lang.$value].name :
-                trick.name) }}
+      trick.name) }}
     </a>
   </div>
 </div>
@@ -73,12 +55,8 @@
 </p>
 <!-- tT flow -->
 <div class="article">
-  <ins
-  class="adsbygoogle"
-  style="display:block;max-width:600px;width:90%;overflow-x:hidden;overflow-y:hidden;margin:auto;"
-  data-ad-client="ca-pub-7956758256491526"
-  data-ad-slot="1953529861"
-  data-ad-format="auto"></ins>
+  <ins class="adsbygoogle" style="display:block;max-width:600px;width:90%;overflow-x:hidden;overflow-y:hidden;margin:auto;"
+    data-ad-client="ca-pub-7956758256491526" data-ad-slot="1953529861" data-ad-format="auto"></ins>
   <p class="center">Ad by google</p>
 </div>
 <p>
@@ -95,9 +73,8 @@
 </p>
 <p>
   The tricktionary is currently available as an
-  <a
-    href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary"
-    target="_blank">Android&trade; app</a>
+  <a href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary" target="_blank">Android&trade;
+    app</a>
   and as this webapp, if you know how to develop an iOS&reg; app and want to
   contribute to the Tricktionary, please email us at
   <b>develop (at) the-tricktionary (dot) com</b>
@@ -106,25 +83,17 @@
   As a few last words, if you believe this service is something that we should
   continue working on we present to you four buttons to share this site to various
   social medias, we won't ask you to press them but as we're still small it'd make
-  a difference:<br/>
-  <a
-    target="_blank"
-    href="https://www.facebook.com/sharer/sharer.php?u=https%3A//the-tricktionary.com">
+  a difference:<br />
+  <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//the-tricktionary.com">
     <i class="fa fa-facebook-square sharing"></i>
   </a>
-  <a
-    target="_blank"
-    href="https://twitter.com/home?status=Check%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%3A%0Ahttps%3A//the-tricktionary.com%0A%23jumpropeisasport">
+  <a target="_blank" href="https://twitter.com/home?status=Check%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%3A%0Ahttps%3A//the-tricktionary.com%0A%23jumpropeisasport">
     <i class="fa fa-twitter-square sharing"></i>
   </a>
-  <a
-    target="_blank"
-    href="https://plus.google.com/share?url=https%3A//the-tricktionary.com">
+  <a target="_blank" href="https://plus.google.com/share?url=https%3A//the-tricktionary.com">
     <i class="fa fa-google-plus-square sharing"></i>
   </a>
-  <a
-    target="_blank"
-    href="mailto:?&subject=the Jump Rope Tricktionary&body=Hey!%0A%0ACheck%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%0Ahttps%3A//the-tricktionary.com">
+  <a target="_blank" href="mailto:?&subject=the Jump Rope Tricktionary&body=Hey!%0A%0ACheck%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%0Ahttps%3A//the-tricktionary.com">
     <i class="fa fa-envelope-square sharing"></i>
   </a>
 </p>
@@ -133,12 +102,11 @@
   us with a small donation to keep this site and app running we would owe you a
   huge thanks.
   <br>
-    <a
-      href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2">
-      <button>
-        <i class="fa fa-paypal"></i>
-        Donate</button>
-    </a>
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2">
+    <button>
+      <i class="fa fa-paypal"></i>
+      Donate</button>
+  </a>
   </br>
   <span class="small gray">Note that donating will not result in any advantages in
     the Tricktionary - we aim to keep being a free service.
@@ -171,10 +139,7 @@
   </label>
 </p>
 <p>
-  <a
-    id="a4booklet"
-    target="_blank"
-    ng-if="booklet.lang && booklet.size && booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')]"
+  <a id="a4booklet" target="_blank" ng-if="booklet.lang && booklet.size && booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')]"
     ng-href="{{ booklets[booklet.lang][booklet.size + (booklet.detailed ? 'detailed' : '')] }}">
     <button>
       <i class="fa fa-file-pdf-o"></i>
@@ -195,7 +160,9 @@
 </p>
 <h3 id="levels">Explanation of Levels</h3>
 <p>
-  A checkmark (<i class="fa fa-check gray"></i>) beside a trick's level means thatthe level has been verified by a certified judge. A golden checkmark (<i class="fa fa-check gold"></i>) means that the trick's level has been verified by a federation official.
+  A checkmark (<i class="fa fa-check gray"></i>) beside a trick's level means thatthe level has been verified by a
+  certified judge. A golden checkmark (<i class="fa fa-check gold"></i>) means that the trick's level has been verified
+  by a federation official.
 </p>
 <p>
   On some occurrences you might notice levels with a dash between two or more
