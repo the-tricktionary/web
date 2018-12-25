@@ -27,11 +27,11 @@
   --l-yellow: #feedb2;
   --d-yellow: #fec500;
   --black: #333;
-  --m-gray: #666;
-  --d-gray: #292f2f;
-  --h-gray: #cfd8dc;
-  --l-gray: #ccc;
-  --rl-gray: #eee;
+  --m-grey: #666;
+  --d-grey: #292f2f;
+  --h-grey: #cfd8dc;
+  --l-grey: #ccc;
+  --rl-grey: #eee;
   --l-green: #32cd32;
   --d-blue: #008499;
   --l-blue: #3baec4;
@@ -43,7 +43,7 @@
 /* snippets from normalize.css */
 body {
   margin: 0;
-  padding: 0;
+  padding: 0.3em;
   box-sizing: border-box;
   font-family: "PT Sans", sans-serif;
   margin-top: 45px;
@@ -87,6 +87,35 @@ button:-moz-focusring,
 /* general helpers */
 .small {
   font-size: 0.5em;
+}
+
+.big {
+  font-size: 2em;
+}
+
+h1,
+.h1 {
+  color: var(--black);
+  font-size: 2.5em !important;
+  margin-bottom: 0;
+  min-width: 80%;
+  text-align: center;
+}
+
+h2,
+h3 {
+  color: var(--d-gray);
+  font-weight: lighter;
+  text-align: center;
+}
+
+h1 + h2 {
+  margin-top: 0;
+}
+
+iframe {
+  width: 100%;
+  max-width: 600px;
 }
 
 /* nav */

@@ -1,18 +1,57 @@
 interface Trick {
-  by: string;
-  description: string;
-  level: number;
+  id: string;
   name: string;
-  oldid?: number;
-  slowMoStart?: number;
-  alternativeNames?: string[];
+  description: string;
   slug: string;
   type: string;
-  id: string;
+  by: string;
 
-  videos: any;
-  i18n: any;
-  levels: any;
+  levels: TrickLevels;
+  videos: VideoIDList;
+  i18n: TrickTranslationData;
+
+  level: number;
+  oldid?: number;
+
+  slowMoStart?: number;
+  alternativeNames?: string[];
+  prerequisties: Prerequistie[];
+}
+
+interface TrickTranslationData {
+  name?: string;
+  description?: string;
+  alternativeNames?: string[];
+}
+
+interface TrickLevels {
+  [prop: string]: FederationTrickLevel;
+}
+
+interface FederationTrickLevel {
+  level: string;
+
+  verified?: TrickVerificationStatus;
+}
+
+interface TrickVerificationStatus {
+  date: string;
+  vLevel: number;
+  verified: boolean;
+  verifier: string;
+
+  suggested?: string;
+}
+
+interface VideoIDList {
+  youtube: string;
+}
+
+interface Prerequistie {
+
+  id0?: string;
+  id1?: string;
+  name?: string;
 }
 
 interface Level {

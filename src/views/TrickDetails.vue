@@ -5,7 +5,15 @@
     <h3 v-if="alternativeNames.length > 0">Also known as {{ alternativeNames.join(', ') }}</h3>
     <p>{{ trick.description }}</p>
     <div class="video">
-      <youtube :video-id="trick.videos.youtube" :player-vars="playerVars" ref="youtube"/>
+      <youtube :video-id="videos.youtube" :player-vars="playerVars" ref="youtube"/>
+    </div>
+    <div class="levels">
+      <Trick-level
+        :federation="fed"
+        :level-data="level"
+        v-for="(level, fed) in trick.levels"
+        :key="fed"
+      />
     </div>
   </div>
 </template>
@@ -13,15 +21,23 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VueYoutube from 'vue-youtube';
+import TrickLevel from '@/components/TrickLevel.vue'; // @ is an alias to /src
 
 Vue.use(VueYoutube)
 
-@Component
+@Component({
+  components: {
+    TrickLevel
+  }
+})
 export default class TrickDetails extends Vue {
   @Prop({ default: false }) private oldLink: boolean;
 
   playerVars = {
-    autoplay: 1
+    autoplay: 1,
+    loop: 1,
+    playsinline: 1,
+    rel: 0
   };
 
   get tricktype (): string {
@@ -55,6 +71,10 @@ export default class TrickDetails extends Vue {
     return this.trick.alternativeNames || []
   }
 
+  get videos (): VideoIDList {
+    return this.trick.videos || { youtube: '' }
+  }
+
   mounted (): void {
     if (this.oldLink) {
       this.$store.dispatch('tricksSR/fetchAndAdd', {
@@ -73,7 +93,28 @@ export default class TrickDetails extends Vue {
 </script>
 
 <style scoped>
+h1,
+h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .trick {
   text-align: center;
+}
+
+.video {
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+}
+
+.levels {
+  max-width: 600px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: auto;
 }
 </style>
