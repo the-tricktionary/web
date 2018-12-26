@@ -123,7 +123,7 @@ a {
 }
 
 .parent {
-  background-color: var(--rl-gray);
+  background-color: var(--rl-grey);
   border-radius: 5px;
   padding: 1em;
   text-align: center;
@@ -139,7 +139,7 @@ a {
 
 .parent:hover,
 .hover:hover {
-  background-color: var(--l-gray);
+  background-color: var(--l-grey);
   color: var(--black);
 }
 

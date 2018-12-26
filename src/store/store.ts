@@ -6,6 +6,10 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
+import tricksSRModule from '@/store/modules/tricksSRModule'
+import productsModule from '@/store/modules/productsModule'
+import shopModule from '@/store/modules/shopModule'
+
 var config = {
   apiKey: 'AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM',
   authDomain: 'project-5641153190345267944.firebaseapp.com',
@@ -19,37 +23,19 @@ const firestore = firebase.firestore()
 const settings = { timestampsInSnapshots: true }
 firestore.settings(settings)
 
-const tricksSRModule = {
-  firestorePath: 'tricksSR',
-  firestoreRefType: 'collection', // or 'doc'
-  moduleName: 'tricksSR',
-  statePropName: 'docs',
-  sync: {
-    where: [['name', '==', 'Initialized']]
-  },
-  fetch: {
-    // The max amount of documents to be fetched. Defaults to 50.
-    docLimit: 500
-  }
-  // you can also add state/getters/mutations/actions
-  // for other config like fillables see 'Extra features'
-}
-
 const tricksSRFirestore = createEasyFirestore(tricksSRModule, { logging: true })
+const productsFirestore = createEasyFirestore(productsModule, { logging: true })
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  plugins: [tricksSRFirestore],
-  state: {
-
+  plugins: [tricksSRFirestore, productsFirestore],
+  modules: {
+    shop: shopModule
   },
-  mutations: {
-
-  },
-  actions: {
-
-  }
+  state: {},
+  mutations: {},
+  actions: {}
 })
 
 store.dispatch('tricksSR/openDBChannel')

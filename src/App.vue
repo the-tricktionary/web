@@ -10,6 +10,7 @@
       <router-link to="/">Tricks</router-link>
       <router-link to="/speed">Speed</router-link>
       <router-link to="/apps">Apps</router-link>
+      <router-link to="/shop">Shop</router-link>
       <router-link to="/contact">Contact</router-link>
       <router-link to="/coach">Coach</router-link>
       <router-link to="/profile">Profile</router-link>
@@ -75,6 +76,22 @@ button:-moz-focusring,
   outline: 1px dotted ButtonText;
 }
 
+select {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 3px 22px 3px 3px;
+  background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'%3E%3C/path%3E%3C/svg%3E");
+  background-position: calc(100% - 3px) 50%;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+select::-ms-expand {
+  display: none;
+}
+
 [type="search"] {
   -webkit-appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
@@ -116,6 +133,10 @@ h1 + h2 {
 iframe {
   width: 100%;
   max-width: 600px;
+}
+
+iframe.stripe_checkout_app {
+  max-width: initial;
 }
 
 /* nav */
@@ -169,5 +190,70 @@ nav a img {
 p {
   max-width: 600px;
   margin: auto;
+}
+
+.inputgroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* forms */
+
+label {
+  display: block;
+  padding-bottom: 0.5em;
+  width: 100%;
+  position: relative;
+}
+
+.half {
+  width: 47%;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  padding: 0.3em;
+  outline: none;
+  border: none;
+  background-color: none;
+  border: 1px solid var(--l-grey);
+  border-radius: 0.3em;
+  font-size: 12pt;
+}
+
+input:invalid,
+select:invalid {
+  border-bottom: 1px solid var(--l-red);
+}
+
+form {
+  max-width: 600px;
+  margin: auto;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0.5em;
+  outline: none;
+  border: 1px solid var(--l-grey);
+  border-radius: 0.3em;
+  cursor: pointer;
+  margin-right: 0.3em;
+}
+
+form:not(:invalid) button:not(:disabled):hover,
+button:not(:disabled):hover {
+  background: var(--l-grey);
+}
+
+form:invalid button:not([type="button"]),
+button:disabled {
+  background: var(--rl-grey);
+  cursor: default;
 }
 </style>

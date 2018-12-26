@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/store'
 import * as Sentry from '@sentry/browser'
 import VueAnalytics from 'vue-analytics'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faMinus, faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faCheck)
+library.add(faMinus)
+library.add(faPlus)
+library.add(faSpinner)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

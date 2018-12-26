@@ -8,5 +8,14 @@ service cloud.firestore {
       allow read;
       allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
     }
+    match /products/{document=**} {
+      allow read;
+      allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
+    }
+    match /orders/{document=**} {
+      allow read: if false;
+      allow create;
+      allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
+    }
   }
 }
