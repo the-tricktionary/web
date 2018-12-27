@@ -63,7 +63,7 @@ import 'firebase/functions';
 
 @Component
 export default class CostSummary extends Vue {
-  mode: string = 'live';
+  mode: string = 'test';
   code: string = '';
   validCode: string = '';
 
@@ -118,8 +118,8 @@ export default class CostSummary extends Vue {
         this.stripe
           .redirectToCheckout({
             items: this.skus,
-            successUrl: 'https://localhost:8080/shop?state=success',
-            cancelUrl: 'https://localhost:8080/shop?state=cancel',
+            successUrl: 'https://v3.the-tricktionary.com/shop?state=success',
+            cancelUrl: 'https://v3.the-tricktionary.com/shop?state=cancel',
             clientReferenceId: dRef.id
           })
           .then(() => {
