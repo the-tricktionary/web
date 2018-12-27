@@ -64,8 +64,8 @@ export default class Shop extends Vue {
 
   get products(): ProductObject[] {
     return Object.keys(this.$store.state.products.docs)
-      .map((id: string): Product => this.$store.state.products.docs[id])
-      .filter((product: Product): boolean => !product.hidden);
+      .map((id: string): ProductObject => this.$store.state.products.docs[id])
+      .filter((product: ProductObject): boolean => !product.hidden);
   }
 
   verifyCustomer(): void {
