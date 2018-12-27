@@ -1,9 +1,14 @@
 <template>
   <div class="tricks">
     <!-- Searchbar here -->
-    <div class="box loading" v-if="!tricks">
+    <div class="box loading" v-if="Object.keys(tricks || {}).length < 1">
       <span>
-        <i class="fa fa-spinner fa-spin fa-4x fa-fw"></i>
+        <font-awesome-icon
+          icon="spinner"
+          spin
+          v-if="Object.keys($store.state.products.docs).length === 0"
+          size="6x"
+        />
         <br>Loading tricks
       </span>
     </div>

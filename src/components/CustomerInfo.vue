@@ -15,7 +15,7 @@
       <label>
         Email
         <input
-          type="text"
+          type="email"
           placeholder="Email"
           required
           @input="$store.dispatch('shop/customerDetails/update', {field: 'email', value: $event.target.value})"
@@ -27,7 +27,7 @@
         <input
           type="text"
           placeholder="Phone"
-          @input="$store.dispatch('shop/customerDetails/update', {field: 'phone', value: $event.target.value})"
+          @input="$store.dispatch('shop/customerDetails/update', {field: 'phone', value: format('phone', $event.target.value)})"
           :value="$store.state.shop.customerDetails.phone"
         >
       </label>
@@ -124,14 +124,14 @@
       </div>
     </div>
     <p>
-      If you have different Billing and Shipping addresses, enter your billing address, then email
-      reply to the receipt email with your shipping address. (
-      <a href="mailto:shop@the-tricktionary.com">shop@the-tricktionary.com</a>)
+      If you have different Billing and Shipping addresses, enter your billing addressa above, then
+      reply to the receipt email with your shipping address.
     </p>
     <p>
-      Orders are processed by the Swedish company Swantzter, owned and operated by one of the Tricktionary's developers.
-      All profits are used for the Tricktionary only.
+      Questions?
+      <a href="mailto:shop@the-tricktionary.com" target="_blank">shop@the-tricktionary.com</a>
     </p>
+    <p>Orders are processed by the Swedish company Swantzter, owned and operated by one of the Tricktionary's developers.</p>
   </div>
 </template>
 
@@ -150,14 +150,26 @@ export default class CustomerInfo extends Vue {
     )
   };
 
-  get selectedCountryMeta () {
+  get selectedCountryMeta (): PostCountry {
     let idx = PostCountries.findIndex(
       (country: PostCountry): boolean =>
         country.countryCode ===
         this.$store.state.shop.customerDetails.countryCode
     )
     if (idx < 0) return {}
-    return PostCountries[idx].meta || {}
+    let output: PostCountry = PostCountries[idx].meta || {}
+    output.callingCode = PostCountries[idx].callingCode || []
+    return output
+  }
+
+  format (type: string, value: string): string {
+    if (type === 'phone' && this.selectedCountryMeta.callingCode) {
+      return value.replace(
+        /^0{1,2}/,
+        '+' + this.selectedCountryMeta.callingCode[0]
+      )
+    }
+    return value
   }
 }
 </script>

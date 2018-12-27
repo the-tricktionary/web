@@ -17,7 +17,7 @@ const customerDetails = {
 
     company: '',
     vatnumber: '',
-    vatValid: false
+    vatValid: null
   },
   mutations: {
     setname (state: CustomerDetails, value: string) {

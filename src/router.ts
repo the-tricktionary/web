@@ -21,19 +21,18 @@ export default new Router({
       component: () => import(/* webpackChunkName: "shop" */ './views/Shop.vue')
     },
     {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import(/* webpackChunkName: "privacy" */ './views/Privacy.vue')
+    },
+    {
       path: '/trick/:type/:slug',
       name: 'trick-details',
-      // route level code-splitting
-      // this generates a separate chunk (trick.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "trick" */ './views/TrickDetails.vue')
     },
     {
       path: '/details/:id0/:id1',
       name: 'trick-details-old',
-      // route level code-splitting
-      // this generates a separate chunk (trick.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "trick" */ './views/TrickDetails.vue'),
       props: {
         oldLink: true

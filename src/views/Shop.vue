@@ -1,7 +1,52 @@
 <template>
   <div class="shop">
     <h1>Shop</h1>
-    <div class="info" v-if="stage === 'products'">
+    <div v-if="stage === 'success'">
+      <h2>Thank you for your purchase!</h2>
+      <p>You'll soon recieve an order confirmation by email</p>
+      <p>
+        <button @click="stage = 'products'">Close</button>
+      </p>
+    </div>
+    <div v-if="stage === 'cancel'">
+      <h2>Purchase Canceled!</h2>
+      <p>
+        <button @click="stage = 'products'">Start Over</button>
+      </p>
+    </div>
+    <form @submit.prevent="checkout" v-else-if="stage === 'checkout'">
+      <CostSummary @invalid="invalid = $event" ref="costSummary"/>
+      <p
+        v-if="$store.state.shop.customerDetails.vatValid === false"
+      >Invalid VAT number, VAT will be charged. You can go back and fix it</p>
+      <button @click="stage = 'details'" type="button">Back</button>
+      <button type="submit">Pay</button>
+      <p>By pressing pay you agree to our
+        <router-link to="/about">Policies</router-link>
+      </p>
+      <p>
+        <img src="/static/img/swantzter.png" class="logo">This store is operated by
+        <a
+          href="https://swantzter.se"
+          target="_blank"
+          rel="noopener"
+        >Swantzter</a> who will process your order and payment.
+      </p>
+      <p>
+        If you believe that you'll meet Svante Bengtson on a competition or camp shortly, please email
+        <a
+          href="mailto:shop@the-tricktionary.com"
+        >shop@the-tricktionary.com</a>.
+        We might be able to arrange so that you won't have to pay shipping.
+      </p>
+    </form>
+    <form @submit.prevent="verifyCustomer" v-else-if="stage === 'details'">
+      <CustomerInfo/>
+      <button @click="stage = 'products'" type="button">Back</button>
+      <button type="submit">Next</button>
+    </form>
+
+    <div class="info" v-else>
       <select @change="$store.dispatch('shop/setCurrency', $event.target.value)" :value="currency">
         <option value="SEK">SEK</option>
         <option value="EUR">EUR</option>
@@ -10,12 +55,10 @@
 
       <span class="grey">Prices listed excluding VAT</span>
       <div class="products">
-        <font-awesome-icon
-          icon="spinner"
-          spin
-          v-if="Object.keys($store.state.products.docs).length === 0"
-          size="6x"
-        />
+        <div class="center" v-if="Object.keys($store.state.products.docs).length === 0">
+          <font-awesome-icon icon="spinner" spin size="6x"/>
+          <br>Loading Products
+        </div>
         <Product
           v-for="product in products"
           :product="product"
@@ -27,16 +70,6 @@
       </div>
       <button @click="stage = 'details'" :disabled="cartSize < 2">Next</button>
     </div>
-    <form @submit.prevent="verifyCustomer" v-if="stage === 'details'">
-      <CustomerInfo/>
-      <button @click="stage = 'products'" type="button">Back</button>
-      <button type="submit">Next</button>
-    </form>
-    <form @submit.prevent="checkout" v-if="stage === 'checkout'">
-      <CostSummary @invalid="invalid = $event" ref="costSummary"/>
-      <button @click="stage = 'details'" type="button">Back</button>
-      <button type="submit">Pay</button>
-    </form>
   </div>
 </template>
 
@@ -77,13 +110,11 @@ export default class Shop extends Vue {
         })
         .then(result => {
           console.log(result.data);
-          if (result.data) {
-            this.$store.dispatch("shop/customerDetails/update", {
-              field: "vatValid",
-              value: true
-            });
-            this.stage = "checkout";
-          }
+          this.$store.dispatch("shop/customerDetails/update", {
+            field: "vatValid",
+            value: result.data.vat_valid
+          });
+          this.stage = "checkout";
         });
     } else {
       this.stage = "checkout";
@@ -110,6 +141,12 @@ export default class Shop extends Vue {
 
   mounted(): void {
     this.$store.dispatch("products/openDBChannel");
+    if (this.$route.query.state === "success") {
+      this.stage = "success";
+    }
+    if (this.$route.query.state === "cancel") {
+      this.stage = "cancel";
+    }
   }
 }
 </script>
@@ -127,5 +164,14 @@ export default class Shop extends Vue {
 .info {
   max-width: 600px;
   margin: auto;
+}
+
+img.logo {
+  height: 2em;
+}
+
+div.center {
+  width: 100%;
+  text-align: center;
 }
 </style>

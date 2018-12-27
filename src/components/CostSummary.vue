@@ -10,16 +10,16 @@
           <th v-if="chargeVat" colspan="2">VAT</th>
           <th colspan="2">Total</th>
         </tr>
-        <tr v-for="(qty, id) in $store.state.shop.cart" :key="id">
-          <td class="right">{{ qty }}</td>
-          <td>{{ $store.state.products.docs[id].name }}</td>
-          <td class="right">{{ $store.state.products.docs[id].prices[currency] / 100 }}</td>
-          <td>{{ currency }}{{ $store.state.products.docs[id].unit ? '/' : '' }}{{ $store.state.products.docs[id].unit }}</td>
-          <td v-if="chargeVat" class="right">{{ $store.state.products.docs[id].vat * 100 }}</td>
+        <tr v-for="el in cart" :key="el.id">
+          <td class="right">{{ el.qty }}</td>
+          <td>{{ $store.state.products.docs[el.id].name }}</td>
+          <td class="right">{{ $store.state.products.docs[el.id].prices[currency] / 100 }}</td>
+          <td>{{ currency }}{{ $store.state.products.docs[el.id].unit ? '/' : '' }}{{ $store.state.products.docs[el.id].unit }}</td>
+          <td v-if="chargeVat" class="right">{{ $store.state.products.docs[el.id].vat * 100 }}</td>
           <td v-if="chargeVat">%</td>
           <td
             class="right"
-          >{{ Math.round(qty * $store.state.products.docs[id].prices[currency] * (chargeVat ? (1 + $store.state.products.docs[id].vat) : 1)) / 100 }}</td>
+          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] * (chargeVat ? (1 + $store.state.products.docs[el.id].vat) : 1)) / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
         <tr>
@@ -41,6 +41,13 @@
         </tr>
       </table>
     </div>
+    <form @submit.prevent="applyCoupon(code)">
+      <label class="half">
+        Coupon
+        <input type="text" v-model="code" placeholder="Coupon">
+      </label>
+      <button rtpe="submit">Apply</button>
+    </form>
   </div>
 </template>
 
@@ -52,10 +59,14 @@ import firebase from 'firebase/app';
 
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/functions';
 
 @Component
 export default class CostSummary extends Vue {
-  mode: string = 'test';
+  mode: string = 'live';
+  code: string = '';
+  validCode: string = '';
+
   stripe = (window as { [prop: string]: any }).Stripe(
     this.mode === 'live'
       ? 'pk_live_8zkACkC315QvxhfSQcJxrXSu'
@@ -100,7 +111,8 @@ export default class CostSummary extends Vue {
       .add({
         requestedItems: this.skus,
         customerDetails: this.$store.state.shop.customerDetails,
-        currency: this.$store.state.shop.currency
+        currency: this.$store.state.shop.currency,
+        coupon: this.validCode !== '' ? this.validCode : null
       })
       .then(dRef => {
         this.stripe
@@ -114,6 +126,35 @@ export default class CostSummary extends Vue {
             // Display result.error.message to your customer
           })
       })
+  }
+
+  applyCoupon (code: string): void {
+    firebase
+      .functions()
+      .httpsCallable('verifyCoupon')({
+        code
+      })
+      .then(result => {
+        console.log(result.data)
+        if (result.data.valid) {
+          this.$store.dispatch('shop/updateCart', {
+            change: -1,
+            product: 'GLOrGF0gLvAxFFxREuJE'
+          })
+          this.validCode = code
+        }
+      })
+  }
+
+  get cart () {
+    return Object.keys(this.$store.state.shop.cart)
+      .map(
+        (id: string): { id: string; qty: number } => ({
+          id,
+          qty: this.$store.state.shop.cart[id]
+        })
+      )
+      .filter(el => el.qty)
   }
 
   get notCompleted (): boolean {

@@ -45,7 +45,7 @@ interface CustomerDetails {
 
   company: string;
   vatnumber: string;
-  vatValid: boolean;
+  vatValid: boolean | null;
 }
 
 interface StripeItem {

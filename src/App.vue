@@ -139,6 +139,17 @@ iframe.stripe_checkout_app {
   max-width: initial;
 }
 
+a,
+a:visited {
+  color: var(--d-blue);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--l-blue);
+  text-decoration: underline;
+}
+
 /* nav */
 nav {
   height: 45px;
@@ -156,7 +167,8 @@ nav {
   z-index: 100000;
 }
 
-nav a {
+nav a,
+nav a:visited {
   display: block;
   color: white;
   text-decoration: none;
@@ -244,6 +256,7 @@ button {
   border-radius: 0.3em;
   cursor: pointer;
   margin-right: 0.3em;
+  margin-bottom: 0.3em;
 }
 
 form:not(:invalid) button:not(:disabled):hover,
