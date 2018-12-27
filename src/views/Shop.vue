@@ -62,7 +62,7 @@ export default class Shop extends Vue {
   invalid: boolean = false;
   stage: string = "products";
 
-  get products(): Product[] {
+  get products(): ProductObject[] {
     return Object.keys(this.$store.state.products.docs)
       .map((id: string): Product => this.$store.state.products.docs[id])
       .filter((product: Product): boolean => !product.hidden);
