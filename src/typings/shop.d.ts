@@ -14,6 +14,7 @@ interface ProductObject {
   qty: number;
   image?: string;
   unit?: string;
+  hidden?: boolean;
   skus: Skus;
   'test-skus': Skus;
 }
