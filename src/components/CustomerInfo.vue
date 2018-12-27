@@ -119,17 +119,14 @@
         </label>
         <p v-if="$store.state.shop.customerDetails.countrycode !== 'SE'">
           If you are a registered EU bussiness with a VAT number, please enter your VAT number above.
-          If we can verify your VAT registration we will charge you excluding VAT. We will first reserve the
-          full amount (incl. VAT) on your card, if your VAT registration is valid we will charge the card less
-          than the reserved ammount.
+          If we can verify your VAT registration we will charge you excluding VAT. (Unless you are a Swedish company)
         </p>
       </div>
     </div>
     <p>
       If you have different Billing and Shipping addresses, enter your billing address, then email
-      <a
-        href="mailto:shop@the-tricktionary.com"
-      >shop@the-tricktionary.com</a> after placing your order
+      reply to the receipt email with your shipping address. (
+      <a href="mailto:shop@the-tricktionary.com">shop@the-tricktionary.com</a>)
     </p>
     <p>
       Orders are processed by the Swedish company Swantzter, owned and operated by one of the Tricktionary's developers.

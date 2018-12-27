@@ -5,7 +5,7 @@
       <table>
         <tr>
           <th>QTY</th>
-          <th>product</th>
+          <th>Product</th>
           <th colspan="2">Unit Cost</th>
           <th v-if="chargeVat" colspan="2">VAT</th>
           <th colspan="2">Total</th>
@@ -35,27 +35,12 @@
           <td>{{ currency }}</td>
         </tr>
         <tr>
-          <th :colspan="chargeVat ? 6 : 4" clss="right">Shipping</th>
-          <td class="right">{{ shipping / 100 }}</td>
-          <td>{{ currency }}</td>
-        </tr>
-        <tr>
           <th :colspan="chargeVat ? 6 : 4" clss="right">Total Due</th>
           <td class="right">{{ total / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
       </table>
     </div>
-    <!-- <vue-stripe-checkout
-      ref="checkoutRef"
-      :currency="$store.state.shop.currency"
-      image="https://the-tricktionary.com/static/img/icon-ios.png"
-      name="the Tricktionary"
-      :amount="total"
-      :allow-remember-me="true"
-      :email="$store.state.shop.customerDetails.email"
-      @done="done"
-    />-->
   </div>
 </template>
 
@@ -82,19 +67,6 @@ export default class CostSummary extends Vue {
 
   get skus (): StripeItem[] {
     let items: StripeItem[] = []
-    let shipping: { [prop: string]: string } = {
-      EUR: 'sku_EEBhmoFgqPm62a',
-      SEK: 'sku_EEBgzj0EdsRTtM',
-      USD: 'sku_EEBhPNTTKfrnl3'
-    }
-
-    if (this.mode === 'live') {
-      shipping = {
-        EUR: 'sku_EECxzsgSvUQ5nD',
-        SEK: 'sku_EECxOSV3Lq9Gof',
-        USD: 'sku_EECxZgBvp9rix6'
-      }
-    }
 
     for (let id in this.$store.state.shop.cart) {
       if (this.$store.state.shop.cart[id]) {
@@ -107,9 +79,6 @@ export default class CostSummary extends Vue {
         items.push(item)
       }
     }
-
-    let item: StripeItem = { sku: shipping[this.currency], quantity: 1 }
-    items.push(item)
 
     console.log(items)
 
@@ -128,26 +97,20 @@ export default class CostSummary extends Vue {
     firebase
       .firestore()
       .collection('orders')
-      .doc()
-      .set({
-        charges: {
-          subtotal: this.subtotal,
-          vat: this.vat,
-          shipping: this.shipping
-        },
-        items: this.skus,
+      .add({
+        requestedItems: this.skus,
         customerDetails: this.$store.state.shop.customerDetails,
-        currency: this.$store.state.shop.currency,
-        cart: this.$store.state.shop.cart
+        currency: this.$store.state.shop.currency
       })
-      .then(() => {
+      .then(dRef => {
         this.stripe
           .redirectToCheckout({
             items: this.skus,
-            successUrl: 'https://v3.the-tricktionary.com/shop?state=success',
-            cancelUrl: 'https://v3.the-tricktionary.com/shop'
+            successUrl: 'https://localhost:8080/shop?state=success',
+            cancelUrl: 'https://localhost:8080/shop?state=cancel',
+            clientReferenceId: dRef.id
           })
-          .then(function () {
+          .then(() => {
             // Display result.error.message to your customer
           })
       })
@@ -214,13 +177,8 @@ export default class CostSummary extends Vue {
     return total
   }
 
-  get shipping (): number {
-    if (this.currency === 'SEK') return 10000
-    return 1000
-  }
-
   get total (): number {
-    return this.subtotal + this.vat + this.shipping
+    return this.subtotal + this.vat
   }
 }
 </script>

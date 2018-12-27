@@ -99,12 +99,12 @@ button {
   width: 4em;
   outline: none;
   margin: 0;
+  border-radius: 0;
 }
 
 button:hover:not(:disabled) {
   background: var(--l-grey);
   border: none;
-  border-radius: 0;
 }
 
 button:first-child {

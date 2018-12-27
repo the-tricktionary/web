@@ -17,7 +17,7 @@
           size="6x"
         />
         <Product
-          v-for="product in $store.state.products.docs"
+          v-for="product in products"
           :product="product"
           :cart-status="cart(product.id)"
           :currency="currency"
@@ -25,7 +25,7 @@
           :key="product.id"
         />
       </div>
-      <button @click="stage = 'details'" :disabled="cartSize < 1">Next</button>
+      <button @click="stage = 'details'" :disabled="cartSize < 2">Next</button>
     </div>
     <form @submit.prevent="verifyCustomer" v-if="stage === 'details'">
       <CustomerInfo/>
@@ -61,6 +61,12 @@ import "firebase/functions";
 export default class Shop extends Vue {
   invalid: boolean = false;
   stage: string = "products";
+
+  get products(): Product[] {
+    return Object.keys(this.$store.state.products.docs)
+      .map((id: string): Product => this.$store.state.products.docs[id])
+      .filter((product: Product): boolean => !product.hidden);
+  }
 
   verifyCustomer(): void {
     if (this.$store.state.shop.customerDetails.vatnumber !== "") {

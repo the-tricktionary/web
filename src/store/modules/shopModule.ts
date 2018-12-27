@@ -70,7 +70,9 @@ export default {
     customerDetails
   },
   state: <ShopState>{
-    cart: {},
+    cart: {
+      GLOrGF0gLvAxFFxREuJE: 1
+    },
     currency: 'EUR'
   },
   mutations: {
