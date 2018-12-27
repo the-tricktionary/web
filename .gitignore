@@ -1,7 +1,6 @@
 .firebaserc
 node_modules
 **/*.log
-public/
 util/backups
 util/email-data
 util/booklets
