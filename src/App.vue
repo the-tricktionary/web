@@ -175,6 +175,12 @@ nav a:visited {
   white-space: nowrap;
 }
 
+nav a:hover,
+nav a:visited:hover {
+  color: white;
+  text-decoration: none;
+}
+
 nav a.logo {
   margin-right: auto;
   white-space: nowrap;
@@ -191,6 +197,11 @@ nav a:not(.logo) {
   border-radius: 0.3em;
   margin: 0.2em;
   padding: 0.25em 0.3em 0.3em 0.3em;
+}
+
+nav a:not(.logo):hover {
+  color: var(--black);
+  background: var(--d-yellow);
 }
 
 nav a img {
