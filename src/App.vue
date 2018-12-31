@@ -11,13 +11,13 @@
         <font-awesome-icon icon="bars"/>
       </a>
       <router-link to="/">Tricks</router-link>
-      <router-link to="/speed">Speed</router-link>
-      <router-link to="/apps">Apps</router-link>
+      <!-- <router-link to="/speed">Speed</router-link> -->
+      <!-- <router-link to="/apps">Apps</router-link> -->
       <router-link to="/shop">Shop</router-link>
-      <router-link to="/contact">Contact</router-link>
-      <router-link to="/coach">Coach</router-link>
-      <router-link to="/profile">Profile</router-link>
-      <a>Sign In</a>
+      <!-- <router-link to="/contact">Contact</router-link> -->
+      <!-- <router-link to="/coach">Coach</router-link> -->
+      <!-- <router-link to="/profile">Profile</router-link> -->
+      <!-- <a>Sign In</a> -->
     </nav>
     <router-view/>
   </div>
@@ -311,19 +311,24 @@ nav.mobile a:not(.logo):hover {
   background: var(--d-yellow);
 }
 
-p {
+p,
+div.text {
   max-width: var(--content-max-width);
   margin: auto;
+  margin-bottom: 0.5em;
 }
 
+div.center {
+  text-align: center;
+}
+
+/* forms */
 .inputgroup {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-
-/* forms */
 
 label {
   display: block;
