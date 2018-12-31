@@ -67,7 +67,7 @@ export default class App extends Vue {
         0
       ).length - 1;
 
-    document.documentElement.style.setProperty("--nav-items", items);
+    document.documentElement.style.setProperty("--nav-items", "" + items);
   }
 }
 </script>
