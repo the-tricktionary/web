@@ -27,7 +27,7 @@
       </span>
       <p>
         By pressing pay you agree to our
-        <router-link to="/about">Policies</router-link>.
+        <router-link to="/policies">Policies</router-link>.
         You will be redirected to our secure payment provider, Stripe
       </p>
       <p>

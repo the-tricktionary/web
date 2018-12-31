@@ -21,9 +21,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "shop" */ './views/Shop.vue')
     },
     {
-      path: '/privacy',
-      name: 'privacy',
-      component: () => import(/* webpackChunkName: "privacy" */ './views/Privacy.vue')
+      path: '/policies',
+      name: 'policies',
+      component: () => import(/* webpackChunkName: "policies" */ './views/Policies.vue')
     },
     {
       path: '/trick/:type/:slug',
