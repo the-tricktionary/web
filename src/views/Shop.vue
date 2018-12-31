@@ -18,11 +18,17 @@
       <CostSummary @invalid="invalid = $event" ref="costSummary"/>
       <p
         v-if="$store.state.shop.customerDetails.vatValid === false"
+        class="notify error"
       >Invalid VAT number, VAT will be charged. You can go back and fix it</p>
       <button @click="stage = 'details'" type="button">Back</button>
-      <button type="submit">Pay</button>
-      <p>By pressing pay you agree to our
-        <router-link to="/about">Policies</router-link>
+      <button type="submit" :disabled="loading">Pay</button>
+      <span v-if="loading">
+        <font-awesome-icon icon="spinner" spin/>Redirecting to payment
+      </span>
+      <p>
+        By pressing pay you agree to our
+        <router-link to="/about">Policies</router-link>.
+        You will be redirected to our secure payment provider, Stripe
       </p>
       <p>
         <img src="/static/img/swantzter.png" class="logo">This store is operated by
@@ -43,14 +49,15 @@
     <form @submit.prevent="verifyCustomer" v-else-if="stage === 'details'">
       <CustomerInfo/>
       <button @click="stage = 'products'" type="button">Back</button>
-      <button type="submit">Next</button>
+      <button type="submit" :disabled="loading">Next</button>
+      <span v-if="loading">
+        <font-awesome-icon icon="spinner" spin/>Verifying
+      </span>
     </form>
 
     <div class="info" v-else>
       <select @change="$store.dispatch('shop/setCurrency', $event.target.value)" :value="currency">
-        <option value="SEK">SEK</option>
-        <option value="EUR">EUR</option>
-        <option value="USD">USD</option>
+        <option v-for="curr in currencies" :value="curr" :key="curr">{{ curr }}</option>
       </select>
 
       <span class="grey">Prices listed excluding VAT</span>
@@ -94,6 +101,7 @@ import "firebase/functions";
 export default class Shop extends Vue {
   invalid: boolean = false;
   stage: string = "products";
+  loading: boolean = false;
 
   get products(): ProductObject[] {
     return Object.keys(this.$store.state.products.docs)
@@ -101,8 +109,25 @@ export default class Shop extends Vue {
       .filter((product: ProductObject): boolean => !product.hidden);
   }
 
+  get currencies(): string[] {
+    return Object.keys(this.$store.state.products.docs)
+      .map(
+        (id: string): string[] =>
+          Object.keys(this.$store.state.products.docs[id].skus).map(
+            (currency: string): string => currency.substring(0, 3)
+          )
+      )
+      .reduce((acc: string[], val: string[]): string[] => acc.concat(val), [])
+      .filter(
+        (value: string, index: number, self: string[]): boolean => {
+          return self.indexOf(value) === index;
+        }
+      );
+  }
+
   verifyCustomer(): void {
     if (this.$store.state.shop.customerDetails.vatnumber !== "") {
+      this.loading = true;
       firebase
         .functions()
         .httpsCallable("verifyBusiness")({
@@ -115,6 +140,7 @@ export default class Shop extends Vue {
             value: result.data.vat_valid
           });
           this.stage = "checkout";
+          this.loading = false;
         });
     } else {
       this.stage = "checkout";
@@ -122,6 +148,7 @@ export default class Shop extends Vue {
   }
 
   checkout(): void {
+    this.loading = true;
     (this.$refs.costSummary as any).checkout();
   }
 

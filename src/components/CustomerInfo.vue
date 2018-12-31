@@ -23,7 +23,7 @@
         >
       </label>
       <label>
-        Phone (Optional, for package tracking)
+        Phone (optional, for package tracking)
         <input
           type="text"
           placeholder="Phone"
@@ -42,7 +42,7 @@
         >
       </label>
       <label>
-        Address Line 2 (Optional)
+        Address Line 2 (optional)
         <input
           type="text"
           placeholder="Address Line 2"
@@ -136,47 +136,47 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import PostCountries from '@/postcountries.json'; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
+import { Component, Prop, Vue } from "vue-property-decorator";
+import PostCountries from "@/postcountries.json"; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
 
 @Component
 export default class CustomerInfo extends Vue {
   CountriesMeta = {
-    'EU Member States': PostCountries.filter(
+    "EU Member States": PostCountries.filter(
       (country: PostCountry): boolean => (country.meta || {}).euMemberState
     ),
-    'Other Countries': PostCountries.filter(
+    "Other Countries": PostCountries.filter(
       (country: PostCountry): boolean => !(country.meta || {}).euMemberState
     )
   };
 
-  get selectedCountryMeta (): PostCountry {
+  get selectedCountryMeta(): PostCountry {
     let idx = PostCountries.findIndex(
       (country: PostCountry): boolean =>
         country.countryCode ===
         this.$store.state.shop.customerDetails.countryCode
-    )
-    if (idx < 0) return {}
-    let output: PostCountry = PostCountries[idx].meta || {}
-    output.callingCode = PostCountries[idx].callingCode || []
-    return output
+    );
+    if (idx < 0) return {};
+    let output: PostCountry = PostCountries[idx].meta || {};
+    output.callingCode = PostCountries[idx].callingCode || [];
+    return output;
   }
 
-  format (type: string, value: string): string {
-    if (type === 'phone' && this.selectedCountryMeta.callingCode) {
+  format(type: string, value: string): string {
+    if (type === "phone" && this.selectedCountryMeta.callingCode) {
       return value.replace(
         /^0{1,2}/,
-        '+' + this.selectedCountryMeta.callingCode[0]
-      )
+        "+" + this.selectedCountryMeta.callingCode[0]
+      );
     }
-    return value
+    return value;
   }
 }
 </script>
 
 <style scoped>
 .customer {
-  max-width: 600px;
+  max-width: var(--content-max-width);
   margin: auto;
   padding: 0.5em;
 }

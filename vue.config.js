@@ -4,6 +4,8 @@ module.exports = {
     themeColor: '#fe3500'
   },
   devServer: {
-    https: true
+    https: true,
+    useLocalIp: false,
+    host: 'localhost'
   }
 }

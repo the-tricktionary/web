@@ -8,7 +8,7 @@ export default {
   },
   fetch: {
     // The max amount of documents to be fetched. Defaults to 50.
-    docLimit: 500
+    docLimit: 0
   }
   // you can also add state/getters/mutations/actions
   // for other config like fillables see 'Extra features'

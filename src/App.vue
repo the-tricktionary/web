@@ -1,12 +1,15 @@
 <template>
   <div>
-    <nav>
-      <router-link to="/" class="logo">
+    <nav :class="{ mobile: screenWidth < breakAt, collapsed }">
+      <router-link to="/" class="logo" tag="div">
         <img src="/static/img/tricktionary2.svg">
         <span class="name">
           <span class="small">the</span> Tricktionary
         </span>
       </router-link>
+      <a @click="collapsed = !collapsed" class="menu">
+        <font-awesome-icon icon="bars"/>
+      </a>
       <router-link to="/">Tricks</router-link>
       <router-link to="/speed">Speed</router-link>
       <router-link to="/apps">Apps</router-link>
@@ -14,11 +17,60 @@
       <router-link to="/contact">Contact</router-link>
       <router-link to="/coach">Coach</router-link>
       <router-link to="/profile">Profile</router-link>
-      <a>Sign Out</a>
+      <a>Sign In</a>
     </nav>
     <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+@Component
+export default class App extends Vue {
+  breakAt: number = 687;
+  screenWidth: number = 0;
+  collapsed: boolean = true;
+
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  }
+
+  handleResize() {
+    this.screenWidth = window.innerWidth || this.screenWidth;
+
+    let elHeight = document
+      .getElementsByTagName("nav")[0]
+      .getElementsByTagName("a")[2].offsetHeight;
+    document.documentElement.style.setProperty(
+      "--nav-item-height",
+      elHeight + "px"
+    );
+  }
+
+  mounted() {
+    // this.breakAt = Array.prototype.slice
+    //   .call(document.getElementsByTagName("nav")[0].children, 0)
+    //   .map(el => el.offsetWidth + 10)
+    //   .reduce((curr, acc) => curr + acc);
+
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+
+    setTimeout(() => {
+      this.handleResize();
+    });
+
+    let items =
+      Array.prototype.slice.call(
+        document.getElementsByTagName("nav")[0].getElementsByTagName("a"),
+        0
+      ).length - 1;
+
+    document.documentElement.style.setProperty("--nav-items", items);
+  }
+}
+</script>
 
 <style>
 /* colours */
@@ -37,15 +89,19 @@
   --d-blue: #008499;
   --l-blue: #3baec4;
   --white: #fff;
-  --nav-items: 8;
   --content-max-width: 600px;
+  --nav-items: 8;
+  --nav-item-height: 2.5em;
 }
 
 /* snippets from normalize.css */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0.3em;
-  box-sizing: border-box;
   font-family: "PT Sans", sans-serif;
   margin-top: 45px;
 }
@@ -132,7 +188,7 @@ h1 + h2 {
 
 iframe {
   width: 100%;
-  max-width: 600px;
+  max-width: var(--content-max-width);
 }
 
 iframe.stripe_checkout_app {
@@ -158,21 +214,24 @@ nav {
   top: 0;
   left: 0;
   right: 0;
+  padding-right: 0.2em;
   background: var(--l-red);
   border-bottom: 1px solid var(--d-red);
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-start;
   align-items: center;
   z-index: 100000;
 }
 
 nav a,
-nav a:visited {
+nav a:visited,
+nav div.logo {
   display: block;
   color: white;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 nav a:hover,
@@ -181,15 +240,20 @@ nav a:visited:hover {
   text-decoration: none;
 }
 
-nav a.logo {
-  margin-right: auto;
-  white-space: nowrap;
+nav .menu {
+  display: none;
 }
 
-nav a.logo span.name {
+nav .logo {
+  margin-right: auto;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+nav .logo span.name {
   font-size: 24px;
   float: right;
-  margin-top: 11px;
+  margin-top: 6px;
 }
 
 nav a:not(.logo) {
@@ -204,14 +268,51 @@ nav a:not(.logo):hover {
   background: var(--d-yellow);
 }
 
-nav a img {
+nav .logo img {
   max-height: 32px;
-  padding: 6px;
   margin-top: 4px;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+nav.mobile {
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  padding-right: 0;
+  overflow-y: hidden;
+  height: calc(var(--nav-items) * var(--nav-item-height) + 45px);
+  transition: height 0.5s;
+}
+
+nav.mobile .menu {
+  display: initial;
+  margin-right: 0.4em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+nav.mobile.collapsed {
+  height: 45px;
+}
+
+nav.mobile a:not(.logo):not(.menu) {
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--l-red);
+  background: var(--d-red);
+  font-size: 2.4em;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+nav.mobile a:not(.logo):hover {
+  color: var(--white);
+  background: var(--d-yellow);
 }
 
 p {
-  max-width: 600px;
+  max-width: var(--content-max-width);
   margin: auto;
 }
 
@@ -254,7 +355,7 @@ select:invalid {
 }
 
 form {
-  max-width: 600px;
+  max-width: var(--content-max-width);
   margin: auto;
 }
 
@@ -279,5 +380,24 @@ form:invalid button:not([type="button"]),
 button:disabled {
   background: var(--rl-grey);
   cursor: default;
+}
+
+/* notifies */
+.notify {
+  display: block;
+  width: 100%;
+  max-width: var(--content-max-width);
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid var(--d-blue);
+}
+
+.notify.warning {
+  border-color: var(--d-yellow);
+}
+
+.notify.error {
+  border-color: var(--d-red);
 }
 </style>

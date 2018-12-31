@@ -23,19 +23,19 @@ const firestore = firebase.firestore()
 const settings = { timestampsInSnapshots: true }
 firestore.settings(settings)
 
-const tricksSRFirestore = createEasyFirestore(tricksSRModule, { logging: true })
-const productsFirestore = createEasyFirestore(productsModule, { logging: true })
+const tricksSRFirestore = createEasyFirestore([tricksSRModule, productsModule], { logging: true })
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  plugins: [tricksSRFirestore, productsFirestore],
+  plugins: [tricksSRFirestore],
   modules: {
     shop: shopModule
   },
   state: {},
   mutations: {},
-  actions: {}
+  actions: {
+  }
 })
 
 store.dispatch('tricksSR/openDBChannel')
