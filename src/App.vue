@@ -5,18 +5,20 @@
         <img src="/static/img/tricktionary2.svg">
         <span class="name">
           <span class="small">the</span> Tricktionary
+          <span v-if="$route.name === 'shop'">Shop</span>
         </span>
       </router-link>
       <a @click="collapsed = !collapsed" class="menu">
         <font-awesome-icon icon="bars"/>
       </a>
-      <router-link to="/">Tricks</router-link>
-      <!-- <router-link to="/speed">Speed</router-link> -->
-      <!-- <router-link to="/apps">Apps</router-link> -->
+      <router-link to="/tricks" v-if="$route.name !== 'shop'">Tricks</router-link>
+      <a href="https://the-tricktionary.com" v-if="$route.name === 'shop'">Tricks</a>
+      <!-- <router-link to="/speed" v-if="$route.name !== 'shop'">Speed</router-link> -->
+      <!-- <router-link to="/apps" v-if="$route.name !== 'shop'">Apps</router-link> -->
       <router-link to="/shop">Shop</router-link>
-      <!-- <router-link to="/contact">Contact</router-link> -->
-      <!-- <router-link to="/coach">Coach</router-link> -->
-      <!-- <router-link to="/profile">Profile</router-link> -->
+      <!-- <router-link to="/contact" v-if="$route.name !== 'shop'">Contact</router-link> -->
+      <!-- <router-link to="/coach" v-if="$route.name !== 'shop'">Coach</router-link> -->
+      <!-- <router-link to="/profile" v-if="$route.name !== 'shop'">Profile</router-link> -->
       <!-- <a>Sign In</a> -->
     </nav>
     <router-view/>
@@ -24,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Watch, Vue } from 'vue-property-decorator';
 
 @Component
 export default class App extends Vue {
@@ -32,42 +34,47 @@ export default class App extends Vue {
   screenWidth: number = 0;
   collapsed: boolean = true;
 
-  destroyed() {
-    window.removeEventListener("resize", this.handleResize);
+  @Watch('$route', { immediate: true, deep: true })
+  onRouteChanged () {
+    this.collapsed = true
   }
 
-  handleResize() {
-    this.screenWidth = window.innerWidth || this.screenWidth;
+  destroyed () {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  handleResize () {
+    this.screenWidth = window.innerWidth || this.screenWidth
 
     let elHeight = document
-      .getElementsByTagName("nav")[0]
-      .getElementsByTagName("a")[2].offsetHeight;
+      .getElementsByTagName('nav')[0]
+      .getElementsByTagName('a')[2].offsetHeight
     document.documentElement.style.setProperty(
-      "--nav-item-height",
-      elHeight + "px"
-    );
+      '--nav-item-height',
+      elHeight + 'px'
+    )
   }
 
-  mounted() {
+  mounted () {
     // this.breakAt = Array.prototype.slice
     //   .call(document.getElementsByTagName("nav")[0].children, 0)
     //   .map(el => el.offsetWidth + 10)
     //   .reduce((curr, acc) => curr + acc);
 
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
 
     setTimeout(() => {
-      this.handleResize();
-    });
+      this.handleResize()
+    })
 
     let items =
       Array.prototype.slice.call(
-        document.getElementsByTagName("nav")[0].getElementsByTagName("a"),
+        document.getElementsByTagName('nav')[0].getElementsByTagName('a'),
         0
-      ).length - 1;
+      ).length - 1
 
-    document.documentElement.style.setProperty("--nav-items", "" + items);
+    document.documentElement.style.setProperty('--nav-items', '' + items)
   }
 }
 </script>
@@ -393,6 +400,7 @@ button:disabled {
   width: 100%;
   max-width: var(--content-max-width);
   padding: 0.5em;
+  margin: auto;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border: 1px solid var(--d-blue);

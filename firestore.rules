@@ -1,21 +1,55 @@
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth.uid != null && get(/databases/$(database)/documents/config/admins).data[request.auth.uid] == true
+    }
     match /tricksSR/{document=**} {
       allow read;
-      allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
+      allow write: if isAdmin();
     }
-    match /i18n/{document=**} { // Gotta fix this, untranslatable should be readable only by admins
+    match /i18n/{lang} {
       allow read;
-      allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
+      allow write: if isAdmin();
+      match /tricktypes/{doc} {
+        allow read;
+        allow write: if isAdmin();
+      }
+      match /tricks/{trick} {
+        allow read;
+        allow write: if isAdmin();
+      }
+      match /android/translated {
+        allow read;
+        allow write: if isAdmin();
+      }
+      match /android/untranslatable {
+        allow read, write: if isAdmin();
+      }
     }
     match /products/{document=**} {
       allow read;
-      allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
+      allow write: if isAdmin();
     }
     match /orders/{document=**} {
-      allow read: if false;
-      allow create;
-      allow write: if request.auth.uid == 'g0G3A7FxieN333lZ2RKclkmv9Uw1';
+      allow read: if isAdmin();
+      allow create: if request.resource.data.keys().hasAny([
+        'paid',
+        'paymentIntent',
+        'livemode',
+        'paidItems',
+        'received',
+        'sanitized',
+        'vatVerified',
+        'couponVerified',
+        'receiptSent',
+        'stockUpdated',
+        'shipped',
+        'tracking'
+        ]) == false
+      allow update, delete: if isAdmin();
+    }
+    match /shopSettings/{document=**} {
+      allow read, write: if isAdmin();
     }
   }
 }

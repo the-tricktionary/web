@@ -1,7 +1,7 @@
 <template>
   <div class="shop">
     <h1>Shop</h1>
-    <div v-if="stage === 'success'">
+    <div v-if="stage === 'success'" class="notify center">
       <h2>Thank you for your purchase!</h2>
       <p>You'll soon recieve an order confirmation by email</p>
       <p>
@@ -76,6 +76,15 @@
         />
       </div>
       <button @click="stage = 'details'" :disabled="cartSize < 2">Next</button>
+      <div class="notify" v-if="allOfOne">
+        Woha there! It looks like you have selected all the stock we have of one product.
+        If you're trying to make a large order please send us an email at
+        <a
+          href="mailto:shop@the-tricktionary.com"
+          target="_blank"
+          rel="noopener"
+        >shop@the-tricktionary.com</a> and we'll help you out.
+      </div>
     </div>
   </div>
 </template>
@@ -160,6 +169,16 @@ export default class Shop extends Vue {
     return Object.keys(this.$store.state.shop.cart)
       .map(id => this.$store.state.shop.cart[id])
       .reduce((acc, cur) => acc + cur, 0);
+  }
+
+  get allOfOne(): boolean {
+    return (
+      Object.keys(this.$store.state.shop.cart).filter(
+        id =>
+          this.$store.state.shop.cart[id] >=
+          (this.$store.state.products.docs[id] || {}).qty
+      ).length > 0
+    );
   }
 
   get currency(): string {

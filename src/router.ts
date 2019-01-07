@@ -8,12 +8,14 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      // path: '/',
+      path: '/tricks',
       name: 'home',
       component: Home
     },
     {
       path: '/shop',
+      alias: ['/'],
       name: 'shop',
       // route level code-splitting
       // this generates a separate chunk (trick.[hash].js) for this route

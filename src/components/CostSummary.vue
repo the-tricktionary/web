@@ -46,73 +46,77 @@
         Coupon
         <input type="text" v-model="code" placeholder="Coupon">
       </label>
-      <button rtpe="submit">Apply</button>
+      <button rtpe="submit" :disabled="couponLoading">Apply</button>
+      <span v-if="couponLoading">
+        <font-awesome-icon icon="spinner" spin/>Checking Coupon
+      </span>
     </form>
   </div>
 </template>
 
 <script lang="ts">
 /* global Stripe */
-import { Component, Prop, Vue } from "vue-property-decorator";
-import PostCountries from "@/postcountries.json"; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
-import firebase from "firebase/app";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import PostCountries from '@/postcountries.json'; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
+import firebase from 'firebase/app';
 
-import "firebase/firestore";
-import "firebase/auth";
-import "firebase/functions";
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/functions';
 
 @Component
 export default class CostSummary extends Vue {
-  mode: string = "test";
-  code: string = "";
-  validCode: string = "";
+  mode: string = 'live';
+  code: string = '';
+  validCode: string = '';
+  couponLoading: boolean = false;
 
   stripe = (window as { [prop: string]: any }).Stripe(
-    this.mode === "live"
-      ? "pk_live_8zkACkC315QvxhfSQcJxrXSu"
-      : "pk_test_qyutj0rUmaC9H53ZfF2RKbg9",
+    this.mode === 'live'
+      ? 'pk_live_8zkACkC315QvxhfSQcJxrXSu'
+      : 'pk_test_qyutj0rUmaC9H53ZfF2RKbg9',
     {
-      betas: ["checkout_beta_4"]
+      betas: ['checkout_beta_4']
     }
   );
 
-  get skus(): StripeItem[] {
-    let items: StripeItem[] = [];
+  get skus (): StripeItem[] {
+    let items: StripeItem[] = []
 
     for (let id in this.$store.state.shop.cart) {
       if (this.$store.state.shop.cart[id]) {
         let item: StripeItem = {
           sku: this.$store.state.products.docs[id][
-            this.mode === "live" ? "skus" : "test-skus"
-          ][this.currency + (this.chargeVat ? "-VAT" : "")],
+            this.mode === 'live' ? 'skus' : 'test-skus'
+          ][this.currency + (this.chargeVat ? '-VAT' : '')],
           quantity: this.$store.state.shop.cart[id]
-        };
-        items.push(item);
+        }
+        items.push(item)
       }
     }
 
-    console.log(items);
+    console.log(items)
 
-    return items;
+    return items
   }
 
-  get chargeVat(): boolean {
+  get chargeVat (): boolean {
     return (
       (this.selectedCountryMeta.euMemberState &&
         !this.$store.state.shop.customerDetails.vatValid) ||
-      this.$store.state.shop.customerDetails.countryCode === "SE"
-    );
+      this.$store.state.shop.customerDetails.countryCode === 'SE'
+    )
   }
 
-  checkout() {
+  checkout () {
     firebase
       .firestore()
-      .collection("orders")
+      .collection('orders')
       .add({
         requestedItems: this.skus,
         customerDetails: this.$store.state.shop.customerDetails,
         currency: this.$store.state.shop.currency,
-        coupon: this.validCode !== "" ? this.validCode : null
+        coupon: this.validCode || ''
       })
       .then(dRef => {
         this.stripe
@@ -124,29 +128,34 @@ export default class CostSummary extends Vue {
           })
           .then(() => {
             // Display result.error.message to your customer
-          });
-      });
+          })
+      })
+      .catch(err => {
+        if (err) throw new Error(err)
+      })
   }
 
-  applyCoupon(code: string): void {
+  applyCoupon (code: string): void {
+    this.couponLoading = true
     firebase
       .functions()
-      .httpsCallable("verifyCoupon")({
+      .httpsCallable('verifyCoupon')({
         code
       })
       .then(result => {
-        console.log(result.data);
+        console.log(result.data)
         if (result.data.valid) {
-          this.$store.dispatch("shop/updateCart", {
+          this.$store.dispatch('shop/updateCart', {
             change: -1,
-            product: "GLOrGF0gLvAxFFxREuJE"
-          });
-          this.validCode = code;
+            product: 'GLOrGF0gLvAxFFxREuJE'
+          })
+          this.validCode = code
         }
-      });
+        this.couponLoading = false
+      })
   }
 
-  get cart() {
+  get cart () {
     return Object.keys(this.$store.state.shop.cart)
       .map(
         (id: string): { id: string; qty: number } => ({
@@ -154,57 +163,57 @@ export default class CostSummary extends Vue {
           qty: this.$store.state.shop.cart[id]
         })
       )
-      .filter(el => el.qty);
+      .filter(el => el.qty)
   }
 
-  get notCompleted(): boolean {
-    if (this.subtotal <= 0) return true;
-    return false;
+  get notCompleted (): boolean {
+    if (this.subtotal <= 0) return true
+    return false
   }
 
-  get selectedCountryMeta(): { [prop: string]: any } {
+  get selectedCountryMeta (): { [prop: string]: any } {
     let idx = PostCountries.findIndex(
       (country: PostCountry): boolean =>
         country.countryCode ===
         this.$store.state.shop.customerDetails.countryCode
-    );
-    if (idx < 0) return { euMemberState: false };
-    return PostCountries[idx].meta || { euMemberState: false };
+    )
+    if (idx < 0) return { euMemberState: false }
+    return PostCountries[idx].meta || { euMemberState: false }
   }
 
-  get currency(): string {
-    return this.$store.state.shop.currency;
+  get currency (): string {
+    return this.$store.state.shop.currency
   }
 
-  get subtotal(): number {
-    let total: number = 0;
+  get subtotal (): number {
+    let total: number = 0
 
     for (const id in this.$store.state.shop.cart) {
       total += Math.round(
         this.$store.state.shop.cart[id] *
           this.$store.state.products.docs[id].prices[this.currency]
-      );
+      )
     }
 
     if (total > 0) {
-      this.$emit("invalid", false);
+      this.$emit('invalid', false)
     } else {
-      this.$emit("invalid", true);
+      this.$emit('invalid', true)
     }
 
-    return total;
+    return total
   }
 
-  get vat(): number {
-    let total: number = 0;
+  get vat (): number {
+    let total: number = 0
 
     if (
       !this.selectedCountryMeta.euMemberState ||
       (this.$store.state.shop.customerDetails.vatValid &&
         this.selectedCountryMeta.euMemberState &&
-        this.$store.state.shop.customerDetails.countryCode !== "SE")
+        this.$store.state.shop.customerDetails.countryCode !== 'SE')
     ) {
-      return 0;
+      return 0
     }
 
     for (const id in this.$store.state.shop.cart) {
@@ -212,14 +221,14 @@ export default class CostSummary extends Vue {
         this.$store.state.shop.cart[id] *
           this.$store.state.products.docs[id].prices[this.currency] *
           this.$store.state.products.docs[id].vat
-      );
+      )
     }
 
-    return total;
+    return total
   }
 
-  get total(): number {
-    return this.subtotal + this.vat;
+  get total (): number {
+    return this.subtotal + this.vat
   }
 }
 </script>
