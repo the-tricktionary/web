@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Product extends Vue {
@@ -35,7 +35,7 @@ export default class Product extends Vue {
 .product {
   display: block;
   width: 47%;
-  height: 40em;
+  height: 30em;
   margin: 0.5em;
   position: relative;
   border: 1px solid var(--rl-grey);

@@ -60,6 +60,8 @@
         <option v-for="curr in currencies" :value="curr" :key="curr">{{ curr }}</option>
       </select>
 
+      <p>To keep the Tricktionary running we have decided to sell</p>
+
       <span class="grey">Prices listed excluding VAT</span>
       <div class="products">
         <div class="center" v-if="Object.keys($store.state.products.docs).length === 0">
@@ -90,15 +92,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import Product from "@/components/Product.vue";
-import CostSummary from "@/components/CostSummary.vue";
-import CustomerInfo from "@/components/CustomerInfo.vue";
-import firebase from "firebase/app";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Product from '@/components/Product.vue';
+import CostSummary from '@/components/CostSummary.vue';
+import CustomerInfo from '@/components/CustomerInfo.vue';
+import firebase from 'firebase/app';
 
-import "firebase/firestore";
-import "firebase/auth";
-import "firebase/functions";
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/functions';
 
 @Component({
   components: {
@@ -109,16 +111,16 @@ import "firebase/functions";
 })
 export default class Shop extends Vue {
   invalid: boolean = false;
-  stage: string = "products";
+  stage: string = 'products';
   loading: boolean = false;
 
-  get products(): ProductObject[] {
+  get products (): ProductObject[] {
     return Object.keys(this.$store.state.products.docs)
       .map((id: string): ProductObject => this.$store.state.products.docs[id])
-      .filter((product: ProductObject): boolean => !product.hidden);
+      .filter((product: ProductObject): boolean => !product.hidden)
   }
 
-  get currencies(): string[] {
+  get currencies (): string[] {
     return Object.keys(this.$store.state.products.docs)
       .map(
         (id: string): string[] =>
@@ -129,69 +131,69 @@ export default class Shop extends Vue {
       .reduce((acc: string[], val: string[]): string[] => acc.concat(val), [])
       .filter(
         (value: string, index: number, self: string[]): boolean => {
-          return self.indexOf(value) === index;
+          return self.indexOf(value) === index
         }
-      );
+      )
   }
 
-  verifyCustomer(): void {
-    if (this.$store.state.shop.customerDetails.vatnumber !== "") {
-      this.loading = true;
+  verifyCustomer (): void {
+    if (this.$store.state.shop.customerDetails.vatnumber !== '') {
+      this.loading = true
       firebase
         .functions()
-        .httpsCallable("verifyBusiness")({
+        .httpsCallable('verifyBusiness')({
           customerDetails: this.$store.state.shop.customerDetails
         })
         .then(result => {
-          console.log(result.data);
-          this.$store.dispatch("shop/customerDetails/update", {
-            field: "vatValid",
+          console.log(result.data)
+          this.$store.dispatch('shop/customerDetails/update', {
+            field: 'vatValid',
             value: result.data.vat_valid
-          });
-          this.stage = "checkout";
-          this.loading = false;
-        });
+          })
+          this.stage = 'checkout';
+          this.loading = false
+        })
     } else {
-      this.stage = "checkout";
+      this.stage = 'checkout';
     }
   }
 
-  checkout(): void {
+  checkout (): void {
     this.loading = true;
-    (this.$refs.costSummary as any).checkout();
+    (this.$refs.costSummary as any).checkout()
   }
 
-  cart(id: string): number {
-    return this.$store.state.shop.cart[id] || 0;
+  cart (id: string): number {
+    return this.$store.state.shop.cart[id] || 0
   }
 
-  get cartSize(): number {
+  get cartSize (): number {
     return Object.keys(this.$store.state.shop.cart)
       .map(id => this.$store.state.shop.cart[id])
-      .reduce((acc, cur) => acc + cur, 0);
+      .reduce((acc, cur) => acc + cur, 0)
   }
 
-  get allOfOne(): boolean {
+  get allOfOne (): boolean {
     return (
       Object.keys(this.$store.state.shop.cart).filter(
         id =>
           this.$store.state.shop.cart[id] >=
           (this.$store.state.products.docs[id] || {}).qty
       ).length > 0
-    );
+    )
   }
 
-  get currency(): string {
-    return this.$store.state.shop.currency;
+  get currency (): string {
+    return this.$store.state.shop.currency
   }
 
-  mounted(): void {
-    this.$store.dispatch("products/openDBChannel");
-    if (this.$route.query.state === "success") {
-      this.stage = "success";
+  mounted (): void {
+    this.$store.dispatch('products/openDBChannel')
+    if (this.$route.query.state === 'success') {
+      this.stage = 'success';
     }
-    if (this.$route.query.state === "cancel") {
-      this.stage = "cancel";
+    if (this.$route.query.state === 'cancel') {
+      this.stage = 'cancel';
     }
   }
 }
