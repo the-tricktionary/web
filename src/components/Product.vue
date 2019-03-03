@@ -35,7 +35,7 @@ export default class Product extends Vue {
 .product {
   display: block;
   width: 47%;
-  height: 20em;
+  height: 40em;
   margin: 0.5em;
   position: relative;
   border: 1px solid var(--rl-grey);
@@ -52,7 +52,7 @@ export default class Product extends Vue {
 
 .image {
   display: block;
-  height: 10em;
+  height: 15em;
   width: 100%;
   background-color: var(--l-grey);
   background-size: cover;
