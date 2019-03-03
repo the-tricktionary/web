@@ -60,7 +60,12 @@
         <option v-for="curr in currencies" :value="curr" :key="curr">{{ curr }}</option>
       </select>
 
-      <p>To keep the Tricktionary running we have decided to sell</p>
+      <p>
+        To keep the Tricktionary running we have decided to sell a few products, the point isn't
+        to make huge money, it's rather to help as many athletes as possible get as good as possible
+        at jump rope/rope skipping, and we aren't making a huge profit on any of these products.
+        The Tricktionary will stay free but your support would help a lot.
+      </p>
 
       <span class="grey">Prices listed excluding VAT</span>
       <div class="products">
