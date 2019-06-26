@@ -19,7 +19,7 @@
           <td v-if="chargeVat">%</td>
           <td
             class="right"
-          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] * (chargeVat ? (1 + $store.state.products.docs[el.id].vat) : 1)) / 100 }}</td>
+          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] * (chargeVat ? (1 - (1 /  (1 + $store.state.products.docs[el.id].vat))) : 1)) / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
         <tr>
@@ -220,7 +220,7 @@ export default class CostSummary extends Vue {
       total += Math.round(
         this.$store.state.shop.cart[id] *
           this.$store.state.products.docs[id].prices[this.currency] *
-          this.$store.state.products.docs[id].vat
+          (1 - (1 / ( 1+ this.$store.state.products.docs[id].vat)))
       )
     }
 
@@ -228,7 +228,7 @@ export default class CostSummary extends Vue {
   }
 
   get total (): number {
-    return this.subtotal + this.vat
+    return this.subtotal
   }
 }
 </script>
