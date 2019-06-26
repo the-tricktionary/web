@@ -67,7 +67,6 @@
         The Tricktionary will stay free but your support would help a lot.
       </p>
 
-      <span class="grey">Prices listed excluding VAT</span>
       <div class="products">
         <div class="center" v-if="Object.keys($store.state.products.docs).length === 0">
           <font-awesome-icon icon="spinner" spin size="6x"/>
