@@ -228,7 +228,7 @@ export default class CostSummary extends Vue {
   }
 
   get total (): number {
-    return this.subtotal
+    return this.subtotal + this.vat
   }
 }
 </script>
