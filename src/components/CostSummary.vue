@@ -19,7 +19,7 @@
           <td v-if="chargeVat">%</td>
           <td
             class="right"
-          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] / 100 }}</td>
+          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency]) / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
         <tr>
@@ -201,7 +201,7 @@ export default class CostSummary extends Vue {
       this.$emit('invalid', true)
     }
 
-    return total
+    return total - this.vat
   }
 
   get vat (): number {
