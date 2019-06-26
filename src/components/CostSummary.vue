@@ -19,7 +19,7 @@
           <td v-if="chargeVat">%</td>
           <td
             class="right"
-          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] * (chargeVat ? (1 - (1 /  (1 + $store.state.products.docs[el.id].vat))) : 1)) / 100 }}</td>
+          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
         <tr>
