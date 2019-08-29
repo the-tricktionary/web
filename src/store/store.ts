@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Mutation, StoreOptions } from 'vuex'
+import Vuex, { Mutation, StoreOptions, Store } from 'vuex'
 import createEasyFirestore from 'vuex-easy-firestore'
 import createMutationsSharer from 'vuex-shared-mutations'
 import VuexPersistence from 'vuex-persist'
@@ -25,7 +25,8 @@ var config = {
   databaseURL: 'https://project-5641153190345267944.firebaseio.com',
   projectId: 'project-5641153190345267944',
   storageBucket: 'project-5641153190345267944.appspot.com',
-  messagingSenderId: '1048157266079'
+  messagingSenderId: '1048157266079',
+  appId: '1:1048157266079:web:a8ae83f6f16d7436'
 }
 firebase.initializeApp(config)
 
@@ -42,7 +43,9 @@ const VuexLocal = new VuexPersistence({
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export interface RootState { }
+
+const store: Store<RootState> = new Vuex.Store(<StoreOptions<RootState>>{
   plugins: [VuexLocal.plugin, mutationsSharer, firestoreModules],
   modules: {
     shop: shopModule,

@@ -69,7 +69,7 @@ export default class TrickList extends Vue {
   searchKeys: string[] = ['name', 'type', 'description'];
 
   created () {
-    this.$on('results', tricksFiltered => {
+    this.$on('results', (tricksFiltered: Trick[]) => {
       this.tricksFiltered = tricksFiltered
     })
   }

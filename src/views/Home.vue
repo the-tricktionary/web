@@ -138,7 +138,7 @@ export default class Home extends Vue {
     )
   }
 
-  changeDiscipline (discipline) {
+  changeDiscipline (discipline: string) {
     this.$store.commit('home/setDiscipline', { value: discipline })
     this.fetchDiscipline()
   }

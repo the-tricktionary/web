@@ -14,6 +14,29 @@ interface NextObj {
   [s: string]: string[]
 }
 
+export const prerequisites = (state: TricksState): PrerequisitesObj => {
+  let result: PrerequisitesObj = {}
+
+  for (let id in state.tricks) {
+    result[id] = state.tricks[id].prerequisites || []
+  }
+
+  return result
+}
+
+export const next = (state: TricksState): NextObj => {
+  let result: NextObj = {}
+
+  for (let id in state.tricks) {
+    for (let prereq of state.tricks[id].prerequisites || []) {
+      if (!result[prereq.id]) result[prereq.id] = []
+      result[prereq.id].push(id)
+    }
+  }
+
+  return result
+}
+
 export default <IEasyFirestoreModule>{
   firestorePath: 'tricksSR',
   firestoreRefType: 'collection', // or 'doc'
@@ -29,26 +52,7 @@ export default <IEasyFirestoreModule>{
   // you can also add state/getters/mutations/actions
 
   getters: {
-    prerequisites: (state: TricksState): PrerequisitesObj => {
-      let result: PrerequisitesObj = {}
-
-      for (let id in state.tricks) {
-        result[id] = state.tricks[id].prerequisites || []
-      }
-
-      return result
-    },
-    next: (state: TricksState): NextObj => {
-      let result: NextObj = {}
-
-      for (let id in state.tricks) {
-        for (let prereq of state.tricks[id].prerequisites || []) {
-          if (!result[prereq.id]) result[prereq.id] = []
-          result[prereq.id].push(id)
-        }
-      }
-
-      return result
-    }
+    prerequisites,
+    next
   }
 }

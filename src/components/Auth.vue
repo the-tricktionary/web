@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import firebase from 'firebase/app';
+import firebase, { FirebaseError } from 'firebase/app';
 import { VueTelInput } from 'vue-tel-input';
 
 import 'firebase/auth';
@@ -91,7 +91,7 @@ interface AuthDetails {
   phone?: string;
   phoneCode?: string;
 
-  socialProvider?: string;
+  socialProvider?: firebase.auth.AuthProvider;
 }
 
 interface Fields {
@@ -100,6 +100,12 @@ interface Fields {
   phoneNumber: boolean;
   verificationCode: boolean;
   sendVerificationCodeButton: boolean;
+}
+
+interface SocialProivder {
+  name: string;
+  icon: string | string[];
+  provider: firebase.auth.AuthProvider;
 }
 
 @Component({
@@ -126,7 +132,7 @@ export default class Auth extends Vue {
     wrapperClasses: 'input'
   };
 
-  socialProviders: any[] = [
+  socialProviders: SocialProivder[] = [
     {
       name: 'Google',
       icon: ['fab', 'google'],
@@ -160,14 +166,13 @@ export default class Auth extends Vue {
   ];
 
   phoneCode: string = '';
-  confirmationResult = null;
+  confirmationResult: any;
 
   get uid () {
     return this.$route.params.uid || this.$store.state.users.currentUser
   }
 
-  phoneNumberInput (num, details) {
-    console.log(num, details)
+  phoneNumberInput (num: string, details: any) {
     this.$store.commit('users/setSignInPhoneNumber', {
       value: details.number.e164,
       formatted: num
@@ -208,7 +213,7 @@ export default class Auth extends Vue {
 
     firebase
       .auth()
-      .sendSignInLinkToEmail(email, {
+      .sendSignInLinkToEmail(email || '', {
         url: 'https://localhost:8081/profile',
         handleCodeInApp: true
         // android: {
@@ -227,7 +232,7 @@ export default class Auth extends Vue {
         this.disabledFields.email = true
         this.disabledFields.emailButton = true
       })
-      .catch(error => {
+      .catch((error: FirebaseError): void => {
         console.log(error)
         this.authError('Could not send an email link, error:' + error.code)
       })
@@ -240,8 +245,8 @@ export default class Auth extends Vue {
     if (!code) {
       firebase
         .auth()
-        .signInWithPhoneNumber(phone, window.recaptchaVerifier)
-        .then(confirmationResult => {
+        .signInWithPhoneNumber(phone || '', (window as any).recaptchaVerifier)
+        .then((confirmationResult: any): void => {
           this.authInfo(
             `We've sent a verification code to ${this.$store.state.users.signInPhoneNumberFormatted}, enter it to sign in`
           )
@@ -249,35 +254,36 @@ export default class Auth extends Vue {
           this.disabledFields.verificationCode = false
           this.confirmationResult = confirmationResult
         })
-        .catch(error => {
+        .catch((error: FirebaseError): void => {
           console.log(error)
           this.authError(
             'Could not send a phone verification code link, error:' + error.code
-          )
-          window.recaptchaVerifier.render().then(function (widgetId) {
-            window.grecaptcha.reset(widgetId)
+          );
+          (window as any).recaptchaVerifier.render().then((widgetId: any) => {
+            (window as any).grecaptcha.reset(widgetId)
           })
         })
-    } else {
+    } else if (this.confirmationResult) {
       this.confirmationResult
         .confirm(code)
-        .then(result => {
+        .then(() => {
           console.log('success')
         })
-        .catch(error => {
+        .catch((error: FirebaseError): void => {
           this.authError('Could not log in, error:' + error.code)
         })
     }
   }
 
-  signInWithSocial (provider) {
+  signInWithSocial (provider?: firebase.auth.AuthProvider) {
+    if (!provider) return
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(result => {
+      .then(() => {
         console.log('success')
       })
-      .catch(error => {
+      .catch((error: FirebaseError): void => {
         this.authError('Could not log in, error:' + error.code)
       })
   }
@@ -301,17 +307,17 @@ export default class Auth extends Vue {
     }
 
     // Start Firebase invisible reCAPTCHA verifier
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    (window as any).recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'captcha-button',
       {
         size: 'invisible',
         callback: () =>
           this.signInWithPhone(this.$store.state.users.signInPhoneNumber)
       }
-    )
+    );
 
-    window.recaptchaVerifier.render().then(widgetId => {
-      window.recaptchaWidgetId = widgetId
+    (window as any).recaptchaVerifier.render().then((widgetId: string) => {
+      (window as any).recaptchaWidgetId = widgetId
     })
   }
 }
