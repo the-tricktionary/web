@@ -69,7 +69,7 @@
 
       <span class="grey">Prices listed excluding VAT</span>
       <div class="products">
-        <div class="center" v-if="Object.keys($store.state.products.docs).length === 0">
+        <div class="center" v-if="Object.keys($store.state.products).length === 0">
           <font-awesome-icon icon="spinner" spin size="6x"/>
           <br>Loading Products
         </div>
@@ -97,15 +97,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Product from '@/components/Product.vue';
-import CostSummary from '@/components/CostSummary.vue';
-import CustomerInfo from '@/components/CustomerInfo.vue';
-import firebase from 'firebase/app';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import Product from '@/components/Product.vue'
+import CostSummary from '@/components/CostSummary.vue'
+import CustomerInfo from '@/components/CustomerInfo.vue'
+import firebase from 'firebase/app'
 
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/functions';
+import 'firebase/firestore'
+import 'firebase/auth'
+import 'firebase/functions'
 
 @Component({
   components: {
@@ -120,16 +120,16 @@ export default class Shop extends Vue {
   loading: boolean = false;
 
   get products (): ProductObject[] {
-    return Object.keys(this.$store.state.products.docs)
-      .map((id: string): ProductObject => this.$store.state.products.docs[id])
+    return Object.keys(this.$store.state.products)
+      .map((id: string): ProductObject => this.$store.state.products[id])
       .filter((product: ProductObject): boolean => !product.hidden)
   }
 
   get currencies (): string[] {
-    return Object.keys(this.$store.state.products.docs)
+    return Object.keys(this.$store.state.products || {})
       .map(
         (id: string): string[] =>
-          Object.keys(this.$store.state.products.docs[id].skus).map(
+          Object.keys((this.$store.state.products[id] || {}).skus || {}).map(
             (currency: string): string => currency.substring(0, 3)
           )
       )
@@ -155,11 +155,11 @@ export default class Shop extends Vue {
             field: 'vatValid',
             value: result.data.vat_valid
           })
-          this.stage = 'checkout';
+          this.stage = 'checkout'
           this.loading = false
         })
     } else {
-      this.stage = 'checkout';
+      this.stage = 'checkout'
     }
   }
 
@@ -183,7 +183,7 @@ export default class Shop extends Vue {
       Object.keys(this.$store.state.shop.cart).filter(
         id =>
           this.$store.state.shop.cart[id] >=
-          (this.$store.state.products.docs[id] || {}).qty
+          (this.$store.state.products[id] || {}).qty
       ).length > 0
     )
   }
@@ -195,10 +195,10 @@ export default class Shop extends Vue {
   mounted (): void {
     this.$store.dispatch('products/openDBChannel')
     if (this.$route.query.state === 'success') {
-      this.stage = 'success';
+      this.stage = 'success'
     }
     if (this.$route.query.state === 'cancel') {
-      this.stage = 'cancel';
+      this.stage = 'cancel'
     }
   }
 }

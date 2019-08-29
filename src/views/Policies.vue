@@ -10,23 +10,24 @@
         resolving issues with the tricktionary's functionality
       </li>
     </ul>
-    <h3>We may store the following personal data about you</h3>
+    <h3>We may store the following personal data about you, Depending on the method you use to sign in</h3>
     <ul class="list">
       <li>Name</li>
-      <li>Link to your google profile</li>
+      <li>Link to social media profile(s) you have provided</li>
       <li>Email</li>
+      <li>Phone Number</li>
     </ul>
+    <p>If you choose to sign in via Phone, your phone number will be stored by Google to improve Spam and Abuse prevention across their services</p>
     <h3>In addition to this, if you make a purchase from our shop we may store your</h3>
     <ul class="list">
       <li>Shipping Address</li>
-      <li>Billing Address Address</li>
-      <li>Phone Number</li>
+      <li>Billing Address</li>
       <li>Business Associaton</li>
       <li>Business Registration Number</li>
       <li>VAT registration number</li>
     </ul>
     <p>
-      the Tricktionary stores this data outside of the EU, and will notice you if
+      the Tricktionary stores and processes this data outside of the EU, and will notice you if
       this changes.
     </p>
     <p>the Tricktionary does not sell any of your data to third parties</p>
@@ -85,19 +86,20 @@
         rel="noopener"
       >Swantzter</a> org.no 000718-5796, VAT registration numer SE000718579601
     </p>
-    <p>Swantzter
-      <br>Svante Bengtson
-      <br>Solrosvägen 43
-      <br>263 62 Viken
-      <br>SWEDEN
-      <br>shop@the-tricktionary.com
+    <p>
+      Swantzter
+      <br />Svante Bengtson
+      <br />Solrosvägen 43
+      <br />263 62 Viken
+      <br />SWEDEN
+      <br />shop@the-tricktionary.com
     </p>
 
     <h2>Return Policy</h2>
     <p>
-      In accordance to swedish law you may return any product bought in our store within 14 days from the date you,
+      In accordance to Swedish law you may return any product bought in our store within 14 days from the date you,
       or any third party who isn't the transportation company, recieve it.
-      Please notify us by email as soon as possible if you wish to make a return, we must recieve an eamil with your intent
+      Please notify us by email as soon as possible if you wish to make a return, we must recieve an email with your intent
       to return the product(s) before the 14 days have elapsed.
       You are responsible for arranging shippment for returns, except if the product doesn't align with its specification.
       We will process your refund when we have recieved your return. We will not refund products with clear signs of use.
@@ -124,13 +126,15 @@
       and cannot be reproduced without the explicit permission from fisac-irsf.
     </p>
 
-    <h3 class="copyright">&copy; The Tricktionary, 2016-{{ new Date().getFullYear() }}</h3>
+    <h3
+      class="copyright"
+    >&copy; The Tricktionary's Contributors, 2016-{{ new Date().getFullYear() }}</h3>
     <p>
       For more detailed copyright information see
       <a
         href="https://github.com/the-tricktionary"
         target="_blank"
-      >github</a>, where the source code is released under the MIT licence.
+      >github</a>, where the source code is released under the MIT licence, trick data and videos are licensed under the CC BY 4.0 Intl License.
     </p>
     <p>
       <a href="mailto:conatct@the-tricktionary.com">contact@the-tricktionary.com</a>

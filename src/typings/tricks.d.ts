@@ -15,7 +15,7 @@ interface Trick {
 
   slowMoStart?: number;
   alternativeNames?: string[];
-  prerequisties: Prerequistie[];
+  prerequisites: Prerequisite[];
 }
 
 interface TrickTranslationData {
@@ -47,11 +47,10 @@ interface VideoIDList {
   youtube: string;
 }
 
-interface Prerequistie {
-
-  id0?: string;
-  id1?: string;
-  name?: string;
+interface Prerequisite {
+  discipline?: string
+  id: string;
+  ref: firebase.firestore.DocumentReference | firebase.firestore.CollectionReference
 }
 
 interface Level {

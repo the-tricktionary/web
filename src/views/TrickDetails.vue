@@ -1,11 +1,24 @@
 <template>
   <div class="trick">
+    <!-- TODO: i18n -->
     <h1>{{ trick.name }}</h1>
     <h2>{{ trick.type }}</h2>
     <h3 v-if="alternativeNames.length > 0">Also known as {{ alternativeNames.join(', ') }}</h3>
     <p>{{ trick.description }}</p>
+    <div class="checklist" v-if="$store.state.users.currentUser">
+      <button
+        class="checkbox"
+        :class="{ checked: completedArr.indexOf(trick.id) > -1 }"
+        @click="toggleCompleted()"
+      >Completed</button>
+    </div>
     <div class="video">
-      <youtube :video-id="videos.youtube" :player-vars="playerVars" ref="youtube"/>
+      <youtube
+        :video-id="videos.youtube"
+        :player-vars="playerVars"
+        ref="youtube"
+        v-if="videos.youtube"
+      />
     </div>
     <div class="levels">
       <Trick-level
@@ -15,19 +28,58 @@
         :key="fed"
       />
     </div>
+    <div class="columns">
+      <div
+        class="column"
+        v-if="($store.getters[`tricks${discipline}/prerequisites`][trick.id] || []).length > 0"
+        :class="{ double: ($store.getters[`tricks${discipline}/next`][trick.id] || []).length === 0 }"
+      >
+        <div class="header">
+          <h3>Previous</h3>
+        </div>
+        <TrickButton
+          v-for="prereq in $store.getters[`tricks${discipline}/prerequisites`][trick.id]"
+          :key="'prerequisites-' + prereq.id"
+          :trick="$store.state[`tricks${discipline}`].tricks[prereq.id]"
+          :discipline="discipline"
+          :completed="completedArr.indexOf(prereq.id) > -1"
+          :class="{ double: ($store.getters[`tricks${discipline}/next`][trick.id] || []).length > 0 }"
+        />
+      </div>
+      <div
+        class="column"
+        v-if="($store.getters[`tricks${discipline}/next`][trick.id] || []).length > 0"
+        :class="{ double: ($store.getters[`tricks${discipline}/prerequisites`][trick.id] || []).length === 0 }"
+      >
+        <div class="header">
+          <h3>Next</h3>
+        </div>
+        <TrickButton
+          v-for="next in $store.getters[`tricks${discipline}/next`][trick.id]"
+          :key="'next-' + next"
+          :trick="$store.state[`tricks${discipline}`].tricks[next]"
+          :discipline="discipline"
+          :completed="completedArr.indexOf(next) > -1"
+          :class="{ double: ($store.getters[`tricks${discipline}/prerequisites`][trick.id] || []).length > 0 }"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import VueYoutube from 'vue-youtube';
-import TrickLevel from '@/components/TrickLevel.vue'; // @ is an alias to /src
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { arrayUnion, arrayRemove } from "vuex-easy-firestore";
+import VueYoutube from "vue-youtube";
+import TrickLevel from "@/components/TrickLevel.vue"; // @ is an alias to /src
+import TrickButton from "@/components/TrickButton.vue"; // @ is an alias to /src
 
-Vue.use(VueYoutube)
+Vue.use(VueYoutube);
 
 @Component({
   components: {
-    TrickLevel
+    TrickLevel,
+    TrickButton
   }
 })
 export default class TrickDetails extends Vue {
@@ -37,57 +89,87 @@ export default class TrickDetails extends Vue {
     autoplay: 1,
     loop: 1,
     playsinline: 1,
-    rel: 0
+    rel: 0,
+    enablejsapi: 1
   };
 
-  get tricktype (): string {
+  fetchDiscipline() {
+    this.$store.dispatch(
+      `tricks${this.$store.state.home.discipline}/fetchAndAdd`,
+      {
+        where: [["level", ">=", 0]]
+      }
+    );
+  }
+
+  get completedArr(): string[] {
+    return this.$store.state.checklist.list[this.discipline] || [];
+  }
+
+  get discipline(): string {
     if (this.oldLink) {
-      return 'SR';
+      return "SR";
     } else {
-      return this.$route.params.type.substring(0, 2).toLocaleUpperCase()
+      return this.$route.params.discipline.substring(0, 2).toUpperCase();
     }
   }
 
-  get trick (): Trick {
+  get trick(): Trick {
     let filter = (id: string): boolean =>
-      this.$store.state[`tricks${this.tricktype}`].docs[id].slug ===
-      this.$route.params.slug
+      this.$store.state[`tricks${this.discipline}`].tricks[id].slug ===
+      this.$route.params.slug;
     if (this.oldLink) {
       filter = (id: string): boolean =>
-        this.$store.state[`tricks${this.tricktype}`].docs[id].oldid ===
+        this.$store.state[`tricks${this.discipline}`].tricks[id].oldid ===
           Number(this.$route.params.id1) &&
-        this.$store.state[`tricks${this.tricktype}`].docs[id].level ===
-          Number(this.$route.params.id0) + 1
+        this.$store.state[`tricks${this.discipline}`].tricks[id].level ===
+          Number(this.$route.params.id0) + 1;
     }
 
     let id: string = Object.keys(
-      this.$store.state[`tricks${this.tricktype}`].docs
-    ).filter(filter)[0]
+      this.$store.state[`tricks${this.discipline}`].tricks
+    ).filter(filter)[0];
 
-    return this.$store.state[`tricks${this.tricktype}`].docs[id] || {}
+    return this.$store.state[`tricks${this.discipline}`].tricks[id] || {};
   }
 
-  get alternativeNames (): string[] {
-    return this.trick.alternativeNames || []
+  get alternativeNames(): string[] {
+    return this.trick.alternativeNames || [];
   }
 
-  get videos (): VideoIDList {
-    return this.trick.videos || { youtube: '' }
+  get videos(): VideoIDList {
+    return this.trick.videos || { youtube: "" };
   }
 
-  mounted (): void {
-    if (this.oldLink) {
-      this.$store.dispatch('tricksSR/fetchAndAdd', {
-        where: [
-          ['level', '==', Number(this.$route.params.id0) + 1],
-          ['oldid', '==', Number(this.$route.params.id1)]
-        ]
-      })
+  toggleCompleted(
+    discipline: string = this.discipline,
+    trick: Trick = this.trick
+  ): void {
+    if (this.completedArr.indexOf(trick.id) > -1) {
+      this.$store.dispatch(`checklist/patch`, {
+        [discipline]: arrayRemove(trick.id)
+      });
     } else {
-      this.$store.dispatch(`tricks${this.tricktype}/fetchAndAdd`, {
-        where: [['slug', '==', this.$route.params.slug]]
-      })
+      this.$store.dispatch(`checklist/patch`, {
+        [discipline]: arrayUnion(trick.id)
+      });
     }
+  }
+
+  mounted(): void {
+    if (this.oldLink) {
+      this.$store.dispatch("tricksSR/fetchAndAdd", {
+        where: [
+          ["level", "==", Number(this.$route.params.id0) + 1],
+          ["oldid", "==", Number(this.$route.params.id1)]
+        ]
+      });
+    } else {
+      this.$store.dispatch(`tricks${this.discipline}/fetchAndAdd`, {
+        where: [["slug", "==", this.$route.params.slug]]
+      });
+    }
+    setTimeout(this.fetchDiscipline, 1000);
   }
 }
 </script>
@@ -103,10 +185,15 @@ h2 {
   text-align: center;
 }
 
-.video {
+.video,
+.checklist {
   max-width: 600px;
   width: 100%;
   margin: auto;
+}
+
+.checklist {
+  text-align: left;
 }
 
 .levels {
@@ -116,5 +203,65 @@ h2 {
   flex-wrap: wrap;
   justify-content: space-between;
   margin: auto;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 2em;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.column {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.column.double {
+  width: 100%;
+}
+
+.column .header {
+  width: 100%;
+  text-align: center;
+}
+
+.column .header h3 {
+  width: 5em;
+  position: relative;
+  display: inline-block;
+}
+
+.column h3:before,
+.column h3:after {
+  content: " ";
+  border-bottom: 2px solid var(--l-grey);
+  position: absolute;
+  width: 100%;
+  max-width: 20vw;
+  top: 50%;
+}
+
+.column h3:before {
+  right: 100%;
+}
+
+.column h3:after {
+  left: 100%;
+}
+
+@media all and (max-width: 815px) {
+  .columns {
+    flex-direction: column;
+  }
+  .column {
+    width: 100%;
+  }
 }
 </style>

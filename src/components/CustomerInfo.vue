@@ -23,13 +23,14 @@
         >
       </label>
       <label>
-        Phone (optional, for package tracking)
-        <input
-          type="text"
-          placeholder="Phone"
-          @input="$store.dispatch('shop/customerDetails/update', {field: 'phone', value: format('phone', $event.target.value)})"
+        Phone Number (optional, for package tracking)
+        <vue-tel-input
+          v-bind="phoneProps"
+           @input="$store.dispatch('shop/customerDetails/update', {field: 'phone', value: format('phone', $event.target.value)})"
           :value="$store.state.shop.customerDetails.phone"
         >
+          <template v-slot:arrow-icon>&nbsp;</template>
+        </vue-tel-input>
       </label>
       <label>
         Address Line 1
@@ -138,8 +139,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PostCountries from "@/postcountries.json"; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
+import { VueTelInput } from 'vue-tel-input';
 
-@Component
+
+@Component({
+  components: {
+    VueTelInput
+  }
+})
 export default class CustomerInfo extends Vue {
   CountriesMeta = {
     "EU Member States": PostCountries.filter(
@@ -148,6 +155,16 @@ export default class CustomerInfo extends Vue {
     "Other Countries": PostCountries.filter(
       (country: PostCountry): boolean => !(country.meta || {}).euMemberState
     )
+  };
+
+  phoneProps = {
+    defaultCountry: 'US',
+    placeholder: 'Phone number',
+    required: true,
+    enabledFlags: true,
+    name: 'phone',
+    maxLen: 25,
+    wrapperClasses: 'input'
   };
 
   get selectedCountryMeta(): PostCountry {

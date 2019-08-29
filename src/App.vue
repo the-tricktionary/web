@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="container">
     <nav :class="{ mobile: screenWidth < breakAt, collapsed }">
       <router-link to="/" class="logo" tag="div">
-        <img src="/static/img/tricktionary2.svg">
+        <img src="/static/img/tricktionary2.svg" />
         <span class="name">
           <span class="small">the</span> Tricktionary
           <span v-if="$route.name === 'shop'">Shop</span>
         </span>
       </router-link>
       <a @click="collapsed = !collapsed" class="menu">
-        <font-awesome-icon icon="bars"/>
+        <font-awesome-icon icon="bars" />
       </a>
       <router-link to="/tricks" v-if="$route.name !== 'shop'">Tricks</router-link>
       <a href="https://the-tricktionary.com" v-if="$route.name === 'shop'">Tricks</a>
@@ -18,10 +18,16 @@
       <router-link to="/shop">Shop</router-link>
       <!-- <router-link to="/contact" v-if="$route.name !== 'shop'">Contact</router-link> -->
       <!-- <router-link to="/coach" v-if="$route.name !== 'shop'">Coach</router-link> -->
-      <!-- <router-link to="/profile" v-if="$route.name !== 'shop'">Profile</router-link> -->
+      <router-link
+        to="/profile"
+        v-if="$route.name !== 'shop'"
+      >{{ $store.state.users.currentUser ? 'Profile' : 'Sign In' }}</router-link>
       <!-- <a>Sign In</a> -->
     </nav>
-    <router-view/>
+    <router-view />
+    <footer>
+      <router-link to="/policies">Privacy, Policies</router-link>
+    </footer>
   </div>
 </template>
 
@@ -329,6 +335,12 @@ div.center {
   text-align: center;
 }
 
+/* footer */
+footer {
+  margin: auto;
+  text-align: center;
+}
+
 /* forms */
 .inputgroup {
   display: flex;
@@ -359,6 +371,11 @@ select {
   border: 1px solid var(--l-grey);
   border-radius: 0.3em;
   font-size: 12pt;
+}
+
+input:focus,
+select:focus {
+  border-bottom: 1px solid var(--d-yellow);
 }
 
 input:invalid,
@@ -392,6 +409,32 @@ form:invalid button:not([type="button"]),
 button:disabled {
   background: var(--rl-grey);
   cursor: default;
+}
+
+button.checkbox {
+  position: relative;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: 2.5em !important;
+}
+
+button.checkbox:before {
+  content: " ";
+  position: absolute;
+  top: -1px;
+  right: 100%;
+  height: 100%;
+  width: 2.5em;
+  background-color: var(--d-red);
+  border: 1px solid var(--l-grey);
+  border-right: none;
+  border-top-left-radius: 0.3em;
+  border-bottom-left-radius: 0.3em;
+  transition: 0.2s background-color;
+}
+
+button.checkbox.checked:before {
+  background-color: var(--l-green);
 }
 
 /* notifies */

@@ -1,48 +1,17 @@
 <template>
   <div class="home">
-    <div class="center">
-      <a target="_blank" rel="noopener" href="http://fb.me/jumpropetricktionary">
-        <button>
-          <font-awesome-icon :icon="['fab', 'facebook-square']"/>&nbsp; Facebook
-        </button>
-      </a>
-      <a target="_blank" rel="noopener" href="http://instagram.com/jumpropetricktionary">
-        <button>
-          <font-awesome-icon :icon="['fab', 'instagram']"/>&nbsp; Instagram
-        </button>
-      </a>
+    <TrickDisciplineSelector
+      @input="changeDiscipline($event)"
+      :value="$store.state.home.discipline"
+    />
+    <SocialLinks />
+    <TrickList
+      :tricks="$store.state[`tricks${$store.state.home.discipline}`].tricks"
+      :completed="$store.state.checklist.list[$store.state.home.discipline]"
+      :discipline="$store.state.home.discipline"
+    />
 
-      <a
-        target="_blank"
-        rel="noopener"
-        href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary"
-      >
-        <button>
-          <font-awesome-icon :icon="['fab', 'google-play']"/>&nbsp; Android
-        </button>
-      </a>
-      <!-- <a target="_blank" rel="noopener" href="">
-        <button>
-          <font-awesome-icon :icon="['fab', 'apple']"/>&nbsp; iOS
-        </button>
-      </a>-->
-      <a
-        href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2"
-        target="_blank"
-        rel="noopener"
-      >
-        <button>
-          <font-awesome-icon :icon="['fab', 'paypal']"/>&nbsp;Donate
-        </button>
-      </a>
-      <router-link to="/shop" tag="button">
-        <font-awesome-icon icon="shopping-cart"/>&nbsp;Shop
-      </router-link>
-    </div>
-
-    <TrickList :tricks="$store.state.tricksSR.docs"/>
-
-    <Adsense data-ad-client="ca-pub-7956758256491526" data-ad-slot="1953529861"></Adsense>
+    <Adsense data-ad-client="ca-pub-7956758256491526" data-ad-slot="1953529861" />
 
     <h3 id="about">About the Tricktionary</h3>
     <p>
@@ -85,12 +54,12 @@
     <div class="text">
       <a target="_blank" rel="noopener" href="http://fb.me/jumpropetricktionary">
         <button>
-          <font-awesome-icon :icon="['fab', 'facebook-square']"/>&nbsp; Facebook
+          <font-awesome-icon :icon="['fab', 'facebook-square']" />&nbsp; Facebook
         </button>
       </a>
       <a target="_blank" rel="noopener" href="http://instagram.com/jumpropetricktionary">
         <button>
-          <font-awesome-icon :icon="['fab', 'instagram']"/>&nbsp; Instagram
+          <font-awesome-icon :icon="['fab', 'instagram']" />&nbsp; Instagram
         </button>
       </a>
 
@@ -100,7 +69,7 @@
         href="https://twitter.com/home?status=Check%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%3A%0Ahttps%3A//the-tricktionary.com%0A%23jumpropeisasport"
       >
         <button>
-          <font-awesome-icon :icon="['fab', 'twitter-square']"/>&nbsp;Share on Twitter
+          <font-awesome-icon :icon="['fab', 'twitter-square']" />&nbsp;Share on Twitter
         </button>
       </a>
       <a
@@ -109,16 +78,16 @@
         href="mailto:?&subject=the Jump Rope Tricktionary&body=Hey!%0A%0ACheck%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%0Ahttps%3A//the-tricktionary.com"
       >
         <button>
-          <font-awesome-icon icon="envelope-square"/>&nbsp;Share by Email
+          <font-awesome-icon icon="envelope-square" />&nbsp;Share by Email
         </button>
       </a>
       <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2">
         <button>
-          <font-awesome-icon :icon="['fab', 'paypal']"/>&nbsp;Donate
+          <font-awesome-icon :icon="['fab', 'paypal']" />&nbsp;Donate
         </button>
       </a>
       <router-link to="/shop" tag="button">
-        <font-awesome-icon icon="shopping-cart"/>&nbsp;Shop
+        <font-awesome-icon icon="shopping-cart" />&nbsp;Shop
       </router-link>
     </div>
     <h3 id="booklets">the Tricktionary booklet</h3>
@@ -143,19 +112,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import TrickList from "@/components/TrickList.vue"; // @ is an alias to /src
+import { Component, Vue } from 'vue-property-decorator';
+import TrickList from '@/components/TrickList.vue'; // @ is an alias to /src
+import TrickDisciplineSelector from '@/components/TrickDisciplineSelector.vue';
+import SocialLinks from '@/components/SocialLinks.vue';
 
 @Component({
   components: {
-    TrickList
+    TrickList,
+    TrickDisciplineSelector,
+    SocialLinks
   }
 })
 export default class Home extends Vue {
-  mounted() {
-    this.$store.dispatch("tricksSR/fetchAndAdd", {
-      where: [["level", ">=", 0]]
-    });
+  mounted () {
+    this.fetchDiscipline()
+  }
+
+  fetchDiscipline () {
+    this.$store.dispatch(
+      `tricks${this.$store.state.home.discipline}/fetchAndAdd`,
+      {
+        where: [['level', '>=', 0]]
+      }
+    )
+  }
+
+  changeDiscipline (discipline) {
+    this.$store.commit('home/setDiscipline', { value: discipline })
+    this.fetchDiscipline()
   }
 }
 </script>

@@ -4,12 +4,8 @@
     <span class="big">
       {{ trickLevel }}
       <span class="tooltip">
-        <font-awesome-icon
-          icon="check"
-          v-if="trickVerified >= 0"
-          :class="{official: trickVerified === 1}"
-          class="small"
-        />
+        <font-awesome-icon icon="check" v-if="trickVerified === 0" class="small" />
+        <font-awesome-icon icon="check-double" v-if="trickVerified === 1" class="small" />
         <span
           class="tooltiptext"
         >Verified by {{ trickVerified ? 'an ofiicial' : 'a judge' }} from {{ fed }}</span>

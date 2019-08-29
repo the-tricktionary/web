@@ -14,12 +14,17 @@ export default new Router({
       component: Home
     },
     {
-      path: '/shop',
-      alias: ['/'],
-      name: 'shop',
+      path: '/profile/:uid?',
+      name: 'profile',
       // route level code-splitting
       // this generates a separate chunk (trick.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "profile" */ './views/Profile.vue')
+    },
+    {
+      path: '/shop',
+      alias: ['/'],
+      name: 'shop',
       component: () => import(/* webpackChunkName: "shop" */ './views/Shop.vue')
     },
     {
@@ -28,7 +33,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "policies" */ './views/Policies.vue')
     },
     {
-      path: '/trick/:type/:slug',
+      path: '/trick/:discipline/:slug',
       name: 'trick-details',
       component: () => import(/* webpackChunkName: "trick" */ './views/TrickDetails.vue')
     },

@@ -12,14 +12,14 @@
         </tr>
         <tr v-for="el in cart" :key="el.id">
           <td class="right">{{ el.qty }}</td>
-          <td>{{ $store.state.products.docs[el.id].name }}</td>
-          <td class="right">{{ $store.state.products.docs[el.id].prices[currency] / 100 }}</td>
-          <td>{{ currency }}{{ $store.state.products.docs[el.id].unit ? '/' : '' }}{{ $store.state.products.docs[el.id].unit }}</td>
-          <td v-if="chargeVat" class="right">{{ $store.state.products.docs[el.id].vat * 100 }}</td>
+          <td>{{ $store.state.products[el.id].name }}</td>
+          <td class="right">{{ $store.state.products[el.id].prices[currency] / 100 }}</td>
+          <td>{{ currency }}{{ $store.state.products[el.id].unit ? '/' : '' }}{{ $store.state.products[el.id].unit }}</td>
+          <td v-if="chargeVat" class="right">{{ $store.state.products[el.id].vat * 100 }}</td>
           <td v-if="chargeVat">%</td>
           <td
             class="right"
-          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency] * (chargeVat ? (1 + $store.state.products.docs[el.id].vat) : 1)) / 100 }}</td>
+          >{{ Math.round(el.qty * $store.state.products[el.id].prices[currency] * (chargeVat ? (1 + $store.state.products[el.id].vat) : 1)) / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
         <tr>
@@ -44,11 +44,11 @@
     <form @submit.prevent="applyCoupon(code)">
       <label class="half">
         Coupon
-        <input type="text" v-model="code" placeholder="Coupon">
+        <input type="text" v-model="code" placeholder="Coupon" />
       </label>
       <button rtpe="submit" :disabled="couponLoading">Apply</button>
       <span v-if="couponLoading">
-        <font-awesome-icon icon="spinner" spin/>Checking Coupon
+        <font-awesome-icon icon="spinner" spin />Checking Coupon
       </span>
     </form>
   </div>
@@ -70,23 +70,16 @@ export default class CostSummary extends Vue {
   code: string = '';
   validCode: string = '';
   couponLoading: boolean = false;
-
-  stripe = (window as { [prop: string]: any }).Stripe(
-    this.mode === 'live'
-      ? 'pk_live_8zkACkC315QvxhfSQcJxrXSu'
-      : 'pk_test_qyutj0rUmaC9H53ZfF2RKbg9',
-    {
-      betas: ['checkout_beta_4']
-    }
-  );
+  stripe: any;
 
   get skus (): StripeItem[] {
     let items: StripeItem[] = []
+    console.log(this.mode)
 
     for (let id in this.$store.state.shop.cart) {
       if (this.$store.state.shop.cart[id]) {
         let item: StripeItem = {
-          sku: this.$store.state.products.docs[id][
+          sku: this.$store.state.products[id][
             this.mode === 'live' ? 'skus' : 'test-skus'
           ][this.currency + (this.chargeVat ? '-VAT' : '')],
           quantity: this.$store.state.shop.cart[id]
@@ -122,9 +115,14 @@ export default class CostSummary extends Vue {
         this.stripe
           .redirectToCheckout({
             items: this.skus,
-            successUrl: `https://${window.location.host}/shop?state=success`,
-            cancelUrl: `https://${window.location.host}/shop?state=cancel`,
-            clientReferenceId: dRef.id
+            successUrl: `https://${window.location.host}/shop?state=success${
+              this.mode === 'live' ? '' : '&mode=test'
+            }`,
+            cancelUrl: `https://${window.location.host}/shop?state=cancel${
+              this.mode === 'live' ? '' : '&mode=test'
+            }`,
+            clientReferenceId: dRef.id,
+            customerEmail: this.$store.state.shop.customerDetails.email
           })
           .then(() => {
             // Display result.error.message to your customer
@@ -144,7 +142,10 @@ export default class CostSummary extends Vue {
       })
       .then(result => {
         console.log(result.data)
-        if (result.data.valid) {
+        if (
+          result.data.valid &&
+          this.$store.state.shop.cart['GLOrGF0gLvAxFFxREuJE'] > 0
+        ) {
           this.$store.dispatch('shop/updateCart', {
             change: -1,
             product: 'GLOrGF0gLvAxFFxREuJE'
@@ -157,12 +158,10 @@ export default class CostSummary extends Vue {
 
   get cart () {
     return Object.keys(this.$store.state.shop.cart)
-      .map(
-        (id: string): { id: string; qty: number } => ({
-          id,
-          qty: this.$store.state.shop.cart[id]
-        })
-      )
+      .map((id: string): { id: string; qty: number } => ({
+        id,
+        qty: this.$store.state.shop.cart[id]
+      }))
       .filter(el => el.qty)
   }
 
@@ -191,7 +190,7 @@ export default class CostSummary extends Vue {
     for (const id in this.$store.state.shop.cart) {
       total += Math.round(
         this.$store.state.shop.cart[id] *
-          this.$store.state.products.docs[id].prices[this.currency]
+          this.$store.state.products[id].prices[this.currency]
       )
     }
 
@@ -219,8 +218,8 @@ export default class CostSummary extends Vue {
     for (const id in this.$store.state.shop.cart) {
       total += Math.round(
         this.$store.state.shop.cart[id] *
-          this.$store.state.products.docs[id].prices[this.currency] *
-          this.$store.state.products.docs[id].vat
+          this.$store.state.products[id].prices[this.currency] *
+          this.$store.state.products[id].vat
       )
     }
 
@@ -229,6 +228,16 @@ export default class CostSummary extends Vue {
 
   get total (): number {
     return this.subtotal + this.vat
+  }
+
+  mounted (): void {
+    if (this.$route.query.mode) this.mode = 'test';
+    console.log(this.mode)
+    this.stripe = (window as { [prop: string]: any }).Stripe(
+      this.mode === 'live'
+        ? 'pk_live_8zkACkC315QvxhfSQcJxrXSu'
+        : 'pk_test_qyutj0rUmaC9H53ZfF2RKbg9'
+    )
   }
 }
 </script>
