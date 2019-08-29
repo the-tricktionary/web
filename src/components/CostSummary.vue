@@ -12,14 +12,14 @@
         </tr>
         <tr v-for="el in cart" :key="el.id">
           <td class="right">{{ el.qty }}</td>
-          <td>{{ $store.state.products[el.id].name }}</td>
-          <td class="right">{{ $store.state.products[el.id].prices[currency] / 100 }}</td>
-          <td>{{ currency }}{{ $store.state.products[el.id].unit ? '/' : '' }}{{ $store.state.products[el.id].unit }}</td>
-          <td v-if="chargeVat" class="right">{{ $store.state.products[el.id].vat * 100 }}</td>
+          <td>{{ $store.state.products.products[el.id].name }}</td>
+          <td class="right">{{ $store.state.products.products[el.id].prices[currency] / 100 }}</td>
+          <td>{{ currency }}{{ $store.state.products.products[el.id].unit ? '/' : '' }}{{ $store.state.products.products[el.id].unit }}</td>
+          <td v-if="chargeVat" class="right">{{ $store.state.products.products[el.id].vat * 100 }}</td>
           <td v-if="chargeVat">%</td>
           <td
             class="right"
-          >{{ Math.round(el.qty * $store.state.products.docs[el.id].prices[currency]) / 100 }}</td>
+          >{{ Math.round(el.qty * $store.state.products.products[el.id].prices[currency]) / 100 }}</td>
           <td>{{ currency }}</td>
         </tr>
         <tr>
@@ -56,188 +56,188 @@
 
 <script lang="ts">
 /* global Stripe */
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import PostCountries from '@/postcountries.json'; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
-import firebase from 'firebase/app';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import PostCountries from "@/postcountries.json"; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
+import firebase from "firebase/app";
 
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/functions';
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/functions";
 
 @Component
 export default class CostSummary extends Vue {
-  mode: string = 'live';
-  code: string = '';
-  validCode: string = '';
+  mode: string = "live";
+  code: string = "";
+  validCode: string = "";
   couponLoading: boolean = false;
   stripe: any;
 
-  get skus (): StripeItem[] {
-    let items: StripeItem[] = []
-    console.log(this.mode)
+  get skus(): StripeItem[] {
+    let items: StripeItem[] = [];
+    console.log(this.mode);
 
     for (let id in this.$store.state.shop.cart) {
       if (this.$store.state.shop.cart[id]) {
         let item: StripeItem = {
-          sku: this.$store.state.products[id][
-            this.mode === 'live' ? 'skus' : 'test-skus'
-          ][this.currency + (this.chargeVat ? '-VAT' : '')],
+          sku: this.$store.state.products.products[id][
+            this.mode === "live" ? "skus" : "test-skus"
+          ][this.currency + (this.chargeVat ? "-VAT" : "")],
           quantity: this.$store.state.shop.cart[id]
-        }
-        items.push(item)
+        };
+        items.push(item);
       }
     }
 
-    console.log(items)
+    console.log(items);
 
-    return items
+    return items;
   }
 
-  get chargeVat (): boolean {
+  get chargeVat(): boolean {
     return (
       (this.selectedCountryMeta.euMemberState &&
         !this.$store.state.shop.customerDetails.vatValid) ||
-      this.$store.state.shop.customerDetails.countryCode === 'SE'
-    )
+      this.$store.state.shop.customerDetails.countryCode === "SE"
+    );
   }
 
-  checkout () {
+  checkout() {
     firebase
       .firestore()
-      .collection('orders')
+      .collection("orders")
       .add({
         requestedItems: this.skus,
         customerDetails: this.$store.state.shop.customerDetails,
         currency: this.$store.state.shop.currency,
-        coupon: this.validCode || ''
+        coupon: this.validCode || ""
       })
       .then(dRef => {
         this.stripe
           .redirectToCheckout({
             items: this.skus,
             successUrl: `https://${window.location.host}/shop?state=success${
-              this.mode === 'live' ? '' : '&mode=test'
+              this.mode === "live" ? "" : "&mode=test"
             }`,
             cancelUrl: `https://${window.location.host}/shop?state=cancel${
-              this.mode === 'live' ? '' : '&mode=test'
+              this.mode === "live" ? "" : "&mode=test"
             }`,
             clientReferenceId: dRef.id,
             customerEmail: this.$store.state.shop.customerDetails.email
           })
           .then(() => {
             // Display result.error.message to your customer
-          })
+          });
       })
       .catch(err => {
-        if (err) throw new Error(err)
-      })
+        if (err) throw new Error(err);
+      });
   }
 
-  applyCoupon (code: string): void {
-    this.couponLoading = true
+  applyCoupon(code: string): void {
+    this.couponLoading = true;
     firebase
       .functions()
-      .httpsCallable('verifyCoupon')({
+      .httpsCallable("verifyCoupon")({
         code
       })
       .then(result => {
-        console.log(result.data)
+        console.log(result.data);
         if (
           result.data.valid &&
-          this.$store.state.shop.cart['GLOrGF0gLvAxFFxREuJE'] > 0
+          this.$store.state.shop.cart["GLOrGF0gLvAxFFxREuJE"] > 0
         ) {
-          this.$store.dispatch('shop/updateCart', {
+          this.$store.dispatch("shop/updateCart", {
             change: -1,
-            product: 'GLOrGF0gLvAxFFxREuJE'
-          })
-          this.validCode = code
+            product: "GLOrGF0gLvAxFFxREuJE"
+          });
+          this.validCode = code;
         }
-        this.couponLoading = false
-      })
+        this.couponLoading = false;
+      });
   }
 
-  get cart () {
+  get cart() {
     return Object.keys(this.$store.state.shop.cart)
       .map((id: string): { id: string; qty: number } => ({
         id,
         qty: this.$store.state.shop.cart[id]
       }))
-      .filter(el => el.qty)
+      .filter(el => el.qty);
   }
 
-  get notCompleted (): boolean {
-    if (this.subtotal <= 0) return true
-    return false
+  get notCompleted(): boolean {
+    if (this.subtotal <= 0) return true;
+    return false;
   }
 
-  get selectedCountryMeta (): { [prop: string]: any } {
+  get selectedCountryMeta(): { [prop: string]: any } {
     let idx = PostCountries.findIndex(
       (country: PostCountry): boolean =>
         country.countryCode ===
         this.$store.state.shop.customerDetails.countryCode
-    )
-    if (idx < 0) return { euMemberState: false }
-    return PostCountries[idx].meta || { euMemberState: false }
+    );
+    if (idx < 0) return { euMemberState: false };
+    return PostCountries[idx].meta || { euMemberState: false };
   }
 
-  get currency (): string {
-    return this.$store.state.shop.currency
+  get currency(): string {
+    return this.$store.state.shop.currency;
   }
 
-  get subtotal (): number {
-    let total: number = 0
+  get subtotal(): number {
+    let total: number = 0;
 
     for (const id in this.$store.state.shop.cart) {
       total += Math.round(
         this.$store.state.shop.cart[id] *
-          this.$store.state.products[id].prices[this.currency]
-      )
+          this.$store.state.products.products[id].prices[this.currency]
+      );
     }
 
     if (total > 0) {
-      this.$emit('invalid', false)
+      this.$emit("invalid", false);
     } else {
-      this.$emit('invalid', true)
+      this.$emit("invalid", true);
     }
 
-    return total - this.vat
+    return total - this.vat;
   }
 
-  get vat (): number {
-    let total: number = 0
+  get vat(): number {
+    let total: number = 0;
 
     if (
       !this.selectedCountryMeta.euMemberState ||
       (this.$store.state.shop.customerDetails.vatValid &&
         this.selectedCountryMeta.euMemberState &&
-        this.$store.state.shop.customerDetails.countryCode !== 'SE')
+        this.$store.state.shop.customerDetails.countryCode !== "SE")
     ) {
-      return 0
+      return 0;
     }
 
     for (const id in this.$store.state.shop.cart) {
       total += Math.round(
         this.$store.state.shop.cart[id] *
-          this.$store.state.products.docs[id].prices[this.currency] *
-          (1 - 1 / (1 + this.$store.state.products.docs[id].vat))
-      )
+          this.$store.state.products.products[id].prices[this.currency] *
+          (1 - 1 / (1 + this.$store.state.products.products[id].vat))
+      );
     }
 
-    return total
+    return total;
   }
 
-  get total (): number {
-    return this.subtotal + this.vat
+  get total(): number {
+    return this.subtotal + this.vat;
   }
 
-  mounted (): void {
-    if (this.$route.query.mode) this.mode = 'test';
-    console.log(this.mode)
+  mounted(): void {
+    if (this.$route.query.mode) this.mode = "test";
+    console.log(this.mode);
     this.stripe = (window as { [prop: string]: any }).Stripe(
-      this.mode === 'live'
-        ? 'pk_live_8zkACkC315QvxhfSQcJxrXSu'
-        : 'pk_test_qyutj0rUmaC9H53ZfF2RKbg9'
-    )
+      this.mode === "live"
+        ? "pk_live_8zkACkC315QvxhfSQcJxrXSu"
+        : "pk_test_qyutj0rUmaC9H53ZfF2RKbg9"
+    );
   }
 }
 </script>

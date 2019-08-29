@@ -15,7 +15,7 @@
       </p>
     </div>
     <form @submit.prevent="checkout" v-else-if="stage === 'checkout'">
-      <CostSummary @invalid="invalid = $event" ref="costSummary"/>
+      <CostSummary @invalid="invalid = $event" ref="costSummary" />
       <p
         v-if="$store.state.shop.customerDetails.vatValid === false"
         class="notify error"
@@ -23,7 +23,7 @@
       <button @click="stage = 'details'" type="button">Back</button>
       <button type="submit" :disabled="loading">Pay</button>
       <span v-if="loading">
-        <font-awesome-icon icon="spinner" spin/>Redirecting to payment
+        <font-awesome-icon icon="spinner" spin />Redirecting to payment
       </span>
       <p>
         By pressing pay you agree to our
@@ -31,7 +31,7 @@
         You will be redirected to our secure payment provider, Stripe
       </p>
       <p>
-        <img src="/static/img/swantzter.png" class="logo">This store is operated by
+        <img src="/static/img/swantzter.png" class="logo" />This store is operated by
         <a
           href="https://swantzter.se"
           target="_blank"
@@ -47,11 +47,11 @@
       </p>
     </form>
     <form @submit.prevent="verifyCustomer" v-else-if="stage === 'details'">
-      <CustomerInfo/>
+      <CustomerInfo />
       <button @click="stage = 'products'" type="button">Back</button>
       <button type="submit" :disabled="loading">Next</button>
       <span v-if="loading">
-        <font-awesome-icon icon="spinner" spin/>Verifying
+        <font-awesome-icon icon="spinner" spin />Verifying
       </span>
     </form>
 
@@ -68,9 +68,9 @@
       </p>
 
       <div class="products">
-        <div class="center" v-if="Object.keys($store.state.products).length === 0">
-          <font-awesome-icon icon="spinner" spin size="6x"/>
-          <br>Loading Products
+        <div class="center" v-if="Object.keys($store.state.products.products).length === 0">
+          <font-awesome-icon icon="spinner" spin size="6x" />
+          <br />Loading Products
         </div>
         <Product
           v-for="product in products"
@@ -96,15 +96,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import Product from '@/components/Product.vue'
-import CostSummary from '@/components/CostSummary.vue'
-import CustomerInfo from '@/components/CustomerInfo.vue'
-import firebase from 'firebase/app'
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Product from '@/components/Product.vue';
+import CostSummary from '@/components/CostSummary.vue';
+import CustomerInfo from '@/components/CustomerInfo.vue';
+import firebase from 'firebase/app';
 
-import 'firebase/firestore'
-import 'firebase/auth'
-import 'firebase/functions'
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/functions';
 
 @Component({
   components: {
@@ -119,25 +119,24 @@ export default class Shop extends Vue {
   loading: boolean = false;
 
   get products (): ProductObject[] {
-    return Object.keys(this.$store.state.products)
-      .map((id: string): ProductObject => this.$store.state.products[id])
+    return Object.keys(this.$store.state.products.products)
+      .map(
+        (id: string): ProductObject => this.$store.state.products.products[id]
+      )
       .filter((product: ProductObject): boolean => !product.hidden)
   }
 
   get currencies (): string[] {
-    return Object.keys(this.$store.state.products || {})
-      .map(
-        (id: string): string[] =>
-          Object.keys((this.$store.state.products[id] || {}).skus || {}).map(
-            (currency: string): string => currency.substring(0, 3)
-          )
+    return Object.keys(this.$store.state.products.products || {})
+      .map((id: string): string[] =>
+        Object.keys(
+          (this.$store.state.products.products[id] || {}).skus || {}
+        ).map((currency: string): string => currency.substring(0, 3))
       )
       .reduce((acc: string[], val: string[]): string[] => acc.concat(val), [])
-      .filter(
-        (value: string, index: number, self: string[]): boolean => {
-          return self.indexOf(value) === index
-        }
-      )
+      .filter((value: string, index: number, self: string[]): boolean => {
+        return self.indexOf(value) === index
+      })
   }
 
   verifyCustomer (): void {
@@ -154,11 +153,11 @@ export default class Shop extends Vue {
             field: 'vatValid',
             value: result.data.vat_valid
           })
-          this.stage = 'checkout'
+          this.stage = 'checkout';
           this.loading = false
         })
     } else {
-      this.stage = 'checkout'
+      this.stage = 'checkout';
     }
   }
 
@@ -182,7 +181,7 @@ export default class Shop extends Vue {
       Object.keys(this.$store.state.shop.cart).filter(
         id =>
           this.$store.state.shop.cart[id] >=
-          (this.$store.state.products[id] || {}).qty
+          (this.$store.state.products.products[id] || {}).qty
       ).length > 0
     )
   }
@@ -194,10 +193,10 @@ export default class Shop extends Vue {
   mounted (): void {
     this.$store.dispatch('products/openDBChannel')
     if (this.$route.query.state === 'success') {
-      this.stage = 'success'
+      this.stage = 'success';
     }
     if (this.$route.query.state === 'cancel') {
-      this.stage = 'cancel'
+      this.stage = 'cancel';
     }
   }
 }
