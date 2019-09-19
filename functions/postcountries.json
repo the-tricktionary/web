@@ -1,0 +1,2732 @@
+[
+  {
+    "countryCode": "SE",
+    "meta": {
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "46"
+    ],
+    "name": "Sweden"
+  },
+  {
+    "countryCode": "DK",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true
+    },
+    "callingCode": [
+      "45"
+    ],
+    "name": "Denmark"
+  },
+  {
+    "countryCode": "FI",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "358"
+    ],
+    "name": "Finland"
+  },
+  {
+    "countryCode": "NO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "47"
+    ],
+    "name": "Norway"
+  },
+  {
+    "countryCode": "IS",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 2,
+      "epgZone": 2,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "354"
+    ],
+    "name": "Iceland"
+  },
+  {
+    "countryCode": "GL",
+    "meta": {
+      "euMemberState": false,
+      "udlandZone": "Greenland"
+    },
+    "callingCode": [
+      "299"
+    ],
+    "name": "Greenland"
+  },
+  {
+    "countryCode": "FO",
+    "meta": {
+      "euMemberState": false,
+      "udlandZone": "Faroe Islands"
+    },
+    "callingCode": [
+      "298"
+    ],
+    "name": "Faroe Islands"
+  },
+  {
+    "countryCode": "AX",
+    "meta": {
+      "euMemberState": false,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "+358-18"
+    ],
+    "name": "Åland Islands"
+  },
+  {
+    "countryCode": "AF",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "93"
+    ],
+    "name": "Afghanistan"
+  },
+  {
+    "countryCode": "AL",
+    "meta": {
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "355"
+    ],
+    "name": "Albania"
+  },
+  {
+    "countryCode": "DZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "213"
+    ],
+    "name": "Algeria"
+  },
+  {
+    "countryCode": "AS",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "+1-684"
+    ],
+    "name": "American Samoa"
+  },
+  {
+    "countryCode": "AD",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "376"
+    ],
+    "name": "Andorra"
+  },
+  {
+    "countryCode": "AO",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "244"
+    ],
+    "name": "Angola"
+  },
+  {
+    "countryCode": "AI",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-264"
+    ],
+    "name": "Anguilla"
+  },
+  {
+    "countryCode": "AG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-268"
+    ],
+    "name": "Antigua & Barbuda"
+  },
+  {
+    "countryCode": "AR",
+    "meta": {
+      "emsZone": 4
+    },
+    "callingCode": [
+      "54"
+    ],
+    "name": "Argentina"
+  },
+  {
+    "countryCode": "AM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "374"
+    ],
+    "name": "Armenia"
+  },
+  {
+    "countryCode": "AW",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "297"
+    ],
+    "name": "Aruba"
+  },
+  {
+    "countryCode": "AU",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "61"
+    ],
+    "name": "Australia"
+  },
+  {
+    "countryCode": "AT",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "43"
+    ],
+    "name": "Austria"
+  },
+  {
+    "countryCode": "AZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "994"
+    ],
+    "name": "Azerbaijan"
+  },
+  {
+    "countryCode": "BS",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-242"
+    ],
+    "name": "Bahamas"
+  },
+  {
+    "countryCode": "BH",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "973"
+    ],
+    "name": "Bahrain"
+  },
+  {
+    "countryCode": "BD",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "880"
+    ],
+    "name": "Bangladesh"
+  },
+  {
+    "countryCode": "BB",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-246"
+    ],
+    "name": "Barbados"
+  },
+  {
+    "countryCode": "BY",
+    "meta": {
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "375"
+    ],
+    "name": "Belarus"
+  },
+  {
+    "countryCode": "BE",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "32"
+    ],
+    "name": "Belgium"
+  },
+  {
+    "countryCode": "BZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "501"
+    ],
+    "name": "Belize"
+  },
+  {
+    "countryCode": "BJ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "229"
+    ],
+    "name": "Benin"
+  },
+  {
+    "countryCode": "BM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-441"
+    ],
+    "name": "Bermuda"
+  },
+  {
+    "countryCode": "BT",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "975"
+    ],
+    "name": "Bhutan"
+  },
+  {
+    "countryCode": "BO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "591"
+    ],
+    "name": "Bolivia"
+  },
+  {
+    "countryCode": "BA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "387"
+    ],
+    "name": "Bosnia & Herzegovina"
+  },
+  {
+    "countryCode": "BW",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "267"
+    ],
+    "name": "Botswana"
+  },
+  {
+    "countryCode": "BR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "55"
+    ],
+    "name": "Brazil"
+  },
+  {
+    "countryCode": "VG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "+1-284"
+    ],
+    "name": "British Virgin Islands"
+  },
+  {
+    "countryCode": "BN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "673"
+    ],
+    "name": "Brunei"
+  },
+  {
+    "countryCode": "BG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "359"
+    ],
+    "name": "Bulgaria"
+  },
+  {
+    "countryCode": "BF",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "226"
+    ],
+    "name": "Burkina Faso"
+  },
+  {
+    "countryCode": "BI",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "257"
+    ],
+    "name": "Burundi"
+  },
+  {
+    "countryCode": "KY",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "+1-345"
+    ],
+    "name": "Cayman Islands"
+  },
+  {
+    "countryCode": "KH",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "855"
+    ],
+    "name": "Cambodia"
+  },
+  {
+    "countryCode": "CM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "237"
+    ],
+    "name": "Cameroon"
+  },
+  {
+    "countryCode": "CA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "1"
+    ],
+    "name": "Canada"
+  },
+  {
+    "countryCode": "CV",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "238"
+    ],
+    "name": "Cape Verde"
+  },
+  {
+    "countryCode": "TD",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "235"
+    ],
+    "name": "Chad"
+  },
+  {
+    "countryCode": "CN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "86"
+    ],
+    "name": "China"
+  },
+  {
+    "countryCode": "KM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "269"
+    ],
+    "name": "Comoros"
+  },
+  {
+    "countryCode": "CG",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "242"
+    ],
+    "name": "Congo - Brazzaville"
+  },
+  {
+    "countryCode": "CD",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "243"
+    ],
+    "name": "Congo - Kinshasa"
+  },
+  {
+    "countryCode": "HR",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "385"
+    ],
+    "name": "Croatia"
+  },
+  {
+    "countryCode": "CU",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "53"
+    ],
+    "name": "Cuba"
+  },
+  {
+    "countryCode": "CF",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "236"
+    ],
+    "name": "Central African Republic"
+  },
+  {
+    "countryCode": "CL",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "56"
+    ],
+    "name": "Chile"
+  },
+  {
+    "countryCode": "CO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "57"
+    ],
+    "name": "Colombia"
+  },
+  {
+    "countryCode": "CK",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "682"
+    ],
+    "name": "Cook Islands"
+  },
+  {
+    "countryCode": "CR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "506"
+    ],
+    "name": "Costa Rica"
+  },
+  {
+    "countryCode": "CI",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "225"
+    ],
+    "name": "Côte d’Ivoire"
+  },
+  {
+    "countryCode": "CY",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "357"
+    ],
+    "name": "Cyprus"
+  },
+  {
+    "countryCode": "CZ",
+    "meta": {
+      "epgZone": 1,
+      "emsZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "420"
+    ],
+    "name": "Czech Republic"
+  },
+  {
+    "countryCode": "DJ",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "253"
+    ],
+    "name": "Djibouti"
+  },
+  {
+    "countryCode": "DM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "+1-767"
+    ],
+    "name": "Dominica"
+  },
+  {
+    "countryCode": "DO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-809",
+      "+1-829"
+    ],
+    "name": "Dominican Republic"
+  },
+  {
+    "countryCode": "EC",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^200.*",
+        "countryCode": "ECGA",
+        "description": "Galapagos Islands"
+      }
+    ],
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "593"
+    ],
+    "name": "Ecuador"
+  },
+  {
+    "countryCode": "ECGA",
+    "postalCodes": [
+      {
+        "regExp": "^200.*",
+        "description": "Galapagos Islands"
+      }
+    ],
+    "meta": {},
+    "name": "Galapagos Islands"
+  },
+  {
+    "countryCode": "EG",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "20"
+    ],
+    "name": "Egypt"
+  },
+  {
+    "countryCode": "SV",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "503"
+    ],
+    "name": "El Salvador"
+  },
+  {
+    "countryCode": "ER",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "291"
+    ],
+    "name": "Eritrea"
+  },
+  {
+    "countryCode": "EE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "372"
+    ],
+    "name": "Estonia"
+  },
+  {
+    "countryCode": "ET",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "251"
+    ],
+    "name": "Ethiopia"
+  },
+  {
+    "countryCode": "GQ",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "240"
+    ],
+    "name": "Equatorial Guinea"
+  },
+  {
+    "countryCode": "FK",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "500"
+    ],
+    "name": "Falkland Islands"
+  },
+  {
+    "countryCode": "FJ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "679"
+    ],
+    "name": "Fiji"
+  },
+  {
+    "countryCode": "FR",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^971.*",
+        "countryCode": "GP",
+        "description": "Guadeloupe"
+      },
+      {
+        "regExp": "^972.*",
+        "countryCode": "MQ",
+        "description": "Martinique"
+      },
+      {
+        "regExp": "^973.*",
+        "countryCode": "GF",
+        "description": "French Guiana"
+      },
+      {
+        "regExp": "^974.*",
+        "countryCode": "RE",
+        "description": "Réunion"
+      }
+    ],
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "33"
+    ],
+    "name": "France"
+  },
+  {
+    "countryCode": "GF",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "594"
+    ],
+    "name": "French Guiana"
+  },
+  {
+    "countryCode": "PF",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "689"
+    ],
+    "name": "French Polynesia"
+  },
+  {
+    "countryCode": "GA",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "241"
+    ],
+    "name": "Gabon"
+  },
+  {
+    "countryCode": "GM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "220"
+    ],
+    "name": "Gambia"
+  },
+  {
+    "countryCode": "GE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "995"
+    ],
+    "name": "Georgia"
+  },
+  {
+    "countryCode": "DE",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^(D-)?78266.*",
+        "countryCode": "DEBU",
+        "description": "Büsingen"
+      },
+      {
+        "regExp": "^27498.*",
+        "countryCode": "DEHE",
+        "description": "Heligoland"
+      }
+    ],
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "49"
+    ],
+    "name": "Germany"
+  },
+  {
+    "countryCode": "DEBU",
+    "postalCodes": [
+      {
+        "regExp": "^(D-)?78266.*",
+        "description": "Büsingen"
+      }
+    ],
+    "meta": {},
+    "name": "Büsingen"
+  },
+  {
+    "countryCode": "DEHE",
+    "postalCodes": [
+      {
+        "regExp": "^27498.*",
+        "description": "Heligoland"
+      }
+    ],
+    "meta": {},
+    "name": "Heligoland"
+  },
+  {
+    "countryCode": "GH",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "233"
+    ],
+    "name": "Ghana"
+  },
+  {
+    "countryCode": "GI",
+    "meta": {
+      "traceableLetterZone": 2,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "350"
+    ],
+    "name": "Gibraltar"
+  },
+  {
+    "countryCode": "GR",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^630.*86",
+        "countryCode": "GRMA",
+        "description": "Mount Athos"
+      },
+      {
+        "regExp": "^630.*87",
+        "countryCode": "GRMA",
+        "description": "Mount Athos"
+      }
+    ],
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "30"
+    ],
+    "name": "Greece"
+  },
+  {
+    "countryCode": "GRMA",
+    "postalCodes": [
+      {
+        "regExp": "^630.*87",
+        "description": "Mount Athos"
+      }
+    ],
+    "meta": {},
+    "name": "Mount Athos"
+  },
+  {
+    "countryCode": "GD",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-473"
+    ],
+    "name": "Grenada"
+  },
+  {
+    "countryCode": "GP",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "590"
+    ],
+    "name": "Guadeloupe"
+  },
+  {
+    "countryCode": "GU",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "+1-671"
+    ],
+    "name": "Guam"
+  },
+  {
+    "countryCode": "GT",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "502"
+    ],
+    "name": "Guatemala"
+  },
+  {
+    "countryCode": "GN",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "224"
+    ],
+    "name": "Guinea"
+  },
+  {
+    "countryCode": "GW",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "245"
+    ],
+    "name": "Guinea-Bissau"
+  },
+  {
+    "countryCode": "GY",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "592"
+    ],
+    "name": "Guyana"
+  },
+  {
+    "countryCode": "HT",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "509"
+    ],
+    "name": "Haiti"
+  },
+  {
+    "countryCode": "HN",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "504"
+    ],
+    "name": "Honduras"
+  },
+  {
+    "countryCode": "HK",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "852"
+    ],
+    "name": "Hong Kong SAR China"
+  },
+  {
+    "countryCode": "HU",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "36"
+    ],
+    "name": "Hungary"
+  },
+  {
+    "countryCode": "IN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "91"
+    ],
+    "name": "India"
+  },
+  {
+    "countryCode": "ID",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "62"
+    ],
+    "name": "Indonesia"
+  },
+  {
+    "countryCode": "IR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "98"
+    ],
+    "name": "Iran"
+  },
+  {
+    "countryCode": "IQ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "964"
+    ],
+    "name": "Iraq"
+  },
+  {
+    "countryCode": "IE",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "353"
+    ],
+    "name": "Ireland"
+  },
+  {
+    "countryCode": "IL",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "972"
+    ],
+    "name": "Israel"
+  },
+  {
+    "countryCode": "IT",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^(I-)?22060.*",
+        "countryCode": "ITCI",
+        "description": "Campione d\"Italia"
+      },
+      {
+        "regExp": "^(I-)?21037.*",
+        "countryCode": "ITLP",
+        "description": "Lavena Ponte Tresa"
+      },
+      {
+        "regExp": "^(I-)?21050.*",
+        "countryCode": "ITBP",
+        "description": "Brusimpiano & Porto Ceresio"
+      }
+    ],
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "39"
+    ],
+    "name": "Italy"
+  },
+  {
+    "countryCode": "ITCI",
+    "postalCodes": [
+      {
+        "regExp": "^(I-)?22060.*",
+        "description": "Campione d\"Italia"
+      }
+    ],
+    "meta": {},
+    "name": "Campione d\"Italia"
+  },
+  {
+    "countryCode": "ITLP",
+    "postalCodes": [
+      {
+        "regExp": "^(I-)?21037.*",
+        "description": "Lavena Ponte Tresa"
+      }
+    ],
+    "meta": {},
+    "name": "Lavena Ponte Tresa"
+  },
+  {
+    "countryCode": "ITBP",
+    "postalCodes": [
+      {
+        "regExp": "^(I-)?21050.*",
+        "description": "Brusimpiano & Porto Ceresio"
+      }
+    ],
+    "meta": {},
+    "name": "Brusimpiano & Porto Ceresio"
+  },
+  {
+    "countryCode": "JM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-876"
+    ],
+    "name": "Jamaica"
+  },
+  {
+    "countryCode": "JP",
+    "meta": {
+      "emsZone": 3
+    },
+    "callingCode": [
+      "81"
+    ],
+    "name": "Japan"
+  },
+  {
+    "countryCode": "JO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "962"
+    ],
+    "name": "Jordan"
+  },
+  {
+    "countryCode": "KZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "7"
+    ],
+    "name": "Kazakhstan"
+  },
+  {
+    "countryCode": "KE",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "254"
+    ],
+    "name": "Kenya"
+  },
+  {
+    "countryCode": "KG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "996"
+    ],
+    "name": "Kyrgyzstan"
+  },
+  {
+    "countryCode": "KI",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "686"
+    ],
+    "name": "Kiribati"
+  },
+  {
+    "countryCode": "XK",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      ""
+    ],
+    "name": "Kosovo"
+  },
+  {
+    "countryCode": "KW",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "965"
+    ],
+    "name": "Kuwait"
+  },
+  {
+    "countryCode": "LA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "856"
+    ],
+    "name": "Laos"
+  },
+  {
+    "countryCode": "LS",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "266"
+    ],
+    "name": "Lesotho"
+  },
+  {
+    "countryCode": "LV",
+    "meta": {
+      "epgZone": 1,
+      "emsZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "371"
+    ],
+    "name": "Latvia"
+  },
+  {
+    "countryCode": "LB",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "961"
+    ],
+    "name": "Lebanon"
+  },
+  {
+    "countryCode": "LR",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "231"
+    ],
+    "name": "Liberia"
+  },
+  {
+    "countryCode": "LY",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "218"
+    ],
+    "name": "Libya"
+  },
+  {
+    "countryCode": "LI",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "423"
+    ],
+    "name": "Liechtenstein"
+  },
+  {
+    "countryCode": "LT",
+    "meta": {
+      "epgZone": 1,
+      "emsZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "370"
+    ],
+    "name": "Lithuania"
+  },
+  {
+    "countryCode": "LU",
+    "meta": {
+      "epgZone": 1,
+      "emsZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "352"
+    ],
+    "name": "Luxembourg"
+  },
+  {
+    "countryCode": "MO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "853"
+    ],
+    "name": "Macau SAR China"
+  },
+  {
+    "countryCode": "MG",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "261"
+    ],
+    "name": "Madagascar"
+  },
+  {
+    "countryCode": "MK",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "389"
+    ],
+    "name": "Macedonia"
+  },
+  {
+    "countryCode": "MW",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "265"
+    ],
+    "name": "Malawi"
+  },
+  {
+    "countryCode": "MY",
+    "meta": {
+      "traceableLetterZone": 3,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "60"
+    ],
+    "name": "Malaysia"
+  },
+  {
+    "countryCode": "MV",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "960"
+    ],
+    "name": "Maldives"
+  },
+  {
+    "countryCode": "ML",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "223"
+    ],
+    "name": "Mali"
+  },
+  {
+    "countryCode": "MT",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "356"
+    ],
+    "name": "Malta"
+  },
+  {
+    "countryCode": "MA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "212"
+    ],
+    "name": "Morocco"
+  },
+  {
+    "countryCode": "MQ",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "596"
+    ],
+    "name": "Martinique"
+  },
+  {
+    "countryCode": "MR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "222"
+    ],
+    "name": "Mauritania"
+  },
+  {
+    "countryCode": "MU",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "230"
+    ],
+    "name": "Mauritius"
+  },
+  {
+    "countryCode": "MX",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "52"
+    ],
+    "name": "Mexico"
+  },
+  {
+    "countryCode": "FM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "691"
+    ],
+    "name": "Micronesia"
+  },
+  {
+    "countryCode": "MD",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "373"
+    ],
+    "name": "Moldova"
+  },
+  {
+    "countryCode": "MC",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "377"
+    ],
+    "name": "Monaco"
+  },
+  {
+    "countryCode": "MN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "976"
+    ],
+    "name": "Mongolia"
+  },
+  {
+    "countryCode": "ME",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "382"
+    ],
+    "name": "Montenegro"
+  },
+  {
+    "countryCode": "MS",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "+1-664"
+    ],
+    "name": "Montserrat"
+  },
+  {
+    "countryCode": "MZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "258"
+    ],
+    "name": "Mozambique"
+  },
+  {
+    "countryCode": "MM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "95"
+    ],
+    "name": "Myanmar (Burma)"
+  },
+  {
+    "countryCode": "NA",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "264"
+    ],
+    "name": "Namibia"
+  },
+  {
+    "countryCode": "NR",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "674"
+    ],
+    "name": "Nauru"
+  },
+  {
+    "countryCode": "NL",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "31"
+    ],
+    "name": "Netherlands"
+  },
+  {
+    "countryCode": "NP",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "977"
+    ],
+    "name": "Nepal"
+  },
+  {
+    "countryCode": "NI",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "505"
+    ],
+    "name": "Nicaragua"
+  },
+  {
+    "countryCode": "NE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "227"
+    ],
+    "name": "Niger"
+  },
+  {
+    "countryCode": "NG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "234"
+    ],
+    "name": "Nigeria"
+  },
+  {
+    "countryCode": "KP",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "850"
+    ],
+    "name": "North Korea"
+  },
+  {
+    "countryCode": "NC",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "687"
+    ],
+    "name": "New Caledonia"
+  },
+  {
+    "countryCode": "NZ",
+    "meta": {
+      "traceableLetterZone": 3,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "64"
+    ],
+    "name": "New Zealand"
+  },
+  {
+    "countryCode": "OM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "968"
+    ],
+    "name": "Oman"
+  },
+  {
+    "countryCode": "PK",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "92"
+    ],
+    "name": "Pakistan"
+  },
+  {
+    "countryCode": "PW",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "680"
+    ],
+    "name": "Palau"
+  },
+  {
+    "countryCode": "PA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "507"
+    ],
+    "name": "Panama"
+  },
+  {
+    "countryCode": "PG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "675"
+    ],
+    "name": "Papua New Guinea"
+  },
+  {
+    "countryCode": "PY",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "595"
+    ],
+    "name": "Paraguay"
+  },
+  {
+    "countryCode": "PE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "51"
+    ],
+    "name": "Peru"
+  },
+  {
+    "countryCode": "PH",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "63"
+    ],
+    "name": "Philippines"
+  },
+  {
+    "countryCode": "PN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "870"
+    ],
+    "name": "Pitcairn Islands"
+  },
+  {
+    "countryCode": "PL",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "48"
+    ],
+    "name": "Poland"
+  },
+  {
+    "countryCode": "PT",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "351"
+    ],
+    "name": "Portugal"
+  },
+  {
+    "countryCode": "PTAZ",
+    "meta": {
+      "udlandZone": "Europa 2"
+    },
+    "name": "Azores"
+  },
+  {
+    "countryCode": "PR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "+1-787",
+      "+1-939"
+    ],
+    "name": "Puerto Rico"
+  },
+  {
+    "countryCode": "QA",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "974"
+    ],
+    "name": "Qatar"
+  },
+  {
+    "countryCode": "RO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "40"
+    ],
+    "name": "Romania"
+  },
+  {
+    "countryCode": "RW",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "250"
+    ],
+    "name": "Rwanda"
+  },
+  {
+    "countryCode": "RU",
+    "meta": {
+      "traceableLetterZone": 2,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "7"
+    ],
+    "name": "Russia"
+  },
+  {
+    "countryCode": "RE",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "262"
+    ],
+    "name": "Réunion"
+  },
+  {
+    "countryCode": "SH",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "290"
+    ],
+    "name": "St. Helena"
+  },
+  {
+    "countryCode": "KN",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "+1-869"
+    ],
+    "name": "St. Kitts & Nevis"
+  },
+  {
+    "countryCode": "LC",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-758"
+    ],
+    "name": "St. Lucia"
+  },
+  {
+    "countryCode": "PM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "508"
+    ],
+    "name": "St. Pierre & Miquelon"
+  },
+  {
+    "countryCode": "VC",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-784"
+    ],
+    "name": "St. Vincent & Grenadines"
+  },
+  {
+    "countryCode": "SB",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "677"
+    ],
+    "name": "Solomon Islands"
+  },
+  {
+    "countryCode": "WS",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "685"
+    ],
+    "name": "Samoa"
+  },
+  {
+    "countryCode": "SM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "378"
+    ],
+    "name": "San Marino"
+  },
+  {
+    "countryCode": "SA",
+    "meta": {
+      "traceableLetterZone": 3,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "966"
+    ],
+    "name": "Saudi Arabia"
+  },
+  {
+    "countryCode": "CH",
+    "meta": {
+      "traceableLetterZone": 2,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "41"
+    ],
+    "name": "Switzerland"
+  },
+  {
+    "countryCode": "SN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "221"
+    ],
+    "name": "Senegal"
+  },
+  {
+    "countryCode": "RS",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "381"
+    ],
+    "name": "Serbia"
+  },
+  {
+    "countryCode": "SC",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "248"
+    ],
+    "name": "Seychelles"
+  },
+  {
+    "countryCode": "SL",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "232"
+    ],
+    "name": "Sierra Leone"
+  },
+  {
+    "countryCode": "SG",
+    "meta": {
+      "traceableLetterZone": 3,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "65"
+    ],
+    "name": "Singapore"
+  },
+  {
+    "countryCode": "SK",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "421"
+    ],
+    "name": "Slovakia"
+  },
+  {
+    "countryCode": "SI",
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "386"
+    ],
+    "name": "Slovenia"
+  },
+  {
+    "countryCode": "SO",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "252"
+    ],
+    "name": "Somalia"
+  },
+  {
+    "countryCode": "ES",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^510.*",
+        "countryCode": "ESCE",
+        "description": "Ceuta"
+      },
+      {
+        "regExp": "^520.*",
+        "countryCode": "ESML",
+        "description": "Melilla"
+      },
+      {
+        "regExp": "^35.*",
+        "countryCode": "ESCN",
+        "description": "Canary Islands"
+      },
+      {
+        "regExp": "^38.*",
+        "countryCode": "ESCN",
+        "description": "Canary Islands"
+      }
+    ],
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "34"
+    ],
+    "name": "Spain"
+  },
+  {
+    "countryCode": "ESCE",
+    "postalCodes": [
+      {
+        "regExp": "^510.*",
+        "description": "Ceuta"
+      }
+    ],
+    "meta": {},
+    "name": "Ceuta"
+  },
+  {
+    "countryCode": "ESML",
+    "postalCodes": [
+      {
+        "regExp": "^520.*",
+        "description": "Melilla"
+      }
+    ],
+    "meta": {},
+    "name": "Melilla"
+  },
+  {
+    "countryCode": "ESCN",
+    "postalCodes": [
+      {
+        "regExp": "^35.*",
+        "description": "Canary Islands"
+      },
+      {
+        "regExp": "^38.*",
+        "description": "Canary Islands"
+      }
+    ],
+    "meta": {
+      "udlandZone": "Europa 2"
+    },
+    "name": "Canary Islands"
+  },
+  {
+    "countryCode": "LK",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "94"
+    ],
+    "name": "Sri Lanka"
+  },
+  {
+    "countryCode": "SD",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "249"
+    ],
+    "name": "Sudan"
+  },
+  {
+    "countryCode": "SR",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "597"
+    ],
+    "name": "Suriname"
+  },
+  {
+    "countryCode": "SZ",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "268"
+    ],
+    "name": "Swaziland"
+  },
+  {
+    "countryCode": "ZA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "27"
+    ],
+    "name": "South Africa"
+  },
+  {
+    "countryCode": "KR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "82"
+    ],
+    "name": "South Korea"
+  },
+  {
+    "countryCode": "SY",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "963"
+    ],
+    "name": "Syria"
+  },
+  {
+    "countryCode": "ST",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "239"
+    ],
+    "name": "São Tomé & Príncipe"
+  },
+  {
+    "countryCode": "TJ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "992"
+    ],
+    "name": "Tajikistan"
+  },
+  {
+    "countryCode": "TW",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "886"
+    ],
+    "name": "Taiwan"
+  },
+  {
+    "countryCode": "TZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "255"
+    ],
+    "name": "Tanzania"
+  },
+  {
+    "countryCode": "TH",
+    "meta": {
+      "emsZone": 3
+    },
+    "callingCode": [
+      "66"
+    ],
+    "name": "Thailand"
+  },
+  {
+    "countryCode": "TL",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "670"
+    ],
+    "name": "Timor-Leste"
+  },
+  {
+    "countryCode": "TG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "228"
+    ],
+    "name": "Togo"
+  },
+  {
+    "countryCode": "TO",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "676"
+    ],
+    "name": "Tonga"
+  },
+  {
+    "countryCode": "TT",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "+1-868"
+    ],
+    "name": "Trinidad & Tobago"
+  },
+  {
+    "countryCode": "TN",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "216"
+    ],
+    "name": "Tunisia"
+  },
+  {
+    "countryCode": "TR",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 2,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "90"
+    ],
+    "name": "Turkey"
+  },
+  {
+    "countryCode": "TM",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "993"
+    ],
+    "name": "Turkmenistan"
+  },
+  {
+    "countryCode": "TC",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "+1-649"
+    ],
+    "name": "Turks & Caicos Islands"
+  },
+  {
+    "countryCode": "TV",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "688"
+    ],
+    "name": "Tuvalu"
+  },
+  {
+    "countryCode": "AE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "971"
+    ],
+    "name": "United Arab Emirates"
+  },
+  {
+    "countryCode": "GB",
+    "blockedPostalCodes": [
+      {
+        "regExp": "^JE.*",
+        "countryCode": "JE",
+        "description": "Jersey"
+      },
+      {
+        "regExp": "^GY.*",
+        "countryCode": "GBGG",
+        "description": "Guernsey, Alderney & Sark"
+      }
+    ],
+    "meta": {
+      "traceableLetterZone": 1,
+      "epgZone": 1,
+      "euMemberState": true,
+      "udlandZone": "Europa 1"
+    },
+    "callingCode": [
+      "44"
+    ],
+    "name": "United Kingdom"
+  },
+  {
+    "countryCode": "GBGG",
+    "postalCodes": [
+      {
+        "regExp": "^GY.*",
+        "description": "Guernsey, Alderney & Sark"
+      }
+    ],
+    "meta": {
+      "udlandZone": "Europa 2"
+    },
+    "name": "Guernsey, Alderney & Sark"
+  },
+  {
+    "countryCode": "JE",
+    "postalCodes": [
+      {
+        "regExp": "^JE.*",
+        "description": "Jersey"
+      }
+    ],
+    "meta": {
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "+44-1534"
+    ],
+    "name": "Jersey"
+  },
+  {
+    "countryCode": "US",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "traceableLetterZone": 3,
+      "epgZone": 2
+    },
+    "callingCode": [
+      "1"
+    ],
+    "name": "United States"
+  },
+  {
+    "countryCode": "UG",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "256"
+    ],
+    "name": "Uganda"
+  },
+  {
+    "countryCode": "UA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 1,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "380"
+    ],
+    "name": "Ukraine"
+  },
+  {
+    "countryCode": "UY",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "598"
+    ],
+    "name": "Uruguay"
+  },
+  {
+    "countryCode": "UZ",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true,
+      "emsZone": 3,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "998"
+    ],
+    "name": "Uzbekistan"
+  },
+  {
+    "countryCode": "VU",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "678"
+    ],
+    "name": "Vanuatu"
+  },
+  {
+    "countryCode": "VA",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "udlandZone": "Europa 2"
+    },
+    "callingCode": [
+      "379"
+    ],
+    "name": "Vatican City"
+  },
+  {
+    "countryCode": "VE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "valuablesNotTenThousand": true
+    },
+    "callingCode": [
+      "58"
+    ],
+    "name": "Venezuela"
+  },
+  {
+    "countryCode": "VN",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 3
+    },
+    "callingCode": [
+      "84"
+    ],
+    "name": "Vietnam"
+  },
+  {
+    "countryCode": "YE",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 2
+    },
+    "callingCode": [
+      "967"
+    ],
+    "name": "Yemen"
+  },
+  {
+    "countryCode": "ZM",
+    "meta": {
+      "valuablesNonTraceable": true
+    },
+    "callingCode": [
+      "260"
+    ],
+    "name": "Zambia"
+  },
+  {
+    "countryCode": "ZW",
+    "meta": {
+      "valuablesNonTraceable": true,
+      "emsZone": 4
+    },
+    "callingCode": [
+      "263"
+    ],
+    "name": "Zimbabwe"
+  }
+]

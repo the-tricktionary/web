@@ -4,7 +4,7 @@ postcss "app/static/css/*.css" --use postcss-cssnext --use postcss-csso --dir "p
 cat public/static/cssa/*.css > public/static/css/style.css
 rm -rf public/static/cssa
 
-find app -type f -name '*.js' -not -path 'app/static/js/*' -not -name 'firebase-messaging-sw.js' -print0 | xargs -0 uglifyjs -c -o public/static/js/trick.js --source-map "root='https://tricktionary.com/static/js',url='trick.js.map'" --
+find app -type f -name '*.js' -not -path 'app/static/js/*' -not -name 'firebase-messaging-sw.js' -print0 | xargs -0 uglifyjs -c -o public/static/js/trick.js --source-map="root='https://tricktionary.com/static/js',url='trick.js.map'" --
 cp app/firebase-messaging-sw.js public/firebase-messaging-sw.js
 
 mv public/index.html public/index.html.old

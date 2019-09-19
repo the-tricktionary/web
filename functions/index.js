@@ -1,8 +1,10 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-const express = require('express')
 const values = require('object.values')
 admin.initializeApp()
+
+let settings = { timestampsInSnapshots: true }
+admin.firestore().settings(settings)
 
 if (!Object.values) {
   values.shim()
@@ -10,112 +12,7 @@ if (!Object.values) {
 
 const uniqueFilter = (val, inx, self) => self.indexOf(val) === inx
 
-let app = express()
-
-function xmlStringify (obj, untranslatable) {
-  if (typeof obj === 'undefined') return
-  let output = ''
-  if (typeof obj.values !== 'undefined') {
-    output += `  <string-array name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>\n`
-
-    obj.values.forEach(value => {
-      output += `    <item>${value.replace(/\n/g, '\\n')}</item>\n`
-    })
-
-    output += `  </string-array>\n`
-  } else {
-    output += `  <string name="${obj.id}"${(untranslatable ? ' translatable="false"' : '')}>${obj.value.replace(/\n/g, '\\n')}</string>\n`
-  }
-
-  return output
-}
-
-app.get('/:lang', (req, res) => {
-  let lang = req.params.lang
-  let ref = admin.database().ref('i18n')
-
-  ref.once('value', snapshot => {
-    let data = snapshot.val()
-    let langsRef = admin.database().ref('langs')
-    let untranslatable = ''
-    let translated = ''
-    let done = []
-    let notTranslated = ''
-
-    for (let id in data.untranslatable) {
-      let obj = data.untranslatable[id]
-      untranslatable += xmlStringify(obj, true)
-    }
-
-    for (let id in data.translated[lang]) {
-      let obj = { id }
-      if (Array.isArray(data.translated[lang][id])) {
-        obj.values = data.translated[lang][id]
-      } else {
-        obj.value = data.translated[lang][id]
-      }
-      done.push(obj.id)
-
-      translated += xmlStringify(obj)
-    }
-
-    for (let id in data.translated.en) {
-      if (done.indexOf(id) >= 0) continue
-      let obj = { id }
-      if (Array.isArray(data.translated.en[id])) {
-        obj.values = data.translated.en[id]
-      } else {
-        obj.value = data.translated.en[id]
-      }
-
-      notTranslated += xmlStringify(obj)
-    }
-
-    langsRef.once('value', langSnap => {
-      let langsData = langSnap.val()
-      let obj = {
-        id: 'languages',
-        values: Object.values(langsData)
-      }
-      let langs = ''
-
-      langs += xmlStringify(obj)
-
-      let output = `<?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <string name="lang_code">${lang}</string>
-${langs}
-  <!-- Private/Untranslatable strings -->
-${untranslatable}
-
-  <!-- Translable strings that has been translated -->
-${translated}
-
-  <!-- Translatable strings that haven't been translated -->
-${notTranslated}
-</resources>\n`
-
-      res.send(output)
-    })
-  })
-})
-
-app.get('/', (req, res) => {
-  let ref = admin.database().ref('/langs')
-
-  ref.once('value', snapshot => {
-    let data = snapshot.val()
-    let keys = Object.keys(data)
-    let output = keys.join(',')
-
-    console.log(data, keys, output)
-
-    res.send(output)
-  })
-})
-
-// Expose Express API as a single Cloud Function:
-exports.i18nApi = functions.https.onRequest(app)
+exports.i18nApi = functions.https.onRequest(require('./i18nApi'))
 
 exports.updateUserCount = functions.auth.user().onCreate(user => {
   return admin.database().ref('stats/users/registered').transaction(userCount => (userCount || 0) + 1)
@@ -310,7 +207,7 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
             notification: {
               title: 'Friend Request',
               body: `${profile.username} has sent you a friend request`
-              // click_action: ''
+            // click_action: ''
             }
           }
 
@@ -331,8 +228,8 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
             let tokensAndroid = (typeof fcm.android === 'string' ? fcm.android : Object.values(fcm.android).filter(uniqueFilter))
             admin.messaging().sendToDevice(tokensAndroid, payloadAndroid)
               .then(function (response) {
-              // See the MessagingDevicesResponse reference documentation for
-              // the contents of response.
+                // See the MessagingDevicesResponse reference documentation for
+                // the contents of response.
                 console.log('Successfully sent message:', response)
               })
               .catch(function (error) {
@@ -367,7 +264,48 @@ exports.friendRequest = functions.database.ref('/users/{uid}/friends/{uname}')
     }
   })
 
+exports.stripeWebhook = functions.https.onRequest(require('./shop/stripeWebhook'))
+
+// exports.sanitizeOrder = functions.firestore.document('/orders/{order}').onUpdate(require('./shop/sanitizeOrder'))
+exports.validateOrder = functions.firestore.document('/orders/{order}').onUpdate(require('./shop/validateOrder'))
+// exports.sendReceipt = functions.firestore.document('/orders/{order}').onUpdate(require('./shop/sendReceipt'))
+exports.updateStock = functions.firestore.document('/orders/{order}').onUpdate(require('./shop/updateStock'))
+// exports.sendShippmentEmail = functions.firestore.document('/orders/{order}').onUpdate(require('./shop/sendShippmentEmail'))
+
+exports.verifyBusiness = functions.https.onCall(require('./shop/verifyBusiness'))
+exports.verifyCoupon = functions.https.onCall(require('./shop/verifyCoupon'))
+exports.shipped = functions.https.onCall(require('./shop/sendShippmentEmail'))
+
 // Mirrors
-exports.tricksToFirestore = functions.database.ref('/tricks/{level}/subs/{trick}').onWrite(require('./mirrors/tricksToFirestore'))
-exports.languagesToFirestore = functions.database.ref('/langs/{lang}').onWrite(require('./mirrors/languagesToFirestore'))
-exports.tricktypesToFirestore = functions.database.ref('/tricktypes/{lang}').onWrite(require('./mirrors/tricktypesToFirestore'))
+// exports.tricksToFirestore = functions.database.ref('/tricks/{level}/subs/{trick}').onWrite(require('./mirrors/tricksToFirestore'))
+// exports.languagesToFirestore = functions.database.ref('/langs/{lang}').onWrite(require('./mirrors/languagesToFirestore'))
+// exports.tricktypesToFirestore = functions.database.ref('/tricktypes/{lang}').onWrite(require('./mirrors/tricktypesToFirestore'))
+
+// Speed Mirror
+exports.speed = {
+  RTD: {
+    create: functions.database.ref('/speed/scores/{uid}/{created}').onCreate(require('./mirrors/speedToFirestore').create),
+    update: functions.database.ref('/speed/scores/{uid}/{created}').onUpdate(require('./mirrors/speedToFirestore').update),
+    delete: functions.database.ref('/speed/scores/{uid}/{created}').onDelete(require('./mirrors/speedToFirestore').delete)
+  },
+  FS: {
+    create: functions.firestore.document('/speed/{doc}').onCreate(require('./mirrors/speedToRTD').create),
+    update: functions.firestore.document('/speed/{doc}').onUpdate(require('./mirrors/speedToRTD').update),
+    delete: functions.firestore.document('/speed/{doc}').onDelete(require('./mirrors/speedToRTD').delete)
+  }
+}
+
+// Checklist Mirror
+exports.checklist = {
+  RTD: {
+    write: functions.database.ref('/checklist/{uid}/{level}/{trick}').onWrite(require('./mirrors/checklistToFirestore').write)
+  // create: functions.database.ref('/checklist/{uid}/{level}/{trick}').onCreate(require('./mirrors/speedToFirestore').create),
+  // update: functions.database.ref('/speed/scores/{uid}/{created}').onUpdate(require('./mirrors/speedToFirestore').update),
+  // delete: functions.database.ref('/speed/scores/{uid}/{created}').onDelete(require('./mirrors/speedToFirestore').delete)
+  },
+  FS: {
+    // create: functions.firestore.document('/speed/{doc}').onCreate(require('./mirrors/speedToRTD').create),
+    // update: functions.firestore.document('/speed/{doc}').onUpdate(require('./mirrors/speedToRTD').update),
+    // delete: functions.firestore.document('/speed/{doc}').onDelete(require('./mirrors/speedToRTD').delete)
+  }
+}

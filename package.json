@@ -21,8 +21,8 @@
     "lite-server": "*",
     "minami": "^1.1.1",
     "postcss-cli": "*",
-    "postcss-cssnext": "*",
-    "postcss-csso": "*",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-csso": "^3.0.0",
     "uglify-js": "*"
   },
   "scripts": {
