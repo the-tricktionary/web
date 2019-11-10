@@ -199,15 +199,6 @@ h1 + h2 {
   margin-top: 0;
 }
 
-iframe {
-  width: 100%;
-  max-width: var(--content-max-width);
-}
-
-iframe.stripe_checkout_app {
-  max-width: initial;
-}
-
 a,
 a:visited {
   color: var(--d-blue);

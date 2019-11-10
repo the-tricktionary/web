@@ -6,6 +6,7 @@ module.exports = {
   devServer: {
     https: true,
     useLocalIp: false,
-    host: 'localhost'
+    host: 'localhost',
+    port: 8081
   }
 }

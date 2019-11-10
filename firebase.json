@@ -3,10 +3,12 @@
     "rules": "firebase.db.rules.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "dist",
+    "site": "the-tricktionary",
     "cleanUrls": true,
     "trailingSlash": false,
-    "rewrites": [{
+    "rewrites": [
+      {
         "source": "/favicon.ico",
         "destination": "/static/img/icon.png"
       },
@@ -20,7 +22,8 @@
       }
     ],
     "ignore": [],
-    "redirects": [{
+    "redirects": [
+      {
         "source": "/android",
         "destination": "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
         "type": 301
@@ -31,9 +34,11 @@
         "type": 301
       }
     ],
-    "headers": [{
+    "headers": [
+      {
         "source": "**/*.@(css|js|html|png|svg|woff|woff2|eot|ttf|otf)",
-        "headers": [{
+        "headers": [
+          {
             "key": "Cache-Control",
             "value": "max-age=86400"
           },
@@ -45,10 +50,12 @@
       },
       {
         "source": "/",
-        "headers": [{
-          "key": "Link",
-          "value": "</static/js/trick.js>;rel=preload;as=script,</static/css/style.css>;rel=preload;as=style"
-        }]
+        "headers": [
+          {
+            "key": "Link",
+            "value": "</static/js/trick.js>;rel=preload;as=script,</static/css/style.css>;rel=preload;as=style"
+          }
+        ]
       }
     ]
   }

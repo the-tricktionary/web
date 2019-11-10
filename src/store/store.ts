@@ -15,6 +15,7 @@ import tricksWHModule from '@/store/modules/tricksWHModule'
 import productsModule from '@/store/modules/productsModule'
 import checklistModule from '@/store/modules/checklistModule'
 import usersModule from '@/store/modules/usersModule'
+import globalnoticesModule from '@/store/modules/globalnoticesModule'
 
 import shopModule from '@/store/modules/shopModule'
 import homeModule from '@/store/modules/homeModule'
@@ -30,7 +31,7 @@ var config = {
 }
 firebase.initializeApp(config)
 
-const firestoreModules = createEasyFirestore([tricksSRModule, tricksDDModule, tricksWHModule, checklistModule, usersModule, productsModule], { logging: true })
+const firestoreModules = createEasyFirestore([tricksSRModule, tricksDDModule, tricksWHModule, checklistModule, usersModule, productsModule, globalnoticesModule], { logging: true })
 const mutationsSharer = createMutationsSharer({
   predicate: ['users/setSignInEmail', 'users/currentUser']
 })

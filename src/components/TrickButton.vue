@@ -3,6 +3,7 @@
     :to="`/trick/${discipline.toLowerCase()}/${trick.slug}`"
     class="trick"
     :class="{ completed }"
+    v-if="trick"
   >
     <span class="icon" v-if="completed">
       <font-awesome-icon :icon="['fas', 'check']" />
@@ -18,7 +19,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class TrickButton extends Vue {
   @Prop({ default: 'sr' }) discipline: string;
   @Prop({ default: false }) completed: boolean;
-  @Prop() trick: Trick;
+  @Prop({ required: true }) trick: Trick;
 }
 </script>
 

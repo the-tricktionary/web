@@ -5,15 +5,27 @@
       :value="$store.state.home.discipline"
     />
     <SocialLinks />
+
+    <Notice
+      :markdown="(notice.overrides || {}).web || notice.message"
+      v-for="notice in $store.state.globalnotices.notices"
+      :key="notice.id"
+      :dismissable="true"
+    />
+
     <TrickList
       :tricks="$store.state[`tricks${$store.state.home.discipline}`].tricks"
       :completed="$store.state.checklist.list[$store.state.home.discipline]"
       :discipline="$store.state.home.discipline"
+      :loading="isDone($store.state[`tricks${$store.state.home.discipline}`]['_sync'].fetched)"
     />
 
     <Adsense data-ad-client="ca-pub-7956758256491526" data-ad-slot="1953529861" />
+    <div class="center">The content above is an ad served by Google</div>
 
-    <h3 id="about">About the Tricktionary</h3>
+    <v3 />
+
+    <h2 id="about">About the Tricktionary</h2>
     <p>
       The sport of competitive jump roping is a continually growing international
       community of some of the world's most talented athletes. This app aims to help
@@ -41,56 +53,25 @@
         href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary"
         target="_blank"
       >Android&trade; app</a>
-      and as this webapp, if you know how to develop an iOS&reg; app and want to
-      contribute to the Tricktionary, please email us at
-      <b>develop (at) the-tricktionary (dot) com</b>
+      and as this webapp, an iOS&reg; app is comming soon.
+      If you want to help build the tricktionary, please email
+      <a
+        href="mailto:develop@the-tricktionary.com"
+        target="_blank"
+      >develop@the-tricktionary.com</a>
     </p>
     <p>
       As a few last words, if you believe this service is something that we should
       continue working on, please feel free to share the Tricktionary with friends!
       Or consider a small donation to help us pay the administrative costs. Check
-      out our shop for products taht helps us pay the bills too.
+      out our shop for products that helps us pay the bills too.
     </p>
-    <div class="text">
-      <a target="_blank" rel="noopener" href="http://fb.me/jumpropetricktionary">
-        <button>
-          <font-awesome-icon :icon="['fab', 'facebook-square']" />&nbsp; Facebook
-        </button>
-      </a>
-      <a target="_blank" rel="noopener" href="http://instagram.com/jumpropetricktionary">
-        <button>
-          <font-awesome-icon :icon="['fab', 'instagram']" />&nbsp; Instagram
-        </button>
-      </a>
 
-      <a
-        target="_blank"
-        rel="noopener"
-        href="https://twitter.com/home?status=Check%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%3A%0Ahttps%3A//the-tricktionary.com%0A%23jumpropeisasport"
-      >
-        <button>
-          <font-awesome-icon :icon="['fab', 'twitter-square']" />&nbsp;Share on Twitter
-        </button>
-      </a>
-      <a
-        target="_blank"
-        rel="noopener"
-        href="mailto:?&subject=the Jump Rope Tricktionary&body=Hey!%0A%0ACheck%20out%20The%20Jumprope%20Tricktionary%20-%20it's%20like%20a%20dictionary,%20but%20for%20jumprope%20tricks%0Ahttps%3A//the-tricktionary.com"
-      >
-        <button>
-          <font-awesome-icon icon="envelope-square" />&nbsp;Share by Email
-        </button>
-      </a>
-      <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WVNM754ZP3DB2">
-        <button>
-          <font-awesome-icon :icon="['fab', 'paypal']" />&nbsp;Donate
-        </button>
-      </a>
-      <router-link to="/shop" tag="button">
-        <font-awesome-icon icon="shopping-cart" />&nbsp;Shop
-      </router-link>
-    </div>
-    <h3 id="booklets">the Tricktionary booklet</h3>
+    <SocialLinks />
+
+    <RopeScoreAd />
+
+    <h2 id="booklets">the Tricktionary booklet</h2>
     <p>
       the Tricktionary is avilable as a printable booklet. The booklet contains all
       tricks listed on the site as well as four speed protocols. We strongly reccomend
@@ -113,20 +94,29 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { IState } from 'vuex-easy-firestore/types/module/state';
 import TrickList from '@/components/TrickList.vue'; // @ is an alias to /src
 import TrickDisciplineSelector from '@/components/TrickDisciplineSelector.vue';
 import SocialLinks from '@/components/SocialLinks.vue';
+import Notice from '@/components/Notice.vue';
+import v3 from '@/components/v3.vue';
+import RopeScoreAd from '@/components/RopeScoreAd.vue';
 
 @Component({
   components: {
     TrickList,
     TrickDisciplineSelector,
-    SocialLinks
+    SocialLinks,
+    Notice,
+    v3,
+    RopeScoreAd
   }
 })
 export default class Home extends Vue {
   mounted () {
     this.fetchDiscipline()
+
+    this.$store.dispatch('globalnotices/openDBChannel')
   }
 
   fetchDiscipline () {
@@ -141,6 +131,12 @@ export default class Home extends Vue {
   changeDiscipline (discipline: string) {
     this.$store.commit('home/setDiscipline', { value: discipline })
     this.fetchDiscipline()
+  }
+
+  isDone (obj: IState['_sync']['fetched']) {
+    return Object.keys(obj)
+      .map(key => obj[key].done)
+      .reduce((a, b) => (!a ? b : a), false)
   }
 }
 </script>

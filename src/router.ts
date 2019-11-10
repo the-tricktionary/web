@@ -44,6 +44,11 @@ export default new Router({
       props: {
         oldLink: true
       }
+    },
+    {
+      path: '/rafiki',
+      name: 'rafiki',
+      component: () => import(/* webpackChunkName: "rafiki" */ './views/Rafiki.vue')
     }
   ]
 })

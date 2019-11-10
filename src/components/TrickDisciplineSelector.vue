@@ -50,8 +50,9 @@ button {
 
 button:hover,
 button.selected {
-  border-bottom: 1px solid var(--d-red);
-  background-color: var(--d-yellow);
-  color: white;
+  border-bottom: 2px solid var(--d-red);
+  /* background-color: var(--d-yellow); */
+  /* color: white; */
+  height: 46px;
 }
 </style>

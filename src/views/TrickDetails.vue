@@ -1,10 +1,12 @@
 <template>
   <div class="trick">
+    <!-- TODO: Back-button -->
     <!-- TODO: i18n -->
     <h1>{{ trick.name }}</h1>
     <h2>{{ trick.type }}</h2>
     <h3 v-if="alternativeNames.length > 0">Also known as {{ alternativeNames.join(', ') }}</h3>
     <p>{{ trick.description }}</p>
+
     <div class="checklist" v-if="$store.state.users.currentUser">
       <button
         class="checkbox"
@@ -12,14 +14,17 @@
         @click="toggleCompleted()"
       >Completed</button>
     </div>
+
     <div class="video">
       <youtube
         :video-id="videos.youtube"
         :player-vars="playerVars"
+        width
         ref="youtube"
         v-if="videos.youtube"
       />
     </div>
+
     <div class="levels">
       <Trick-level
         :federation="fed"
@@ -28,6 +33,20 @@
         :key="fed"
       />
     </div>
+
+    <input type="text" v-model="ijruLevel" />
+    <router-link
+      tag="button"
+      :to="`/trick/sr/${previousTrick ? previousTrick.slug : ''}`"
+      :disabled="!previousTrick"
+    >Previous</router-link>
+    <button @click="ijruSave()">Save</button>
+    <router-link
+      tag="button"
+      :to="`/trick/sr/${nextTrick ? nextTrick.slug : ''}`"
+      :disabled="!nextTrick"
+    >Next</router-link>
+
     <div class="columns">
       <div
         class="column"
@@ -73,6 +92,7 @@ import { arrayUnion, arrayRemove } from "vuex-easy-firestore";
 import VueYoutube from "vue-youtube";
 import TrickLevel from "@/components/TrickLevel.vue"; // @ is an alias to /src
 import TrickButton from "@/components/TrickButton.vue"; // @ is an alias to /src
+import { firestore } from "firebase";
 
 Vue.use(VueYoutube);
 
@@ -171,8 +191,50 @@ export default class TrickDetails extends Vue {
     }
     setTimeout(this.fetchDiscipline, 1000);
   }
+
+  ijruLevel: string = "";
+  async ijruSave() {
+    await firestore()
+      .collection("tricksSR")
+      .doc(this.trick.id)
+      .update({
+        "levels.ijru.level": this.ijruLevel,
+        "levels.ijru.verified.verified": true,
+        "levels.ijru.verified.date": new Date().toISOString().slice(0, 10),
+        "levels.ijru.verified.vLevel": 1,
+        "levels.ijru.verified.verifier": this.$store.state.users.currentUser
+      });
+
+    this.ijruLevel = "";
+  }
+
+  get nextTrick() {
+    const keys = Object.keys(this.$store.state.tricksSR.tricks);
+    const idx = keys.indexOf(this.trick.id);
+
+    if (idx + 1 === keys.length) return false;
+    return this.$store.state.tricksSR.tricks[keys[idx + 1]];
+  }
+
+  get previousTrick() {
+    const keys = Object.keys(this.$store.state.tricksSR.tricks);
+    const idx = keys.indexOf(this.trick.id);
+
+    if (idx === 0) return false;
+    return this.$store.state.tricksSR.tricks[keys[idx - 1]];
+  }
 }
 </script>
+
+<style>
+.video,
+.video iframe,
+.checklist {
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+}
+</style>
 
 <style scoped>
 h1,
@@ -185,13 +247,6 @@ h2 {
   text-align: center;
 }
 
-.video,
-.checklist {
-  max-width: 600px;
-  width: 100%;
-  margin: auto;
-}
-
 .checklist {
   text-align: left;
 }
@@ -201,7 +256,7 @@ h2 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: auto;
 }
 

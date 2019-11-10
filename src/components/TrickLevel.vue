@@ -8,7 +8,7 @@
         <font-awesome-icon icon="check-double" v-if="trickVerified === 1" class="small" />
         <span
           class="tooltiptext"
-        >Verified by {{ trickVerified ? 'an ofiicial' : 'a judge' }} from {{ fed }}</span>
+        >Verified by {{ trickVerified ? 'an official' : 'a judge' }} from {{ fed }}</span>
       </span>
     </span>
   </span>
