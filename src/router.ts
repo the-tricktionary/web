@@ -8,8 +8,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      // path: '/',
-      path: '/tricks',
+      path: '/',
       name: 'home',
       component: Home
     },
@@ -23,7 +22,6 @@ export default new Router({
     },
     {
       path: '/shop',
-      alias: ['/'],
       name: 'shop',
       component: () => import(/* webpackChunkName: "shop" */ './views/Shop.vue')
     },

@@ -137,10 +137,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import PostCountries from "@/postcountries.json"; // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
-import { VueTelInput } from 'vue-tel-input';
-
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import PostCountries from '@/postcountries.json' // from https://portal.postnord.com/api/pricing/countries?language=en&fromCountry=SE
+import { VueTelInput } from 'vue-tel-input'
 
 @Component({
   components: {
@@ -149,10 +148,10 @@ import { VueTelInput } from 'vue-tel-input';
 })
 export default class CustomerInfo extends Vue {
   CountriesMeta = {
-    "EU Member States": PostCountries.filter(
+    'EU Member States': PostCountries.filter(
       (country: PostCountry): boolean => (country.meta || {}).euMemberState
     ),
-    "Other Countries": PostCountries.filter(
+    'Other Countries': PostCountries.filter(
       (country: PostCountry): boolean => !(country.meta || {}).euMemberState
     )
   };
@@ -167,26 +166,26 @@ export default class CustomerInfo extends Vue {
     wrapperClasses: 'input'
   };
 
-  get selectedCountryMeta(): PostCountry {
-    let idx = PostCountries.findIndex(
+  get selectedCountryMeta (): PostCountry {
+    const idx = PostCountries.findIndex(
       (country: PostCountry): boolean =>
         country.countryCode ===
         this.$store.state.shop.customerDetails.countryCode
-    );
-    if (idx < 0) return {};
-    let output: PostCountry = PostCountries[idx].meta || {};
-    output.callingCode = PostCountries[idx].callingCode || [];
-    return output;
+    )
+    if (idx < 0) return {}
+    const output: PostCountry = PostCountries[idx].meta || {}
+    output.callingCode = PostCountries[idx].callingCode || []
+    return output
   }
 
-  format(type: string, value: string): string {
-    if (type === "phone" && this.selectedCountryMeta.callingCode) {
+  format (type: string, value: string): string {
+    if (type === 'phone' && this.selectedCountryMeta.callingCode) {
       return value.replace(
         /^0{1,2}/,
-        "+" + this.selectedCountryMeta.callingCode[0]
-      );
+        '+' + this.selectedCountryMeta.callingCode[0]
+      )
     }
-    return value;
+    return value
   }
 }
 </script>

@@ -96,7 +96,6 @@ export default {
       }
     },
     setCurrency ({ commit }: any, currency: string) {
-      console.log(currency)
       commit('setCurrency', currency)
     }
   }

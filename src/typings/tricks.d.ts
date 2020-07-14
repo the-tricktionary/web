@@ -39,6 +39,7 @@ interface TrickVerificationStatus {
   vLevel: number;
   verified: boolean;
   verifier: string;
+  version?: string;
 
   suggested?: string;
 }

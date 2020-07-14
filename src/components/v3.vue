@@ -57,8 +57,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Progress from '@/components/Progress.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import Progress from '@/components/Progress.vue'
 
 @Component({
   components: { Progress }

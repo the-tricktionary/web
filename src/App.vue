@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from 'vue-property-decorator';
+import { Component, Watch, Vue } from 'vue-property-decorator'
 
 @Component
 export default class App extends Vue {
@@ -52,7 +52,7 @@ export default class App extends Vue {
   handleResize () {
     this.screenWidth = window.innerWidth || this.screenWidth
 
-    let elHeight = document
+    const elHeight = document
       .getElementsByTagName('nav')[0]
       .getElementsByTagName('a')[2].offsetHeight
     document.documentElement.style.setProperty(
@@ -74,7 +74,7 @@ export default class App extends Vue {
       this.handleResize()
     })
 
-    let items =
+    const items =
       Array.prototype.slice.call(
         document.getElementsByTagName('nav')[0].getElementsByTagName('a'),
         0

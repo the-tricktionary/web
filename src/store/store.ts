@@ -20,7 +20,7 @@ import globalnoticesModule from '@/store/modules/globalnoticesModule'
 import shopModule from '@/store/modules/shopModule'
 import homeModule from '@/store/modules/homeModule'
 
-var config = {
+const config = {
   apiKey: 'AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM',
   authDomain: 'the-tricktionary.com',
   databaseURL: 'https://project-5641153190345267944.firebaseio.com',

@@ -78,11 +78,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import firebase, { FirebaseError } from 'firebase/app';
-import { VueTelInput } from 'vue-tel-input';
+import { Component, Vue } from 'vue-property-decorator'
+import firebase, { FirebaseError } from 'firebase/app'
+import { VueTelInput } from 'vue-tel-input'
 
-import 'firebase/auth';
+import 'firebase/auth'
 
 interface AuthDetails {
   email?: string;
@@ -198,13 +198,13 @@ export default class Auth extends Vue {
     switch (method) {
       case 'emailpassword':
         this.singInWithEmailLink(email)
-        break;
+        break
       case 'phone':
         this.signInWithPhone(phone, phoneCode)
-        break;
+        break
       case 'social':
         this.signInWithSocial(socialProvider)
-        break;
+        break
     }
   }
 

@@ -93,14 +93,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { IState } from 'vuex-easy-firestore/types/module/state';
-import TrickList from '@/components/TrickList.vue'; // @ is an alias to /src
-import TrickDisciplineSelector from '@/components/TrickDisciplineSelector.vue';
-import SocialLinks from '@/components/SocialLinks.vue';
-import Notice from '@/components/Notice.vue';
-import v3 from '@/components/v3.vue';
-import RopeScoreAd from '@/components/RopeScoreAd.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import { IState } from 'vuex-easy-firestore/types/module/state'
+import TrickList from '@/components/TrickList.vue' // @ is an alias to /src
+import TrickDisciplineSelector from '@/components/TrickDisciplineSelector.vue'
+import SocialLinks from '@/components/SocialLinks.vue'
+import Notice from '@/components/Notice.vue'
+import v3 from '@/components/v3.vue'
+import RopeScoreAd from '@/components/RopeScoreAd.vue'
 
 @Component({
   components: {

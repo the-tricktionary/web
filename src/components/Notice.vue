@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { markdown } from 'markdown';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { markdown } from 'markdown'
 
 @Component
 export default class Notice extends Vue {

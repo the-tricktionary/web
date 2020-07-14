@@ -1,11 +1,11 @@
 <template>
   <span v-if="trickLevel" :class="{full: fed === 'IJRU'}">
-    {{ fed }} level
+    {{ fed }} level <span v-if="verifiedVersion">(v{{ verifiedVersion }})</span>
     <span class="big">
       {{ trickLevel }}
       <span class="tooltip">
-        <font-awesome-icon icon="check" v-if="trickVerified === 0" class="small" />
-        <font-awesome-icon icon="check-double" v-if="trickVerified === 1" class="small" />
+        <font-awesome-icon icon="check-double" v-if="trickVerified >= 1" class="small" />
+        <font-awesome-icon icon="check" v-else-if="trickVerified >= 0" class="small" />
         <span
           class="tooltiptext"
         >Verified by {{ trickVerified ? 'an official' : 'a judge' }} from {{ fed }}</span>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class TrickLevel extends Vue {
@@ -36,17 +36,21 @@ export default class TrickLevel extends Vue {
       : -1
   }
 
+  get verifiedVersion (): string {
+    return (this.lev.verified || { version: '' }).version || ''
+  }
+
   get fed (): string {
-    let fed = this.federation.toLocaleLowerCase()
+    const fed = this.federation.toLocaleLowerCase()
 
     if (fed === 'ijru') {
-      return 'IJRU';
+      return 'IJRU'
     } else if (fed === 'irsf') {
-      return 'FISAC-IRSF';
+      return 'FISAC-IRSF'
     } else if (fed === 'wjr') {
-      return 'WJRF';
+      return 'WJRF'
     } else {
-      return '';
+      return ''
     }
   }
 }

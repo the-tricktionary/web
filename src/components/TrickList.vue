@@ -53,9 +53,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import VueFuse from "vue-fuse";
-import TrickButton from "@/components/TrickButton.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import VueFuse from 'vue-fuse'
+import TrickButton from '@/components/TrickButton.vue'
 
 @Component({
   components: {
@@ -66,49 +66,49 @@ import TrickButton from "@/components/TrickButton.vue";
 export default class TrickList extends Vue {
   @Prop() private tricks!: ListOfTricks;
   @Prop({ default: () => [] }) private completed: string[];
-  @Prop({ default: "sr" }) private discipline!: string;
+  @Prop({ default: 'sr' }) private discipline!: string;
   @Prop() private loading: boolean;
 
   tricksFiltered: Trick[] = [];
-  searchKeys: string[] = ["name", "type", "description"];
+  searchKeys: string[] = ['name', 'type', 'description'];
 
-  created() {
-    this.$on("results", (tricksFiltered: Trick[]) => {
-      this.tricksFiltered = tricksFiltered;
-    });
+  created () {
+    this.$on('results', (tricksFiltered: Trick[]) => {
+      this.tricksFiltered = tricksFiltered
+    })
   }
 
-  get tricksArray() {
-    let trickIDs: string[] = Object.keys(this.tricks);
-    let tricks: Trick[] = trickIDs.map((id: string): Trick => this.tricks[id]);
-    return tricks;
+  get tricksArray () {
+    const trickIDs: string[] = Object.keys(this.tricks)
+    const tricks: Trick[] = trickIDs.map((id: string): Trick => this.tricks[id])
+    return tricks
   }
 
-  get tricksArrayNoCompleted() {
-    let tricksArray = this.tricksArray;
-    let filtered = tricksArray.filter(
+  get tricksArrayNoCompleted () {
+    const tricksArray = this.tricksArray
+    const filtered = tricksArray.filter(
       el => this.completed.indexOf(el.id) === -1
-    );
-    return filtered;
+    )
+    return filtered
   }
 
-  get structure(): Level[] {
-    let tricks = this.tricksFiltered;
-    let struct: Level[] = [];
+  get structure (): Level[] {
+    let tricks = this.tricksFiltered
+    const struct: Level[] = []
 
     while (tricks.length > 0) {
-      let first: Trick = tricks[0];
-      let filtered: Trick[] = tricks.filter(
+      const first: Trick = tricks[0]
+      const filtered: Trick[] = tricks.filter(
         (trick: Trick): boolean => trick.level === first.level
-      );
+      )
       tricks = tricks.filter(
         (trick: Trick): boolean => trick.level !== first.level
-      );
+      )
 
-      let types: Type[] = filtered
+      const types: Type[] = filtered
         .map((trick: Trick): string => trick.type)
         .filter((value: string, index: number, self: string[]): boolean => {
-          return self.indexOf(value) === index;
+          return self.indexOf(value) === index
         })
         .sort((a: string, b: string): number => a.localeCompare(b))
         .map(
@@ -118,19 +118,19 @@ export default class TrickList extends Vue {
               .filter((trick: Trick): boolean => trick.type === type)
               .sort((a, b) => a.name.localeCompare(b.name)) // TODO: i18n
           })
-        );
+        )
 
-      let level: Level = {
+      const level: Level = {
         name: first.level,
         types
-      };
+      }
 
-      struct.push(level);
+      struct.push(level)
     }
 
     return struct.sort((a: Level, b: Level): number =>
       a.name > b.name ? 1 : -1
-    );
+    )
   }
 }
 </script>

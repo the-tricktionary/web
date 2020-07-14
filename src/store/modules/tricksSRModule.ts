@@ -15,9 +15,9 @@ interface NextObj {
 }
 
 export const prerequisites = (state: TricksState): PrerequisitesObj => {
-  let result: PrerequisitesObj = {}
+  const result: PrerequisitesObj = {}
 
-  for (let id in state.tricks) {
+  for (const id in state.tricks) {
     result[id] = state.tricks[id].prerequisites || []
   }
 
@@ -25,10 +25,10 @@ export const prerequisites = (state: TricksState): PrerequisitesObj => {
 }
 
 export const next = (state: TricksState): NextObj => {
-  let result: NextObj = {}
+  const result: NextObj = {}
 
-  for (let id in state.tricks) {
-    for (let prereq of state.tricks[id].prerequisites || []) {
+  for (const id in state.tricks) {
+    for (const prereq of state.tricks[id].prerequisites || []) {
       if (!result[prereq.id]) result[prereq.id] = []
       result[prereq.id].push(id)
     }

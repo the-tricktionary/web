@@ -96,15 +96,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Product from '@/components/Product.vue';
-import CostSummary from '@/components/CostSummary.vue';
-import CustomerInfo from '@/components/CustomerInfo.vue';
-import firebase from 'firebase/app';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import Product from '@/components/Product.vue'
+import CostSummary from '@/components/CostSummary.vue'
+import CustomerInfo from '@/components/CustomerInfo.vue'
+import firebase from 'firebase/app'
 
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/functions';
+import 'firebase/firestore'
+import 'firebase/auth'
+import 'firebase/functions'
 
 @Component({
   components: {
@@ -153,11 +153,11 @@ export default class Shop extends Vue {
             field: 'vatValid',
             value: result.data.vat_valid
           })
-          this.stage = 'checkout';
+          this.stage = 'checkout'
           this.loading = false
         })
     } else {
-      this.stage = 'checkout';
+      this.stage = 'checkout'
     }
   }
 
@@ -193,10 +193,10 @@ export default class Shop extends Vue {
   mounted (): void {
     this.$store.dispatch('products/openDBChannel')
     if (this.$route.query.state === 'success') {
-      this.stage = 'success';
+      this.stage = 'success'
     }
     if (this.$route.query.state === 'cancel') {
-      this.stage = 'cancel';
+      this.stage = 'cancel'
     }
   }
 }

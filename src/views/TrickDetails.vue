@@ -27,25 +27,10 @@
 
     <div class="levels">
       <Trick-level
-        :federation="fed"
-        :level-data="level"
-        v-for="(level, fed) in trick.levels"
-        :key="fed"
+        federation="ijru"
+        :level-data="trick.levels.ijru"
       />
     </div>
-
-    <input type="text" v-model="ijruLevel" />
-    <router-link
-      tag="button"
-      :to="`/trick/sr/${previousTrick ? previousTrick.slug : ''}`"
-      :disabled="!previousTrick"
-    >Previous</router-link>
-    <button @click="ijruSave()">Save</button>
-    <router-link
-      tag="button"
-      :to="`/trick/sr/${nextTrick ? nextTrick.slug : ''}`"
-      :disabled="!nextTrick"
-    >Next</router-link>
 
     <div class="columns">
       <div
@@ -87,14 +72,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { arrayUnion, arrayRemove } from "vuex-easy-firestore";
-import VueYoutube from "vue-youtube";
-import TrickLevel from "@/components/TrickLevel.vue"; // @ is an alias to /src
-import TrickButton from "@/components/TrickButton.vue"; // @ is an alias to /src
-import { firestore } from "firebase";
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { arrayUnion, arrayRemove } from 'vuex-easy-firestore'
+import VueYoutube from 'vue-youtube'
+import TrickLevel from '@/components/TrickLevel.vue' // @ is an alias to /src
+import TrickButton from '@/components/TrickButton.vue' // @ is an alias to /src
 
-Vue.use(VueYoutube);
+Vue.use(VueYoutube)
 
 @Component({
   components: {
@@ -113,115 +97,99 @@ export default class TrickDetails extends Vue {
     enablejsapi: 1
   };
 
-  fetchDiscipline() {
+  fetchDiscipline () {
     this.$store.dispatch(
       `tricks${this.$store.state.home.discipline}/fetchAndAdd`,
       {
-        where: [["level", ">=", 0]]
+        where: [['level', '>=', 0]]
       }
-    );
+    )
   }
 
-  get completedArr(): string[] {
-    return this.$store.state.checklist.list[this.discipline] || [];
+  get completedArr (): string[] {
+    return this.$store.state.checklist.list[this.discipline] || []
   }
 
-  get discipline(): string {
+  get discipline (): string {
     if (this.oldLink) {
-      return "SR";
+      return 'SR'
     } else {
-      return this.$route.params.discipline.substring(0, 2).toUpperCase();
+      return this.$route.params.discipline.substring(0, 2).toUpperCase()
     }
   }
 
-  get trick(): Trick {
+  get trick (): Trick {
     let filter = (id: string): boolean =>
       this.$store.state[`tricks${this.discipline}`].tricks[id].slug ===
-      this.$route.params.slug;
+      this.$route.params.slug
     if (this.oldLink) {
       filter = (id: string): boolean =>
         this.$store.state[`tricks${this.discipline}`].tricks[id].oldid ===
           Number(this.$route.params.id1) &&
         this.$store.state[`tricks${this.discipline}`].tricks[id].level ===
-          Number(this.$route.params.id0) + 1;
+          Number(this.$route.params.id0) + 1
     }
 
-    let id: string = Object.keys(
+    const id: string = Object.keys(
       this.$store.state[`tricks${this.discipline}`].tricks
-    ).filter(filter)[0];
+    ).filter(filter)[0]
 
-    return this.$store.state[`tricks${this.discipline}`].tricks[id] || {};
+    return this.$store.state[`tricks${this.discipline}`].tricks[id] || {}
   }
 
-  get alternativeNames(): string[] {
-    return this.trick.alternativeNames || [];
+  get alternativeNames (): string[] {
+    return this.trick.alternativeNames || []
   }
 
-  get videos(): VideoIDList {
-    return this.trick.videos || { youtube: "" };
+  get videos (): VideoIDList {
+    return this.trick.videos || { youtube: '' }
   }
 
-  toggleCompleted(
+  toggleCompleted (
     discipline: string = this.discipline,
     trick: Trick = this.trick
   ): void {
     if (this.completedArr.indexOf(trick.id) > -1) {
-      this.$store.dispatch(`checklist/patch`, {
+      this.$store.dispatch('checklist/patch', {
         [discipline]: arrayRemove(trick.id)
-      });
+      })
     } else {
-      this.$store.dispatch(`checklist/patch`, {
+      this.$store.dispatch('checklist/patch', {
         [discipline]: arrayUnion(trick.id)
-      });
+      })
     }
   }
 
-  mounted(): void {
+  mounted (): void {
     if (this.oldLink) {
-      this.$store.dispatch("tricksSR/fetchAndAdd", {
+      this.$store.dispatch('tricksSR/fetchAndAdd', {
         where: [
-          ["level", "==", Number(this.$route.params.id0) + 1],
-          ["oldid", "==", Number(this.$route.params.id1)]
+          ['level', '==', Number(this.$route.params.id0) + 1],
+          ['oldid', '==', Number(this.$route.params.id1)]
         ]
-      });
+      })
     } else {
       this.$store.dispatch(`tricks${this.discipline}/fetchAndAdd`, {
-        where: [["slug", "==", this.$route.params.slug]]
-      });
+        where: [['slug', '==', this.$route.params.slug]]
+      })
     }
-    setTimeout(this.fetchDiscipline, 1000);
+    setTimeout(this.fetchDiscipline, 1000)
   }
 
-  ijruLevel: string = "";
-  async ijruSave() {
-    await firestore()
-      .collection("tricksSR")
-      .doc(this.trick.id)
-      .update({
-        "levels.ijru.level": this.ijruLevel,
-        "levels.ijru.verified.verified": true,
-        "levels.ijru.verified.date": new Date().toISOString().slice(0, 10),
-        "levels.ijru.verified.vLevel": 1,
-        "levels.ijru.verified.verifier": this.$store.state.users.currentUser
-      });
+  get nextTrick () {
+    const keys = Object.keys(this.$store.state.tricksSR.tricks)
+    const idx = keys.indexOf(this.trick.id)
 
-    this.ijruLevel = "";
+    if (idx + 1 === keys.length) return false
+    return this.$store.state.tricksSR.tricks[keys[idx + 1]]
   }
 
-  get nextTrick() {
-    const keys = Object.keys(this.$store.state.tricksSR.tricks);
-    const idx = keys.indexOf(this.trick.id);
+  get previousTrick () {
+    const keys = Object.keys(this.$store.state.tricksSR.tricks)
+    const idx = keys.indexOf(this.trick.id)
 
-    if (idx + 1 === keys.length) return false;
-    return this.$store.state.tricksSR.tricks[keys[idx + 1]];
-  }
-
-  get previousTrick() {
-    const keys = Object.keys(this.$store.state.tricksSR.tricks);
-    const idx = keys.indexOf(this.trick.id);
-
-    if (idx === 0) return false;
-    return this.$store.state.tricksSR.tricks[keys[idx - 1]];
+    if (idx === 0) return false
+    return this.$store.state.tricksSR.tricks[keys[idx - 1]]
   }
 }
 </script>
