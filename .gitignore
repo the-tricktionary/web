@@ -6,6 +6,7 @@ util/email-data
 util/booklets
 !util/*/.keep
 dist/
+.firebase/
 
 # Created by https://www.gitignore.io/api/osx
 

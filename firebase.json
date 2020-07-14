@@ -1,7 +1,4 @@
 {
-  "database": {
-    "rules": "firebase.db.rules.json"
-  },
   "hosting": {
     "public": "dist",
     "site": "the-tricktionary",
@@ -45,15 +42,6 @@
           {
             "key": "Access-Control-Allow-Origin",
             "value": "*"
-          }
-        ]
-      },
-      {
-        "source": "/",
-        "headers": [
-          {
-            "key": "Link",
-            "value": "</static/js/trick.js>;rel=preload;as=script,</static/css/style.css>;rel=preload;as=style"
           }
         ]
       }
