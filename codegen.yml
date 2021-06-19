@@ -1,0 +1,18 @@
+overwrite: true
+schema:
+  - https://api.the-tricktionary.com/
+config:
+  scalars:
+    Timestamp: number
+generates:
+  src/graphql/generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-vue-apollo'
+    config:
+      # flattenGeneratedTypes: true
+      exportFragmentSpreadSubTypes: true
+    documents:
+      - './src/**/*.{gql,graphql}'
+      - './src/**/!(*.d).{ts,vue}'

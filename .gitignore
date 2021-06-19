@@ -95,3 +95,10 @@ docs/
 *.key*
 !*.key.encnginx.conf
 package-lock.json
+.vscode
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+src/graphql/generated

@@ -1,14 +1,10 @@
 {
   "hosting": {
     "public": "dist",
-    "site": "the-tricktionary",
+    "site": "tricktionary-v4",
     "cleanUrls": true,
     "trailingSlash": false,
     "rewrites": [
-      {
-        "source": "/favicon.ico",
-        "destination": "/static/img/icon.png"
-      },
       {
         "source": "/api/i18n",
         "function": "i18nApi"
@@ -33,7 +29,7 @@
     ],
     "headers": [
       {
-        "source": "**/*.@(css|js|html|png|svg|woff|woff2|eot|ttf|otf)",
+        "source": "**/*.@(css|js|png|svg|woff|woff2|eot|ttf|otf)",
         "headers": [
           {
             "key": "Cache-Control",
