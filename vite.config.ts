@@ -27,7 +27,18 @@ export default defineConfig({
         background_color: '#fe3500',
         theme_color: '#fe3500',
         prefer_related_applications: true,
-        icons: [],
+        icons: [
+          {
+            'src': '/android-chrome-192x192.png',
+            'sizes': '192x192',
+            'type': 'image/png'
+          },
+          {
+            'src': '/android-chrome-512x512.png',
+            'sizes': '512x512',
+            'type': 'image/png'
+          }
+        ],
         related_applications: [
           {
             platform: 'play',
