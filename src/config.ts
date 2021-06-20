@@ -5,7 +5,7 @@ import { getAnalytics } from 'firebase/analytics'
 
 initializeApp({
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
-  authDomain: "project-5641153190345267944.firebaseapp.com",
+  authDomain: "the-tricktionary.com",
   projectId: "project-5641153190345267944",
   messagingSenderId: "1048157266079",
   appId: "1:1048157266079:web:a8ae83f6f16d7436",

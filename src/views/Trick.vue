@@ -50,7 +50,7 @@
   </div>
 
   <div class="bg-white fixed bottom-0 border-t border-gray-300 w-full p-2">
-    <div class="container mx-auto mx-auto flex justify-between gap-4">
+    <div class="container mx-auto mx-auto flex justify-between gap-4 overflow-x-auto">
       <router-link to="/">
         <icon-button class="btn inline-flex items-center mt-0 w-max">
           <template #icon>
@@ -60,7 +60,7 @@
         </icon-button>
       </router-link>
 
-      <div class="flex-grow"></div>
+      <div class="<md:hidden flex-grow"></div>
 
       <label
         v-if="user && trick"
