@@ -16,17 +16,19 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, toRef } from 'vue'
 import { Discipline } from '../graphql/generated/graphql'
 
 import type { PropType } from 'vue'
 
-const { discipline } = defineProps({
+const props = defineProps({
   discipline: {
     type: String as PropType<Discipline>,
     default: Discipline.SingleRope
   }
 })
+
+const discipline = toRef(props, 'discipline')
 
 const disciplines = ref({
   [Discipline.SingleRope]: 'Single Rope',

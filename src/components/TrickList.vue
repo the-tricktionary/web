@@ -1,7 +1,10 @@
 
 <template>
-  <div v-if="loading">Loading...</div>
-  <template v-else-if="tricks" v-for="(trickTypes, level) of tricks" :key="`tt-${level}`">
+  <div v-if="loading" class="flex items-center justify-center flex-col">
+    <icon-loading class="spin w-32 h-32" />
+    Loading tricks...
+  </div>
+  <template v-else-if="numTricks" v-for="(trickTypes, level) of tricks" :key="`tt-${level}`">
     <h2 class="trick-level mx-auto w-32 px-4 mt-6 text-3xl font-bold relative text-center">Level {{ level }}</h2>
     <template v-for="(tricks, trickType) of trickTypes" :key="`tt-${level}-${trickType}`">
       <template v-if="tricks.length">
@@ -12,7 +15,10 @@
       </template>
     </template>
   </template>
-  <div v-else>No tricks with the specified criteria</div>
+  <div v-else class="flex items-center justify-center flex-col">
+    <icon-confused class="w-32 h-32" />
+    Oops! We couldn't find any tricks with the given filters.
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -22,6 +28,8 @@ import { useResult } from '@vue/apollo-composable'
 import { Discipline, TrickType, useMeQuery, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 
+import IconLoading from 'virtual:vite-icons/mdi/loading'
+import IconConfused from 'virtual:vite-icons/mdi/map-marker-question-outline'
 import TrickBox from './TrickBox.vue'
 
 import type { PropType } from 'vue'
@@ -64,6 +72,8 @@ const tricks = useResult(tricksQuery.result, null, data => {
   }
   return tricks
 })
+
+const numTricks = useResult(tricksQuery.result, 0, data => data.tricks.length)
 
 const completed = useResult(meQuery.result, new Set(), data => {
   return new Set(data.me?.checklist?.map(checklistItem => checklistItem.trick.id))
