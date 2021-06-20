@@ -1,20 +1,5 @@
 query Tricks ($discipline: Discipline, $withLocalised: Boolean!, $lang: String) {
   tricks (discipline: $discipline) {
-    id
-    slug
-    trickType
-    discipline
-    en: localisation {
-      id
-      name
-    }
-    localised: localisation (lang: $lang) @include(if: $withLocalised) {
-      id
-      name
-    }
-    levels (organisation: "tricktionary") {
-      id
-      level
-    }
+    ...TrickBox
   }
 }

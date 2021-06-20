@@ -1,4 +1,4 @@
-import { Discipline } from './graphql/generated/graphql'
+import { Discipline, TrickBoxFragment } from './graphql/generated/graphql'
 
 export function disciplineToSlug (discipline: Discipline) {
   switch (discipline) {
@@ -24,4 +24,10 @@ export function slugToDiscipline (slug: string) {
     default:
       throw new Error(`Unknown discipline slug: ${slug}`)
   }
+}
+
+export function trickSorter (a: Pick<TrickBoxFragment, 'slug' | 'localised' | 'en'>, b: Pick<TrickBoxFragment, 'slug' | 'localised' | 'en'>) {
+  const aName = a.localised?.name ?? a.en?.name ?? a.slug
+  const bName = a.localised?.name ?? b.en?.name ?? b.slug
+  return aName.localeCompare(bName)
 }

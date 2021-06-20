@@ -35,11 +35,11 @@
 </template>
 
 <script setup lang="ts">
-import { getAnalytics, logEvent } from "@firebase/analytics";
-import { getAuth, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPhoneNumber, signInWithPopup } from "@firebase/auth";
-import { onMounted, reactive, ref, watch } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
-import useAuth from "../hooks/useAuth";
+import { getAnalytics, logEvent } from '@firebase/analytics'
+import { getAuth, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from '@firebase/auth'
+import { onMounted, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import useAuth from '../hooks/useAuth'
 
 const auth = getAuth()
 const user = useAuth()

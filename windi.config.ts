@@ -22,6 +22,7 @@ export default defineConfig({
   },
   plugins: [
     require('windicss/plugin/forms'),
+    require('windicss/plugin/aspect-ratio'),
     plugin(({ addBase, theme }) => {
       addBase({
         'p a': {
@@ -32,6 +33,11 @@ export default defineConfig({
             color: theme('colors.blue.800'),
             textUnderlineOffset: '3px',
           }
+        },
+        h1: {
+          fontSize: '2.25rem',
+          lineHeight: '2.5rem',
+          fontWeight: '600'
         }
       })
     }),
@@ -58,6 +64,24 @@ export default defineConfig({
           cursor: 'default',
           backgroundColor: theme('colors.gray.200'),
           color: theme('colors.gray.500')
+        },
+
+        '.trick-level': {
+          '&:before': {
+            right: '100%'
+          },
+          '&:after': {
+            left: '100%'
+          },
+          '&:before, &:after': {
+            content: '" "',
+            borderBottomWidth: '2px',
+            borderColor: theme('colors.gray.300'),
+            position: 'absolute',
+            width: '100%',
+            maxWidth: '20vw',
+            top: '50%'
+          }
         }
       })
     })

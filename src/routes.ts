@@ -5,9 +5,10 @@ const analytics = getAnalytics()
 
 export const routes: RouteRecordRaw[] = [
   { name: 'tricktionary', path: '/', component: () => import('./views/Home.vue') },
+  { name: 'trick', path: '/trick/:discipline/:slug', component: () => import('./views/Trick.vue') },
   { name: 'auth', path: '/auth', component: () => import('./views/Auth.vue') },
   { name: 'profile', path: '/profile', component: () => import('./views/Profile.vue') },
-  { name: 'not_found', path: '/:catchAll(.*)', component: () => import('./views/404.vue') }
+  { name: 'not_found', path: '/:catchAll(.*)*', component: () => import('./views/404.vue') }
 ]
 
 const router = createRouter({

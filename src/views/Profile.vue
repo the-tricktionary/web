@@ -1,5 +1,7 @@
 <template>
-  <button class="btn" @click="signOut()">Sign out</button>
+  <div class="container mx-auto">
+    <button class="btn" @click="signOut()">Sign out</button>
+  </div>
 </template>
 
 <script setup lang="ts">

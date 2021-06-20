@@ -9,7 +9,7 @@
       :class="{ 'bg-green-500': completed, 'border-green-500': completed, 'hover:bg-green-300': completed, 'bg-green-300': loading }"
       aria-label="Completed Trick"
     >
-      <icon-loading class="text-white spin" v-if="loading" />
+      <icon-loading class="text-white animate-spin" v-if="loading" />
       <icon-check class="text-white" v-else />
       <input @click="completeTrick()" type="checkbox" class="hidden" :checked="completed" :disabled="!user || loading">
     </label>

@@ -1,0 +1,36 @@
+#import "../fragments/trickBox.gql"
+
+query TrickBySlug ($discipline: Discipline!, $slug: String!, $withLocalised: Boolean!, $lang: String) {
+  trick: trickBySlug (discipline: $discipline, slug: $slug) {
+    ...TrickBox
+    en: localisation {
+      id
+      name
+      alternativeNames
+      description
+    }
+    localised: localisation (lang: $lang) @include(if: $withLocalised) {
+      id
+      name
+      alternativeNames
+      description
+    }
+    videos {
+      videoId
+      type
+      host
+    }
+    ijruLevels: levels (organisation: "ijru") {
+      id
+      level
+      rulesVersion
+      verificationLevel
+    }
+    prerequisites {
+      ...TrickBox
+    }
+    prerequisiteFor {
+      ...TrickBox
+    }
+  }
+}

@@ -1,0 +1,18 @@
+fragment TrickBox on Trick {
+  id
+  slug
+  trickType
+  discipline
+  en: localisation {
+    id
+    name
+  }
+  localised: localisation (lang: $lang) @include(if: $withLocalised) {
+    id
+    name
+  }
+  ttLevels: levels (organisation: "tricktionary") {
+    id
+    level
+  }
+}
