@@ -36,14 +36,14 @@
       <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">Next</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisiteFor" :key="prereq.id" />
+          <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisiteFor" :key="prereq.id" @navigate="viewNext(prereq)" />
         </div>
       </div>
 
       <div v-if="trick.prerequisites.length">
         <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">Previous</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisites" :key="prereq.id" />
+          <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisites" :key="prereq.id" @navigate="viewPrevious(prereq)" />
         </div>
       </div>
     </div>
@@ -119,6 +119,7 @@ import TrickBox from '../components/TrickBox.vue'
 import IconButton from '../components/IconButton.vue'
 
 import type { Ref } from 'vue'
+import type { TrickBoxFragment } from '../graphql/generated/graphql'
 
 const route = useRoute()
 const router = useRouter()
@@ -165,7 +166,8 @@ watch(user, user => {
 
 onBeforeRouteUpdate((to, from) => {
   if (to.name === from.name) {
-    trickQuery.variables.value.discipline = slugToDiscipline(to.params.discipline as string)
+    const discipline = slugToDiscipline(to.params.discipline as string)
+    trickQuery.variables.value.discipline = discipline
     trickQuery.variables.value.slug = to.params.slug as string
   }
 })
@@ -196,14 +198,29 @@ const canShare = ref('share' in navigator)
 
 async function share () {
   if (!canShare.value) return false
-  const result = await navigator.share({
+  await navigator.share({
     title: `the Tricktionary - ${trick.value?.localised?.name ?? trick.value?.en?.name}`,
     text: 'Check out this trick on the Tricktionary',
     url: `${window.location.origin}${route.path}?utm_source=webshare&utm_medium=referral`
+  })
+  logEvent(analytics, 'share', {
+    item_id: `Trick:${trick.value?.id}`
   })
 }
 
 const completed = computed(() => {
   return new Set(user.value?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
+
+// the andoird app tracks these events, so we do too
+function viewNext (trick: TrickBoxFragment) {
+  logEvent(analytics, 'view_next_trick', {
+    next_trick: trick.en?.name ?? trick.slug
+  })
+}
+function viewPrevious (trick: TrickBoxFragment) {
+  logEvent(analytics, 'view_prereq', {
+    prereq: trick.en?.name ?? trick.slug
+  })
+}
 </script>

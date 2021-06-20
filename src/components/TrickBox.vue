@@ -25,6 +25,7 @@
         'rounded-l': !user
         }"
       :to="`/trick/${discipline}/${trick.slug}`"
+      @click="$emit('navigate')"
     >
       {{ trick.localised?.name ?? trick.en?.name }}
     </router-link>
