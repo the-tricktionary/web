@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full aspect-w-9/16 mx-auto">
+  <div class="w-full aspect-w-9/16 mx-auto bg-gray-300">
     <iframe
     v-if="primaryYouTubeEmbedLink"
     type="text/html"

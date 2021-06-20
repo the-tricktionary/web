@@ -146,7 +146,7 @@ function formatList (en: string[], local?: string[] | null) {
 }
 
 const { mutate: completeTrick, loading: mutating } = useCompleteTrick({
-  trickId: toRef(trick.value!, 'id') as Ref<string>,
+  trickId: toRef(trick.value ?? { id: null }, 'id') as Ref<string>,
   completed: computed(() => completed.value.has(trick.value!.id))
 })
 
