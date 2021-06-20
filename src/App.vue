@@ -1,19 +1,13 @@
 <template>
-  <nav-header></nav-header>
-  <router-view></router-view>
+  <nav-header />
+  <router-view />
 </template>
 
-<script lang="ts">
-import { defineComponent, provide } from 'vue'
+<script setup lang="ts">
+import { provide } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { apolloClient } from './apollo';
 import NavHeader from './components/NavHeader.vue';
 
-export default defineComponent({
-    name: "App",
-    setup () {
-      provide(DefaultApolloClient, apolloClient)
-    },
-    components: { NavHeader }
-})
+provide(DefaultApolloClient, apolloClient)
 </script>

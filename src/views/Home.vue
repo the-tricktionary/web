@@ -6,23 +6,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
 import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue';
-import { Discipline } from '../graphql/generated/graphql';
 
-export default defineComponent({
-  name: 'Home',
-  components: {
-    TrickList,
-    DisciplineSelector
-  },
-  setup () {
-    return {
-      discipline: ref<Discipline>()
-    }
-  }
-})
+import type { Discipline } from '../graphql/generated/graphql';
+
+const discipline = ref<Discipline>()
 </script>

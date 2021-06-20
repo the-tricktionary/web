@@ -11,11 +11,6 @@ import { getAnalytics } from 'firebase/analytics'
 
 registerSW({})
 
-createApp(App)
-.use(createHead())
-.use(router)
-.mount('#app')
-
 initializeApp({
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
   authDomain: "project-5641153190345267944.firebaseapp.com",
@@ -35,3 +30,8 @@ Sentry.init({
   })],
   tracesSampleRate: 1.0
 })
+
+createApp(App)
+.use(createHead())
+.use(router)
+.mount('#app')

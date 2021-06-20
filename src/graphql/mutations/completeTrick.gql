@@ -1,0 +1,11 @@
+mutation CompleteTrick ($trickId: ID!, $completed: Boolean!) {
+  createTrickCompletion (trickId: $trickId) @include(if: $completed) {
+    id
+    trick {
+      id
+    }
+  }
+  deleteTrickCompletion (trickId: $trickId) @skip(if: $completed) {
+    id
+  }
+}

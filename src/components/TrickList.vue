@@ -7,7 +7,7 @@
       <template v-if="tricks.length">
         <h3 class="mx-auto text-center px-4 text-2xl mt-4">{{ trickType }}</h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
-          <trick-box  :trick="trick" v-for="trick of tricks" :key="trick.id" />
+          <trick-box :completed="completed.has(trick.id)" :trick="trick" v-for="trick of tricks" :key="trick.id" />
         </div>
       </template>
     </template>
@@ -15,47 +15,58 @@
   <div v-else>No tricks with the specified criteria</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { defineProps, watch } from 'vue'
 import { useResult } from '@vue/apollo-composable'
-import { defineComponent, PropType, ref, watch } from 'vue'
-import { Discipline, TricksQuery, TrickType, useTricksQuery } from '../graphql/generated/graphql'
+
+import { Discipline, TrickType, useMeQuery, useTricksQuery } from '../graphql/generated/graphql'
+import useAuth from '../hooks/useAuth'
 
 import TrickBox from './TrickBox.vue'
 
-export default defineComponent({
-  name: 'TrickList',
-  components: {
-    TrickBox
-  },
-  props: {
-    discipline: {
-      type: String as PropType<Discipline>,
-      default: Discipline.SingleRope
-    }
-  },
-  setup (props) {
-    const { result, loading, variables } = useTricksQuery({ discipline: props.discipline, withLocalised: false })
+import type { PropType } from 'vue'
+import type { TricksQuery } from '../graphql/generated/graphql'
 
-    watch(props, () => {
-      variables.value.discipline = props.discipline
-    })
-
-    const tricks = useResult(result, null, data => {
-      const tricks: { [level: string]: Record<TrickType, Array<TricksQuery['tricks'][number]>> } = {}
-      for (const trick of data.tricks) {
-        const level = trick.levels[0]?.level
-        const trickType = trick.trickType
-        if (!tricks[level]) tricks[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => a.localeCompare(b)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
-        tricks[level][trickType].push(trick)
-      }
-      return tricks
-    })
-
-    return {
-      tricks,
-      loading
-    }
+const props = defineProps({
+  discipline: {
+    type: String as PropType<Discipline>,
+    default: Discipline.SingleRope
   }
+})
+
+const tricksQuery = useTricksQuery({ discipline: props.discipline, withLocalised: false })
+const { loading } = tricksQuery
+const meQuery = useMeQuery({ withChecklist: true }, { fetchPolicy: 'cache-and-network' })
+const auth = useAuth()
+
+watch(props, () => {
+  tricksQuery.variables.value.discipline = props.discipline
+})
+watch(meQuery.result, user => {
+  if (user?.me?.lang) {
+    tricksQuery.variables.value.withLocalised = true
+    tricksQuery.variables.value.lang = user?.me?.lang
+  } else {
+    tricksQuery.variables.value.withLocalised = false
+  }
+})
+watch(auth, () => {
+  meQuery.refetch()
+})
+
+const tricks = useResult(tricksQuery.result, null, data => {
+  const tricks: { [level: string]: Record<TrickType, Array<TricksQuery['tricks'][number]>> } = {}
+  for (const trick of data.tricks) {
+    const level = trick.levels[0]?.level
+    const trickType = trick.trickType
+    if (!tricks[level]) tricks[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => a.localeCompare(b)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
+    tricks[level][trickType].push(trick)
+  }
+  return tricks
+})
+
+const completed = useResult(meQuery.result, new Set(), data => {
+  return new Set(data.me?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
 </script>
 

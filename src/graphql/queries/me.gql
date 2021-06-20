@@ -1,9 +1,15 @@
-query Me {
+query Me ($withChecklist: Boolean!) {
   me {
     id
     username
     name
     photo
     lang
+    checklist @include(if: $withChecklist) {
+      id
+      trick {
+        id
+      }
+    }
   }
 }

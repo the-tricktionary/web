@@ -10,12 +10,22 @@ const httpLink = createHttpLink({
 const authLink = setContext(async (_, { headers }) => {
   const token = await getAuth().currentUser?.getIdToken()
   return {
-    ...headers,
-    authorization: token ? `Bearer ${token}` : ''
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
   }
 })
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache({
+  typePolicies: {
+    User: {
+      merge (existing, incoming, { mergeObjects }) {
+        return mergeObjects(existing, incoming)
+      }
+    }
+  }
+})
 
 persistCache({
   cache,

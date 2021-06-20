@@ -9,26 +9,16 @@
       <router-link exact-active-class="active" class="nav-link" to="/">Tricks</router-link>
       <router-link active-class="active" class="nav-link" to="/speed">Speed</router-link>
       <router-link active-class="active" class="nav-link" to="/store">Store</router-link>
-      <router-link active-class="active" class="nav-link" to="/profile" v-if="user">Profile</router-link>
-      <router-link active-class="active" class="nav-link" to="/auth" v-else>Log In</router-link>
+      <router-link active-class="active" class="nav-link" to="/profile" v-if="auth">Profile</router-link>
+      <router-link active-class="active" class="nav-link" to="/auth" v-else>Profile</router-link>
     </nav>
   </header>
 </template>
 
-<script lang="ts">
-import { useResult } from '@vue/apollo-composable';
-import { defineComponent } from 'vue'
-import { useMeQuery } from '../graphql/generated/graphql';
+<script setup lang="ts">
+import useAuth from '../hooks/useAuth'
 
-export default defineComponent({
-  name: 'NavHeader',
-  setup () {
-    const { result } = useMeQuery()
-    return {
-      user: useResult(result, null, data => data.me)
-    }
-  }
-})
+const auth = useAuth()
 </script>
 
 <style scoped>
