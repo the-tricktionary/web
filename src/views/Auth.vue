@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { getAuth, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPhoneNumber, signInWithPopup } from "@firebase/auth";
 import { onMounted, reactive, ref, watch } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
@@ -43,6 +44,7 @@ import useAuth from "../hooks/useAuth";
 const auth = getAuth()
 const user = useAuth()
 const router = useRouter()
+const analytics = getAnalytics()
 
 const phone = reactive({
   phoneNumber: '',
@@ -71,6 +73,7 @@ const providers = {
 
 async function logInWithProvider (providerId: keyof typeof providers) {
   try {
+    logEvent(analytics, 'login', { method: providerId })
     socialErr.value = null
     await signInWithPopup(auth, providers[providerId])
   } catch (err) {
@@ -108,6 +111,7 @@ onMounted(() => {
     const emailParam = params.get('email')
     try {
       if (!emailParam) throw new Error('No email provided in magic link')
+      logEvent(analytics, 'login', { method: 'magic_link' })
       signInWithEmailLink(auth, emailParam, window.location.href)
     } catch (err) {
       email.error = err.code ?? err.message

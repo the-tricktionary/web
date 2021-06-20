@@ -25,8 +25,9 @@
 
 <script setup lang="ts">
 import { defineProps, ref, toRef } from 'vue'
-import { MeDocument, useCompleteTrickMutation } from "../graphql/generated/graphql";
+import { getAnalytics, logEvent } from '@firebase/analytics'
 
+import { MeDocument, useCompleteTrickMutation } from "../graphql/generated/graphql";
 import { disciplineToSlug } from "../helpers";
 import useAuth from '../hooks/useAuth'
 
@@ -51,10 +52,11 @@ const trick = toRef(props, 'trick')
 const completed = toRef(props, 'completed')
 
 const user = useAuth()
+const analytics = getAnalytics()
 
 const discipline = ref(disciplineToSlug(trick.value.discipline))
 
-const { loading, mutate: completeTrick } = useCompleteTrickMutation(() => ({
+const { loading, mutate: completeTrick, onDone } = useCompleteTrickMutation(() => ({
   variables: { trickId: trick.value.id, completed: !completed.value },
   update (cache, { data }) {
     const cachedData = cache.readQuery<MeQuery, MeQueryVariables>({ query: MeDocument, variables: { withChecklist: true } })
@@ -77,4 +79,12 @@ const { loading, mutate: completeTrick } = useCompleteTrickMutation(() => ({
     }
   }
 }))
+
+onDone(({ data }) => {
+  if (data?.createTrickCompletion) {
+    logEvent(analytics, 'unlock_achievement', {
+      achievement_id: `Trick:${trick.value.id}`
+    })
+  }
+})
 </script>

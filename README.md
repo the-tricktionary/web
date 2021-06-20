@@ -24,3 +24,8 @@ Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
 3. Open `src/main.ts` in VSCode
 4. Open the VSCode command palette
 5. Search and run "Select TypeScript version" -> "Use workspace version"
+
+## Analytics Events
+
+- The `unlock_achievement` event is used to mark that a user has marked a trick
+  as completed, the `achievement_id` is set to `Trick:${trick.id}`
