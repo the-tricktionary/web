@@ -1,15 +1,16 @@
-import 'virtual:windi.css'
-import { createApp } from 'vue'
-import { createHead } from '@vueuse/head'
-import { registerSW } from 'virtual:pwa-register'
-import router from './routes'
-import App from './App.vue'
 import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
+import { createApp } from 'vue'
+import { createHead } from '@vueuse/head'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 
-registerSW({})
+import router from './routes'
+import App from './App.vue'
+import useSW from './hooks/useSW'
+import 'virtual:windi.css'
+
+useSW()
 
 initializeApp({
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",

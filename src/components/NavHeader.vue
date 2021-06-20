@@ -10,7 +10,7 @@
       <router-link active-class="active" class="nav-link" to="/speed">Speed</router-link>
       <router-link active-class="active" class="nav-link" to="/store">Store</router-link>
       <router-link active-class="active" class="nav-link" to="/profile" v-if="auth">Profile</router-link>
-      <router-link active-class="active" class="nav-link" to="/auth" v-else>Profile</router-link>
+      <router-link active-class="active" class="nav-link" to="/auth" v-else>Sign in</router-link>
     </nav>
   </header>
 </template>
