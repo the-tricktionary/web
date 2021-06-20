@@ -33,15 +33,15 @@
     </div>
 
     <div class="flex flex-col">
-      <div>
+      <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">Next</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisiteFor" :key="prereq.id" />
         </div>
       </div>
 
-      <div>
-        <h2 class="mt-6 mb-4 text-2xl font-semibold relative">Previous</h2>
+      <div v-if="trick.prerequisites.length">
+        <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">Previous</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisites" :key="prereq.id" />
         </div>
@@ -50,31 +50,55 @@
   </div>
 
   <div class="bg-white fixed bottom-0 border-t border-gray-300 w-full p-2">
-    <div class="container mx-auto mx-auto flex justify-between">
+    <div class="container mx-auto mx-auto flex justify-between gap-4">
       <router-link to="/">
-        <button class="btn inline-flex items-center mt-0 w-max">
-          <icon-chevron-left />
-          Go Back
-        </button>
+        <icon-button class="btn inline-flex items-center mt-0 w-max">
+          <template #icon>
+            <icon-chevron-left />
+          </template>
+          All Tricks
+        </icon-button>
       </router-link>
 
-      <!-- TODO: completed checkbox -->
-      <button
+      <div class="flex-grow"></div>
+
+      <label
+        v-if="user && trick"
+        class="grid rounded cursor-pointer grid-cols-[3rem,auto] bg-gray-300 hover:bg-ttyellow-300"
+      >
+        <input @click="completeTrick()" type="checkbox" class="hidden" :checked="completed.has(trick.id)" :disabled="mutating">
+        <div
+          class="flex rounded-l h-full items-center justify-center"
+          :class="{
+            'bg-green-500': completed.has(trick.id),
+            'bg-green-300': mutating
+          }"
+        >
+          <icon-loading class="text-white animate-spin" v-if="mutating" />
+          <icon-check class="text-white" v-else-if="completed.has(trick.id)" />
+          <icon-close class="text-black" v-else />
+        </div>
+        <div class="flex px-2 items-center">Completed</div>
+      </label>
+
+      <icon-button
         v-if="canShare"
         :disabled="!trick"
         @click="share()"
         class="w-max btn inline-flex items-center mt-0"
       >
-        <icon-share></icon-share>
+        <template #icon>
+          <icon-share />
+        </template>
         Share
-      </button>
+      </icon-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, ref, toRef, watch } from 'vue'
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { useResult } from '@vue/apollo-composable'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
@@ -82,24 +106,29 @@ import { useHead } from '@vueuse/head'
 import { useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
 import { slugToDiscipline, trickSorter } from '../helpers'
 import useAuth from '../hooks/useAuth'
+import useCompleteTrick from '../hooks/useCompleteTrick'
 
 import Videos from '../components/Videos.vue'
 import IconLoading from 'virtual:vite-icons/mdi/loading'
 import IconShare from 'virtual:vite-icons/mdi/share'
 import IconChevronLeft from 'virtual:vite-icons/mdi/chevron-left'
 import IconCheck from 'virtual:vite-icons/mdi/check'
+import IconClose from 'virtual:vite-icons/mdi/close'
 import IconCheckAll from 'virtual:vite-icons/mdi/check-all'
 import TrickBox from '../components/TrickBox.vue'
+import IconButton from '../components/IconButton.vue'
+
+import type { Ref } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
 const analytics = getAnalytics()
-const discipline = slugToDiscipline(route.params.discipline as string)
+const discipline = ref(slugToDiscipline(route.params.discipline as string))
 
 const { user } = useAuth({ withChecklist: true })
 const trickQuery = useTrickBySlugQuery({
   discipline: discipline,
-  slug: route.params.slug as string,
+  slug: route.params.slug,
   withLocalised: !!user.value?.lang,
   lang: user.value?.lang
 })
@@ -116,6 +145,11 @@ function formatList (en: string[], local?: string[] | null) {
   return enListFormater.format(en)
 }
 
+const { mutate: completeTrick, loading: mutating } = useCompleteTrick({
+  trickId: toRef(trick.value!, 'id') as Ref<string>,
+  completed: computed(() => completed.value.has(trick.value!.id))
+})
+
 useHead({
   title: computed(() => trick.value ? `${trick.value.localised?.name ?? trick.value.en?.name} | the Tricktionary` : 'the Tricktionary')
 })
@@ -126,6 +160,13 @@ watch(user, user => {
     trickQuery.variables.value.lang = user?.lang
   } else {
     trickQuery.variables.value.withLocalised = false
+  }
+})
+
+onBeforeRouteUpdate((to, from) => {
+  if (to.name === from.name) {
+    trickQuery.variables.value.discipline = slugToDiscipline(to.params.discipline as string)
+    trickQuery.variables.value.slug = to.params.slug as string
   }
 })
 
@@ -145,9 +186,9 @@ trickQuery.onResult(({ data }) => {
       user: user.value?.id
     })
 
-    // sort prereqs
-    trick.value?.prerequisites.sort(trickSorter)
-    trick.value?.prerequisiteFor.sort(trickSorter)
+    // // sort prereqs
+    // trick.value?.prerequisites.sort(trickSorter)
+    // trick.value?.prerequisiteFor.sort(trickSorter)
   }
 })
 
