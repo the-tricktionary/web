@@ -42,7 +42,7 @@ import { useRouter } from 'vue-router'
 import useAuth from '../hooks/useAuth'
 
 const auth = getAuth()
-const user = useAuth()
+const { firebaseUser: user } = useAuth()
 const router = useRouter()
 const analytics = getAnalytics()
 

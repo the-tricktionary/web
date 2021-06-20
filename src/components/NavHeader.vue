@@ -9,7 +9,7 @@
       <router-link exact-active-class="active" class="nav-link" to="/">Tricks</router-link>
       <!-- <router-link active-class="active" class="nav-link" to="/speed">Speed</router-link> -->
       <!-- <router-link active-class="active" class="nav-link" to="/shop">Shop</router-link> -->
-      <router-link active-class="active" class="nav-link" to="/profile" v-if="auth">Profile</router-link>
+      <router-link active-class="active" class="nav-link" to="/profile" v-if="user">Profile</router-link>
       <router-link active-class="active" class="nav-link" to="/auth" v-else>Sign in</router-link>
     </nav>
   </header>
@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import useAuth from '../hooks/useAuth'
 
-const auth = useAuth()
+const { firebaseUser: user } = useAuth()
 </script>
 
 <style scoped>
