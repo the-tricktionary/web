@@ -4,7 +4,7 @@
     <form @submit.prevent="logInWithProvider('google')" class="w-full md:max-w-80 mb-4">
       <h2 class="text-lg font-semibold">Sign in/sign up with external accounts</h2>
       <input type="submit" value="Sign in with Google" class="btn">
-      <p class="text-ttred-900" v-if="socialErr">
+      <p class="text-ttred-900 dark:text-ttred-500" v-if="socialErr">
           Failed to log in with error: "{{ socialErr }}". Please try again,
           if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
         </p>
@@ -15,7 +15,7 @@
         <h2 class="text-lg font-semibold">Sign in/sign up with email</h2>
         <input type="email" :disabled="email.linkSent" v-model="email.email" aria-label="Email" required placeholder="Email" class="w-full block rounded focus:border-b-ttred-900" >
         <input type="submit" :disabled="email.linkSent" value="Send magic link" class="btn">
-        <p class="text-ttred-900" v-if="email.error">
+        <p class="text-ttred-900 dark:text-ttred-500" v-if="email.error">
           Failed to log in with error: "{{ email.error }}". Please try again,
           if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
         </p>
@@ -25,7 +25,7 @@
         <p>Phone number including country code, e.g +46 123 456 78 90</p>
         <input type="tel" v-model="phone.phoneNumber" aria-label="Phone number" required placeholder="Phone number" class="w-full block rounded focus:border-b-ttred-900" >
         <input type="submit" value="Send verification code" class="btn">
-        <p class="text-ttred-900" v-if="phone.error">
+        <p class="text-ttred-900 dark:text-ttred-500" v-if="phone.error">
           Failed to log in with error: "{{ phone.error }}". Please try again,
           if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
         </p>

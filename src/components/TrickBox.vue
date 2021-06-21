@@ -5,7 +5,7 @@
   >
     <label
       v-if="user"
-      class="cursor-pointer flex rounded-l h-full border border-r-0 border-gray-300 hover:bg-gray-200 items-center justify-center"
+      class="cursor-pointer flex rounded-l h-full border border-r-0 border-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 items-center justify-center"
       :class="{
         'bg-green-500': completed,
         'border-green-500': completed,
@@ -19,7 +19,7 @@
       <input @click="completeTrick()" type="checkbox" class="hidden" :checked="completed" :disabled="!user || loading">
     </label>
     <router-link
-      class="flex rounded-r border border-gray-300 p-2 items-center justify-center text-center hover:bg-gray-200"
+      class="flex rounded-r border border-gray-300 p-2 items-center justify-center text-center hover:bg-gray-200 dark:hover:bg-gray-700"
       :class="{
         'border-green-500': completed,
         'rounded-l': !user

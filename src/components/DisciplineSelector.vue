@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full border-b border-gray-300 flex justify-center overflow-x-auto">
+  <div class="sticky top-49px bg-white dark:bg-gray-900 dark:text-white z-100 w-full border-b border-gray-300 flex justify-center overflow-x-auto">
     <button
       v-for="(name, dOpt) in disciplines"
       :key="dOpt"
@@ -9,7 +9,7 @@
         'mb-0': discipline === dOpt,
         'mb-2px': discipline !== dOpt
       }"
-      class="hover:bg-gray-200 hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
+      class="hover:bg-gray-200 dark:hover:bg-gray-700 hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
       @click="$emit('update:discipline', dOpt)"
     >{{ name }}</button>
   </div>
