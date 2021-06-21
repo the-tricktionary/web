@@ -25,12 +25,15 @@ export default defineConfig({
     require('windicss/plugin/aspect-ratio'),
     plugin(({ addBase, theme }) => {
       addBase({
+        p: {
+          marginBottom: '0.5rem'
+        },
         'p a': {
-          color: theme('colors.blue.500'),
+          color: theme('colors.blue.500') as string,
           textDecorationLine: 'underline',
           textUnderlineOffset: '1px',
           '&:hover': {
-            color: theme('colors.blue.800'),
+            color: theme('colors.blue.800') as string,
             textUnderlineOffset: '3px',
           }
         },
@@ -54,21 +57,25 @@ export default defineConfig({
           marginTop: '.5rem',
           display: 'block',
           width: '100%',
-          backgroundColor: theme('colors.gray.300'),
+          backgroundColor: theme('colors.white') as string,
+          borderColor: theme('colors.gray.300') as string,
+          borderWidth: '1px',
+          borderStyle: 'solid',
           cursor: 'pointer',
+          textAlign: 'center',
           '&:hover': {
-            backgroundColor: theme('colors.ttyellow.300')
+            backgroundColor: theme('colors.gray.200') as string
           },
           '&:disabled': {
             cursor: 'default',
-            backgroundColor: theme('colors.gray.200'),
-            color: theme('colors.gray.500')
+            backgroundColor: theme('colors.gray.200')as string,
+            color: theme('colors.gray.500') as string
           }
         },
         'form:invalid .btn': {
           cursor: 'default',
-          backgroundColor: theme('colors.gray.200'),
-          color: theme('colors.gray.500')
+          backgroundColor: theme('colors.gray.200') as string,
+          color: theme('colors.gray.500') as string
         },
 
         '.trick-level': {
@@ -81,7 +88,7 @@ export default defineConfig({
           '&:before, &:after': {
             content: '" "',
             borderBottomWidth: '2px',
-            borderColor: theme('colors.gray.300'),
+            borderColor: theme('colors.gray.300') as string,
             position: 'absolute',
             width: '100%',
             maxWidth: '20vw',

@@ -1,17 +1,15 @@
 
 <template>
   <discipline-selector v-model:discipline="discipline" />
+  <links />
   <div class="container mx-auto p-2">
     <trick-list :discipline="discipline" />
   </div>
 
-  <footer class="py-2 mt-6 w-full border-t border-gray-300">
-    <p class="container p-2 mx-auto">
-      <router-link to="/policies">
-        Privacy policy, store policy
-      </router-link>
-    </p>
-  </footer>
+  <ad-adsense />
+  <about />
+
+  <tt-footer />
 </template>
 
 <script setup lang="ts">
@@ -20,9 +18,13 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue'
+import About from '../components/About.vue'
+import TtFooter from '../components/Footer.vue'
+import Links from '../components/Links.vue'
 
 import type { Discipline } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
+import AdAdsense from '../components/AdAdsense.vue'
 
 const discipline = ref<Discipline>()
 const analytics = getAnalytics()

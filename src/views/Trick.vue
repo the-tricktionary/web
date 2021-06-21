@@ -60,25 +60,24 @@
         </icon-button>
       </router-link>
 
-      <div class="<md:hidden flex-grow"></div>
-
       <label
         v-if="user && trick"
-        class="grid rounded cursor-pointer grid-cols-[3rem,auto] bg-gray-300 hover:bg-ttyellow-300"
+        class="grid cursor-pointer grid-cols-[3rem,auto] bg-white hover:bg-gray-200"
       >
         <input @click="completeTrick()" type="checkbox" class="hidden" :checked="completed.has(trick.id)" :disabled="mutating">
         <div
-          class="flex rounded-l h-full items-center justify-center"
+          class="flex rounded-l h-full items-center justify-center border-gray-300 border"
           :class="{
             'bg-green-500': completed.has(trick.id),
-            'bg-green-300': mutating
+            'bg-green-300': mutating,
+            'border-green-500': completed.has(trick.id)
           }"
         >
           <icon-loading class="text-white animate-spin" v-if="mutating" />
           <icon-check class="text-white" v-else-if="completed.has(trick.id)" />
           <icon-close class="text-black" v-else />
         </div>
-        <div class="flex px-2 items-center">Completed</div>
+        <div class="rounded-r flex px-2 items-center border border-l-0 border-gray-300">Completed</div>
       </label>
 
       <icon-button
