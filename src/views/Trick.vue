@@ -9,7 +9,7 @@
       <div class="mb-4">
         <h1>{{ trick.localised?.name ?? trick.en?.name }}</h1>
 
-        <p class="text-gray-600 font-semibold">
+        <p class="text-gray-600 dark:text-gray-300 font-semibold">
           <span class="inline-flex items-center">
             {{ trick.trickType }}
             &mdash; IJRU Level {{ trick.ijruLevels[0]?.level }}
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div class="bg-white fixed bottom-0 border-t border-gray-300 w-full p-2 overflow-x-auto">
+  <div class="bg-white dark:bg-gray-700 fixed bottom-0 border-t border-gray-300 w-full p-2 overflow-x-auto">
     <div class="container mx-auto flex justify-between gap-4 ">
       <router-link to="/">
         <icon-button class="btn inline-flex items-center mt-0 w-max">
@@ -60,15 +60,15 @@
         </icon-button>
       </router-link>
 
-      <div class="<md:hidden flex-grow"></div>
+      <div class="hidden sm:block flex-grow"></div>
 
       <label
         v-if="user && trick"
-        class="grid rounded cursor-pointer grid-cols-[3rem,auto] bg-gray-300 hover:bg-ttyellow-300"
+        class="grid rounded cursor-pointer grid-cols-[3rem,auto] bg-gray-300 dark:bg-gray-700 hover:bg-ttyellow-300 dark:hover:text-black"
       >
         <input @click="completeTrick()" type="checkbox" class="hidden" :checked="completed.has(trick.id)" :disabled="mutating">
         <div
-          class="flex rounded-l h-full items-center justify-center"
+          class="flex rounded-l h-full items-center justify-center dark:border dark:border-r-0 dark:rounded-l dark:border-gray-200"
           :class="{
             'bg-green-500': completed.has(trick.id),
             'bg-green-300': mutating
@@ -76,9 +76,9 @@
         >
           <icon-loading class="text-white animate-spin" v-if="mutating" />
           <icon-check class="text-white" v-else-if="completed.has(trick.id)" />
-          <icon-close class="text-black" v-else />
+          <icon-close v-else />
         </div>
-        <div class="flex px-2 items-center">Completed</div>
+        <div class="flex px-2 items-center dark:border dark:rounded-r dark:border-gray-300">Completed</div>
       </label>
 
       <icon-button

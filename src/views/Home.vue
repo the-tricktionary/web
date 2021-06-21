@@ -5,7 +5,7 @@
     <trick-list :discipline="discipline" />
   </div>
 
-  <footer class="py-2 mt-6 w-full border-t border-gray-300">
+  <footer class="py-2 mt-6 w-full border-t border-gray-300 dark:bg-gray-700">
     <p class="container p-2 mx-auto">
       <router-link to="/policies">
         Privacy policy, store policy
