@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
 import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
+import { getAnalytics, setAnalyticsCollectionEnabled } from 'firebase/analytics'
 
 initializeApp({
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
@@ -11,7 +11,10 @@ initializeApp({
   appId: "1:1048157266079:web:a8ae83f6f16d7436",
   measurementId: "G-G282NYD80K"
 })
-getAnalytics()
+const analytics = getAnalytics()
+
+// TODO enable this on cookie consent
+// setAnalyticsCollectionEnabled(analytics, false)
 
 Sentry.init({
   dsn: 'https://f1e35252e18a4e8195ccac61777fe9c7@o142353.ingest.sentry.io/5824230',

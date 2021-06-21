@@ -38,6 +38,11 @@ export default defineConfig({
           fontSize: '2.25rem',
           lineHeight: '2.5rem',
           fontWeight: '600'
+        },
+        h2: {
+          fontSize: '1.125rem',
+          lineHeight: '1.75rem',
+          fontWeight: '600'
         }
       })
     }),
@@ -82,6 +87,14 @@ export default defineConfig({
             maxWidth: '20vw',
             top: '50%'
           }
+        },
+
+        '.prose p, .prose ul': {
+          marginBottom: '.5rem'
+        },
+        '.prose ul': {
+          listStyle: 'disc',
+          paddingLeft: '3rem'
         }
       })
     })

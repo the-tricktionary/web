@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-2xl font-semibold container mx-auto text-center mt-8">Sign in/Sign up</h1>
+  <h1 class="mx-auto text-center mt-8">Sign in / Sign up</h1>
   <div class="mx-auto container mt-2 px-2 flex flex-col md:flex-row justify-center items-center">
     <form @submit.prevent="logInWithProvider('google')" class="w-full md:max-w-80 mb-4">
       <h2 class="text-lg font-semibold">Sign in/sign up with external accounts</h2>

@@ -7,7 +7,7 @@
   <div v-else-if="trick" class="grid grid-cols-1 lg:grid-cols-[4fr,1fr] gap-4 container mx-auto px-2 py-4 mb-20">
     <div>
       <div class="mb-4">
-        <h1 class="text-4xl font-semibold">{{ trick.localised?.name ?? trick.en?.name }}</h1>
+        <h1>{{ trick.localised?.name ?? trick.en?.name }}</h1>
 
         <p class="text-gray-600 font-semibold">
           <span class="inline-flex items-center">
