@@ -13,6 +13,9 @@ const updateSW = registerSW({
 export default function useSW () {
   return {
     needRefresh,
-    updateSW
+    updateSW,
+    dismiss () {
+      needRefresh.value = false
+    }
   }
 }

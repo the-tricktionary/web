@@ -54,7 +54,6 @@ export default defineConfig({
         '.btn': {
           padding: '.5rem',
           borderRadius: '.25rem',
-          marginTop: '.5rem',
           display: 'block',
           width: '100%',
           backgroundColor: theme('colors.white') as string,
