@@ -1,0 +1,26 @@
+<template>
+  <div v-if="cookie.granted.value === null" class="fixed bottom-0 right-0 left-0 border-t bg-white border-gray-300 py-4">
+    <div class="container mx-auto px-2">
+      <h2>Cookies</h2>
+      <p>
+        We would like to use cookies to collect anonymous aggregated usage
+        statistics to know what features to improve.
+        Read more in our <router-link to="/policies">privacy policy</router-link>.
+      </p>
+      <div class="flex gap-4 flex-wrap mt-2">
+        <button @click="cookie.grant()"
+          class="w-full sm:w-auto text-white bg-green-500 py-2 px-6 hover:bg-green-600 rounded text-lg"
+        >I accept cookies</button>
+        <button @click="cookie.deny()"
+          class="w-full sm:w-auto text-white bg-green-500 py-2 px-6 hover:bg-green-600 rounded text-lg"
+        >I deny cookies</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import useConsentCookie from "../hooks/useCookieConsent";
+
+const cookie = useConsentCookie()
+</script>

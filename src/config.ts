@@ -2,19 +2,26 @@ import * as Sentry from '@sentry/browser'
 import { Integrations } from '@sentry/tracing'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics, setAnalyticsCollectionEnabled } from 'firebase/analytics'
+import useCookieConsent from './hooks/useCookieConsent'
+import { watch } from 'vue'
 
-initializeApp({
+const firebaseConfig = {
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
   authDomain: "the-tricktionary.com",
   projectId: "project-5641153190345267944",
   messagingSenderId: "1048157266079",
   appId: "1:1048157266079:web:a8ae83f6f16d7436",
   measurementId: "G-G282NYD80K"
-})
-const analytics = getAnalytics()
+}
 
-// TODO enable this on cookie consent
-// setAnalyticsCollectionEnabled(analytics, false)
+const { granted } = useCookieConsent()
+
+initializeApp(firebaseConfig)
+// configure analytics
+const analytics = getAnalytics()
+watch(granted, granted => {
+  setAnalyticsCollectionEnabled(analytics, granted ?? false)
+}, { immediate: true })
 
 Sentry.init({
   dsn: 'https://f1e35252e18a4e8195ccac61777fe9c7@o142353.ingest.sentry.io/5824230',
