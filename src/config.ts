@@ -23,12 +23,14 @@ watch(granted, granted => {
   setAnalyticsCollectionEnabled(analytics, granted ?? false)
 }, { immediate: true })
 
-Sentry.init({
-  dsn: 'https://f1e35252e18a4e8195ccac61777fe9c7@o142353.ingest.sentry.io/5824230',
-  release: `tricktionary-web-v4@${import.meta.env.VITE_COMMIT_REF?.toString()}`,
-  environment: import.meta.env.VITE_CONTEXT?.toString(),
-  integrations: [new Integrations.BrowserTracing({
-    tracingOrigins: ['the-tricktionary.com']
-  })],
-  tracesSampleRate: 1.0
-})
+if (import.meta.env.VITE_COMMIT_REF) {
+  Sentry.init({
+    dsn: 'https://f1e35252e18a4e8195ccac61777fe9c7@o142353.ingest.sentry.io/5824230',
+    release: `tricktionary-web-v4@${import.meta.env.VITE_COMMIT_REF?.toString()}`,
+    environment: import.meta.env.VITE_CONTEXT?.toString(),
+    integrations: [new Integrations.BrowserTracing({
+      tracingOrigins: ['the-tricktionary.com']
+    })],
+    tracesSampleRate: 1.0
+  })
+}

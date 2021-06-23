@@ -2,38 +2,54 @@
 <template>
   <discipline-selector v-model:discipline="discipline" />
   <links />
+
   <div class="container mx-auto p-2">
     <trick-list
       :tricks="tricks"
       :checklist="checklist"
       :loading="tricksQuery.loading.value"
+      :hide-completed="settings.hideCompleted"
+      :enable-checklist="!!user"
     />
+  </div>
+
+  <div class="fixed bottom-0 right-0 left-0 bg-white border-t border-gray-300 py-2">
+    <div class="container mx-auto px-2">
+      <icon-checkbox v-model:checked="settings.hideCompleted" class="w-max">
+        Hide Completed
+      </icon-checkbox>
+    </div>
+    <!-- TODO: serach -->
+    <!-- TODO: language select -->
   </div>
 
   <ad-adsense />
   <about />
 
-  <tt-footer />
+  <tt-footer class="mb-14" />
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { getAnalytics, logEvent } from '@firebase/analytics'
+import { useResult } from '@vue/apollo-composable'
 
 import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue'
 import About from '../components/About.vue'
 import TtFooter from '../components/Footer.vue'
 import Links from '../components/Links.vue'
+import IconCheckbox from '../components/IconCheckbox.vue'
 
 import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
+import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
-import { useResult } from '@vue/apollo-composable'
 
 import type { TricksQuery } from '../graphql/generated/graphql'
 
 const discipline = ref<Discipline>()
+const settings = useSettings()
 const analytics = getAnalytics()
 const { firebaseUser, user } = useAuth({ withChecklist: true })
 

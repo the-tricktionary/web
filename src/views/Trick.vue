@@ -36,14 +36,14 @@
       <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">Next</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisiteFor" :key="prereq.id" @navigate="viewNext(prereq)" />
+          <trick-box :enable-checklist="!!user" :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisiteFor" :key="prereq.id" @navigate="viewNext(prereq)" />
         </div>
       </div>
 
       <div v-if="trick.prerequisites.length">
         <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">Previous</h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <trick-box :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisites" :key="prereq.id" @navigate="viewPrevious(prereq)" />
+          <trick-box :enable-checklist="!!user" :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisites" :key="prereq.id" @navigate="viewPrevious(prereq)" />
         </div>
       </div>
     </div>
@@ -60,25 +60,15 @@
         </icon-button>
       </router-link>
 
-      <label
+      <icon-checkbox
         v-if="user && trick"
-        class="grid cursor-pointer grid-cols-[3rem,auto] bg-white hover:bg-gray-200"
+        :checked="completed.has(trick.id)"
+        :disabed="mutating"
+        :loading="mutating"
+        @update:checked="completeTrick($event)"
       >
-        <input @click="completeTrick()" type="checkbox" class="hidden" :checked="completed.has(trick.id)" :disabled="mutating">
-        <div
-          class="flex rounded-l h-full items-center justify-center border-gray-300 border"
-          :class="{
-            'bg-green-500': completed.has(trick.id),
-            'bg-green-300': mutating,
-            'border-green-500': completed.has(trick.id)
-          }"
-        >
-          <icon-loading class="text-white animate-spin" v-if="mutating" />
-          <icon-check class="text-white" v-else-if="completed.has(trick.id)" />
-          <icon-close class="text-black" v-else />
-        </div>
-        <div class="rounded-r flex px-2 items-center border border-l-0 border-gray-300">Completed</div>
-      </label>
+        Completed
+      </icon-checkbox>
 
       <icon-button
         v-if="canShare"
@@ -96,14 +86,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { useResult } from '@vue/apollo-composable'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
 
 import { useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
-import { slugToDiscipline, trickSorter } from '../helpers'
+import { slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 
@@ -112,13 +102,12 @@ import IconLoading from 'virtual:vite-icons/mdi/loading'
 import IconShare from 'virtual:vite-icons/mdi/share'
 import IconChevronLeft from 'virtual:vite-icons/mdi/chevron-left'
 import IconCheck from 'virtual:vite-icons/mdi/check'
-import IconClose from 'virtual:vite-icons/mdi/close'
 import IconCheckAll from 'virtual:vite-icons/mdi/check-all'
 import TrickBox from '../components/TrickBox.vue'
 import IconButton from '../components/IconButton.vue'
 
-import type { Ref } from 'vue'
 import type { TrickBoxFragment } from '../graphql/generated/graphql'
+import IconCheckbox from '../components/IconCheckbox.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -145,10 +134,16 @@ function formatList (en: string[], local?: string[] | null) {
   return enListFormater.format(en)
 }
 
-const { mutate: completeTrick, loading: mutating } = useCompleteTrick({
-  trickId: toRef(trick.value ?? { id: null }, 'id') as Ref<string>,
-  completed: computed(() => completed.value.has(trick.value!.id))
-})
+const { mutate: completeTrickMutate, loading: mutating } = useCompleteTrick()
+
+async function completeTrick (completed?: boolean) {
+  if (!trick.value) return
+  if (typeof completed !== 'boolean') return
+  await completeTrickMutate({
+    trickId: trick.value?.id,
+    completed
+  })
+}
 
 useHead({
   title: computed(() => trick.value ? `${trick.value.localised?.name ?? trick.value.en?.name} | the Tricktionary` : 'the Tricktionary')

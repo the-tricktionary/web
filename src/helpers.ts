@@ -28,6 +28,6 @@ export function slugToDiscipline (slug: string) {
 
 export function trickSorter (a: Pick<TrickBoxFragment, 'slug' | 'localised' | 'en'>, b: Pick<TrickBoxFragment, 'slug' | 'localised' | 'en'>) {
   const aName = a.localised?.name ?? a.en?.name ?? a.slug
-  const bName = a.localised?.name ?? b.en?.name ?? b.slug
+  const bName = b.localised?.name ?? b.en?.name ?? b.slug
   return aName.localeCompare(bName)
 }

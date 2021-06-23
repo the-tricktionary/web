@@ -5,9 +5,9 @@ import type { Ref } from 'vue'
 
 const analytics = getAnalytics()
 
-export default function useCompleteTrick ({ trickId, completed }: { trickId: Ref<string>, completed: Ref<boolean> }) {
+export default function useCompleteTrick (variables?: { trickId: string, completed: boolean }) {
   const mutation = useCompleteTrickMutation(() => ({
-    variables: { trickId: trickId.value, completed: !completed.value },
+    ...(variables ? { variables } : {}),
     update (cache, { data }) {
       const cachedData = cache.readQuery<MeQuery, MeQueryVariables>({ query: MeDocument, variables: { withChecklist: true } })
 
@@ -33,7 +33,7 @@ export default function useCompleteTrick ({ trickId, completed }: { trickId: Ref
   mutation.onDone(({ data }) => {
     if (data?.createTrickCompletion) {
       logEvent(analytics, 'unlock_achievement', {
-        achievement_id: `Trick:${trickId.value}`
+        achievement_id: `Trick:${data.createTrickCompletion.trick.id}`
       })
     }
   })

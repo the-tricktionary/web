@@ -10,7 +10,7 @@
       <template v-if="tricks.length">
         <h3 class="mx-auto text-center px-4 text-2xl mt-4">{{ trickType }}</h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
-          <trick-box :completed="checklist.has(trick.id)" :trick="trick" v-for="trick of tricks" :key="trick.id" />
+          <trick-box :enable-checklist="enableChecklist" :completed="checklist.has(trick.id)" :trick="trick" v-for="trick of tricks" :key="trick.id" />
         </div>
       </template>
     </template>
@@ -46,12 +46,21 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  hideCompleted: {
+    type: Boolean,
+    default: false
+  },
+  enableChecklist: {
+    type: Boolean,
+    default: false
   }
 })
 
 const sorted = computed(() => {
   const sorted: { [level: string]: Record<TrickType, TricksQuery['tricks']> } = {}
-  const dataTricks = [...props.tricks ?? []]
+  let dataTricks = [...props.tricks ?? []]
+  if (props.hideCompleted) dataTricks = dataTricks.filter(t => !props.checklist.has(t.id))
   dataTricks.sort(trickSorter)
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
