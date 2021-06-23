@@ -1,6 +1,6 @@
 <template>
   <label
-    class="grid cursor-pointer grid-cols-[3rem,auto] bg-white hover:bg-gray-200"
+    class="grid cursor-pointer grid-cols-[3rem,auto] rounded bg-white hover:bg-gray-200"
   >
     <input
       @click="$emit('update:checked', !checked)"
