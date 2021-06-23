@@ -1,7 +1,7 @@
 <template>
   <h1 class="mx-auto text-center mt-8">Sign in / Sign up</h1>
   <div class="mx-auto container mt-2 px-2 flex flex-col md:flex-row justify-center items-center">
-    <form @submit.prevent="logInWithProvider('google')" class="w-full md:max-w-80 mb-4">
+    <form @submit.prevent="logInWithProvider('google.com')" class="w-full md:max-w-80 mb-4">
       <h2 class="text-lg font-semibold">Sign in/sign up with external accounts</h2>
       <input type="submit" value="Sign in with Google" class="btn">
       <p class="text-ttred-900" v-if="socialErr">
@@ -13,11 +13,14 @@
     <div class="w-full md:max-w-80">
       <form @submit.prevent="sendEmailLink()" class="mb-4">
         <h2 class="text-lg font-semibold">Sign in/sign up with email</h2>
-        <input type="email" :disabled="email.linkSent" v-model="email.email" aria-label="Email" required placeholder="Email" class="w-full block rounded focus:border-b-ttred-900" >
-        <input type="submit" :disabled="email.linkSent" value="Send magic link" class="btn">
+        <input type="email" :disabled="email.linkSent" v-model="email.email" aria-label="Email" required placeholder="Email" class="w-full block rounded focus:border-b-ttred-900 border-gray-300 disabled:bg-gray-100" >
+        <input type="submit" :disabled="email.linkSent" value="Send magic link" class="btn mt-2">
         <p class="text-ttred-900" v-if="email.error">
           Failed to log in with error: "{{ email.error }}". Please try again,
           if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
+        </p>
+        <p v-if="email.linkSent">
+          An email with a link to login has been sent to your email.
         </p>
       </form>
       <!-- <form @submit.prevent="sendSMSCode()" >
@@ -32,6 +35,7 @@
       </form> -->
     </div>
   </div>
+  <!-- TODO: why you should sign up -->
 </template>
 
 <script setup lang="ts">
@@ -68,14 +72,15 @@ watch(user, newUser => {
 })
 
 const providers = {
-  google: new GoogleAuthProvider()
+  // https://firebase.google.com/docs/reference/js/v9/auth.md#signinmethod
+  'google.com': new GoogleAuthProvider()
 }
 
 async function logInWithProvider (providerId: keyof typeof providers) {
   try {
-    logEvent(analytics, 'login', { method: providerId })
     socialErr.value = null
     await signInWithPopup(auth, providers[providerId])
+    logEvent(analytics, 'login', { method: providerId })
   } catch (err) {
     socialErr.value = err.code
     throw err
@@ -89,6 +94,7 @@ async function sendEmailLink () {
       url: `${window.location.origin}/auth?email=${email.email}`,
       handleCodeInApp: true
     })
+    email.linkSent = true
   } catch (err) {
     email.error = err.code
     throw err
@@ -99,20 +105,22 @@ async function sendEmailLink () {
 //   try {
 //     phone.error = null
 //     await signInWithPhoneNumber(auth, phone.phoneNumber)
+//     logEvent(analytics, 'login', { method: 'phone' })
+//     phone.codeSent = true
 //   } catch (err) {
 //     phone.error = err.message
 //     throw err
 //   }
 // }
 
-onMounted(() => {
+onMounted(async () => {
   if (isSignInWithEmailLink(auth, window.location.href)) {
     const params = new URLSearchParams(window.location.search)
     const emailParam = params.get('email')
     try {
       if (!emailParam) throw new Error('No email provided in magic link')
-      logEvent(analytics, 'login', { method: 'magic_link' })
-      signInWithEmailLink(auth, emailParam, window.location.href)
+      await signInWithEmailLink(auth, emailParam, window.location.href)
+      logEvent(analytics, 'login', { method: 'emailLink' })
     } catch (err) {
       email.error = err.code ?? err.message
       throw err

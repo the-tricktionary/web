@@ -1,7 +1,7 @@
 <template>
   <!-- tT flow v4 -->
   <div class="container mx-auto px-2">
-    <div class="overflow-x-auto bg-gray-100">
+    <div class="overflow-x-auto bg-gray-100 min-h-24 border-gray-300">
       <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-7956758256491526"
@@ -16,7 +16,12 @@
 
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
-; ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+const anyWin = window as any
+
+if (!('adsbygoogle' in anyWin)) {
+  anyWin.adsbygoogle ??= []
+  anyWin.adsbygoogle.push({})
+}
 
 useHead({
   script: [

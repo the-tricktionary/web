@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto container px-2">
-    <section class="border border-gray-300 p-2 mt-2 box-border">
+    <section class="border border-gray-300 p-2 mt-2">
       <header class="text-center flex flex-nowrap items-center justify-center">
         <img class="max-h-15" src="https://ropescore.com/static/img/icon.png" />
         <h2 class="text-6xl">RopeScore</h2>
