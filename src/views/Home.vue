@@ -3,6 +3,16 @@
   <discipline-selector v-model:discipline="discipline" />
   <links />
 
+  <div class="fixed bottom-0 right-0 left-0 bg-white border-t border-gray-300 py-2 z-100">
+    <div class="container mx-auto px-2">
+      <icon-checkbox v-model:checked="settings.hideCompleted" class="w-max">
+        Hide Completed
+      </icon-checkbox>
+    </div>
+    <!-- TODO: serach -->
+    <!-- TODO: language select -->
+  </div>
+
   <div class="container mx-auto p-2">
     <trick-list
       :tricks="tricks"
@@ -13,15 +23,6 @@
     />
   </div>
 
-  <div class="fixed bottom-0 right-0 left-0 bg-white border-t border-gray-300 py-2">
-    <div class="container mx-auto px-2">
-      <icon-checkbox v-model:checked="settings.hideCompleted" class="w-max">
-        Hide Completed
-      </icon-checkbox>
-    </div>
-    <!-- TODO: serach -->
-    <!-- TODO: language select -->
-  </div>
 
   <ad-adsense />
   <about />
