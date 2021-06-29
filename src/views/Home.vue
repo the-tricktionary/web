@@ -12,7 +12,11 @@
         v-model="search"
       >
 
-      <icon-checkbox v-model:checked="settings.hideCompleted" class="w-max whitespace-nowrap">
+      <icon-checkbox
+        v-model:checked="settings.hideCompleted"
+        class="w-max whitespace-nowrap"
+        :class="{ hidden: !user }"
+      >
         Hide Completed
       </icon-checkbox>
 
