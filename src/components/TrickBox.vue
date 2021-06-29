@@ -28,7 +28,8 @@
       class="flex rounded-r border border-gray-300 p-2 items-center justify-center text-center hover:bg-gray-200"
       :class="{
         'border-green-500': completed,
-        'rounded-l': !enableChecklist
+        'rounded-l': !enableChecklist,
+        'pr-[3rem]': enableChecklist
         }"
       :to="`/trick/${discipline}/${trick.slug}`"
       @click="$emit('navigate')"
