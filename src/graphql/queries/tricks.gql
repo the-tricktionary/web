@@ -1,5 +1,5 @@
-query Tricks ($discipline: Discipline, $withLocalised: Boolean!, $lang: String) {
-  tricks (discipline: $discipline) {
+query Tricks ($discipline: Discipline, $searchQuery: String, $withLocalised: Boolean!, $lang: String) {
+  tricks (discipline: $discipline, searchQuery: $searchQuery) {
     ...TrickBox
   }
 }
