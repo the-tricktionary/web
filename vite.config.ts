@@ -27,6 +27,7 @@ export default defineConfig({
         background_color: '#fe3500',
         theme_color: '#fe3500',
         prefer_related_applications: true,
+        categories: ['fitness', 'sports', 'education'],
         icons: [
           {
             'src': '/android-chrome-192x192.png',
@@ -39,6 +40,7 @@ export default defineConfig({
             'type': 'image/png'
           }
         ],
+        // screenshots: [],
         related_applications: [
           {
             platform: 'play',
@@ -46,7 +48,7 @@ export default defineConfig({
             id: 'trictionary.jumproper.com.jumpropetrictionary'
           },
           {
-            platform: 'web',
+            platform: 'webapp',
             url: 'https://the-tricktionary.com'
           }
         ]
@@ -56,5 +58,8 @@ export default defineConfig({
   server: {
     port: 3001,
     https: true
+  },
+  build: {
+    sourcemap: true
   }
 })
