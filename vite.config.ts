@@ -19,6 +19,9 @@ export default defineConfig({
     vue(),
     icons(),
     VitePWA({
+      workbox: {
+        navigateFallbackDenylist: [/^\/__\//]
+      },
       manifest: {
         name: 'the Tricktionary',
         short_name: 'Tricktionary',
