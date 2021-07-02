@@ -46,3 +46,4 @@ jobs:
         with:
           environment: branch-deploy
           sourcemaps: ./dist
+          version_prefix: tricktionary-web-v4@
