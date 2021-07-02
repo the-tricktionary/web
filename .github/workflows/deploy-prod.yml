@@ -25,7 +25,13 @@ jobs:
           node-version: 14
       - run: npm ci --prefer-offline
       - run: npm run codegen
-      - run: VITE_COMMIT_REF=${{ github.sha }} VITE_CONTEXT=production npm run build
+      - run: npm run build
+        env:
+          VITE_COMMIT_REF: ${{ github.sha }}
+          VITE_CONTEXT: production
+          VITE_GRAPHQL_URL: https://api.the-trickationary.com
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

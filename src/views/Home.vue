@@ -3,26 +3,24 @@
   <discipline-selector v-model:discipline="discipline" />
   <links />
 
-  <div class="fixed bottom-0 right-0 left-0 bg-white border-t border-gray-300 py-2 z-1000 overflow-x-auto">
-    <div class="container mx-auto px-2 flex gap-4 justify-between">
-      <input
-        type="search"
-        placeholder="Search tricks"
-        class="rounded focus:border-b-ttred-900 border-gray-300 flex-grow"
-        v-model="search"
-      >
+  <bottom-bar>
+    <input
+      type="search"
+      placeholder="Search tricks"
+      class="rounded focus:border-b-ttred-900 border-gray-300 flex-grow"
+      v-model="search"
+    >
 
-      <icon-checkbox
-        v-model:checked="settings.hideCompleted"
-        class="w-max whitespace-nowrap"
-        :class="{ hidden: !user }"
-      >
-        Hide Completed
-      </icon-checkbox>
+    <icon-checkbox
+      v-model:checked="settings.hideCompleted"
+      class="w-max whitespace-nowrap"
+      :class="{ hidden: !user }"
+    >
+      Hide Completed
+    </icon-checkbox>
 
-      <!-- TODO: language select -->
-    </div>
-  </div>
+    <!-- TODO: language select -->
+  </bottom-bar>
 
   <div class="container mx-auto p-2">
     <trick-list
@@ -60,6 +58,7 @@ import AdAdsense from '../components/AdAdsense.vue'
 
 import type { TricksQuery } from '../graphql/generated/graphql'
 import { useDebounce } from '@vueuse/shared'
+import BottomBar from '../components/BottomBar.vue'
 
 const discipline = ref<Discipline>()
 const settings = useSettings()

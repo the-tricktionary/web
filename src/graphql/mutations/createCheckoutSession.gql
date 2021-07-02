@@ -1,0 +1,6 @@
+mutation CreateCheckoutSession ($products: [ProductInput!]!, $currency: Currency!) {
+  createCheckoutSession (products: $products, currency: $currency) {
+    id
+    url
+  }
+}

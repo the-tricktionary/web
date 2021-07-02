@@ -102,3 +102,4 @@ dist
 dist-ssr
 *.local
 src/graphql/generated
+.env

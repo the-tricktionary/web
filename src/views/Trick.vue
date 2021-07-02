@@ -49,40 +49,38 @@
     </div>
   </div>
 
-  <div class="bg-white fixed bottom-0 border-t border-gray-300 w-full p-2 overflow-x-auto">
-    <div class="container mx-auto flex justify-between gap-4 ">
-      <router-link to="/">
-        <icon-button class="btn inline-flex items-center mt-0 w-max">
-          <template #icon>
-            <icon-chevron-left />
-          </template>
-          All Tricks
-        </icon-button>
-      </router-link>
-
-      <icon-checkbox
-        v-if="user && trick"
-        :checked="completed.has(trick.id)"
-        :disabed="mutating"
-        :loading="mutating"
-        @update:checked="completeTrick($event)"
-      >
-        Completed
-      </icon-checkbox>
-
-      <icon-button
-        v-if="canShare"
-        :disabled="!trick"
-        @click="share()"
-        class="w-max btn inline-flex items-center mt-0"
-      >
+  <bottom-bar>
+    <router-link to="/">
+      <icon-button class="btn inline-flex items-center mt-0 w-max">
         <template #icon>
-          <icon-share />
+          <icon-chevron-left />
         </template>
-        Share
+        All Tricks
       </icon-button>
-    </div>
-  </div>
+    </router-link>
+
+    <icon-checkbox
+      v-if="user && trick"
+      :checked="completed.has(trick.id)"
+      :disabed="mutating"
+      :loading="mutating"
+      @update:checked="completeTrick($event)"
+    >
+      Completed
+    </icon-checkbox>
+
+    <icon-button
+      v-if="canShare"
+      :disabled="!trick"
+      @click="share()"
+      class="w-max btn inline-flex items-center mt-0"
+    >
+      <template #icon>
+        <icon-share />
+      </template>
+      Share
+    </icon-button>
+  </bottom-bar>
 </template>
 
 <script setup lang="ts">
@@ -108,6 +106,7 @@ import IconButton from '../components/IconButton.vue'
 
 import type { TrickBoxFragment } from '../graphql/generated/graphql'
 import IconCheckbox from '../components/IconCheckbox.vue'
+import BottomBar from '../components/BottomBar.vue'
 
 const route = useRoute()
 const router = useRouter()

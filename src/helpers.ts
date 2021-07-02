@@ -1,4 +1,4 @@
-import { Discipline, TrickBoxFragment } from './graphql/generated/graphql'
+import { Discipline, TrickBoxFragment, Currency } from './graphql/generated/graphql'
 
 export function disciplineToSlug (discipline: Discipline) {
   switch (discipline) {
@@ -30,4 +30,15 @@ export function trickSorter (a: Pick<TrickBoxFragment, 'slug' | 'localised' | 'e
   const aName = a.localised?.name ?? a.en?.name ?? a.slug
   const bName = b.localised?.name ?? b.en?.name ?? b.slug
   return aName.localeCompare(bName)
+}
+
+type PricesFormatFields = Array<{ currency: Currency, unitAmount?: number | null }>
+
+export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatFields>, currency: Currency | string) {
+  const price = prices.find(p => p.currency === currency)
+  if (!price?.unitAmount) return '-'
+  return new Intl.NumberFormat('en', {
+    style: 'currency',
+    currency
+  }).format(price?.unitAmount / 100)
 }

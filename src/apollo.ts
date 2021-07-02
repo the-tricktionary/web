@@ -4,7 +4,7 @@ import { persistCache } from 'apollo3-cache-persist'
 import { getAuth } from 'firebase/auth'
 
 const httpLink = createHttpLink({
-  uri: 'https://api.the-tricktionary.com'
+  uri: import.meta.env.VITE_GRAPHQL_URL
 })
 
 const authLink = setContext(async (_, { headers }) => {

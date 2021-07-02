@@ -13,7 +13,7 @@
     <div class="w-full md:max-w-80">
       <form @submit.prevent="sendEmailLink()" class="mb-4">
         <h2 class="text-lg font-semibold">Sign in/sign up with email</h2>
-        <input type="email" :disabled="email.linkSent" v-model="email.email" aria-label="Email" required placeholder="Email" class="w-full block rounded focus:border-b-ttred-900 border-gray-300 disabled:bg-gray-100" >
+        <input type="email" :disabled="email.linkSent" v-model="email.email" aria-label="Email" :required="true" placeholder="Email" class="w-full block rounded focus:border-b-ttred-900 border-gray-300 disabled:bg-gray-100" >
         <input type="submit" :disabled="email.linkSent" value="Send magic link" class="btn mt-2">
         <p class="text-ttred-900" v-if="email.error">
           Failed to log in with error: "{{ email.error }}". Please try again,

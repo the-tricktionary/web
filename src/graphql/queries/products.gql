@@ -1,0 +1,18 @@
+query Products {
+  products {
+    id
+    name
+    description
+    image
+    prices {
+      id
+      currency
+      unitAmount
+    }
+  }
+  shippingRates {
+    id
+    currency
+    unitAmount
+  }
+}
