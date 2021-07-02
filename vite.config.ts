@@ -20,7 +20,10 @@ export default defineConfig({
     icons(),
     VitePWA({
       workbox: {
-        navigateFallbackDenylist: [/^\/__\//],
+        navigateFallbackDenylist: [
+          /^\/__\//,
+          /^\/sitemap\.xml/
+        ],
         offlineGoogleAnalytics: true
       },
       manifest: {
