@@ -2,7 +2,7 @@
   <!-- tT flow v4 -->
   <div class="container mx-auto px-2">
     <div class="overflow-x-auto bg-gray-100 min-h-24 border-gray-300">
-      <ins class="adsbygoogle mx-auto w-max"
+      <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-7956758256491526"
         data-ad-slot="4238944283"

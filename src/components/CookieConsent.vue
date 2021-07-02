@@ -1,5 +1,5 @@
 <template>
-  <div v-if="cookie.granted.value === null" class="fixed bottom-0 right-0 left-0 border-t bg-white border-gray-300 py-4">
+  <div v-if="cookie.granted.value === null" class="fixed bottom-0 right-0 left-0 border-t bg-white border-gray-300 py-4 z-10000">
     <div class="container mx-auto px-2">
       <h2>Cookies</h2>
       <p>
