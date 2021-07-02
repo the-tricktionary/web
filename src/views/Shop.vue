@@ -84,7 +84,6 @@ import { ref, reactive, computed } from 'vue'
 import { useResult } from '@vue/apollo-composable'
 import { useCreateCheckoutSessionMutation, useProductsQuery } from '../graphql/generated/graphql'
 import { getAnalytics, logEvent } from '@firebase/analytics'
-import { useRouter } from 'vue-router'
 
 import { formatPrice } from '../helpers'
 
@@ -108,7 +107,6 @@ const currencies = useResult(productsQuery.result, [], data =>
   .sort((a, b) => a.localeCompare(b))
 )
 
-const router = useRouter()
 const analytics = getAnalytics()
 
 const currency = ref<string>('eur' as Currency)

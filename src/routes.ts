@@ -11,6 +11,7 @@ export const routes: RouteRecordRaw[] = [
   { name: 'rafiki', path: '/rafiki', component: () => import('./views/Rafiki.vue') },
   { name: 'policies', path: '/policies', component: () => import('./views/Policies.vue') },
   { name: 'shop', path: '/shop', component: () => import('./views/Shop.vue') },
+  { name: 'shop-success', path: '/shop-success', component: () => import('./views/ShopSuccess.vue') },
   { name: 'not_found', path: '/:catchAll(.*)*', component: () => import('./views/404.vue') }
 ]
 
