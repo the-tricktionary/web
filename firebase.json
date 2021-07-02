@@ -6,8 +6,8 @@
     "trailingSlash": false,
     "rewrites": [
       {
-        "source": "/api/i18n",
-        "function": "i18nApi"
+        "source": "/sitemap.xml",
+        "function": "sitemapGet"
       },
       {
         "source": "**",

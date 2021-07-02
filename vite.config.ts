@@ -20,7 +20,8 @@ export default defineConfig({
     icons(),
     VitePWA({
       workbox: {
-        navigateFallbackDenylist: [/^\/__\//]
+        navigateFallbackDenylist: [/^\/__\//],
+        offlineGoogleAnalytics: true
       },
       manifest: {
         name: 'the Tricktionary',
