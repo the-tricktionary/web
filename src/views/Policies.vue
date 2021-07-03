@@ -6,7 +6,7 @@
       The company <a href="https://swantzter.se" target="_blank">Swantzer</a>
       (org.no. 000718-5796, VAT no. SE000718579601) of Solrosvägen 43, 263 62
       Viken, SWEDEN is the data controller for the Tricktionary and operator
-      of the Tricktionary's store. This page was last updated 2021-06-21.
+      of the Tricktionary's store. This page was last updated 2021-07-03.
     </p>
 
     <p>
@@ -73,7 +73,7 @@
       Stripe is also used to securely collect all information needed for the
       purchase such as billing address, shipping address, payment details.
       Swantzer will never be able to see your payment details.
-      You can reado more on <a href="https://stripe.com/en-se/privacy-center/legal">Stripe's Privacy Center</a>.
+      You can read more in <a href="https://stripe.com/en-se/privacy-center/legal">Stripe's Privacy Center</a>.
     </p>
 
     <p>Your personal information may be used for the following purposes:</p>
@@ -120,7 +120,7 @@
     </p>
 
     <p>
-      Libera Chat reserves the right to change this policy at any time, without
+      the Tricktionary reserves the right to change this policy at any time, without
       notice. The currently active version can be found on this website.
     </p>
 
@@ -129,7 +129,7 @@
     <p>
       We use 3'rd party cookies to provide the service to you and perform
       analytics, by using the site you agree to the usage of 3'rd party cookies
-      and cookies created by ourselves
+      and cookies created by ourselves.
     </p>
 
     <h2>Return policy</h2>
