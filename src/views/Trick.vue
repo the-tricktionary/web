@@ -117,8 +117,8 @@ const { user } = useAuth({ withChecklist: true })
 const trickQuery = useTrickBySlugQuery({
   discipline: discipline,
   slug: route.params.slug,
-  withLocalised: !!user.value?.lang,
-  lang: user.value?.lang
+  withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
+  lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
 const { loading } = trickQuery
 const trick = useResult(trickQuery.result, null, data => data.trick)

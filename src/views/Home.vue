@@ -67,8 +67,8 @@ const { firebaseUser, user } = useAuth({ withChecklist: true })
 
 const tricksQuery = useTricksQuery({
   discipline: discipline.value,
-  withLocalised: !!user.value?.lang,
-  lang: user.value?.lang
+  withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
+  lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
 const tricks = useResult(tricksQuery.result, [] as TricksQuery['tricks'], data => data.tricks)
 const checklist = ref<Set<string>>(new Set())
@@ -79,11 +79,12 @@ watch(discipline, discipline => {
   tricksQuery.variables.value.discipline = discipline ?? Discipline.SingleRope
 })
 watch(user, user => {
-  if (user?.lang) {
+  if (user?.lang && user.lang !== 'en') {
     tricksQuery.variables.value.withLocalised = true
     tricksQuery.variables.value.lang = user?.lang
   } else {
     tricksQuery.variables.value.withLocalised = false
+    tricksQuery.variables.value.lang = undefined
   }
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
