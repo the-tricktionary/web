@@ -1,6 +1,6 @@
 import { getAnalytics, setUserId } from '@firebase/analytics'
 import { getAuth, Unsubscribe, User } from '@firebase/auth'
-import { setUser } from '@sentry/minimal'
+import { setUser } from '@sentry/browser'
 import { useResult } from '@vue/apollo-composable'
 import { ref } from '@vue/reactivity'
 import { useMeQuery } from '../graphql/generated/graphql'

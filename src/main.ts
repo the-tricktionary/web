@@ -10,6 +10,6 @@ import 'virtual:windi.css'
 useSW()
 
 createApp(App)
-.use(createHead())
-.use(router)
-.mount('#app')
+  .use(createHead())
+  .use(router)
+  .mount('#app')
