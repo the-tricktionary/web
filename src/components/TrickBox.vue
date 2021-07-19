@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, toRef } from 'vue'
+import { ref, toRef } from 'vue'
 
 import { disciplineToSlug } from "../helpers";
 

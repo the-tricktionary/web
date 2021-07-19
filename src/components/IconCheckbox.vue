@@ -28,8 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue-demi";
-
 import IconCheck from 'virtual:vite-icons/mdi/check'
 import IconClose from 'virtual:vite-icons/mdi/close'
 import IconLoading from 'virtual:vite-icons/mdi/loading'

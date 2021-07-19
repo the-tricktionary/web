@@ -28,8 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 import { formatPrice } from '../helpers'
 
 import IconShopping from 'virtual:vite-icons/mdi/shopping-outline'

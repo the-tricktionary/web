@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, toRef } from 'vue'
+import { ref, toRef } from 'vue'
 import { Discipline } from '../graphql/generated/graphql'
 
 import type { PropType } from 'vue'
