@@ -1,9 +1,12 @@
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics, setAnalyticsCollectionEnabled } from 'firebase/analytics'
 import useCookieConsent from './hooks/useCookieConsent'
 import { watch } from 'vue'
+
+import type { Vue } from '@sentry/vue/dist/types'
+import type { Router } from 'vue-router'
 
 const firebaseConfig = {
   apiKey: "AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM",
@@ -23,14 +26,19 @@ watch(granted, granted => {
   setAnalyticsCollectionEnabled(analytics, granted ?? false)
 }, { immediate: true })
 
-if (import.meta.env.VITE_SENTRY_DSN) {
-  Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    release: `tricktionary-web-v4@${import.meta.env.VITE_COMMIT_REF?.toString()}`,
-    environment: import.meta.env.VITE_CONTEXT?.toString(),
-    integrations: [new Integrations.BrowserTracing({
-      tracingOrigins: ['api.the-tricktionary.com']
-    })],
-    tracesSampleRate: 1.0
-  })
+export function initSentry ({ app, router }: { app: Vue, router: Router }) {
+  if (import.meta.env.VITE_SENTRY_DSN) {
+    Sentry.init({
+      app,
+      dsn: import.meta.env.VITE_SENTRY_DSN,
+      release: `tricktionary-web-v4@${import.meta.env.VITE_COMMIT_REF?.toString()}`,
+      environment: import.meta.env.VITE_CONTEXT?.toString(),
+      logErrors: true,
+      integrations: [new Integrations.BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+        tracingOrigins: ['api.the-tricktionary.com']
+      })],
+      tracesSampleRate: 1.0
+    })
+  }
 }

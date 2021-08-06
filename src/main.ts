@@ -1,4 +1,4 @@
-import './config'
+import { initSentry } from './config'
 import { createApp } from 'vue'
 import { createHead } from '@vueuse/head'
 
@@ -9,7 +9,10 @@ import 'virtual:windi.css'
 
 useSW()
 
-createApp(App)
-  .use(createHead())
+export const app = createApp(App)
+
+initSentry({ app, router })
+
+app.use(createHead())
   .use(router)
   .mount('#app')

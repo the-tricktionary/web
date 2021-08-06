@@ -31,6 +31,7 @@ export default defineConfig({
         short_name: 'Tricktionary',
         description: 'A dictionary of jumprope tricks categorised after difficulty and completed with prerequisites and videos.',
         lang: 'en',
+        orientation: 'any',
         background_color: '#fe3500',
         theme_color: '#fe3500',
         prefer_related_applications: true,
