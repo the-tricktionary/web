@@ -153,7 +153,7 @@ async function initiateCheckout () {
     })
   })
   const result = await mutate()
-  if (!result.data) throw Error('Failed to create stripe checkout session')
+  if (!result?.data) throw Error('Failed to create stripe checkout session')
   window.location.href = result.data.createCheckoutSession.url
 }
 </script>

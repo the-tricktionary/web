@@ -90,7 +90,7 @@ import { useResult } from '@vue/apollo-composable'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
 
-import { useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
+import { Discipline, useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
 import { slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
@@ -116,12 +116,12 @@ const discipline = ref(slugToDiscipline(route.params.discipline as string))
 const { user } = useAuth({ withChecklist: true })
 const trickQuery = useTrickBySlugQuery({
   discipline: discipline,
-  slug: route.params.slug,
+  slug: route.params.slug as string,
   withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
   lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
 const { loading } = trickQuery
-const trick = useResult(trickQuery.result, null, data => data.trick)
+const trick = useResult(trickQuery.result, null, data => data?.trick)
 
 const enListFormater = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
 

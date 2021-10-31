@@ -45,6 +45,8 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import useAuth from '../hooks/useAuth'
 
+import type { FirebaseError } from '@firebase/util'
+
 const auth = getAuth()
 const { firebaseUser: user } = useAuth()
 const router = useRouter()
@@ -60,7 +62,7 @@ const phone = reactive({
 const email = reactive({
   email: '',
   linkSent: false,
-  error: null
+  error: null as string | null
 })
 
 const socialErr = ref<string | null>(null)
@@ -82,7 +84,7 @@ async function logInWithProvider (providerId: keyof typeof providers) {
     await signInWithPopup(auth, providers[providerId])
     logEvent(analytics, 'login', { method: providerId })
   } catch (err) {
-    socialErr.value = err.code
+    socialErr.value = (err as FirebaseError).code
     throw err
   }
 }
@@ -96,7 +98,7 @@ async function sendEmailLink () {
     })
     email.linkSent = true
   } catch (err) {
-    email.error = err.code
+    email.error = (err as FirebaseError).code
     throw err
   }
 }
@@ -122,7 +124,7 @@ onMounted(async () => {
       await signInWithEmailLink(auth, emailParam, window.location.href)
       logEvent(analytics, 'login', { method: 'emailLink' })
     } catch (err) {
-      email.error = err.code ?? err.message
+      email.error = (err as FirebaseError).code ?? (err as Error).message
       throw err
     }
   }

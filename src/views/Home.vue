@@ -70,9 +70,9 @@ const tricksQuery = useTricksQuery({
   withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
   lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
-const tricks = useResult(tricksQuery.result, [] as TricksQuery['tricks'], data => data.tricks)
+const tricks = useResult(tricksQuery.result, [] as TricksQuery['tricks'], data => data?.tricks)
 const checklist = ref<Set<string>>(new Set())
-const search = ref<string | null>(null)
+const search = ref<string | undefined>(undefined)
 const debouncedSearch = useDebounce(search, 1000)
 
 watch(discipline, discipline => {
