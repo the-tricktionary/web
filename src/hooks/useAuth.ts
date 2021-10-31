@@ -9,8 +9,8 @@ const analytics = getAnalytics()
 const firebaseUser = ref<User | null>()
 let off: Unsubscribe
 
-export default function useAuth ({ withChecklist = false } = {}) {
-  const userQuery = useMeQuery({ withChecklist }, { fetchPolicy: 'cache-and-network' })
+export default function useAuth () {
+  const userQuery = useMeQuery({ fetchPolicy: 'cache-and-network' })
 
   const user = useResult(userQuery.result, null, data => data.me)
 

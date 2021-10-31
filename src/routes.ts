@@ -5,13 +5,20 @@ const analytics = getAnalytics()
 
 export const routes: RouteRecordRaw[] = [
   { name: 'tricktionary', path: '/', component: () => import('./views/Home.vue') },
+
   { name: 'trick', path: '/trick/:discipline/:slug', component: () => import('./views/Trick.vue') },
-  { name: 'auth', path: '/auth', component: () => import('./views/Auth.vue') },
-  { name: 'profile', path: '/profile', component: () => import('./views/Profile.vue') },
-  { name: 'rafiki', path: '/rafiki', component: () => import('./views/Rafiki.vue') },
-  { name: 'policies', path: '/policies', component: () => import('./views/Policies.vue') },
+
+  { name: 'speed', path: '/speed', component: () => import('./views/SpeedIndex.vue') },
+
   { name: 'shop', path: '/shop', component: () => import('./views/Shop.vue') },
   { name: 'shop-success', path: '/shop-success', component: () => import('./views/ShopSuccess.vue') },
+
+  { name: 'auth', path: '/auth', component: () => import('./views/Auth.vue') },
+  { name: 'profile', path: '/profile', component: () => import('./views/Profile.vue') },
+
+  { name: 'rafiki', path: '/rafiki', component: () => import('./views/Rafiki.vue') },
+  { name: 'policies', path: '/policies', component: () => import('./views/Policies.vue') },
+
   { name: 'not_found', path: '/:catchAll(.*)*', component: () => import('./views/404.vue') }
 ]
 
