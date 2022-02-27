@@ -4,8 +4,8 @@
     <h2>Privacy policy</h2>
     <p>
       The company <a href="https://swantzter.se" target="_blank">Swantzer</a>
-      (org.no. 000718-5796, VAT no. SE000718579601) of Solrosvägen 43, 263 62
-      Viken, SWEDEN is the data controller for the Tricktionary and operator
+      (org.no. 000718-5796, VAT no. SE000718579601) of Planteringsvägen 48A LGH 1102,
+      262 51 Ängelholm, SWEDEN is the data controller for the Tricktionary and operator
       of the Tricktionary's store. This page was last updated 2021-07-03.
     </p>
 
