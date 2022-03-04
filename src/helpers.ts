@@ -42,3 +42,10 @@ export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatF
     currency
   }).format(price?.unitAmount / 100)
 }
+
+export function formatDateTime (date: number | Date) {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  }).format(date)
+}

@@ -43,13 +43,13 @@
 import { ref, toRef } from 'vue'
 
 import { disciplineToSlug } from "../helpers";
+import useCompleteTrick from '../hooks/useCompleteTrick';
 
 import IconCheck from 'virtual:vite-icons/mdi/check'
 import IconLoading from 'virtual:vite-icons/mdi/loading'
 
 import type { PropType } from 'vue'
 import type { TricksQuery } from '../graphql/generated/graphql'
-import useCompleteTrick from '../hooks/useCompleteTrick';
 
 const props = defineProps({
   trick: {

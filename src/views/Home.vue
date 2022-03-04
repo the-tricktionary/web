@@ -51,7 +51,7 @@ import TtFooter from '../components/Footer.vue'
 import Links from '../components/Links.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
 
-import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
+import { Discipline, useChecklistQuery, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
@@ -63,15 +63,18 @@ import BottomBar from '../components/BottomBar.vue'
 const discipline = ref<Discipline>()
 const settings = useSettings()
 const analytics = getAnalytics()
-const { firebaseUser, user } = useAuth({ withChecklist: true })
+const { firebaseUser, user } = useAuth()
 
 const tricksQuery = useTricksQuery({
   discipline: discipline.value,
   withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
   lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
+const checklistQuery = useChecklistQuery()
+
 const tricks = useResult(tricksQuery.result, [] as TricksQuery['tricks'], data => data?.tricks)
-const checklist = ref<Set<string>>(new Set())
+const checklist = useResult(checklistQuery.result, new Set() as Set<string>, data => new Set(data?.me?.checklist?.map(checklistItem => checklistItem.trick.id)))
+
 const search = ref<string | undefined>(undefined)
 const debouncedSearch = useDebounce(search, 1000)
 
@@ -86,7 +89,6 @@ watch(user, user => {
     tricksQuery.variables.value.withLocalised = false
     tricksQuery.variables.value.lang = undefined
   }
-  checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
 watch(debouncedSearch, search => {
   console.log(search)

@@ -1,0 +1,11 @@
+query Checklist {
+  me {
+    id
+    checklist {
+      id
+      trick {
+        id
+      }
+    }
+  }
+}
