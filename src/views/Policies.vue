@@ -57,7 +57,7 @@
       some technical data about your device such as IP-address, operating system
       and browser version. We use this data to be able to provide a functional
       service. You can read more in
-      <a href="https://sentry.io/legal/dpa/2.0.0/">Sentry's Data Processing Addendum.</a>
+      <a href="https://sentry.io/legal/dpa/4.0.0/">Sentry's Data Processing Addendum.</a>
       This transfer outside the EU uses standard contractual clauses.
     </p>
 
