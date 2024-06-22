@@ -26,4 +26,9 @@ query SpeedResults ($limit: Int, $startAfter: Timestamp) {
       }
     }
   }
+  eventDefinitions {
+    id
+    name
+    totalDuration
+  }
 }

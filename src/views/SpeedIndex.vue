@@ -1,8 +1,21 @@
 <template>
-  <!-- position: fixed? -->
+  <!-- position: fixed? at the bottom? -->
   <!-- TODO <section class="container mx-auto p-2">filters: eventDefinition, participants</section> -->
 
+  <section class="container mx-auto grid grid-cols-2 gap-2 p-2">
+    <router-link to="/speed/create" class="col-start-2">
+      <icon-button class="btn inline-flex items-center mt-0 w-full">
+        <template #icon>
+          <icon-plus />
+        </template>
+        Create Score
+      </icon-button>
+    </router-link>
+  </section>
+
   <section class="container mx-auto p-2">
+    <!-- TODO: loading spinner if loading and no results -->
+    <!-- TODO: "No results, create one" screen -->
     <div class="min-h-[100vh] grid grid-cols-1 gap-2">
       <speed-box v-for="speedResult of speedResults" :key="speedResult.id" :result="speedResult" />
     </div>
@@ -29,7 +42,9 @@ import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 import { useSpeedResultsQuery } from '../graphql/generated/graphql'
 
 import SpeedBox from '../components/SpeedBox.vue'
+import IconButton from '../components/IconButton.vue'
 import IconLoading from 'virtual:vite-icons/mdi/loading'
+import IconPlus from 'virtual:vite-icons/mdi/plus'
 
 const loadMoreRef = ref()
 

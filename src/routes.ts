@@ -9,6 +9,8 @@ export const routes: RouteRecordRaw[] = [
   { name: 'trick', path: '/trick/:discipline/:slug', component: () => import('./views/Trick.vue') },
 
   { name: 'speed', path: '/speed', component: () => import('./views/SpeedIndex.vue') },
+  { name: 'speed-create', path: '/speed/create', component: () => import('./views/SpeedCreate.vue') },
+  { name: 'speed-details', path: '/speed/details/:id', component: () => import('./views/SpeedIndex.vue') },
 
   { name: 'shop', path: '/shop', component: () => import('./views/Shop.vue') },
   { name: 'shop-success', path: '/shop-success', component: () => import('./views/ShopSuccess.vue') },
