@@ -90,7 +90,7 @@ import { useResult } from '@vue/apollo-composable'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
 
-import { Discipline, useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
+import { Discipline, useChecklistQuery, useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
 import { slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
@@ -113,13 +113,14 @@ const router = useRouter()
 const analytics = getAnalytics()
 const discipline = ref(slugToDiscipline(route.params.discipline as string))
 
-const { user } = useAuth({ withChecklist: true })
+const { user } = useAuth()
 const trickQuery = useTrickBySlugQuery({
   discipline: discipline,
   slug: route.params.slug as string,
   withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
   lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
+const checklistQuery = useChecklistQuery()
 const { loading } = trickQuery
 const trick = useResult(trickQuery.result, null, data => data?.trick)
 
@@ -165,7 +166,8 @@ onBeforeRouteUpdate((to, from) => {
   }
 })
 
-trickQuery.onResult(({ data }) => {
+trickQuery.onResult(({ data, loading }) => {
+  if (loading) return
   if (!data.trick) {
     router.push({
       name: 'not_found',
@@ -201,9 +203,7 @@ async function share () {
   })
 }
 
-const completed = computed(() => {
-  return new Set(user.value?.checklist?.map(checklistItem => checklistItem.trick.id))
-})
+const completed = useResult(checklistQuery.result, new Set() as Set<string>, data => new Set(data?.me?.checklist?.map(checklistItem => checklistItem.trick.id)))
 
 // the andoird app tracks these events, so we do too
 function viewNext (trick: TrickBoxFragment) {

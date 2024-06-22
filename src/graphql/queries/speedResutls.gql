@@ -1,0 +1,34 @@
+query SpeedResults ($limit: Int, $startAfter: Timestamp) {
+  me {
+    id
+    speedResults (limit: $limit, startAfter: $startAfter) {
+      ... on SimpleSpeedResult {
+        id
+        name
+        createdAt
+        count
+        eventDefinition {
+          id
+          name
+          totalDuration
+        }
+      }
+      ... on DetailedSpeedResult {
+        id
+        name
+        createdAt
+        count
+        eventDefinition {
+          id
+          name
+          totalDuration
+        }
+      }
+    }
+  }
+  eventDefinitions {
+    id
+    name
+    totalDuration
+  }
+}
