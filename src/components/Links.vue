@@ -28,7 +28,9 @@
     >
       Donate
     </a>
-    <router-link to="/shop" class="btn w-max min-w-[5rem] text-center inline-block">Shop</router-link>
+    <router-link to="/shop" class="btn w-max min-w-[5rem] text-center inline-block">
+      Shop
+    </router-link>
   </div>
 </template>
 

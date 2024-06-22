@@ -23,7 +23,7 @@
         </p>
       </div>
 
-      <videos v-if="trick.videos" :videos="trick.videos"/>
+      <videos v-if="trick.videos" :videos="trick.videos" />
 
       <div class="my-4">
         <p>
@@ -34,16 +34,34 @@
 
     <div class="flex flex-col">
       <div v-if="trick.prerequisiteFor.length">
-        <h2 class="mb-4 text-2xl font-semibold relative">Next</h2>
+        <h2 class="mb-4 text-2xl font-semibold relative">
+          Next
+        </h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <trick-box :enable-checklist="!!user" :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisiteFor" :key="prereq.id" @navigate="viewNext(prereq)" />
+          <trick-box
+            v-for="prereq of trick.prerequisiteFor"
+            :key="prereq.id"
+            :enable-checklist="!!user"
+            :completed="completed.has(prereq.id)"
+            :trick="prereq"
+            @navigate="viewNext(prereq)"
+          />
         </div>
       </div>
 
       <div v-if="trick.prerequisites.length">
-        <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">Previous</h2>
+        <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">
+          Previous
+        </h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-          <trick-box :enable-checklist="!!user" :completed="completed.has(prereq.id)" :trick="prereq" v-for="prereq of trick.prerequisites" :key="prereq.id" @navigate="viewPrevious(prereq)" />
+          <trick-box
+            v-for="prereq of trick.prerequisites"
+            :key="prereq.id"
+            :enable-checklist="!!user"
+            :completed="completed.has(prereq.id)"
+            :trick="prereq"
+            @navigate="viewPrevious(prereq)"
+          />
         </div>
       </div>
     </div>
@@ -72,8 +90,8 @@
     <icon-button
       v-if="canShare"
       :disabled="!trick"
-      @click="share()"
       class="w-max btn inline-flex items-center mt-0"
+      @click="share()"
     >
       <template #icon>
         <icon-share />
@@ -86,21 +104,20 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
-import { useResult } from '@vue/apollo-composable'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
 
-import { Discipline, useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
+import { type Discipline, useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
 import { slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 
 import Videos from '../components/Videos.vue'
-import IconLoading from 'virtual:vite-icons/mdi/loading'
-import IconShare from 'virtual:vite-icons/mdi/share'
-import IconChevronLeft from 'virtual:vite-icons/mdi/chevron-left'
-import IconCheck from 'virtual:vite-icons/mdi/check'
-import IconCheckAll from 'virtual:vite-icons/mdi/check-all'
+import IconLoading from '~icons/mdi/loading'
+import IconShare from '~icons/mdi/share'
+import IconChevronLeft from '~icons/mdi/chevron-left'
+import IconCheck from '~icons/mdi/check'
+import IconCheckAll from '~icons/mdi/check-all'
 import TrickBox from '../components/TrickBox.vue'
 import IconButton from '../components/IconButton.vue'
 
@@ -115,13 +132,13 @@ const discipline = ref(slugToDiscipline(route.params.discipline as string))
 
 const { user } = useAuth({ withChecklist: true })
 const trickQuery = useTrickBySlugQuery({
-  discipline: discipline,
+  discipline: discipline as unknown as Discipline,
   slug: route.params.slug as string,
   withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
   lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
 const { loading } = trickQuery
-const trick = useResult(trickQuery.result, null, data => data?.trick)
+const trick = computed(() => trickQuery.result.value?.trick)
 
 const enListFormater = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
 
@@ -150,18 +167,18 @@ useHead({
 
 watch(user, user => {
   if (user?.lang) {
-    trickQuery.variables.value.withLocalised = true
-    trickQuery.variables.value.lang = user?.lang
+    trickQuery.variables.value!.withLocalised = true
+    trickQuery.variables.value!.lang = user?.lang
   } else {
-    trickQuery.variables.value.withLocalised = false
+    trickQuery.variables.value!.withLocalised = false
   }
 })
 
 onBeforeRouteUpdate((to, from) => {
   if (to.name === from.name) {
     const discipline = slugToDiscipline(to.params.discipline as string)
-    trickQuery.variables.value.discipline = discipline
-    trickQuery.variables.value.slug = to.params.slug as string
+    trickQuery.variables.value!.discipline = discipline
+    trickQuery.variables.value!.slug = to.params.slug as string
   }
 })
 

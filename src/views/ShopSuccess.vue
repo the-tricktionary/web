@@ -7,7 +7,11 @@
       soon.
     </p>
 
-    <router-link to="/"><button class="btn w-max">Back to the Tricks</button></router-link>
+    <router-link to="/">
+      <button class="btn w-max">
+        Back to the Tricks
+      </button>
+    </router-link>
   </div>
 </template>
 

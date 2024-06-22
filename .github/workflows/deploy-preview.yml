@@ -1,6 +1,7 @@
 name: Deploy Pull Request
 
-'on': pull_request
+on:
+  - pull_request
 
 jobs:
   build_and_preview:
@@ -10,17 +11,11 @@ jobs:
       name: branch-deploy
       url: ${{ steps.deploy.outputs.details_url }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Use Node.js 16
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
+          node-version: 20
+          cache: npm
       - run: npm ci --prefer-offline
       - run: npm run codegen
       - run: npm run build
@@ -37,6 +32,7 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROJECT_5641153190345267944 }}'
           expires: 30d
           projectId: project-5641153190345267944
+
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:

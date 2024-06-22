@@ -1,23 +1,27 @@
 import { defineConfig } from 'vite'
 import windiCSS from 'vite-plugin-windicss'
 import vue from '@vitejs/plugin-vue'
-import viteFonts from 'vite-plugin-fonts'
+import Unfonts from 'unplugin-fonts/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import icons from 'vite-plugin-icons'
+import Icons from 'unplugin-icons/vite'
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    basicSsl(),
+    vue(),
+    Icons({
+      compiler: 'vue3'
+    }),
     windiCSS(),
-    viteFonts({
+    Unfonts({
       google: {
         preconnect: true,
         display: 'swap',
         families: ['PT Sans']
       },
     }),
-    vue(),
-    icons(),
     VitePWA({
       workbox: {
         navigateFallbackDenylist: [
@@ -64,8 +68,7 @@ export default defineConfig({
     })
   ],
   server: {
-    port: 3002,
-    https: true
+    port: 3002
   },
   build: {
     sourcemap: true

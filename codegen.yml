@@ -1,6 +1,6 @@
 overwrite: true
 schema:
-  - https://api.the-tricktionary.com/
+  - https://api.the-tricktionary.com/graphql
 config:
   scalars:
     Timestamp: number
@@ -13,6 +13,7 @@ generates:
     config:
       # flattenGeneratedTypes: true
       exportFragmentSpreadSubTypes: true
+      vueCompositionApiImportFrom: 'vue'
     documents:
       - './src/**/*.{gql,graphql}'
       - './src/**/!(*.d).{ts,vue}'

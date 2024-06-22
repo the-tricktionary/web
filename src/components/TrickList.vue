@@ -4,13 +4,17 @@
     <icon-loading class="animate-spin w-32 h-32" />
     Loading tricks...
   </div>
-  <template v-else-if="numTricks" v-for="(trickTypes, level) of sorted" :key="`tt-${level}`">
-    <h2 class="trick-level mx-auto w-32 px-4 mt-6 text-3xl font-bold relative text-center">Level {{ level }}</h2>
-    <template v-for="(tricks, trickType) of trickTypes" :key="`tt-${level}-${trickType}`">
-      <template v-if="tricks.length">
-        <h3 class="mx-auto text-center px-4 text-2xl mt-4">{{ trickType }}</h3>
+  <template v-for="(trickTypes, level) of sorted" v-else-if="numTricks" :key="`tt-${level}`">
+    <h2 class="trick-level mx-auto w-32 px-4 mt-6 text-3xl font-bold relative text-center">
+      Level {{ level }}
+    </h2>
+    <template v-for="(group, trickType) of trickTypes" :key="`tt-${level}-${trickType}`">
+      <template v-if="group.length">
+        <h3 class="mx-auto text-center px-4 text-2xl mt-4">
+          {{ trickType }}
+        </h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
-          <trick-box :enable-checklist="enableChecklist" :completed="checklist.has(trick.id)" :trick="trick" v-for="trick of tricks" :key="trick.id" />
+          <trick-box v-for="trick of group" :key="trick.id" :enable-checklist="enableChecklist" :completed="checklist.has(trick.id)" :trick="trick" />
         </div>
       </template>
     </template>
@@ -27,8 +31,8 @@ import { computed } from 'vue'
 import { TrickType } from '../graphql/generated/graphql'
 import { trickSorter } from '../helpers'
 
-import IconLoading from 'virtual:vite-icons/mdi/loading'
-import IconConfused from 'virtual:vite-icons/mdi/map-marker-question-outline'
+import IconLoading from '~icons/mdi/loading'
+import IconConfused from '~icons/mdi/map-marker-question-outline'
 import TrickBox from './TrickBox.vue'
 
 import type { PropType } from 'vue'
@@ -37,7 +41,8 @@ import type { TricksQuery } from '../graphql/generated/graphql'
 const props = defineProps({
   tricks: {
     type: Array as PropType<Readonly<TricksQuery['tricks']> | TricksQuery['tricks']>,
-    required: false
+    required: false,
+    default: () => []
   },
   checklist: {
     type: Set as PropType<Set<string>>,
@@ -58,7 +63,7 @@ const props = defineProps({
 })
 
 const sorted = computed(() => {
-  const sorted: { [level: string]: Record<TrickType, TricksQuery['tricks']> } = {}
+  const sorted: Record<string, Record<TrickType, TricksQuery['tricks']>> = {}
   let dataTricks = [...props.tricks ?? []]
   if (props.hideCompleted) dataTricks = dataTricks.filter(t => !props.checklist.has(t.id))
   dataTricks.sort(trickSorter)

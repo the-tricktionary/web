@@ -11,7 +11,9 @@
       }"
       class="hover:bg-gray-200 hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
       @click="$emit('update:discipline', dOpt)"
-    >{{ name }}</button>
+    >
+      {{ name }}
+    </button>
   </div>
 </template>
 
@@ -27,6 +29,10 @@ const props = defineProps({
     default: Discipline.SingleRope
   }
 })
+
+defineEmits<{
+  'update:discipline': [discipline: Discipline]
+}>()
 
 const discipline = toRef(props, 'discipline')
 

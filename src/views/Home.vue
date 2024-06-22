@@ -5,10 +5,10 @@
 
   <bottom-bar>
     <input
+      v-model="search"
       type="search"
       placeholder="Search tricks"
       class="rounded focus:border-b-ttred-900 border-gray-300 flex-grow"
-      v-model="search"
     >
 
     <icon-checkbox
@@ -40,9 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch , computed } from 'vue'
 import { getAnalytics, logEvent } from '@firebase/analytics'
-import { useResult } from '@vue/apollo-composable'
 
 import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue'
@@ -55,9 +54,8 @@ import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
+import { useDebounce } from '@vueuse/core'
 
-import type { TricksQuery } from '../graphql/generated/graphql'
-import { useDebounce } from '@vueuse/shared'
 import BottomBar from '../components/BottomBar.vue'
 
 const discipline = ref<Discipline>()
@@ -70,28 +68,28 @@ const tricksQuery = useTricksQuery({
   withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
   lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
 })
-const tricks = useResult(tricksQuery.result, [] as TricksQuery['tricks'], data => data?.tricks)
+const tricks = computed(() => tricksQuery.result.value?.tricks ?? [])
 const checklist = ref<Set<string>>(new Set())
 const search = ref<string | undefined>(undefined)
 const debouncedSearch = useDebounce(search, 1000)
 
 watch(discipline, discipline => {
-  tricksQuery.variables.value.discipline = discipline ?? Discipline.SingleRope
+  tricksQuery.variables.value!.discipline = discipline ?? Discipline.SingleRope
 })
 watch(user, user => {
   if (user?.lang && user.lang !== 'en') {
-    tricksQuery.variables.value.withLocalised = true
-    tricksQuery.variables.value.lang = user?.lang
+    tricksQuery.variables.value!.withLocalised = true
+    tricksQuery.variables.value!.lang = user?.lang
   } else {
-    tricksQuery.variables.value.withLocalised = false
-    tricksQuery.variables.value.lang = undefined
+    tricksQuery.variables.value!.withLocalised = false
+    tricksQuery.variables.value!.lang = undefined
   }
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
 watch(debouncedSearch, search => {
   console.log(search)
-  if (search?.trim() === '') tricksQuery.variables.value.searchQuery = null
-  else tricksQuery.variables.value.searchQuery = search
+  if (search?.trim() === '') tricksQuery.variables.value!.searchQuery = null
+  else tricksQuery.variables.value!.searchQuery = search
 })
 
 // The android app does this

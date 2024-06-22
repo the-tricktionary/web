@@ -1,9 +1,9 @@
 import { getAnalytics, setUserId } from '@firebase/analytics'
 import { getAuth, Unsubscribe, User } from '@firebase/auth'
 import { setUser } from '@sentry/browser'
-import { useResult } from '@vue/apollo-composable'
 import { ref } from '@vue/reactivity'
 import { useMeQuery } from '../graphql/generated/graphql'
+import { computed } from 'vue'
 
 const analytics = getAnalytics()
 const firebaseUser = ref<User | null>()
@@ -12,7 +12,7 @@ let off: Unsubscribe
 export default function useAuth ({ withChecklist = false } = {}) {
   const userQuery = useMeQuery({ withChecklist }, { fetchPolicy: 'cache-and-network' })
 
-  const user = useResult(userQuery.result, null, data => data.me)
+  const user = computed(() => userQuery.result.value?.me ?? null)
 
   if (!off) {
     off = getAuth().onIdTokenChanged(user => {

@@ -1,6 +1,10 @@
 <template>
   <nav-header />
   <router-view />
+  <div
+    id="bottom-bars"
+    class="fixed bottom-0 right-0 left-0 flex flex-col"
+  />
   <refresh-needed />
   <cookie-consent />
 </template>

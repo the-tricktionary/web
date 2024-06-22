@@ -14,7 +14,9 @@
       Orders are processed by the Swedish company <a href="https://swantzter.se/?utm_source=the-tricktionary&utm_medium=referral">Swantzter</a>,
       owned and operated by one of the Tricktionary's developers. Your bank
       statement will say your payment was made to Swantzter. You can find
-      more about the terms for your purchase in our <router-link to="/policies">Policies</router-link>.
+      more about the terms for your purchase in our <router-link to="/policies">
+        Policies
+      </router-link>.
     </p>
 
     <p>
@@ -34,12 +36,15 @@
         }"
         class="hover:bg-gray-200 hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
         @click="currency = c"
-      >{{ c.toLocaleUpperCase() }}</button>
+      >
+        {{ c.toLocaleUpperCase() }}
+      </button>
     </div>
 
     <div v-if="currency !== 'aud'" class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
       <product-box
         v-for="product in products"
+        :key="product.id"
         :product="product"
         :currency="currency"
         :selected="selection[product.id]"
@@ -81,7 +86,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import { useResult } from '@vue/apollo-composable'
 import { useCreateCheckoutSessionMutation, useProductsQuery } from '../graphql/generated/graphql'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
@@ -90,18 +94,18 @@ import { formatPrice } from '../helpers'
 import ProductBox from '../components/ProductBox.vue'
 import BottomBar from '../components/BottomBar.vue'
 import IconButton from '../components/IconButton.vue'
-import IconCart from 'virtual:vite-icons/mdi/cart-outline'
-import IconLoading from 'virtual:vite-icons/mdi/loading'
+import IconCart from '~icons/mdi/cart-outline'
+import IconLoading from '~icons/mdi/loading'
 
 import type { Currency } from '../graphql/generated/graphql'
 
 const productsQuery = useProductsQuery()
 
-const products = useResult(productsQuery.result, [], data => data.products)
-const shippingRates = useResult(productsQuery.result, [], data => data.shippingRates)
-const currencies = useResult(productsQuery.result, [], data =>
+const products = computed(() => productsQuery.result.value?.products ?? [])
+const shippingRates = computed(() => productsQuery.result.value?.shippingRates ?? [])
+const currencies = computed(() =>
   [
-    ...new Set(data.products.flatMap(p => p.prices.map(price =>  price.currency))),
+    ...new Set(products.value.flatMap(p => p.prices.map(price =>  price.currency))),
     'aud'
   ]
   .sort((a, b) => a.localeCompare(b))
@@ -110,7 +114,7 @@ const currencies = useResult(productsQuery.result, [], data =>
 const analytics = getAnalytics()
 
 const currency = ref<string>('eur' as Currency)
-const selection = reactive<{ [productId: string]: number }>({})
+const selection = reactive<Record<string, number>>({})
 const numSelected = computed(() => Object.entries(selection).reduce((acc, [_, quantity]) => acc + quantity, 0))
 const subtotal = computed(() => Object.entries(selection)
   .reduce((acc, [productId, quantity]) => {

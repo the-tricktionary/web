@@ -54,7 +54,9 @@
 
     <p>
       the Tricktionary is a proud supporter of the
-      <router-link to="/rafiki">Rafiki Outreach Program</router-link>.
+      <router-link to="/rafiki">
+        Rafiki Outreach Program
+      </router-link>.
     </p>
   </section>
 </template>

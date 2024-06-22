@@ -1,6 +1,8 @@
 <template>
   <div class="container mx-auto pt-4 px-2">
-    <button class="btn" @click="signOut()">Sign out</button>
+    <button class="btn" @click="signOut()">
+      Sign out
+    </button>
   </div>
 </template>
 

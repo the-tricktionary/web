@@ -2,18 +2,30 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "skipLibCheck": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "types": [
-      "vite-plugin-pwa/client",
-      "vite-plugin-icons/client"
-    ]
+      "vite/client",
+      "unplugin-icons/types/vue",
+      "vite-plugin-pwa/vue"
+    ],
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "vite.config.ts",
+    "uno.config.ts",
+    "*.js"
+  ]
 }

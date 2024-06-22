@@ -1,10 +1,10 @@
 <template>
   <div class="w-full aspect-w-9/16 mx-auto bg-gray-300">
     <iframe
-    v-if="primaryYouTubeEmbedLink"
-    type="text/html"
-    :src="primaryYouTubeEmbedLink"
-    ></iframe>
+      v-if="primaryYouTubeEmbedLink"
+      type="text/html"
+      :src="primaryYouTubeEmbedLink"
+    />
   </div>
 </template>
 
@@ -20,14 +20,14 @@ import type { Video } from '../graphql/generated/graphql'
 const props = defineProps({
   videos: {
     required: true,
-    type: Object as PropType<Pick<Video, 'type' | 'host' | 'videoId'>[]>
+    type: Object as PropType<Array<Pick<Video, 'type' | 'host' | 'videoId'>>>
   }
 })
 
 const { user } = useAuth()
 
 const primaryYouTubeEmbedLink = computed(() => {
-  const video = props.videos.find(video => video.host === VideoHost.YouTube && video.type == VideoType.SlowMo)
+  const video = props.videos.find(video => video.host === VideoHost.YouTube && video.type === VideoType.SlowMo)
   if (!video) return null
   const params = new URLSearchParams()
   if (user.value?.lang) params.append('hl', user.value.lang)

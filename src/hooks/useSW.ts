@@ -1,19 +1,19 @@
 import { ref } from '@vue/reactivity'
-import { registerSW } from 'virtual:pwa-register'
+import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { watch } from 'vue'
 
 const needRefresh = ref(false)
 
-const updateSW = registerSW({
-  onNeedRefresh () {
-    console.log('refresh needed')
-    needRefresh.value = true
-  }
+const updateSW = useRegisterSW()
+watch(updateSW.needRefresh, newNeedRefresh => {
+  console.log('refresh needed')
+  needRefresh.value = newNeedRefresh
 })
 
 export default function useSW () {
   return {
     needRefresh,
-    updateSW,
+    updateSW: () => updateSW.updateServiceWorker(),
     dismiss () {
       needRefresh.value = false
     }

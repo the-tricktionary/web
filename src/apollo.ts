@@ -4,7 +4,7 @@ import { persistCache } from 'apollo3-cache-persist'
 import { getAuth } from 'firebase/auth'
 
 const httpLink = createHttpLink({
-  uri: import.meta.env.VITE_GRAPHQL_URL
+  uri: `${import.meta.env.VITE_GRAPHQL_URL}/graphql`
 })
 
 const authLink = setContext(async (_, { headers }) => {

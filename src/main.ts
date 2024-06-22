@@ -6,6 +6,7 @@ import router from './routes'
 import App from './App.vue'
 import useSW from './hooks/useSW'
 import 'virtual:windi.css'
+import 'unfonts.css'
 
 useSW()
 

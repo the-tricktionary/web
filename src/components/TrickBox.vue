@@ -14,14 +14,14 @@
       }"
       aria-label="Completed Trick"
     >
-      <icon-loading class="text-white animate-spin" v-if="loading" />
-      <icon-check class="text-white" v-else />
+      <icon-loading v-if="loading" class="text-white animate-spin" />
+      <icon-check v-else class="text-white" />
       <input
-        @click="completeTrick(!completed)"
         type="checkbox"
         class="hidden"
         :checked="completed"
         :disabled="!enableChecklist || loading"
+        @click="completeTrick(!completed)"
       >
     </label>
     <router-link
@@ -30,7 +30,7 @@
         'border-green-500': completed,
         'rounded-l': !enableChecklist,
         'pr-[3rem]': enableChecklist
-        }"
+      }"
       :to="`/trick/${discipline}/${trick.slug}`"
       @click="$emit('navigate')"
     >
@@ -44,8 +44,8 @@ import { ref, toRef } from 'vue'
 
 import { disciplineToSlug } from "../helpers";
 
-import IconCheck from 'virtual:vite-icons/mdi/check'
-import IconLoading from 'virtual:vite-icons/mdi/loading'
+import IconCheck from '~icons/mdi/check'
+import IconLoading from '~icons/mdi/loading'
 
 import type { PropType } from 'vue'
 import type { TricksQuery } from '../graphql/generated/graphql'
@@ -65,6 +65,10 @@ const props = defineProps({
     default: false
   }
 })
+
+defineEmits<{
+  navigate: []
+}>()
 
 const trick = toRef(props, 'trick')
 const completed = toRef(props, 'completed')

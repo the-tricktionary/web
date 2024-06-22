@@ -1,11 +1,9 @@
 import * as Sentry from '@sentry/vue'
-import { Integrations } from '@sentry/tracing'
 import { initializeApp } from 'firebase/app'
-import { getAnalytics, setAnalyticsCollectionEnabled } from 'firebase/analytics'
+import { getAnalytics, setAnalyticsCollectionEnabled, setConsent } from 'firebase/analytics'
 import useCookieConsent from './hooks/useCookieConsent'
 import { watch } from 'vue'
 
-import type { Vue } from '@sentry/vue/dist/types'
 import type { Router } from 'vue-router'
 
 const firebaseConfig = {
@@ -17,16 +15,30 @@ const firebaseConfig = {
   measurementId: "G-G282NYD80K"
 }
 
-const { granted } = useCookieConsent()
+const consent = useCookieConsent()
 
 initializeApp(firebaseConfig)
 // configure analytics
 const analytics = getAnalytics()
-watch(granted, granted => {
+;(window as any).dataLayer ??= []
+;(window as any).dataLayer.push('consent', 'default', {
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied',
+  'ad_storage': 'denied',
+  'analytics_storage': 'denied',
+  'wait_for_update': 500,
+})
+watch(consent.granted, granted => {
   setAnalyticsCollectionEnabled(analytics, granted ?? false)
+  setConsent({
+    'ad_user_data': granted ? 'granted' : 'denied',
+    'ad_personalization': granted ? 'granted' : 'denied',
+    'ad_storage': granted ? 'granted' : 'denied',
+    'analytics_storage': granted ? 'granted' : 'denied',
+  })
 }, { immediate: true })
 
-export function initSentry ({ app, router }: { app: Vue, router: Router }) {
+export function initSentry ({ app, router }: { app: NonNullable<Parameters<typeof Sentry.init>[0]>['app'], router: Router }) {
   if (import.meta.env.VITE_SENTRY_DSN) {
     Sentry.init({
       app,
@@ -34,10 +46,10 @@ export function initSentry ({ app, router }: { app: Vue, router: Router }) {
       release: `tricktionary-web-v4@${import.meta.env.VITE_COMMIT_REF?.toString()}`,
       environment: import.meta.env.VITE_CONTEXT?.toString(),
       logErrors: true,
-      integrations: [new Integrations.BrowserTracing({
-        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ['api.the-tricktionary.com']
+      integrations: [Sentry.browserTracingIntegration({
+        router,
       })],
+      tracePropagationTargets: ['api.the-tricktionary.com', 'the-tricktionary.com'],
       tracesSampleRate: 1.0
     })
   }
