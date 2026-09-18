@@ -41,7 +41,6 @@
     "@typescript-eslint/parser": "^8.70.0",
     "@unocss/preset-wind4": "^66.10.5",
     "@unocss/transformer-directives": "^66.10.5",
-    "@vitejs/plugin-basic-ssl": "^2.3.0",
     "@vitejs/plugin-vue": "^6.0.9",
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^9.39.5",

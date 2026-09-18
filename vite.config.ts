@@ -4,12 +4,10 @@ import Unfonts from 'unplugin-fonts/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import Unocss from 'unocss/vite'
 import Icons from 'unplugin-icons/vite'
-import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    basicSsl(),
     vue(),
     Icons({
       compiler: 'vue3'
