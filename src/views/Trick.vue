@@ -11,8 +11,10 @@
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
             {{ trick.trickType }}
-            &mdash; IJRU Level {{ trick.ijruLevels[0]?.level }}
-            <level-verification v-if="trick.ijruLevels[0]?.verificationLevel" :level="trick.ijruLevels[0].verificationLevel" />
+            <template v-if="level">
+              &mdash; {{ level.ruleset.name }} Level {{ level.level }}
+              <level-verification v-if="level.verificationLevel" :level="level.verificationLevel" />
+            </template>
           </span>
         </p>
 
@@ -88,6 +90,8 @@
       Completed
     </icon-checkbox>
 
+    <ruleset-select />
+
     <icon-button
       v-if="canShare"
       :disabled="!trick"
@@ -112,6 +116,7 @@ import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graph
 import { slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
+import useRuleset from '../hooks/useRuleset'
 
 import Videos from '../components/Videos.vue'
 import IconLoading from '~icons/mdi/loading'
@@ -124,6 +129,7 @@ import IconButton from '../components/IconButton.vue'
 import type { TrickBoxFragment } from '../graphql/generated/graphql'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import BottomBar from '../components/BottomBar.vue'
+import RulesetSelect from '../components/RulesetSelect.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -139,6 +145,10 @@ const trickQuery = useTrickBySlugQuery({
 })
 const { loading } = trickQuery
 const trick = computed(() => trickQuery.result.value?.trick)
+
+const { ruleset } = useRuleset()
+/** This trick's level in the ruleset the user follows, if it has one */
+const level = computed(() => trick.value?.levels.find(level => level.rulesId === ruleset.value?.id))
 
 const enListFormater = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
 

@@ -1,0 +1,7 @@
+query Rulesets ($lang: String) {
+  rulesets {
+    id
+    name (lang: $lang)
+    isPrimary
+  }
+}
