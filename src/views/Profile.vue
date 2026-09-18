@@ -19,7 +19,7 @@ const router = useRouter()
 
 watch(user, newUser => {
   if (!newUser) {
-    router.replace('/auth')
+    void router.replace('/auth')
   }
 })
 

@@ -1,20 +1,18 @@
 import { defineConfig } from 'vite'
-import windiCSS from 'vite-plugin-windicss'
 import vue from '@vitejs/plugin-vue'
 import Unfonts from 'unplugin-fonts/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import Unocss from 'unocss/vite'
 import Icons from 'unplugin-icons/vite'
-import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    basicSsl(),
     vue(),
     Icons({
       compiler: 'vue3'
     }),
-    windiCSS(),
+    Unocss(),
     Unfonts({
       google: {
         preconnect: true,
@@ -42,22 +40,22 @@ export default defineConfig({
         categories: ['fitness', 'sports', 'education'],
         icons: [
           {
-            'src': '/android-chrome-192x192.png',
-            'sizes': '192x192',
-            'type': 'image/png'
+            src: '/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
           },
           {
-            'src': '/android-chrome-512x512.png',
-            'sizes': '512x512',
-            'type': 'image/png'
+            src: '/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
           }
         ],
         // screenshots: [],
         related_applications: [
           {
             platform: 'play',
-            url: 'https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary',
-            id: 'trictionary.jumproper.com.jumpropetrictionary'
+            url: 'https://play.google.com/store/apps/details?id=com.the_tricktionary.app',
+            id: 'com.the_tricktionary.app'
           },
           {
             platform: 'webapp',

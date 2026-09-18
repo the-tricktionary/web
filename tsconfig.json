@@ -1,31 +1,24 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "jsx": "preserve",
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "lib": [
       "esnext",
-      "dom"
+      "dom",
+      "dom.iterable"
     ],
     "types": [
       "vite/client",
-      "unplugin-icons/types/vue",
-      "vite-plugin-pwa/vue"
-    ],
-    "skipLibCheck": true
+      "vite-plugin-pwa/vue",
+      "unplugin-icons/types/vue"
+    ]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "vite.config.ts",
-    "uno.config.ts",
-    "*.js"
+    "*.config.ts",
+    "*.config.js"
   ]
 }

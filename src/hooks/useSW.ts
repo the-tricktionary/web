@@ -1,4 +1,4 @@
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { watch } from 'vue'
 
@@ -13,7 +13,7 @@ watch(updateSW.needRefresh, newNeedRefresh => {
 export default function useSW () {
   return {
     needRefresh,
-    updateSW: () => updateSW.updateServiceWorker(),
+    updateSW: async () => { await updateSW.updateServiceWorker() },
     dismiss () {
       needRefresh.value = false
     }

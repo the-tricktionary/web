@@ -1,4 +1,3 @@
-
 <template>
   <discipline-selector v-model:discipline="discipline" />
   <links />
@@ -8,6 +7,7 @@
       v-model="search"
       type="search"
       placeholder="Search tricks"
+      aria-label="Search tricks"
       class="rounded focus:border-b-ttred-900 border-gray-300 flex-grow"
     >
 
@@ -32,7 +32,6 @@
     />
   </div>
 
-
   <ad-adsense />
   <about />
 
@@ -40,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch , computed } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import TrickList from '../components/TrickList.vue'
@@ -54,7 +53,7 @@ import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
-import { useDebounce } from '@vueuse/core'
+import { refDebounced } from '@vueuse/core'
 
 import BottomBar from '../components/BottomBar.vue'
 
@@ -71,7 +70,7 @@ const tricksQuery = useTricksQuery({
 const tricks = computed(() => tricksQuery.result.value?.tricks ?? [])
 const checklist = ref<Set<string>>(new Set())
 const search = ref<string | undefined>(undefined)
-const debouncedSearch = useDebounce(search, 1000)
+const debouncedSearch = refDebounced(search, 1000)
 
 watch(discipline, discipline => {
   tricksQuery.variables.value!.discipline = discipline ?? Discipline.SingleRope
@@ -87,7 +86,6 @@ watch(user, user => {
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
 watch(debouncedSearch, search => {
-  console.log(search)
   if (search?.trim() === '') tricksQuery.variables.value!.searchQuery = null
   else tricksQuery.variables.value!.searchQuery = search
 })

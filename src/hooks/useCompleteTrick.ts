@@ -1,7 +1,6 @@
 import { getAnalytics, logEvent } from '@firebase/analytics'
-import { MeDocument, MeQuery, MeQueryVariables, useCompleteTrickMutation } from '../graphql/generated/graphql'
-
-import type { Ref } from 'vue'
+import type { MeQuery, MeQueryVariables } from '../graphql/generated/graphql'
+import { MeDocument, useCompleteTrickMutation } from '../graphql/generated/graphql'
 
 const analytics = getAnalytics()
 
@@ -21,10 +20,10 @@ export default function useCompleteTrick (variables?: { trickId: string, complet
           checklist.push(data.createTrickCompletion)
         }
 
-        cache.writeQuery<Partial<MeQuery> | null, MeQueryVariables>({
+        cache.writeQuery<MeQuery, MeQueryVariables>({
           query: MeDocument,
           variables: { withChecklist: true },
-          data: { me: { id: cachedData?.me?.id, checklist } }
+          data: { me: { ...cachedData.me, checklist } }
         })
       }
     }

@@ -1,7 +1,6 @@
-
 <template>
-  <div v-if="loading" class="flex items-center justify-center flex-col">
-    <icon-loading class="animate-spin w-32 h-32" />
+  <div v-if="loading" class="flex items-center justify-center flex-col" role="status">
+    <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
     Loading tricks...
   </div>
   <template v-for="(trickTypes, level) of sorted" v-else-if="numTricks" :key="`tt-${level}`">
@@ -19,8 +18,8 @@
       </template>
     </template>
   </template>
-  <div v-else class="flex items-center justify-center flex-col">
-    <icon-confused class="w-32 h-32" />
+  <div v-else class="flex items-center justify-center flex-col" role="status">
+    <icon-confused class="w-32 h-32" aria-hidden="true" />
     Oops! We couldn't find any tricks with the given filters.
   </div>
 </template>

@@ -1,8 +1,12 @@
 <template>
-  <div class="w-full aspect-w-9/16 mx-auto bg-gray-300">
+  <div class="w-full aspect-video mx-auto bg-gray-300">
     <iframe
       v-if="primaryYouTubeEmbedLink"
+      class="w-full h-full"
       type="text/html"
+      title="Video of the trick"
+      allow="autoplay; picture-in-picture"
+      allowfullscreen
       :src="primaryYouTubeEmbedLink"
     />
   </div>
@@ -15,12 +19,14 @@ import { VideoHost, VideoType } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 
 import type { PropType } from 'vue'
-import type { Video } from '../graphql/generated/graphql'
+import type { TrickBySlugQuery } from '../graphql/generated/graphql'
+
+type Video = NonNullable<TrickBySlugQuery['trick']>['videos'][number]
 
 const props = defineProps({
   videos: {
     required: true,
-    type: Object as PropType<Array<Pick<Video, 'type' | 'host' | 'videoId'>>>
+    type: Array as PropType<Video[]>
   }
 })
 

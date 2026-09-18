@@ -1,28 +1,29 @@
 <template>
   <div
     class="grid"
-    :class="{ 'border-green-500': completed, 'grid-cols-[3rem,auto]': enableChecklist }"
+    :class="{ 'border-green-500': completed, 'grid-cols-[3rem_auto]': enableChecklist }"
   >
     <label
       v-if="enableChecklist"
-      class="cursor-pointer flex rounded-l h-full border border-r-0 border-gray-300 hover:bg-gray-200 items-center justify-center"
+      class="cursor-pointer flex rounded-l h-full border border-r-0 border-gray-300 hover:bg-gray-200 items-center justify-center focus-within:outline-2 focus-within:outline-solid focus-within:outline-ttred-900 focus-within:outline-offset-2"
       :class="{
         'bg-green-500': completed,
         'border-green-500': completed,
         'hover:bg-green-300': completed,
         'bg-green-300': loading
       }"
-      aria-label="Completed Trick"
     >
-      <icon-loading v-if="loading" class="text-white animate-spin" />
-      <icon-check v-else class="text-white" />
+      <icon-loading v-if="loading" class="text-white animate-spin" aria-hidden="true" />
+      <icon-check v-else class="text-white" aria-hidden="true" />
       <input
         type="checkbox"
-        class="hidden"
+        class="sr-only"
         :checked="completed"
         :disabled="!enableChecklist || loading"
-        @click="completeTrick(!completed)"
+        :aria-busy="loading"
+        @change="completeTrick(($event.target as HTMLInputElement).checked)"
       >
+      <span class="sr-only">Completed: {{ trick.localised?.name ?? trick.en?.name }}</span>
     </label>
     <router-link
       class="flex rounded-r border border-gray-300 p-2 items-center justify-center text-center hover:bg-gray-200"
@@ -42,14 +43,14 @@
 <script setup lang="ts">
 import { ref, toRef } from 'vue'
 
-import { disciplineToSlug } from "../helpers";
+import { disciplineToSlug } from '../helpers'
 
 import IconCheck from '~icons/mdi/check'
 import IconLoading from '~icons/mdi/loading'
 
 import type { PropType } from 'vue'
 import type { TricksQuery } from '../graphql/generated/graphql'
-import useCompleteTrick from '../hooks/useCompleteTrick';
+import useCompleteTrick from '../hooks/useCompleteTrick'
 
 const props = defineProps({
   trick: {

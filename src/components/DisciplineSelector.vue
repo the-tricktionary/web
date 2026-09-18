@@ -1,8 +1,10 @@
 <template>
-  <div class="w-full border-b border-gray-300 flex justify-center overflow-x-auto">
+  <div class="w-full border-b border-gray-300 flex justify-center overflow-x-auto" role="group" aria-label="Discipline">
     <button
       v-for="(name, dOpt) in disciplines"
       :key="dOpt"
+      type="button"
+      :aria-pressed="discipline === dOpt"
       :class="{
         'border-ttred-900': discipline === dOpt,
         'border-b-2': discipline === dOpt,

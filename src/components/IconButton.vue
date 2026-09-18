@@ -1,8 +1,9 @@
 <template>
   <button
-    class="btn grid rounded cursor-pointer grid-cols-[2rem,auto] bg-white hover:bg-gray-200 border border-gray-300"
+    type="button"
+    class="btn grid rounded cursor-pointer grid-cols-[2rem_auto] bg-white hover:bg-gray-200 border border-gray-300"
   >
-    <div class="flex h-full items-center justify-center">
+    <div class="flex h-full items-center justify-center" aria-hidden="true">
       <slot name="icon" />
     </div>
     <div class="flex px-2 items-center">

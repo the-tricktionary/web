@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import useSW from '../hooks/useSW'
-import BottomBar from "./BottomBar.vue"
+import BottomBar from './BottomBar.vue'
 
 const sw = useSW()
 </script>

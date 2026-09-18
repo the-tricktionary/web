@@ -24,10 +24,12 @@
       interested in a partnership, email <a href="mailto:shop@the-tricktionary.com">shop@the-tricktionary.com</a>.
     </p>
 
-    <div class="w-full border-b border-gray-300 flex justify-center overflow-x-auto">
+    <div class="w-full border-b border-gray-300 flex justify-center overflow-x-auto" role="group" aria-label="Currency">
       <button
         v-for="c in currencies"
         :key="c"
+        type="button"
+        :aria-pressed="currency === c"
         :class="{
           'border-ttred-900': currency === c,
           'border-b-2': currency === c,
@@ -41,7 +43,7 @@
       </button>
     </div>
 
-    <div v-if="currency !== 'aud'" class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
       <product-box
         v-for="product in products"
         :key="product.id"
@@ -50,19 +52,6 @@
         :selected="selection[product.id]"
         @update:selected="selection[product.id] = $event"
       />
-    </div>
-
-    <div v-else class="pt-4">
-      <p>
-        If you are in australia, you can order the Tricktionary - Australian
-        Edition from <a href="https://www.skippingaustralia.org.au/?utm_source=the-tricktionary&utm_medium=referral&utm_campaign=booklet_sale" rel="noopener">Skipping Australia</a>
-        directly by emailing <a rel="noopener" href="mailto:admin@skippingaustralia.org.au?subject=Ordering%20the%20Trikctionary%20-%20Australian%20Edition">admin@skippingaustralia.org.au</a>,
-        it will definitely save you on shipping costs!
-      </p>
-      <p>
-        If you're looking for our other products, please select another
-        currency above.
-      </p>
     </div>
 
     <bottom-bar>
@@ -83,10 +72,9 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import { useCreateCheckoutSessionMutation, useProductsQuery } from '../graphql/generated/graphql'
+import { Currency, useCreateCheckoutSessionMutation, useProductsQuery } from '../graphql/generated/graphql'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import { formatPrice } from '../helpers'
@@ -97,25 +85,20 @@ import IconButton from '../components/IconButton.vue'
 import IconCart from '~icons/mdi/cart-outline'
 import IconLoading from '~icons/mdi/loading'
 
-import type { Currency } from '../graphql/generated/graphql'
-
 const productsQuery = useProductsQuery()
 
 const products = computed(() => productsQuery.result.value?.products ?? [])
 const shippingRates = computed(() => productsQuery.result.value?.shippingRates ?? [])
 const currencies = computed(() =>
-  [
-    ...new Set(products.value.flatMap(p => p.prices.map(price =>  price.currency))),
-    'aud'
-  ]
-  .sort((a, b) => a.localeCompare(b))
+  [...new Set(products.value.flatMap(p => p.prices.map(price => price.currency)))]
+    .sort((a, b) => a.localeCompare(b))
 )
 
 const analytics = getAnalytics()
 
-const currency = ref<string>('eur' as Currency)
+const currency = ref<Currency>(Currency.Eur)
 const selection = reactive<Record<string, number>>({})
-const numSelected = computed(() => Object.entries(selection).reduce((acc, [_, quantity]) => acc + quantity, 0))
+const numSelected = computed(() => Object.values(selection).reduce((acc, quantity) => acc + quantity, 0))
 const subtotal = computed(() => Object.entries(selection)
   .reduce((acc, [productId, quantity]) => {
     const product = products.value.find(p => p.id === productId)
@@ -135,9 +118,9 @@ const formattedSubtotal = computed(() => {
 const { mutate, loading } = useCreateCheckoutSessionMutation(() => ({
   variables: {
     products: Object.entries(selection)
-      .filter(([_, qty]) => qty > 0)
+      .filter(([, qty]) => qty > 0)
       .map(([productId, quantity]) => ({ productId, quantity })),
-    currency: currency.value as Currency
+    currency: currency.value
   }
 }))
 
@@ -145,7 +128,7 @@ async function initiateCheckout () {
   logEvent(analytics, 'begin_checkout', {
     currency: currency.value,
     value: subtotal.value / 100,
-    items: Object.entries(numSelected).map(([productId, quantity]) => {
+    items: Object.entries(selection).filter(([, quantity]) => quantity > 0).map(([productId, quantity]) => {
       const product = products.value.find(p => p.id === productId)
       const price = product?.prices.find(p => p.currency === currency.value)
       return {

@@ -1,18 +1,18 @@
-import { getAnalytics, logEvent, setCurrentScreen } from '@firebase/analytics'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { getAnalytics, logEvent } from '@firebase/analytics'
+import type { RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const analytics = getAnalytics()
 
 export const routes: RouteRecordRaw[] = [
-  { name: 'tricktionary', path: '/', component: () => import('./views/Home.vue') },
-  { name: 'trick', path: '/trick/:discipline/:slug', component: () => import('./views/Trick.vue') },
-  { name: 'auth', path: '/auth', component: () => import('./views/Auth.vue') },
-  { name: 'profile', path: '/profile', component: () => import('./views/Profile.vue') },
-  { name: 'rafiki', path: '/rafiki', component: () => import('./views/Rafiki.vue') },
-  { name: 'policies', path: '/policies', component: () => import('./views/Policies.vue') },
-  { name: 'shop', path: '/shop', component: () => import('./views/Shop.vue') },
-  { name: 'shop-success', path: '/shop-success', component: () => import('./views/ShopSuccess.vue') },
-  { name: 'not_found', path: '/:catchAll(.*)*', component: () => import('./views/404.vue') }
+  { name: 'tricktionary', path: '/', component: async () => await import('./views/Home.vue') },
+  { name: 'trick', path: '/trick/:discipline/:slug', component: async () => await import('./views/Trick.vue') },
+  { name: 'auth', path: '/auth', component: async () => await import('./views/Auth.vue') },
+  { name: 'profile', path: '/profile', component: async () => await import('./views/Profile.vue') },
+  { name: 'policies', path: '/policies', component: async () => await import('./views/Policies.vue') },
+  { name: 'shop', path: '/shop', component: async () => await import('./views/Shop.vue') },
+  { name: 'shop-success', path: '/shop-success', component: async () => await import('./views/ShopSuccess.vue') },
+  { name: 'not_found', path: '/:catchAll(.*)*', component: async () => await import('./views/404.vue') }
 ]
 
 const router = createRouter({
@@ -21,8 +21,10 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  setCurrentScreen(analytics, to.name?.toString() ?? '')
-  logEvent(analytics, 'screen_view')
+  logEvent(analytics, 'screen_view', {
+    firebase_screen: to.name?.toString() ?? '',
+    firebase_screen_class: to.name?.toString() ?? ''
+  })
 })
 
 export default router

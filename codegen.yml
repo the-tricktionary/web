@@ -7,11 +7,12 @@ config:
 generates:
   src/graphql/generated/graphql.ts:
     plugins:
-      - 'typescript'
       - 'typescript-operations'
       - 'typescript-vue-apollo'
     config:
-      # flattenGeneratedTypes: true
+      # typescript-operations v6 emits the enums and input types the operations
+      # use by itself, so the `typescript` plugin is no longer needed
+      enumType: native
       exportFragmentSpreadSubTypes: true
       vueCompositionApiImportFrom: 'vue'
     documents:

@@ -14,24 +14,9 @@
     </p>
 
     <p>
-      A powerful tool pioneered by the Tricktionary is the speed timer.
-      With this tool you can time and click speed and be provided with useful
-      statistics about the event. The app displays score, speed, number of
-      misses, an estimated score assuming no misses occurred, and a graph of the
-      jumper's instantaneous speed throughout the entire event.
-    </p>
-
-    <p>
-      Also included in the Android™ app is the Show Writer. This enables coaches
-      and jumpers to quickly write jump rope shows in which each athlete has the
-      maximum amount of break time between each of their routines.
-    </p>
-
-    <p>
-      The tricktionary is currently available as an Android™ app and as this
-      webapp, an iOS® app is comming soon. If you want to help build the
-      tricktionary, please email
-      <a href="develop@the-tricktionary.com">develop@the-tricktionary.com</a>.
+      The tricktionary is available as an Android™ app and as this webapp.
+      If you want to help build the tricktionary, please email
+      <a href="mailto:develop@the-tricktionary.com">develop@the-tricktionary.com</a>.
       Our code is open-source under the MIT license and available on
       <a href="https://github.com/the-tricktionary" rel="noopener">GitHub</a>.
     </p>
@@ -46,22 +31,8 @@
   </section>
 
   <links />
-
-  <rope-score-ad />
-
-  <section class="container mx-auto px-2 mt-4">
-    <h2>The Rafiki Outreach Program</h2>
-
-    <p>
-      the Tricktionary is a proud supporter of the
-      <router-link to="/rafiki">
-        Rafiki Outreach Program
-      </router-link>.
-    </p>
-  </section>
 </template>
 
 <script setup lang="ts">
 import Links from './Links.vue'
-import RopeScoreAd from './AdRopeScore.vue';
 </script>

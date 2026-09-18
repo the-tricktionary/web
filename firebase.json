@@ -18,12 +18,12 @@
     "redirects": [
       {
         "source": "/android",
-        "destination": "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
+        "destination": "https://play.google.com/store/apps/details?id=com.the_tricktionary.app",
         "type": 301
       },
       {
         "source": "/play",
-        "destination": "https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary",
+        "destination": "https://play.google.com/store/apps/details?id=com.the_tricktionary.app",
         "type": 301
       }
     ],
