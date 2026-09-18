@@ -49,7 +49,7 @@
     </table>
 
     <button
-      v-if="rulesets.length > 1"
+      v-if="rows.length > 1"
       type="button"
       class="mt-2 text-sm text-link hover:text-link-hover underline cursor-pointer rounded"
       :aria-expanded="expanded"
@@ -61,40 +61,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, ref } from 'vue'
 
 import useRuleset from '../hooks/useRuleset'
 
 import LevelVerification from './LevelVerification.vue'
 
-import type { PropType } from 'vue'
 import type { TrickBySlugQuery } from '../graphql/generated/graphql'
 import type { Ruleset } from '../hooks/useRuleset'
 
 type TrickLevel = NonNullable<TrickBySlugQuery['trick']>['levels'][number]
 
-const props = defineProps({
-  levels: {
-    type: Array as PropType<TrickLevel[]>,
-    required: true
-  }
-})
-
-const levels = toRef(props, 'levels')
+const { levels } = defineProps<{ levels: TrickLevel[] }>()
 
 const { rulesets, primary, selectedRulesId, ruleset } = useRuleset()
 
 const expanded = ref(false)
 
-/** Every selectable ruleset, with this trick's level in it if it has one */
-const rows = computed(() => rulesets.value.map(ruleset => ({
-  ruleset,
-  level: levels.value.find(level => level.rulesId === ruleset.id)
-})))
+/** The rulesets this trick has a level in, plus the default ruleset even if it doesn't */
+const rows = computed(() => rulesets.value
+  .map(selectable => ({ ruleset: selectable, level: levels.find(level => level.rulesId === selectable.id) }))
+  .filter(row => row.level != null || row.ruleset.id === ruleset.value?.id)
+)
 
-// Collapsed we only show the ruleset the levels elsewhere on the page follow,
-// unless there isn't one, in which case there's nothing to single out.
-const visibleRows = computed(() => expanded.value || !ruleset.value
+const visibleRows = computed(() => expanded.value
   ? rows.value
   : rows.value.filter(row => row.ruleset.id === ruleset.value?.id)
 )
