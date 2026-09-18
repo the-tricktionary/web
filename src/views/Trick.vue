@@ -18,7 +18,7 @@
           </span>
         </p>
 
-        <p v-if="trick.localised?.alternativeNames ?? trick.en?.alternativeNames">
+        <p v-if="(trick.localised?.alternativeNames?.length ?? 0 > 0) || (trick.en?.alternativeNames?.length ?? 0 > 0)">
           Alternative names: {{ formatList(trick.en?.alternativeNames ?? [], trick.localised?.alternativeNames) }}
         </p>
       </div>
