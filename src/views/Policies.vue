@@ -39,7 +39,7 @@
       <li>Email</li>
       <li>Phone Number</li>
       <li>Username</li>
-      <li>Your profile photo and account id on third party services such as Google, Facebook, and Twitter</li>
+      <li>Your profile photo and account id on third party services such as Google</li>
       <li>Data regarding our interactions with you</li>
       <li>Your IP address</li>
       <li>Your affiliation with rope skipping teams/clubs</li>
@@ -62,7 +62,15 @@
     </p>
 
     <p>
-      We may collect aggregated usage statistics through Google Analytics.
+      When watching a video on the Tricktionary, usage data and video analytics
+      may be collected by Mux. You can read more in
+      <a href="https://mux.com/dpa/">Mux's Data Processing Addendum</a>.
+      This transfer outside the EU uses standard contractual clauses.
+    </p>
+
+    <p>
+      We may collect aggregated usage statistics through Google Analytics,
+      if you have consented to the use of cookies.
       This is used to improve the Tricktionary.
       You can read more in <a href="https://www.google.com/analytics/terms/">Google Analytics' Terms of Service</a>.
       This transfer outside the EU uses standard contractual clauses.
