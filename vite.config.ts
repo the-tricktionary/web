@@ -8,7 +8,14 @@ import Icons from 'unplugin-icons/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          // <mux-player> is a web component
+          isCustomElement: tag => tag.startsWith('mux-')
+        }
+      }
+    }),
     Icons({
       compiler: 'vue3'
     }),

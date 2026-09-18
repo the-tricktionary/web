@@ -21,7 +21,12 @@
         </p>
       </div>
 
-      <videos v-if="trick.videos" :videos="trick.videos" />
+      <videos
+        v-if="trick.videos"
+        :videos="trick.videos"
+        :trick-id="trick.id"
+        :title="trick.localised?.name ?? trick.en?.name"
+      />
 
       <div class="my-4">
         <p>
