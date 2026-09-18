@@ -38,6 +38,8 @@
     </div>
 
     <div class="flex flex-col">
+      <trick-levels :levels="trick.levels" class="mb-6" />
+
       <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">
           Next
@@ -90,8 +92,6 @@
       Completed
     </icon-checkbox>
 
-    <ruleset-select />
-
     <icon-button
       v-if="canShare"
       :disabled="!trick"
@@ -129,7 +129,7 @@ import IconButton from '../components/IconButton.vue'
 import type { TrickBoxFragment } from '../graphql/generated/graphql'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import BottomBar from '../components/BottomBar.vue'
-import RulesetSelect from '../components/RulesetSelect.vue'
+import TrickLevels from '../components/TrickLevels.vue'
 
 const route = useRoute()
 const router = useRouter()

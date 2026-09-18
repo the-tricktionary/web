@@ -18,8 +18,6 @@
     >
       Hide Completed
     </icon-checkbox>
-
-    <ruleset-select />
   </bottom-bar>
 
   <div class="container mx-auto p-2">
@@ -48,7 +46,6 @@ import About from '../components/About.vue'
 import TtFooter from '../components/Footer.vue'
 import Links from '../components/Links.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
-import RulesetSelect from '../components/RulesetSelect.vue'
 
 import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
