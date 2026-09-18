@@ -24,7 +24,7 @@
       interested in a partnership, email <a href="mailto:shop@the-tricktionary.com">shop@the-tricktionary.com</a>.
     </p>
 
-    <div class="w-full border-b border-gray-300 flex justify-center overflow-x-auto" role="group" aria-label="Currency">
+    <div class="w-full border-b border-line flex justify-center overflow-x-auto" role="group" aria-label="Currency">
       <button
         v-for="c in currencies"
         :key="c"
@@ -36,7 +36,7 @@
           'mb-0': currency === c,
           'mb-2px': currency !== c
         }"
-        class="hover:bg-gray-200 hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
+        class="hover:bg-elevated hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
         @click="currency = c"
       >
         {{ c.toLocaleUpperCase() }}

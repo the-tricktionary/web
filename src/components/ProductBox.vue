@@ -1,11 +1,11 @@
 <template>
-  <div class="border-gray-300 flex h-full flex-col">
-    <div class="aspect-square flex bg-gray-300 rounded-t">
+  <div class="border-line flex h-full flex-col">
+    <div class="aspect-square flex bg-placeholder rounded-t">
       <img v-if="product.image" :src="product.image" loading="lazy" alt="" class="w-full h-full rounded-t">
-      <icon-shopping v-else class="text-gray-500" aria-hidden="true" />
+      <icon-shopping v-else class="text-muted" aria-hidden="true" />
     </div>
 
-    <div class="border-r border-l border-gray-300 p-2 grow">
+    <div class="border-r border-l border-line p-2 grow">
       <p class="mt-2 mb-6 text-4xl sm:text-2xl xl:text-4xl font-semibold">
         {{ formatPrice(product.prices, currency) }} / pcs
       </p>
@@ -18,19 +18,19 @@
     <div class="grid grid-cols-[2rem_auto_2rem] h-8">
       <button
         type="button"
-        class="border border-gray-300 rounded-bl h-full w-full flex items-center justify-center cursor-pointer hover:bg-gray-200 disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-default"
+        class="border border-line rounded-bl h-full w-full flex items-center justify-center cursor-pointer hover:bg-elevated disabled:bg-elevated disabled:text-muted disabled:cursor-default"
         :disabled="selected <= 0"
         :aria-label="`Remove one ${product.name} from cart`"
         @click="$emit('update:selected', selected - 1)"
       >
         <icon-minus aria-hidden="true" />
       </button>
-      <div class="border-t border-b border-gray-300 h-full w-full flex items-center justify-center" aria-live="polite">
+      <div class="border-t border-b border-line h-full w-full flex items-center justify-center" aria-live="polite">
         <span class="sr-only">Quantity:</span> {{ selected }}
       </div>
       <button
         type="button"
-        class="border border-gray-300 rounded-br h-full w-full flex items-center justify-center cursor-pointer hover:bg-gray-200 disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-default"
+        class="border border-line rounded-br h-full w-full flex items-center justify-center cursor-pointer hover:bg-elevated disabled:bg-elevated disabled:text-muted disabled:cursor-default"
         :aria-label="`Add one ${product.name} to cart`"
         @click="$emit('update:selected', selected + 1)"
       >

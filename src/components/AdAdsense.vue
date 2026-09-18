@@ -1,7 +1,7 @@
 <template>
   <!-- tT flow v4 -->
   <div class="container mx-auto px-2">
-    <div class="overflow-x-auto bg-gray-100 min-h-24 border-gray-300">
+    <div class="overflow-x-auto bg-sunken min-h-24 border-line">
       <ins
         class="adsbygoogle"
         style="display:block"

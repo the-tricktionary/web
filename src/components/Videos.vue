@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full aspect-video mx-auto bg-gray-300">
+  <div class="w-full aspect-video mx-auto bg-placeholder">
     <mux-player
       v-if="muxVideo"
       class="w-full h-full"

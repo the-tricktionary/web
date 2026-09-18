@@ -83,7 +83,7 @@ const numTricks = computed(() => props.tricks?.length)
 .trick-level:after {
   content: " ";
   @apply border-b-2;
-  @apply border-gray-300;
+  @apply border-line;
   @apply absolute;
   width: 100%;
   max-width: 20vw;

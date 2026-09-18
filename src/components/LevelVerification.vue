@@ -22,7 +22,7 @@
       ref="popover"
       popover="auto"
       role="tooltip"
-      class="level-verification-popover m-0 max-w-64 rounded bg-gray-900 px-2 py-1 text-sm text-white shadow-md"
+      class="level-verification-popover m-0 max-w-64 rounded px-2 py-1 text-sm shadow-md"
       :style="`position-anchor: --lv-${id}`"
     >
       {{ description }}
@@ -100,6 +100,8 @@ function positionManually (el: HTMLElement) {
 
 <style scoped>
 .level-verification-popover {
+  background-color: var(--tt-tooltip);
+  color: var(--tt-tooltip-content);
   inset: auto;
   position-area: block-start;
   position-try-fallbacks: flip-block;
