@@ -1,6 +1,7 @@
 overwrite: true
+# Set GRAPHQL_SCHEMA to a local introspection JSON to generate against a schema the API doesn't serve yet
 schema:
-  - https://api.the-tricktionary.com/graphql
+  - ${GRAPHQL_SCHEMA:https://api.the-tricktionary.com/graphql}
 config:
   scalars:
     Timestamp: number

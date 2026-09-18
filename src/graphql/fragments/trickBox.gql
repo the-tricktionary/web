@@ -11,7 +11,7 @@ fragment TrickBox on Trick {
     id
     name
   }
-  ttLevels: levels (organisation: "tricktionary") {
+  ttLevels: levels (rulesId: "tricktionary") {
     id
     level
   }

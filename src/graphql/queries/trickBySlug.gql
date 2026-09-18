@@ -20,10 +20,10 @@ query TrickBySlug ($discipline: Discipline!, $slug: String!, $withLocalised: Boo
       type
       host
     }
-    ijruLevels: levels (organisation: "ijru") {
+    levels {
       id
+      rulesId
       level
-      rulesVersion
       verificationLevel
     }
     prerequisites {

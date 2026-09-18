@@ -55,8 +55,8 @@ const label = computed(() => props.level === VerificationLevel.Official
   : 'Level verified by a judge'
 )
 const description = computed(() => props.level === VerificationLevel.Official
-  ? 'This level has been officially verified by IJRU.'
-  : 'This level has been verified by a certified judge, but not yet officially by IJRU.'
+  ? 'This level has been officially verified for this ruleset.'
+  : 'This level has been verified by a certified judge, but not yet officially.'
 )
 
 const supportsPopover = typeof HTMLElement !== 'undefined' && 'showPopover' in HTMLElement.prototype
