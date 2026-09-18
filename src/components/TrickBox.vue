@@ -23,7 +23,7 @@
         :aria-busy="loading"
         @change="completeTrick(($event.target as HTMLInputElement).checked)"
       >
-      <span class="sr-only">Completed: {{ trick.localised?.name ?? trick.en?.name }}</span>
+      <span class="sr-only">Completed: {{ localised.name }}</span>
     </label>
     <router-link
       class="flex rounded-r border border-line p-2 items-center justify-center text-center hover:bg-elevated"
@@ -33,17 +33,18 @@
         'pr-[3rem]': enableChecklist
       }"
       :to="`/trick/${discipline}/${trick.slug}`"
+      :lang="localised.nameLang === lang ? undefined : localised.nameLang"
       @click="$emit('navigate')"
     >
-      {{ trick.localised?.name ?? trick.en?.name }}
+      {{ localised.name }}
     </router-link>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 
-import { disciplineToSlug } from '../helpers'
+import { disciplineToSlug, localiseTrick } from '../helpers'
 
 import IconCheck from '~icons/mdi/check'
 import IconLoading from '~icons/mdi/loading'
@@ -51,6 +52,7 @@ import IconLoading from '~icons/mdi/loading'
 import type { PropType } from 'vue'
 import type { TricksQuery } from '../graphql/generated/graphql'
 import useCompleteTrick from '../hooks/useCompleteTrick'
+import useLanguage from '../hooks/useLanguage'
 
 const props = defineProps({
   trick: {
@@ -73,6 +75,9 @@ defineEmits<{
 
 const trick = toRef(props, 'trick')
 const completed = toRef(props, 'completed')
+
+const { lang } = useLanguage()
+const localised = computed(() => localiseTrick(trick.value, lang.value))
 
 const discipline = ref(disciplineToSlug(trick.value.discipline))
 

@@ -29,6 +29,7 @@ import { computed } from 'vue'
 
 import { TrickType } from '../graphql/generated/graphql'
 import { trickSorter } from '../helpers'
+import useLanguage from '../hooks/useLanguage'
 
 import IconLoading from '~icons/mdi/loading'
 import IconConfused from '~icons/mdi/map-marker-question-outline'
@@ -61,11 +62,13 @@ const props = defineProps({
   }
 })
 
+const { lang } = useLanguage()
+
 const sorted = computed(() => {
   const sorted: Record<string, Record<TrickType, TricksQuery['tricks']>> = {}
   let dataTricks = [...props.tricks ?? []]
   if (props.hideCompleted) dataTricks = dataTricks.filter(t => !props.checklist.has(t.id))
-  dataTricks.sort(trickSorter)
+  dataTricks.sort(trickSorter(lang.value))
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
     const trickType = trick.trickType

@@ -34,6 +34,7 @@ import '@mux/mux-player'
 import { VideoHost, VideoType } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useCookieConsent from '../hooks/useCookieConsent'
+import useLanguage from '../hooks/useLanguage'
 
 import type { PropType } from 'vue'
 import type { TrickBySlugQuery } from '../graphql/generated/graphql'
@@ -56,6 +57,7 @@ const props = defineProps({
 })
 
 const { user } = useAuth()
+const { lang } = useLanguage()
 const cookieConsent = useCookieConsent()
 
 // Prefer the self-hosted Mux video, fall back to YouTube for tricks that
@@ -68,7 +70,7 @@ const primaryYouTubeEmbedLink = computed(() => {
   const video = props.videos.find(video => video.host === VideoHost.YouTube && video.type === VideoType.SlowMo)
   if (!video) return null
   const params = new URLSearchParams()
-  if (user.value?.lang) params.append('hl', user.value.lang)
+  params.append('hl', lang.value)
   params.append('origin', window.location.origin)
   params.append('playsinline', '1')
   params.append('rel', '0')

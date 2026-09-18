@@ -12,10 +12,16 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
+import { useHead } from '@vueuse/head'
 import { apolloClient } from './apollo'
 import NavHeader from './components/NavHeader.vue'
 import CookieConsent from './components/CookieConsent.vue'
 import RefreshNeeded from './components/RefreshNeeded.vue'
+import useLanguage from './hooks/useLanguage'
 
 provide(DefaultApolloClient, apolloClient)
+
+const { lang } = useLanguage()
+
+useHead({ htmlAttrs: { lang } })
 </script>

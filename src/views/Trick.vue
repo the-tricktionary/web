@@ -6,7 +6,9 @@
   <div v-else-if="trick" class="grid grid-cols-1 lg:grid-cols-[4fr_1fr] gap-4 container mx-auto px-2 py-4 mb-20">
     <div>
       <div class="mb-4">
-        <h1>{{ trick.localised?.name ?? trick.en?.name }}</h1>
+        <h1 :lang="localised.nameLang === lang ? undefined : localised.nameLang">
+          {{ localised.name }}
+        </h1>
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
@@ -18,8 +20,8 @@
           </span>
         </p>
 
-        <p v-if="(trick.localised?.alternativeNames?.length ?? 0 > 0) || (trick.en?.alternativeNames?.length ?? 0 > 0)">
-          Alternative names: {{ formatList(trick.en?.alternativeNames ?? [], trick.localised?.alternativeNames) }}
+        <p v-if="localised.alternativeNames.length">
+          Alternative names: {{ alternativeNames }}
         </p>
       </div>
 
@@ -27,12 +29,12 @@
         v-if="trick.videos"
         :videos="trick.videos"
         :trick-id="trick.id"
-        :title="trick.localised?.name ?? trick.en?.name"
+        :title="localised.name"
       />
 
       <div class="my-4">
-        <p>
-          {{ trick.localised?.description ?? trick.en?.description }}
+        <p :lang="localised.descriptionLang === lang ? undefined : localised.descriptionLang">
+          {{ localised.description }}
         </p>
       </div>
     </div>
@@ -113,9 +115,10 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
 
 import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { slugToDiscipline } from '../helpers'
+import { localiseTrick, slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
+import useLanguage from '../hooks/useLanguage'
 import useRuleset from '../hooks/useRuleset'
 
 import Videos from '../components/Videos.vue'
@@ -137,27 +140,23 @@ const analytics = getAnalytics()
 const discipline = ref(slugToDiscipline(route.params.discipline as string))
 
 const { user } = useAuth({ withChecklist: true })
+const { lang } = useLanguage()
 const trickQuery = useTrickBySlugQuery({
   discipline: discipline as unknown as Discipline,
   slug: route.params.slug as string,
-  withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
-  lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
+  withLocalised: lang.value !== 'en',
+  lang: lang.value
 })
 const { loading } = trickQuery
 const trick = computed(() => trickQuery.result.value?.trick)
+const localised = computed(() => localiseTrick(trick.value ?? {}, lang.value))
 
 const { ruleset } = useRuleset()
 const level = computed(() => trick.value?.levels.find(level => level.rulesId === ruleset.value?.id))
 
-const enListFormater = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
-
-function formatList (en: string[], local?: string[] | null) {
-  if (user.value?.lang && local) {
-    const localFormatter = new Intl.ListFormat(user.value.lang, { style: 'long', type: 'disjunction' })
-    return localFormatter.format(local)
-  }
-  return enListFormater.format(en)
-}
+const alternativeNames = computed(() => new Intl.ListFormat(localised.value.nameLang, { style: 'long', type: 'disjunction' })
+  .format(localised.value.alternativeNames)
+)
 
 const { mutate: completeTrickMutate, loading: mutating } = useCompleteTrick()
 
@@ -171,16 +170,12 @@ async function completeTrick (completed?: boolean) {
 }
 
 useHead({
-  title: computed(() => trick.value ? `${trick.value.localised?.name ?? trick.value.en?.name} | the Tricktionary` : 'the Tricktionary')
+  title: computed(() => trick.value ? `${localised.value.name} | the Tricktionary` : 'the Tricktionary')
 })
 
-watch(user, user => {
-  if (user?.lang) {
-    trickQuery.variables.value!.withLocalised = true
-    trickQuery.variables.value!.lang = user?.lang
-  } else {
-    trickQuery.variables.value!.withLocalised = false
-  }
+watch(lang, lang => {
+  trickQuery.variables.value!.withLocalised = lang !== 'en'
+  trickQuery.variables.value!.lang = lang
 })
 
 onBeforeRouteUpdate((to, from) => {
@@ -218,7 +213,7 @@ const canShare = ref('share' in navigator)
 async function share () {
   if (!canShare.value) return false
   await navigator.share({
-    title: `the Tricktionary - ${trick.value?.localised?.name ?? trick.value?.en?.name}`,
+    title: `the Tricktionary - ${localised.value.name}`,
     text: 'Check out this trick on the Tricktionary',
     url: `${window.location.origin}${route.path}?utm_source=webshare&utm_medium=referral`
   })

@@ -1,5 +1,10 @@
 <template>
   <discipline-selector v-model:discipline="discipline" />
+
+  <div class="container mx-auto px-2 mt-2 flex justify-end empty:hidden">
+    <language-selector />
+  </div>
+
   <links />
 
   <bottom-bar>
@@ -46,9 +51,11 @@ import About from '../components/About.vue'
 import TtFooter from '../components/Footer.vue'
 import Links from '../components/Links.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
+import LanguageSelector from '../components/LanguageSelector.vue'
 
 import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
+import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
 import { refDebounced } from '@vueuse/core'
@@ -59,11 +66,12 @@ const discipline = ref<Discipline>()
 const settings = useSettings()
 const analytics = getAnalytics()
 const { firebaseUser, user } = useAuth({ withChecklist: true })
+const { lang } = useLanguage()
 
 const tricksQuery = useTricksQuery({
   discipline: discipline.value,
-  withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
-  lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
+  withLocalised: lang.value !== 'en',
+  lang: lang.value
 })
 const tricks = computed(() => tricksQuery.result.value?.tricks ?? [])
 const checklist = ref<Set<string>>(new Set())
@@ -73,14 +81,11 @@ const debouncedSearch = refDebounced(search, 1000)
 watch(discipline, discipline => {
   tricksQuery.variables.value!.discipline = discipline ?? Discipline.SingleRope
 })
+watch(lang, lang => {
+  tricksQuery.variables.value!.withLocalised = lang !== 'en'
+  tricksQuery.variables.value!.lang = lang
+})
 watch(user, user => {
-  if (user?.lang && user.lang !== 'en') {
-    tricksQuery.variables.value!.withLocalised = true
-    tricksQuery.variables.value!.lang = user?.lang
-  } else {
-    tricksQuery.variables.value!.withLocalised = false
-    tricksQuery.variables.value!.lang = undefined
-  }
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
 watch(debouncedSearch, search => {

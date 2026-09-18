@@ -1,5 +1,7 @@
 <template>
   <div class="container mx-auto pt-4 px-2">
+    <language-selector show-label class="mb-4" />
+
     <button class="btn" @click="signOut()">
       Sign out
     </button>
@@ -11,6 +13,7 @@ import { getAuth } from '@firebase/auth'
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
 
+import LanguageSelector from '../components/LanguageSelector.vue'
 import useAuth from '../hooks/useAuth'
 
 const auth = getAuth()
