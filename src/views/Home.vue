@@ -18,8 +18,6 @@
     >
       Hide Completed
     </icon-checkbox>
-
-    <!-- TODO: language select -->
   </bottom-bar>
 
   <div class="container mx-auto p-2">

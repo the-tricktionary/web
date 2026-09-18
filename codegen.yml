@@ -1,6 +1,5 @@
 overwrite: true
-# Point GRAPHQL_SCHEMA at a local introspection file (the API repo generates
-# graphql.schema.json) to develop against schema changes before they deploy
+# Set GRAPHQL_SCHEMA to a local introspection JSON to generate against a schema the API doesn't serve yet
 schema:
   - ${GRAPHQL_SCHEMA:https://api.the-tricktionary.com/graphql}
 config:
