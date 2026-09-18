@@ -1,6 +1,7 @@
 import { defineConfig } from 'unocss'
 import presetWind4 from '@unocss/preset-wind4'
 import transformerDirectives from '@unocss/transformer-directives'
+import { colors } from '@unocss/preset-wind4/colors'
 
 /**
  * Semantic colour tokens.
@@ -9,67 +10,75 @@ import transformerDirectives from '@unocss/transformer-directives'
  * roles rather than to a literal grey, so the whole palette flips in one
  * place instead of needing a `dark:` counterpart on each utility.
  *
- * The light values are the exact palette entries the app rendered before dark
- * mode (quoted from preset-wind4, hence the oklch notation), so light mode is
- * pixel-for-pixel unchanged. The dark values are bespoke.
+ * The values are shades from the preset's own palette, so there is nothing
+ * bespoke to keep in sync with it.
  */
 const lightTokens = {
   // Page and surfaces
-  page: '#fff',
-  surface: '#fff',
+  page: colors.white,
+  surface: colors.white,
   /** Hover/active fill on top of a surface, and the fill of a disabled control */
-  elevated: 'oklch(92.8% 0.006 264.531)', // gray-200
+  elevated: colors.gray[200],
   /** Recessed wells, e.g. the ad container and disabled inputs */
-  sunken: 'oklch(96.7% 0.003 264.542)', // gray-100
+  sunken: colors.gray[100],
   /** Behind images and videos, visible until the media loads */
-  placeholder: 'oklch(87.2% 0.01 258.338)', // gray-300
+  placeholder: colors.gray[300],
 
   // Lines
-  line: 'oklch(87.2% 0.01 258.338)', // gray-300
+  line: colors.gray[300],
   /** Borders of text inputs, which need more weight than a plain divider */
-  field: 'oklch(55.1% 0.027 264.364)', // gray-500
+  field: colors.gray[500],
 
   // Text
-  content: '#000',
-  /** Secondary text, e.g. a trick's type and level */
-  'muted-strong': 'oklch(44.6% 0.03 256.802)', // gray-600
-  /** Tertiary text, e.g. placeholder icons and disabled labels */
-  muted: 'oklch(55.1% 0.027 264.364)', // gray-500
-  link: 'oklch(62.3% 0.214 259.815)', // blue-500
-  'link-hover': 'oklch(42.4% 0.199 265.638)', // blue-800
+  content: colors.black,
+  /** Secondary text, e.g. placeholder icons, disabled labels, a trick's level */
+  muted: colors.gray[500],
+  link: colors.blue[500],
+  'link-hover': colors.blue[800],
 
   // Feedback
-  success: 'oklch(72.3% 0.219 149.579)', // green-500
+  success: colors.green[500],
   /** Lower-emphasis success, used while a completion is in flight */
-  'success-soft': 'oklch(87.1% 0.15 154.449)', // green-300
+  'success-soft': colors.green[300],
 
   // Inverted surface, currently only the level-verification tooltip
-  tooltip: 'oklch(21% 0.034 264.665)', // gray-900
-  'tooltip-content': '#fff'
+  tooltip: colors.gray[900],
+  'tooltip-content': colors.white
 }
 
 const darkTokens: typeof lightTokens = {
-  page: '#0d1117',
-  surface: '#161b22',
-  elevated: '#21262d',
-  sunken: '#0b0f14',
-  placeholder: '#21262d',
+  page: colors.gray[950],
+  surface: colors.gray[900],
+  elevated: colors.gray[800],
+  sunken: colors.gray[800],
+  placeholder: colors.gray[800],
 
-  line: '#30363d',
-  field: '#484f58',
+  line: colors.gray[700],
+  field: colors.gray[600],
 
-  content: '#e6edf3',
-  'muted-strong': '#b1bac4',
-  muted: '#9198a1',
-  link: '#60a5fa',
-  'link-hover': '#93c5fd',
+  content: colors.gray[100],
+  muted: colors.gray[400],
+  link: colors.blue[400],
+  'link-hover': colors.blue[300],
 
-  success: '#238636',
-  'success-soft': '#166534',
+  success: colors.green[600],
+  'success-soft': colors.green[800],
 
-  // Kept darker than a plain inversion so it does not glare on a dark page
-  tooltip: '#2d333b',
-  'tooltip-content': '#e6edf3'
+  // Lighter than the surface, so it reads as raised rather than glaring
+  tooltip: colors.gray[700],
+  'tooltip-content': colors.gray[100]
+}
+
+/** Brand colours, the only values here that are ours rather than the preset's */
+const brand = {
+  ttred: {
+    500: '#fe3500',
+    900: '#da1100'
+  },
+  ttyellow: {
+    300: '#feedb2',
+    500: '#fec500'
+  }
 }
 
 const declarations = (tokens: typeof lightTokens) => Object.entries(tokens)
@@ -97,14 +106,7 @@ export default defineConfig({
   theme: {
     colors: {
       ...tokenColors,
-      ttred: {
-        500: '#fe3500',
-        900: '#da1100'
-      },
-      ttyellow: {
-        300: '#feedb2',
-        500: '#fec500'
-      }
+      ...brand
     },
     font: {
       sans: '"PT Sans", sans-serif'
@@ -184,7 +186,7 @@ export default defineConfig({
 
           /* Visible focus indicator for everything focusable */
           :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-            outline: 2px solid #da1100;
+            outline: 2px solid ${brand.ttred[900]};
             outline-offset: 2px;
           }
 
