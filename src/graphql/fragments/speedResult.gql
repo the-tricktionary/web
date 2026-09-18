@@ -1,0 +1,11 @@
+fragment SpeedResultBase on SpeedResult {
+  id
+  name
+  createdAt
+  count
+  eventDefinition {
+    id
+    name
+    totalDuration
+  }
+}

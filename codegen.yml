@@ -1,6 +1,8 @@
 overwrite: true
+# Point GRAPHQL_SCHEMA at a local introspection file (the API repo generates
+# graphql.schema.json) to develop against schema changes before they deploy
 schema:
-  - https://api.the-tricktionary.com/graphql
+  - ${GRAPHQL_SCHEMA:https://api.the-tricktionary.com/graphql}
 config:
   scalars:
     Timestamp: number

@@ -1,0 +1,5 @@
+mutation DeleteSpeedResult ($speedResultId: ID!) {
+  deleteSpeedResult (speedResultId: $speedResultId) {
+    id
+  }
+}

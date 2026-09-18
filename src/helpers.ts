@@ -43,3 +43,18 @@ export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatF
     currency
   }).format(price?.unitAmount / 100)
 }
+
+export function formatDateTime (date: number | Date) {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  }).format(date)
+}
+
+/** Formats an event duration in seconds as m:ss, 0 means there is no time limit */
+export function formatDuration (seconds: number) {
+  if (seconds <= 0) return 'No time limit'
+  const minutes = Math.floor(seconds / 60)
+  const remainder = seconds % 60
+  return `${minutes}:${String(remainder).padStart(2, '0')}`
+}
