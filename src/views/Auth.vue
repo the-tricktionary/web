@@ -13,7 +13,7 @@
         if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
       </p>
     </form>
-    <div class="hidden md:block w-full md:w-0 md:h-48 md:border-b-0 md:border-r border-gray-300 m-4" />
+    <div class="hidden md:block w-full md:w-0 md:h-48 md:border-b-0 md:border-r border-line m-4" />
     <div class="w-full md:max-w-80">
       <form class="mb-4" @submit.prevent="sendEmailLink()">
         <h2 class="text-lg font-semibold">
@@ -26,7 +26,7 @@
           aria-label="Email"
           :required="true"
           placeholder="Email"
-          class="w-full block rounded focus:border-b-ttred-900 border-gray-300 disabled:bg-gray-100"
+          class="w-full block rounded focus:border-b-ttred-900 border-line disabled:bg-sunken"
         >
         <input type="submit" :disabled="email.linkSent" value="Send magic link" class="btn mt-2">
         <p v-if="email.error" class="text-ttred-900">

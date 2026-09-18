@@ -1,16 +1,16 @@
 <template>
   <div
     class="grid"
-    :class="{ 'border-green-500': completed, 'grid-cols-[3rem_auto]': enableChecklist }"
+    :class="{ 'border-success': completed, 'grid-cols-[3rem_auto]': enableChecklist }"
   >
     <label
       v-if="enableChecklist"
-      class="cursor-pointer flex rounded-l h-full border border-r-0 border-gray-300 hover:bg-gray-200 items-center justify-center focus-within:outline-2 focus-within:outline-solid focus-within:outline-ttred-900 focus-within:outline-offset-2"
+      class="cursor-pointer flex rounded-l h-full border border-r-0 border-line hover:bg-elevated items-center justify-center focus-within:outline-2 focus-within:outline-solid focus-within:outline-ttred-900 focus-within:outline-offset-2"
       :class="{
-        'bg-green-500': completed,
-        'border-green-500': completed,
-        'hover:bg-green-300': completed,
-        'bg-green-300': loading
+        'bg-success': completed,
+        'border-success': completed,
+        'hover:bg-success-soft': completed,
+        'bg-success-soft': loading
       }"
     >
       <icon-loading v-if="loading" class="text-white animate-spin" aria-hidden="true" />
@@ -26,9 +26,9 @@
       <span class="sr-only">Completed: {{ trick.localised?.name ?? trick.en?.name }}</span>
     </label>
     <router-link
-      class="flex rounded-r border border-gray-300 p-2 items-center justify-center text-center hover:bg-gray-200"
+      class="flex rounded-r border border-line p-2 items-center justify-center text-center hover:bg-elevated"
       :class="{
-        'border-green-500': completed,
+        'border-success': completed,
         'rounded-l': !enableChecklist,
         'pr-[3rem]': enableChecklist
       }"

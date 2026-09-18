@@ -8,7 +8,7 @@
       type="search"
       placeholder="Search tricks"
       aria-label="Search tricks"
-      class="rounded focus:border-b-ttred-900 border-gray-300 flex-grow"
+      class="rounded focus:border-b-ttred-900 border-line flex-grow"
     >
 
     <icon-checkbox

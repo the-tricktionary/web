@@ -8,7 +8,7 @@
       <div class="mb-4">
         <h1>{{ trick.localised?.name ?? trick.en?.name }}</h1>
 
-        <p class="text-gray-600 font-semibold">
+        <p class="text-muted-strong font-semibold">
           <span class="inline-flex items-center">
             {{ trick.trickType }}
             &mdash; IJRU Level {{ trick.ijruLevels[0]?.level }}
