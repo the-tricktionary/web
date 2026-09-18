@@ -1,5 +1,5 @@
 overwrite: true
-# GRAPHQL_SCHEMA can point at a local introspection JSON to develop against an unreleased schema
+# Set GRAPHQL_SCHEMA to a local introspection JSON to generate against a schema the API doesn't serve yet
 schema:
   - ${GRAPHQL_SCHEMA:https://api.the-tricktionary.com/graphql}
 config:

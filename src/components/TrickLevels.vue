@@ -1,10 +1,10 @@
 <template>
-  <div v-if="rulesets.length">
+  <div v-if="rows.length" class="mb-6">
     <h2 class="mb-4 text-2xl font-semibold relative">
       Levels
     </h2>
 
-    <table class="w-full text-sm text-left border-collapse border border-line rounded bg-surface">
+    <table :id="tableId" class="w-full text-sm text-left border-collapse border border-line bg-surface">
       <thead>
         <tr class="border-b border-line">
           <th scope="col" class="px-2 py-1 font-semibold">
@@ -39,7 +39,7 @@
               v-else
               type="button"
               class="text-link hover:text-link-hover underline cursor-pointer whitespace-nowrap rounded"
-              @click="useAsDefault(row.ruleset)"
+              @click="follow(row.ruleset.id)"
             >
               Use as default
             </button>
@@ -53,6 +53,7 @@
       type="button"
       class="mt-2 text-sm text-link hover:text-link-hover underline cursor-pointer rounded"
       :aria-expanded="expanded"
+      :aria-controls="tableId"
       @click="expanded = !expanded"
     >
       {{ expanded ? 'Show fewer' : 'Show all rulesets' }}
@@ -61,24 +62,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, useId } from 'vue'
 
 import useRuleset from '../hooks/useRuleset'
 
 import LevelVerification from './LevelVerification.vue'
 
 import type { TrickBySlugQuery } from '../graphql/generated/graphql'
-import type { Ruleset } from '../hooks/useRuleset'
 
 type TrickLevel = NonNullable<TrickBySlugQuery['trick']>['levels'][number]
 
 const { levels } = defineProps<{ levels: TrickLevel[] }>()
 
-const { rulesets, primary, selectedRulesId, ruleset } = useRuleset()
+const { rulesets, ruleset, follow } = useRuleset()
 
+const tableId = useId()
 const expanded = ref(false)
 
-/** The rulesets this trick has a level in, plus the default ruleset even if it doesn't */
 const rows = computed(() => rulesets.value
   .map(selectable => ({ ruleset: selectable, level: levels.find(level => level.rulesId === selectable.id) }))
   .filter(row => row.level != null || row.ruleset.id === ruleset.value?.id)
@@ -88,10 +88,4 @@ const visibleRows = computed(() => expanded.value
   ? rows.value
   : rows.value.filter(row => row.ruleset.id === ruleset.value?.id)
 )
-
-function useAsDefault (selected: Ruleset) {
-  // following the primary ruleset is stored as "no choice", so that a later
-  // change of primary ruleset carries over
-  selectedRulesId.value = selected.id === primary.value?.id ? null : selected.id
-}
 </script>

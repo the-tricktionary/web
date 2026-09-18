@@ -25,11 +25,6 @@ query TrickBySlug ($discipline: Discipline!, $slug: String!, $withLocalised: Boo
       rulesId
       level
       verificationLevel
-      ruleset {
-        id
-        name (lang: $lang)
-        isPrimary
-      }
     }
     prerequisites {
       ...TrickBox

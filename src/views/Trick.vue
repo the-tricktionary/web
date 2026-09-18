@@ -12,7 +12,7 @@
           <span class="inline-flex items-center">
             {{ trick.trickType }}
             <template v-if="level">
-              &mdash; {{ level.ruleset.name }} Level {{ level.level }}
+              &mdash; {{ ruleset?.name }} Level {{ level.level }}
               <level-verification v-if="level.verificationLevel" :level="level.verificationLevel" />
             </template>
           </span>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="flex flex-col">
-      <trick-levels :levels="trick.levels" class="mb-6" />
+      <trick-levels :levels="trick.levels" />
 
       <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">
@@ -147,7 +147,6 @@ const { loading } = trickQuery
 const trick = computed(() => trickQuery.result.value?.trick)
 
 const { ruleset } = useRuleset()
-/** This trick's level in the ruleset the user follows, if it has one */
 const level = computed(() => trick.value?.levels.find(level => level.rulesId === ruleset.value?.id))
 
 const enListFormater = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
