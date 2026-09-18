@@ -7,10 +7,8 @@
       soon.
     </p>
 
-    <router-link to="/">
-      <button class="btn w-max">
-        Back to the Tricks
-      </button>
+    <router-link to="/" class="btn inline-block w-max">
+      Back to the Tricks
     </router-link>
   </div>
 </template>

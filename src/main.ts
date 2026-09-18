@@ -1,16 +1,16 @@
 import { initSentry } from './config'
-import { createApp } from 'vue'
+import { type Component, createApp } from 'vue'
 import { createHead } from '@vueuse/head'
 
 import router from './routes'
 import App from './App.vue'
 import useSW from './hooks/useSW'
-import 'virtual:windi.css'
+import 'uno.css'
 import 'unfonts.css'
 
 useSW()
 
-export const app = createApp(App)
+export const app = createApp(App as Component)
 
 initSentry({ app, router })
 

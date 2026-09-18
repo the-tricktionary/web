@@ -27,7 +27,7 @@ const cache = new InMemoryCache({
   }
 })
 
-persistCache({
+void persistCache({
   cache,
   storage: localStorage
 })

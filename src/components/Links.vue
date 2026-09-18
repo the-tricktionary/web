@@ -11,7 +11,7 @@
       target="_blank"
       rel="noopener"
       class="btn w-max min-w-[5rem] text-center inline-block"
-      href="https://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary"
+      href="https://play.google.com/store/apps/details?id=com.the_tricktionary.app"
     >
       Google Play
     </a>

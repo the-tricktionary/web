@@ -1,10 +1,9 @@
-
 <template>
-  <div v-if="loading" class="container mx-auto flex items-center justify-center flex-col">
-    <icon-loading class="animate-spin w-32 h-32" />
+  <div v-if="loading" class="container mx-auto flex items-center justify-center flex-col" role="status">
+    <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
     Loading trick...
   </div>
-  <div v-else-if="trick" class="grid grid-cols-1 lg:grid-cols-[4fr,1fr] gap-4 container mx-auto px-2 py-4 mb-20">
+  <div v-else-if="trick" class="grid grid-cols-1 lg:grid-cols-[4fr_1fr] gap-4 container mx-auto px-2 py-4 mb-20">
     <div>
       <div class="mb-4">
         <h1>{{ trick.localised?.name ?? trick.en?.name }}</h1>
@@ -13,8 +12,8 @@
           <span class="inline-flex items-center">
             {{ trick.trickType }}
             &mdash; IJRU Level {{ trick.ijruLevels[0]?.level }}
-            <icon-check-all v-if="trick.ijruLevels[0]?.verificationLevel === VerificationLevel.Official" />
-            <icon-check v-else-if="trick.ijruLevels[0]?.verificationLevel === VerificationLevel.Judge" />
+            <icon-check-all v-if="trick.ijruLevels[0]?.verificationLevel === VerificationLevel.Official" aria-label="Officially verified level" role="img" />
+            <icon-check v-else-if="trick.ijruLevels[0]?.verificationLevel === VerificationLevel.Judge" aria-label="Level verified by a judge" role="img" />
           </span>
         </p>
 
@@ -68,19 +67,17 @@
   </div>
 
   <bottom-bar>
-    <router-link to="/">
-      <icon-button class="btn inline-flex items-center mt-0 w-max">
-        <template #icon>
-          <icon-chevron-left />
-        </template>
-        All Tricks
-      </icon-button>
+    <router-link to="/" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-chevron-left />
+      </span>
+      <span class="flex px-2 items-center">All Tricks</span>
     </router-link>
 
     <icon-checkbox
       v-if="user && trick"
       :checked="completed.has(trick.id)"
-      :disabed="mutating"
+      :disabled="mutating"
       :loading="mutating"
       @update:checked="completeTrick($event)"
     >
@@ -184,14 +181,13 @@ onBeforeRouteUpdate((to, from) => {
 
 trickQuery.onResult(({ data }) => {
   if (!data.trick) {
-    router.push({
+    void router.push({
       name: 'not_found',
       params: { catchAll: route.fullPath.substring(1).split('/') },
       query: route.query,
       hash: route.hash
     })
   } else {
-    console.log(data.trick.id)
     // the android app uses this event, so so do we
     logEvent(analytics, 'view_trick', {
       trick_name: data.trick.en?.name,

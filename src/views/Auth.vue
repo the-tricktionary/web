@@ -66,13 +66,6 @@ const { firebaseUser: user } = useAuth()
 const router = useRouter()
 const analytics = getAnalytics()
 
-const phone = reactive({
-  phoneNumber: '',
-  code: '',
-  codeSent: false,
-  error: null
-})
-
 const email = reactive({
   email: '',
   linkSent: false,
@@ -83,7 +76,7 @@ const socialErr = ref<string | null>(null)
 
 watch(user, newUser => {
   if (newUser) {
-    router.replace('/profile')
+    void router.replace('/profile')
   }
 })
 

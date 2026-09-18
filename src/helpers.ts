@@ -1,4 +1,5 @@
-import { Discipline, TrickBoxFragment, Currency } from './graphql/generated/graphql'
+import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
+import { Discipline } from './graphql/generated/graphql'
 
 export function disciplineToSlug (discipline: Discipline) {
   switch (discipline) {
@@ -9,7 +10,7 @@ export function disciplineToSlug (discipline: Discipline) {
     case Discipline.Wheel:
       return 'wh'
     default:
-      throw new Error(`Unknown discipline: ${discipline}`)
+      throw new Error(`Unknown discipline: ${String(discipline)}`)
   }
 }
 
@@ -34,7 +35,7 @@ export function trickSorter (a: Pick<TrickBoxFragment, 'slug' | 'localised' | 'e
 
 type PricesFormatFields = Array<{ currency: Currency, unitAmount?: number | null }>
 
-export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatFields>, currency: Currency | string) {
+export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatFields>, currency: Currency) {
   const price = prices.find(p => p.currency === currency)
   if (!price?.unitAmount) return '-'
   return new Intl.NumberFormat('en', {

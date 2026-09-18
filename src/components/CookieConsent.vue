@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import useConsentCookie from "../hooks/useCookieConsent"
-import BottomBar from "./BottomBar.vue"
+import useConsentCookie from '../hooks/useCookieConsent'
+import BottomBar from './BottomBar.vue'
 
 const cookie = useConsentCookie()
 </script>

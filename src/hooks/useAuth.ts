@@ -1,7 +1,8 @@
 import { getAnalytics, setUserId } from '@firebase/analytics'
-import { getAuth, Unsubscribe, User } from '@firebase/auth'
+import type { Unsubscribe, User } from '@firebase/auth'
+import { getAuth } from '@firebase/auth'
 import { setUser } from '@sentry/browser'
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import { useMeQuery } from '../graphql/generated/graphql'
 import { computed } from 'vue'
 
@@ -19,7 +20,7 @@ export default function useAuth ({ withChecklist = false } = {}) {
       // set the ref to get the firebase user
       firebaseUser.value = user
       // refetch the user document from the db
-      userQuery.refetch()
+      void userQuery.refetch()
       // set the user ID for analytics
       setUserId(analytics, user?.uid ?? '')
       // set the user id for error reporting

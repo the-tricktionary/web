@@ -1,13 +1,15 @@
 <template>
   <label
-    class="grid cursor-pointer grid-cols-[3rem,auto] rounded bg-white hover:bg-gray-200"
+    class="grid cursor-pointer grid-cols-[3rem_auto] rounded bg-white hover:bg-gray-200 focus-within:outline-2 focus-within:outline-solid focus-within:outline-ttred-900 focus-within:outline-offset-2"
+    :class="{ 'cursor-default': disabled }"
   >
     <input
       type="checkbox"
-      class="hidden"
+      class="sr-only"
       :checked="checked"
       :disabled="disabled"
-      @click="$emit('update:checked', !checked)"
+      :aria-busy="loading"
+      @change="$emit('update:checked', ($event.target as HTMLInputElement).checked)"
     >
     <div
       class="flex rounded-l h-full items-center justify-center border-gray-300 border"
@@ -16,6 +18,7 @@
         'bg-green-300': disabled,
         'border-green-500': checked
       }"
+      aria-hidden="true"
     >
       <slot name="icon">
         <icon-loading v-if="loading" class="text-white animate-spin" />
