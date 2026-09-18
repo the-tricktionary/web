@@ -6,7 +6,7 @@
       The company <a href="https://swantzter.se" target="_blank" rel="noopener">Swantzer</a>
       (org.no. 000718-5796, VAT no. SE000718579601) of Planteringsvägen 46C LGH 1202,
       262 51 Ängelholm, SWEDEN is the data controller for the Tricktionary and operator
-      of the Tricktionary's store. This page was last updated 2021-07-03.
+      of the Tricktionary's store. This page was last updated 2026-09-18.
     </p>
 
     <p>
@@ -94,7 +94,7 @@
     </ul>
 
     <p>
-      When using RopeScore and its online services your data may be transferred
+      When using the Tricktionary and its online services your data may be transferred
       and/or processed by organisations outside of the European Union; Brazil;
       California, USA or territories with an EU adequacy decision under GDPR,
       when such processing occurs Swantzter has put appropriate safeguards in

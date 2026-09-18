@@ -12,8 +12,7 @@
           <span class="inline-flex items-center">
             {{ trick.trickType }}
             &mdash; IJRU Level {{ trick.ijruLevels[0]?.level }}
-            <icon-check-all v-if="trick.ijruLevels[0]?.verificationLevel === VerificationLevel.Official" aria-label="Officially verified level" role="img" />
-            <icon-check v-else-if="trick.ijruLevels[0]?.verificationLevel === VerificationLevel.Judge" aria-label="Level verified by a judge" role="img" />
+            <level-verification v-if="trick.ijruLevels[0]?.verificationLevel" :level="trick.ijruLevels[0].verificationLevel" />
           </span>
         </p>
 
@@ -104,7 +103,7 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@vueuse/head'
 
-import { type Discipline, useTrickBySlugQuery, VerificationLevel } from '../graphql/generated/graphql'
+import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
 import { slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
@@ -113,9 +112,8 @@ import Videos from '../components/Videos.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconShare from '~icons/mdi/share'
 import IconChevronLeft from '~icons/mdi/chevron-left'
-import IconCheck from '~icons/mdi/check'
-import IconCheckAll from '~icons/mdi/check-all'
 import TrickBox from '../components/TrickBox.vue'
+import LevelVerification from '../components/LevelVerification.vue'
 import IconButton from '../components/IconButton.vue'
 
 import type { TrickBoxFragment } from '../graphql/generated/graphql'
@@ -180,6 +178,7 @@ onBeforeRouteUpdate((to, from) => {
 })
 
 trickQuery.onResult(({ data }) => {
+  if (!data) return
   if (!data.trick) {
     void router.push({
       name: 'not_found',
