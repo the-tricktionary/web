@@ -131,12 +131,16 @@
     "count": {
       "discard": "Discard",
       "event": "Event",
+      "eventProgress": "Time through the event",
       "failed": "Failed to save the score: {error}",
       "getReady": "Get ready",
       "loadingTrack": "Loading the track...",
       "playTrack": "Play the timing track while counting",
       "ready": "Ready",
       "save": "Save score",
+      "segment": "Segment {n}",
+      "segmentOf": "{n} / {total}",
+      "segmentProgress": "Time through this segment",
       "step": "Step",
       "stepsIn": "steps in {time}",
       "stop": "Stop",
@@ -159,6 +163,7 @@
       "failed": "Failed to save the score: {error}",
       "name": "Name",
       "namePlaceholder": "e.g. Practice, Regionals 2026",
+      "openingFrom": "From the start",
       "optional": "(optional)",
       "removeSwitch": "Remove switch {n}",
       "save": "Save score",
@@ -172,7 +177,7 @@
       "switchOutside": "Switches have to fall between the start and {duration} seconds.",
       "switchSeconds": "Seconds",
       "switches": "Athlete switches",
-      "switchesHint": "For a relay, the seconds at which the athletes change over. Each stretch is then counted and charted on its own.",
+      "switchesHint": "For a relay, the seconds at which the athletes change over. Each stretch is then counted and charted on its own, and can be named.",
       "title": "New speed score"
     },
     "details": {

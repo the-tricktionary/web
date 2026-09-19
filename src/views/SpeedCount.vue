@@ -15,6 +15,7 @@
         v-model:name="customName"
         v-model:total-duration="customDuration"
         v-model:cues="cues"
+        v-model:opening-label="openingLabel"
         v-model:valid="customValid"
       />
 
@@ -35,6 +36,11 @@
         {{ event?.name }}
       </p>
 
+      <p v-if="segments.length > 1" class="m-0 flex items-baseline gap-2" aria-live="polite" aria-atomic="true">
+        <span class="font-semibold">{{ currentSegment?.label ?? t('speed.count.segment', { n: segmentNumber }) }}</span>
+        <span class="text-muted text-sm tabular-nums">{{ t('speed.count.segmentOf', { n: segmentNumber, total: segments.length }) }}</span>
+      </p>
+
       <p class="text-5xl font-bold tabular-nums m-0" aria-live="off">
         <template v-if="!started">
           {{ waitingForTrack ? t('speed.count.ready') : seconds(event?.totalDuration ?? 0) }}
@@ -51,6 +57,31 @@
         <span class="text-7xl font-bold leading-none">{{ number(count) }}</span>
         <span class="text-muted">{{ t('speed.steps') }}</span>
       </p>
+
+      <!--
+        Scaled rather than resized: a transform stays on the compositor, so
+        these cost nothing next to the tap handler even at ten ticks a second.
+      -->
+      <div v-if="started && (remaining ?? 0) >= 0" class="w-full max-w-120 flex flex-col gap-1">
+        <div class="h-2 rounded bg-elevated overflow-hidden">
+          <div
+            class="h-full bg-ttred-500 origin-left transition-transform duration-100 ease-linear"
+            :style="{ transform: `scaleX(${eventProgress})` }"
+            role="progressbar"
+            :aria-label="t('speed.count.eventProgress')"
+            :aria-valuenow="Math.round(eventProgress * 100)"
+          />
+        </div>
+        <div v-if="segments.length > 1" class="h-1 rounded bg-elevated overflow-hidden">
+          <div
+            class="h-full bg-ttred-900 origin-left transition-transform duration-100 ease-linear"
+            :style="{ transform: `scaleX(${segmentProgress})` }"
+            role="progressbar"
+            :aria-label="t('speed.count.segmentProgress')"
+            :aria-valuenow="Math.round(segmentProgress * 100)"
+          />
+        </div>
+      </div>
 
       <!-- Above the tap target, so a thumb reaching for a step cannot hit them -->
       <div class="grid grid-cols-2 gap-2 w-full max-w-120">
@@ -179,7 +210,7 @@ import useAuth from '../hooks/useAuth'
 import useEventDefinitions from '../hooks/useEventDefinitions'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 import { addSpeedResultToCache } from '../hooks/useSpeedResults'
-import { CUSTOM_EVENT, switchCuesInput } from '../helpers'
+import { CUSTOM_EVENT, segmentsOf, switchCuesInput } from '../helpers'
 
 import BottomBar from '../components/BottomBar.vue'
 import CustomEventFields from '../components/CustomEventFields.vue'
@@ -214,6 +245,7 @@ const isCustom = computed(() => eventDefinitionId.value === CUSTOM_EVENT)
 const customName = ref('')
 const customDuration = ref<number>(30)
 const cues = ref<SwitchRow[]>([])
+const openingLabel = ref('')
 const customValid = ref(false)
 
 const selectedEvent = computed(() => eventDefinitions.value.find(eventDefinition => eventDefinition.id === eventDefinitionId.value))
@@ -228,6 +260,12 @@ const event = computed(() => isCustom.value
   : selectedEvent.value ?? null
 )
 const canBegin = computed(() => isCustom.value ? customValid.value : selectedEvent.value != null)
+
+/** Whatever divides the event into stretches, from either kind of event */
+const activeCues = computed(() => isCustom.value
+  ? (switchCuesInput(cues.value, openingLabel.value).cues ?? [])
+  : selectedEvent.value?.timingTrack?.cues ?? []
+)
 
 const useTrack = ref(true)
 const name = ref('')
@@ -284,6 +322,27 @@ const remaining = computed(() => {
   return Math.max(0, totalDuration - clock.value)
 })
 const elapsed = computed(() => Math.max(0, clock.value))
+
+/**
+ * The stretches the event is divided into, and which one the clock is in.
+ * Only the cues matter here, so a custom relay and one with an official
+ * track are read the same way.
+ */
+const segments = computed(() => segmentsOf(event.value?.totalDuration ?? 0, activeCues.value))
+const currentSegment = computed(() => {
+  if (clock.value < 0) return segments.value[0]
+  return segments.value.find(segment => clock.value >= segment.start && clock.value < segment.end) ??
+    segments.value[segments.value.length - 1]
+})
+const segmentNumber = computed(() => (currentSegment.value?.index ?? 0) + 1)
+
+const fraction = (value: number, of: number) => of > 0 ? Math.min(1, Math.max(0, value / of)) : 0
+const eventProgress = computed(() => fraction(elapsed.value, event.value?.totalDuration ?? 0))
+const segmentProgress = computed(() => {
+  const segment = currentSegment.value
+  if (!segment) return 0
+  return fraction(elapsed.value - segment.start, segment.end - segment.start)
+})
 
 /** Steps only count once the go signal has sounded */
 const counting = computed(() => started.value && !finished.value && clock.value >= 0)
@@ -401,7 +460,7 @@ async function save () {
               eventDefinition: {
                 name: customName.value.trim(),
                 totalDuration: customDuration.value,
-                ...switchCuesInput(cues.value)
+                ...switchCuesInput(cues.value, openingLabel.value)
               }
             }
           : {

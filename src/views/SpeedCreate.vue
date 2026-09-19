@@ -15,6 +15,7 @@
         v-model:name="customName"
         v-model:total-duration="customDuration"
         v-model:cues="cues"
+        v-model:opening-label="openingLabel"
         v-model:valid="customValid"
         :disabled="saving"
       />
@@ -113,6 +114,7 @@ const eventDefinitionId = ref<string>('')
 const customName = ref('')
 const customDuration = ref<number>(30)
 const cues = ref<SwitchRow[]>([])
+const openingLabel = ref('')
 const customValid = ref(false)
 const name = ref('')
 const count = ref<number>()
@@ -145,7 +147,7 @@ async function save () {
               eventDefinition: {
                 name: customName.value.trim(),
                 totalDuration: customDuration.value,
-                ...switchCuesInput(cues.value)
+                ...switchCuesInput(cues.value, openingLabel.value)
               }
             }
           : { eventDefinitionId: eventDefinitionId.value })
