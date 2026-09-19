@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-2 py-4" :class="{ 'mb-20': showBottomBar }">
     <!-- Setup -->
-    <form v-if="phase === 'setup'" class="flex flex-col gap-4 max-w-120" @submit.prevent="begin()">
+    <form v-if="phase === 'setup'" :id="formId" class="flex flex-col gap-4 max-w-120" @submit.prevent="begin()">
       <h1>{{ t('speed.count.title') }}</h1>
 
       <label class="flex flex-col gap-1">
@@ -19,10 +19,6 @@
         <span class="font-semibold">{{ t('speed.create.name') }} <span class="text-muted font-normal">{{ t('speed.create.optional') }}</span></span>
         <input v-model="name" type="text" maxlength="120" :placeholder="t('speed.create.namePlaceholder')" class="rounded">
       </label>
-
-      <button type="submit" class="btn" :disabled="!selectedEvent">
-        {{ t('speed.count.getReady') }}
-      </button>
     </form>
 
     <!-- Counting -->
@@ -133,7 +129,20 @@
     </router-link>
 
     <button
-      v-if="phase === 'done'"
+      v-if="phase === 'setup'"
+      type="submit"
+      :form="formId"
+      class="btn grid grid-cols-[2rem_auto] w-max mt-0 ml-auto"
+      :disabled="!selectedEvent"
+    >
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-timer />
+      </span>
+      <span class="flex px-2 items-center">{{ t('speed.count.getReady') }}</span>
+    </button>
+
+    <button
+      v-else-if="phase === 'done'"
       type="button"
       class="btn grid grid-cols-[2rem_auto] w-max mt-0 ml-auto"
       :disabled="saving"
@@ -149,7 +158,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, useTemplateRef, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, useId, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useHead } from '@unhead/vue'
@@ -169,11 +178,15 @@ import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconContentSave from '~icons/mdi/content-save'
 import IconClose from '~icons/mdi/close'
+import IconTimer from '~icons/mdi/timer-outline'
 
 import type { SpeedMarkInput } from '../graphql/generated/graphql'
 
 const { t } = useI18n()
 const { number, seconds } = useSpeedFormat()
+
+/** Lets the get-ready button live in the bottom bar, outside the form element */
+const formId = useId()
 
 useHead({ title: computed(() => t('speed.count.title')) })
 
