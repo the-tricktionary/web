@@ -4,18 +4,15 @@
       {{ t('speed.create.title') }}
     </h1>
 
-    <form class="flex flex-col gap-4 max-w-120" @submit.prevent="save()">
+    <form :id="formId" class="flex flex-col gap-4 max-w-120" @submit.prevent="save()">
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.create.event') }}</span>
         <select v-model="eventDefinitionId" required class="rounded" :disabled="saving">
-          <option v-for="group of eventGroups" :key="group.label" disabled class="font-bold">
-            {{ group.label }}
-          </option>
-          <template v-for="group of eventGroups" :key="`${group.label}-options`">
+          <optgroup v-for="group of eventGroups" :key="group.label" :label="group.label">
             <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
-              {{ eventDefinition.name }} ({{ duration(eventDefinition.totalDuration) }})
+              {{ eventDefinition.name }}
             </option>
-          </template>
+          </optgroup>
           <option :value="CUSTOM">
             {{ t('speed.create.customEvent') }}
           </option>
@@ -77,17 +74,14 @@
           :disabled="saving"
         >
       </label>
-
-      <p v-if="error" class="text-ttred-900" role="alert">
-        {{ t('speed.create.failed', { error }) }}
-      </p>
-
-      <button type="submit" class="btn" :disabled="saving || !valid">
-        <icon-loading v-if="saving" class="animate-spin inline-block" aria-hidden="true" />
-        <span v-else>{{ t('speed.create.save') }}</span>
-      </button>
     </form>
   </div>
+
+  <bottom-bar v-if="error">
+    <p class="text-ttred-900 mb-0" role="alert">
+      {{ t('speed.create.failed', { error }) }}
+    </p>
+  </bottom-bar>
 
   <bottom-bar>
     <router-link :to="{ name: 'speed' }" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
@@ -96,11 +90,24 @@
       </span>
       <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
     </router-link>
+
+    <button
+      type="submit"
+      :form="formId"
+      class="btn grid grid-cols-[2rem_auto] w-max mt-0 ml-auto"
+      :disabled="saving || !valid"
+    >
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-loading v-if="saving" class="animate-spin" />
+        <icon-content-save v-else />
+      </span>
+      <span class="flex px-2 items-center">{{ t('speed.create.save') }}</span>
+    </button>
   </bottom-bar>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, useId } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
@@ -114,6 +121,7 @@ import { addSpeedResultToCache } from '../hooks/useSpeedResults'
 import BottomBar from '../components/BottomBar.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
+import IconContentSave from '~icons/mdi/content-save'
 
 import type { EventDefinitionsQuery } from '../graphql/generated/graphql'
 
@@ -121,6 +129,9 @@ const CUSTOM = 'custom'
 
 const { t } = useI18n()
 const { duration } = useSpeedFormat()
+
+/** Lets the submit button live in the bottom bar, outside the form element */
+const formId = useId()
 
 useHead({ title: computed(() => t('speed.create.title')) })
 

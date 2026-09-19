@@ -128,7 +128,7 @@
       <h2 class="mb-2">
         {{ t('speed.details.edit') }}
       </h2>
-      <form class="flex flex-col gap-4" @submit.prevent="save()">
+      <form :id="formId" class="flex flex-col gap-4" @submit.prevent="save()">
         <label class="flex flex-col gap-1">
           <span class="font-semibold">{{ t('speed.details.name') }}</span>
           <input
@@ -141,7 +141,10 @@
           >
         </label>
         <label class="flex flex-col gap-1">
-          <span class="font-semibold">{{ t('speed.details.score') }}</span>
+          <span class="font-semibold flex items-center gap-1">
+            {{ t('speed.details.score') }}
+            <icon-lock v-if="speedResult.analysis" class="text-muted" aria-hidden="true" />
+          </span>
           <input
             v-model.number="editCount"
             type="number"
@@ -154,19 +157,15 @@
           >
           <span v-if="speedResult.analysis" class="text-muted text-sm">{{ t('speed.details.scoreLocked') }}</span>
         </label>
-        <p v-if="error" class="text-ttred-900" role="alert">
-          {{ error }}
-        </p>
-        <button type="submit" class="btn" :disabled="saving || !dirty">
-          <icon-loading v-if="saving" class="animate-spin inline-block" aria-hidden="true" />
-          <span v-else>{{ t('speed.details.saveChanges') }}</span>
-        </button>
-        <button type="button" class="btn text-ttred-900" :disabled="saving" @click="remove()">
-          {{ t('speed.details.delete') }}
-        </button>
       </form>
     </div>
   </div>
+
+  <bottom-bar v-if="error">
+    <p class="text-ttred-900 mb-0" role="alert">
+      {{ error }}
+    </p>
+  </bottom-bar>
 
   <bottom-bar>
     <router-link :to="{ name: 'speed' }" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
@@ -175,11 +174,38 @@
       </span>
       <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
     </router-link>
+
+    <div v-if="speedResult" class="flex gap-4 ml-auto">
+      <button
+        type="button"
+        class="btn grid grid-cols-[2rem_auto] w-max mt-0 text-ttred-900"
+        :disabled="saving"
+        @click="remove()"
+      >
+        <span class="flex h-full items-center justify-center" aria-hidden="true">
+          <icon-delete />
+        </span>
+        <span class="flex px-2 items-center">{{ t('speed.details.delete') }}</span>
+      </button>
+
+      <button
+        type="submit"
+        :form="formId"
+        class="btn grid grid-cols-[2rem_auto] w-max mt-0"
+        :disabled="saving || !dirty"
+      >
+        <span class="flex h-full items-center justify-center" aria-hidden="true">
+          <icon-loading v-if="saving" class="animate-spin" />
+          <icon-content-save v-else />
+        </span>
+        <span class="flex px-2 items-center">{{ t('speed.details.saveChanges') }}</span>
+      </button>
+    </div>
   </bottom-bar>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
@@ -192,11 +218,17 @@ import BottomBar from '../components/BottomBar.vue'
 import SpeedPaceChart from '../components/SpeedPaceChart.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
+import IconContentSave from '~icons/mdi/content-save'
+import IconDelete from '~icons/mdi/delete'
+import IconLock from '~icons/mdi/lock'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 const { dateTime, duration, number, seconds } = useSpeedFormat()
+
+/** Lets the save button live in the bottom bar, outside the form element */
+const formId = useId()
 
 const speedResultId = computed(() => route.params.id as string)
 const speedResultQuery = useSpeedResultQuery(() => ({ speedResultId: speedResultId.value }), { fetchPolicy: 'cache-and-network' })
