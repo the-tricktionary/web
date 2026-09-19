@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 const anyWin = window as any
 
 if (!('adsbygoogle' in anyWin)) {

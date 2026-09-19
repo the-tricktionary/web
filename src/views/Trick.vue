@@ -112,7 +112,7 @@
 import { computed, ref, watch } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 
 import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
 import { localiseTrick, slugToDiscipline } from '../helpers'
@@ -170,7 +170,7 @@ async function completeTrick (completed?: boolean) {
 }
 
 useHead({
-  title: computed(() => trick.value ? `${localised.value.name} | the Tricktionary` : 'the Tricktionary')
+  title: computed(() => trick.value ? localised.value.name : null)
 })
 
 watch(lang, lang => {

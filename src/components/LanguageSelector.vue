@@ -1,8 +1,8 @@
 <template>
-  <label v-if="languages.length > 1" class="inline-flex items-center gap-2">
-    <span :class="{ 'sr-only': !showLabel }">Language</span>
+  <label v-if="languages.length > 1" :class="showLabel ? 'block max-w-120' : 'inline-flex items-center gap-2'">
+    <span :class="showLabel ? 'block mb-1' : 'sr-only'">Language</span>
     <select
-      class="rounded py-1"
+      :class="showLabel ? 'w-full block rounded' : 'rounded py-1'"
       :value="lang"
       @change="setLang(($event.target as HTMLSelectElement).value)"
     >

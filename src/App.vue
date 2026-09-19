@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import { apolloClient } from './apollo'
 import NavHeader from './components/NavHeader.vue'
 import CookieConsent from './components/CookieConsent.vue'
@@ -23,5 +23,8 @@ provide(DefaultApolloClient, apolloClient)
 
 const { lang } = useLanguage()
 
-useHead({ htmlAttrs: { lang } })
+useHead({
+  htmlAttrs: { lang },
+  titleTemplate: title => title ? `${title} | the Tricktionary` : 'the Tricktionary'
+})
 </script>

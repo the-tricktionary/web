@@ -1,6 +1,6 @@
 import { initSentry } from './config'
 import { type Component, createApp } from 'vue'
-import { createHead } from '@vueuse/head'
+import { createHead } from '@unhead/vue/client'
 
 import router from './routes'
 import App from './App.vue'

@@ -5,8 +5,6 @@
     <language-selector />
   </div>
 
-  <links />
-
   <bottom-bar>
     <input
       v-model="search"
@@ -49,7 +47,6 @@ import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue'
 import About from '../components/About.vue'
 import TtFooter from '../components/Footer.vue'
-import Links from '../components/Links.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import LanguageSelector from '../components/LanguageSelector.vue'
 
