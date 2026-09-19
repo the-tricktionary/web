@@ -6,7 +6,7 @@
 
     <p class="flex items-baseline gap-2 mb-4">
       <span class="text-6xl font-bold leading-none">{{ number(stats.completed) }}</span>
-      <span class="text-muted">{{ t('profile.ofTricks', { total: number(stats.total) }) }}</span>
+      <span class="text-muted">{{ t('profile.tricksCompleted') }}</span>
     </p>
 
     <ul v-if="stats.levels.length" class="flex flex-col gap-3 max-w-160">

@@ -85,7 +85,6 @@
     "loading": "Loading profile...",
     "noneInDiscipline": "No completed tricks in this discipline yet.",
     "notFound": "This profile is private or doesn't exist",
-    "ofTricks": "of {total} tricks",
     "personalBests": "Personal bests",
     "private": "Your profile is private, so nobody else can see this page.",
     "privateSettings": "Make it public",
@@ -93,7 +92,8 @@
     "shareText": "Check out this profile on the Tricktionary",
     "shareTitle": "the Tricktionary - {name}",
     "stats": "Progress",
-    "title": "Profile"
+    "title": "Profile",
+    "tricksCompleted": "tricks completed"
   },
   "refresh": {
     "dismiss": "Dismiss",

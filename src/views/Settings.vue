@@ -30,7 +30,7 @@
           <input
             v-model="name"
             type="text"
-            maxlength="60"
+            maxlength="120"
             required
             autocomplete="name"
             class="rounded"
