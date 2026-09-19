@@ -212,10 +212,11 @@ async function saveProfile () {
 
   const trimmedName = name.value.trim()
   const trimmedUsername = username.value.trim()
+  const nameChanged = trimmedName !== (user.value.name ?? '')
+  // both fields are set on every save, an emptied username releases it
   const data: UserProfileInput = {
-    ...(trimmedName !== (user.value.name ?? '') ? { name: trimmedName } : {}),
-    // an emptied field releases the username rather than keeping the old one
-    ...(trimmedUsername !== (user.value.username ?? '') ? { username: trimmedUsername === '' ? null : trimmedUsername } : {})
+    name: trimmedName,
+    username: trimmedUsername === '' ? null : trimmedUsername
   }
 
   try {
@@ -230,7 +231,7 @@ async function saveProfile () {
   // Firebase carries the display name into the sign-in provider's own UI and
   // into the token, but it is not where the profile is read from
   try {
-    if (data.name !== undefined && auth.currentUser) await updateProfile(auth.currentUser, { displayName: data.name })
+    if (nameChanged && auth.currentUser) await updateProfile(auth.currentUser, { displayName: trimmedName })
   } catch { /* the name is saved where it matters, so this is not worth reporting */ }
 }
 
