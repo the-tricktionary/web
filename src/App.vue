@@ -19,10 +19,12 @@ import NavHeader from './components/NavHeader.vue'
 import CookieConsent from './components/CookieConsent.vue'
 import RefreshNeeded from './components/RefreshNeeded.vue'
 import useLanguage from './hooks/useLanguage'
+import useUiMessages from './hooks/useUiMessages'
 
 provide(DefaultApolloClient, apolloClient)
 
 const { lang } = useLanguage()
+useUiMessages()
 
 watch(lang, lang => {
   i18n.global.locale.value = lang
