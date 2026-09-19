@@ -3,6 +3,7 @@ fragment SpeedResultBase on SpeedResult {
   name
   createdAt
   count
+  counted
   eventDefinition {
     id
     name

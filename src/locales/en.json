@@ -147,6 +147,7 @@
     },
     "countFirst": "Count your first score",
     "countLive": "Count live",
+    "countedScore": "Counted step by step",
     "create": {
       "addSwitch": "Add a switch",
       "customEvent": "Custom event...",
