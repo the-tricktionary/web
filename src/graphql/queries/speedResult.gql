@@ -3,13 +3,11 @@ query SpeedResult ($speedResultId: ID!) {
     id
     speedResult (speedResultId: $speedResultId) {
       ...SpeedResultBase
+      timingTrack {
+        ...TimingTrackFields
+      }
       analysis {
-        duration
-        stepsPerSecond
-        maxStepsPerSecond
-        misses
-        stepsLost
-        stepsPerSecondSeries
+        ...SpeedAnalysisFields
       }
     }
   }
