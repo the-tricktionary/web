@@ -9,18 +9,27 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { areaY, defineChart, lineY, ruleX, text } from '@tanstack/charts'
+import { d3Curve } from '@tanstack/charts/d3/shape'
 import { scaleLinear } from '@tanstack/charts/scales/linear'
 import { tooltip } from '@tanstack/charts/tooltip'
 import { Chart } from '@tanstack/charts/vue'
+import { curveMonotoneX } from 'd3-shape'
 
 import ChartLegend from './ChartLegend.vue'
 import useChartTheme from '../hooks/useChartTheme'
 
 export interface PaceSeries {
   label: string
-  /** Steps counted in each whole second of the event */
+  /** The pace in each whole second of the event, see SpeedAnalysis */
   stepsPerSecondSeries: readonly number[]
 }
+
+/**
+ * Monotone rather than a rounder spline: it runs through every point and
+ * never overshoots, so the curve cannot invent a peak the athlete never hit
+ * or dip below zero between two slow seconds.
+ */
+const curve = d3Curve(curveMonotoneX)
 
 export interface PaceSegment {
   /** Seconds from the start of the event */
@@ -30,9 +39,9 @@ export interface PaceSegment {
 }
 
 interface PaceRow {
-  /** The second this bucket ends at, 1-based so the first bar covers 0..1 s */
+  /** The second this value covers, 1-based so the first covers 0..1 s */
   second: number
-  steps: number
+  pace: number
   series: string
 }
 
@@ -47,13 +56,13 @@ const props = defineProps<{
 const { t } = useI18n()
 const theme = useChartTheme()
 
-const rows = computed<PaceRow[]>(() => props.series.flatMap(s => s.stepsPerSecondSeries.map((steps, idx) => ({
+const rows = computed<PaceRow[]>(() => props.series.flatMap(s => s.stepsPerSecondSeries.map((pace, idx) => ({
   second: idx + 1,
-  steps,
+  pace,
   series: s.label
 }))))
 
-const peak = computed(() => Math.max(1, ...rows.value.map(row => row.steps)))
+const peak = computed(() => Math.max(1, ...rows.value.map(row => row.pace)))
 
 /** Rules go at every boundary but the very first (which is the y axis) */
 const boundaries = computed(() => (props.segments ?? []).filter(segment => segment.start > 0).map(segment => ({ second: segment.start })))
@@ -70,11 +79,11 @@ const definition = computed(() => {
     marks: [
       ...(single
         ? [
-            areaY(rows.value, { x: 'second', y: 'steps', fill: colours.series[0], fillOpacity: 0.1, strokeWidth: 0 }),
-            lineY(rows.value, { x: 'second', y: 'steps', stroke: colours.series[0], strokeWidth: 2 })
+            areaY(rows.value, { x: 'second', y: 'pace', fill: colours.series[0], fillOpacity: 0.1, strokeWidth: 0, curve }),
+            lineY(rows.value, { x: 'second', y: 'pace', stroke: colours.series[0], strokeWidth: 2, curve })
           ]
         : [
-            lineY(rows.value, { x: 'second', y: 'steps', z: 'series', color: 'series', strokeWidth: 2 })
+            lineY(rows.value, { x: 'second', y: 'pace', z: 'series', color: 'series', strokeWidth: 2, curve })
           ]),
       ruleX(boundaries.value, { x: 'second', stroke: colours.muted, strokeWidth: 1 }),
       // a row above the peak, so the labels never sit on the line
