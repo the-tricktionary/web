@@ -18,6 +18,9 @@ export const routes: RouteRecordRaw[] = [
 
   { name: 'speed', path: '/speed', component: async () => await import('./views/SpeedIndex.vue'), meta: { requiresAuth: true } },
   { name: 'speed-create', path: '/speed/create', component: async () => await import('./views/SpeedCreate.vue'), meta: { requiresAuth: true } },
+  { name: 'speed-count', path: '/speed/count', component: async () => await import('./views/SpeedCount.vue'), meta: { requiresAuth: true } },
+  { name: 'speed-compare', path: '/speed/compare', component: async () => await import('./views/SpeedCompare.vue'), meta: { requiresAuth: true } },
+  { name: 'speed-progress', path: '/speed/progress', component: async () => await import('./views/SpeedProgress.vue'), meta: { requiresAuth: true } },
   { name: 'speed-details', path: '/speed/:id', component: async () => await import('./views/SpeedDetails.vue'), meta: { requiresAuth: true } },
 
   { name: 'auth', path: '/auth', component: async () => await import('./views/Auth.vue') },

@@ -26,8 +26,9 @@ const cache = new InMemoryCache({
       fields: {
         speedResults: {
           // Pages are fetched with startAfter set to the last result's
-          // createdAt, all pages live in one list newest first
-          keyArgs: false,
+          // createdAt, all pages of one listing live in one list newest
+          // first; a listing filtered to an event is its own list
+          keyArgs: ['eventDefinitionId'],
           merge (existing: readonly Reference[] = [], incoming: readonly Reference[], { readField }) {
             const merged = new Map<string, Reference>()
             for (const ref of [...existing, ...incoming]) merged.set(ref.__ref, ref)

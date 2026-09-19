@@ -12,8 +12,11 @@ export function addSpeedResultToCache (cache: ApolloCache<unknown>, userId: stri
   cache.modify({
     id: userRef,
     fields: {
-      speedResults (existing, { toReference }) {
+      speedResults (existing, { toReference, storeFieldName }) {
         const list: readonly Reference[] = Array.isArray(existing) ? existing as readonly Reference[] : []
+        // a listing filtered to another event does not get this result
+        const filtered = /"eventDefinitionId":"([^"]+)"/.exec(storeFieldName)?.[1]
+        if (filtered && filtered !== speedResult.eventDefinition.id) return list
         const ref = toReference(speedResult)
         if (!ref || list.some(e => e.__ref === ref.__ref)) return list
         return [ref, ...list]
