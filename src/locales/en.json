@@ -33,12 +33,12 @@
       "Wheel": "Wheel"
     },
     "trickType": {
-      "Basic": "basic",
-      "Impossible": "impossible",
-      "Manipulation": "manipulation",
-      "Multiple": "multiple",
-      "Power": "power",
-      "Release": "release"
+      "Basic": "Basic",
+      "Impossible": "Impossible",
+      "Manipulation": "Manipulation",
+      "Multiple": "Multiple",
+      "Power": "Power",
+      "Release": "Release"
     },
     "verificationLevel": {
       "Judge": "Level verified by a judge",
@@ -87,7 +87,7 @@
     "checkout": "Checkout",
     "contact": "If you have questions, if you want to place a large order, or if you're interested in a partnership, email {email}.",
     "currency": "Currency",
-    "intro": "To keep the Tricktionary running we have decided to sell a few products, the point isn't to make huge money, it's rather to help as many athletes as possible get as good as possible at jump rope/rope skipping, and we aren't making a huge profit on any of these products. The Tricktionary will stay free but your support would help a lot.",
+    "intro": "All orders from the Tricktionary store go directly to supporting the Tricktionary. Thank you for helping us keep the Tricktionary alive for a long time to come.",
     "orders": "Orders are processed by the Swedish company {company}, owned and operated by one of the Tricktionary's developers. Your bank statement will say your payment was made to Swantzter. You can find more about the terms for your purchase in our {policies}.",
     "policies": "Policies",
     "pricePerPiece": "{price} / pcs",
