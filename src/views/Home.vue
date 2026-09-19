@@ -9,8 +9,8 @@
     <input
       v-model="search"
       type="search"
-      placeholder="Search tricks"
-      aria-label="Search tricks"
+      :placeholder="t('home.search')"
+      :aria-label="t('home.search')"
       class="rounded focus:border-b-ttred-900 border-line flex-grow"
     >
 
@@ -19,7 +19,7 @@
       class="w-max whitespace-nowrap"
       :class="{ hidden: !user }"
     >
-      Hide Completed
+      {{ t('home.hideCompleted') }}
     </icon-checkbox>
   </bottom-bar>
 
@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import TrickList from '../components/TrickList.vue'
@@ -59,6 +60,7 @@ import { refDebounced } from '@vueuse/core'
 
 import BottomBar from '../components/BottomBar.vue'
 
+const { t } = useI18n()
 const discipline = ref<Discipline>()
 const settings = useSettings()
 const analytics = getAnalytics()

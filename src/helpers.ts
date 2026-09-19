@@ -1,5 +1,17 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline } from './graphql/generated/graphql'
+import { Discipline, TrickType, VerificationLevel } from './graphql/generated/graphql'
+
+const enums = {
+  discipline: Discipline,
+  trickType: TrickType,
+  verificationLevel: VerificationLevel
+}
+
+/** The message key holding the label of an enum value, e.g. `enums.trickType.Basic` */
+export function enumKey (name: keyof typeof enums, value: Discipline | TrickType | VerificationLevel) {
+  const member = Object.entries(enums[name]).find(([, enumValue]) => enumValue === value)?.[0]
+  return `enums.${name}.${member ?? value}`
+}
 
 export function disciplineToSlug (discipline: Discipline) {
   switch (discipline) {
@@ -66,10 +78,10 @@ export function trickSorter (lang: string) {
 
 type PricesFormatFields = Array<{ currency: Currency, unitAmount?: number | null }>
 
-export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatFields>, currency: Currency) {
+export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatFields>, currency: Currency, lang: string) {
   const price = prices.find(p => p.currency === currency)
   if (!price?.unitAmount) return '-'
-  return new Intl.NumberFormat('en', {
+  return new Intl.NumberFormat(lang, {
     style: 'currency',
     currency
   }).format(price?.unitAmount / 100)

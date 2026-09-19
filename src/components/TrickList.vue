@@ -1,16 +1,16 @@
 <template>
   <div v-if="loading" class="flex items-center justify-center flex-col" role="status">
     <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
-    Loading tricks...
+    {{ t('home.loading') }}
   </div>
   <template v-for="(trickTypes, level) of sorted" v-else-if="numTricks" :key="`tt-${level}`">
     <h2 class="trick-level mx-auto w-32 px-4 mt-6 text-3xl font-bold relative text-center">
-      Level {{ level }}
+      {{ t('home.level', { level }) }}
     </h2>
     <template v-for="(group, trickType) of trickTypes" :key="`tt-${level}-${trickType}`">
       <template v-if="group.length">
         <h3 class="mx-auto text-center px-4 text-2xl mt-4">
-          {{ trickType }}
+          {{ t(enumKey('trickType', trickType)) }}
         </h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
           <trick-box v-for="trick of group" :key="trick.id" :enable-checklist="enableChecklist" :completed="checklist.has(trick.id)" :trick="trick" />
@@ -20,15 +20,16 @@
   </template>
   <div v-else class="flex items-center justify-center flex-col" role="status">
     <icon-confused class="w-32 h-32" aria-hidden="true" />
-    Oops! We couldn't find any tricks with the given filters.
+    {{ t('home.noTricks') }}
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { TrickType } from '../graphql/generated/graphql'
-import { trickSorter } from '../helpers'
+import { enumKey, trickSorter } from '../helpers'
 import useLanguage from '../hooks/useLanguage'
 
 import IconLoading from '~icons/mdi/loading'
@@ -62,6 +63,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const { lang } = useLanguage()
 
 const sorted = computed(() => {
@@ -72,7 +74,7 @@ const sorted = computed(() => {
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
     const trickType = trick.trickType
-    if (!sorted[level]) sorted[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => a.localeCompare(b)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
+    if (!sorted[level]) sorted[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => t(enumKey('trickType', a)).localeCompare(t(enumKey('trickType', b)), lang.value)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
     sorted[level][trickType].push(trick)
   }
   return sorted

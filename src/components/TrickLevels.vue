@@ -1,20 +1,20 @@
 <template>
   <div v-if="rows.length" class="mb-6">
     <h2 class="mb-4 text-2xl font-semibold relative">
-      Levels
+      {{ t('trick.levels.title') }}
     </h2>
 
     <table :id="tableId" class="w-full text-sm text-left border-collapse border border-line bg-surface">
       <thead>
         <tr class="border-b border-line">
           <th scope="col" class="px-2 py-1 font-semibold">
-            Ruleset
+            {{ t('trick.levels.ruleset') }}
           </th>
           <th scope="col" class="px-2 py-1 font-semibold">
-            Level
+            {{ t('trick.levels.level') }}
           </th>
           <th scope="col" class="px-2 py-1 font-semibold">
-            <span class="sr-only">Actions</span>
+            <span class="sr-only">{{ t('trick.levels.actions') }}</span>
           </th>
         </tr>
       </thead>
@@ -30,18 +30,18 @@
             </span>
             <span v-else class="text-muted">
               <span aria-hidden="true">&ndash;</span>
-              <span class="sr-only">No level</span>
+              <span class="sr-only">{{ t('trick.levels.noLevel') }}</span>
             </span>
           </td>
           <td class="px-2 py-1 text-right">
-            <span v-if="row.ruleset.id === ruleset?.id" class="text-muted">Default</span>
+            <span v-if="row.ruleset.id === ruleset?.id" class="text-muted">{{ t('trick.levels.default') }}</span>
             <button
               v-else
               type="button"
               class="text-link hover:text-link-hover underline cursor-pointer whitespace-nowrap rounded"
               @click="follow(row.ruleset.id)"
             >
-              Use as default
+              {{ t('trick.levels.useAsDefault') }}
             </button>
           </td>
         </tr>
@@ -56,13 +56,14 @@
       :aria-controls="tableId"
       @click="expanded = !expanded"
     >
-      {{ expanded ? 'Show fewer' : 'Show all rulesets' }}
+      {{ expanded ? t('trick.levels.showFewer') : t('trick.levels.showAll') }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, useId } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import useRuleset from '../hooks/useRuleset'
 
@@ -74,6 +75,7 @@ type TrickLevel = NonNullable<TrickBySlugQuery['trick']>['levels'][number]
 
 const { levels } = defineProps<{ levels: TrickLevel[] }>()
 
+const { t } = useI18n()
 const { rulesets, ruleset, follow } = useRuleset()
 
 const tableId = useId()

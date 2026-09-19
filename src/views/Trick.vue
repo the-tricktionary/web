@@ -1,7 +1,7 @@
 <template>
   <div v-if="loading" class="container mx-auto flex items-center justify-center flex-col" role="status">
     <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
-    Loading trick...
+    {{ t('trick.loading') }}
   </div>
   <div v-else-if="trick" class="grid grid-cols-1 lg:grid-cols-[4fr_1fr] gap-4 container mx-auto px-2 py-4 mb-20">
     <div>
@@ -12,16 +12,16 @@
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
-            {{ trick.trickType }}
+            {{ t(enumKey('trickType', trick.trickType)) }}
             <template v-if="level">
-              &mdash; {{ ruleset?.name }} Level {{ level.level }}
+              &mdash; {{ t('trick.level', { ruleset: ruleset?.name ?? '', level: level.level }) }}
               <level-verification v-if="level.verificationLevel" :level="level.verificationLevel" />
             </template>
           </span>
         </p>
 
         <p v-if="localised.alternativeNames.length">
-          Alternative names: {{ alternativeNames }}
+          {{ t('trick.alternativeNames', { names: alternativeNames }) }}
         </p>
       </div>
 
@@ -44,7 +44,7 @@
 
       <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">
-          Next
+          {{ t('trick.next') }}
         </h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <trick-box
@@ -60,7 +60,7 @@
 
       <div v-if="trick.prerequisites.length">
         <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">
-          Previous
+          {{ t('trick.previous') }}
         </h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <trick-box
@@ -81,7 +81,7 @@
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
-      <span class="flex px-2 items-center">All Tricks</span>
+      <span class="flex px-2 items-center">{{ t('trick.allTricks') }}</span>
     </router-link>
 
     <icon-checkbox
@@ -91,7 +91,7 @@
       :loading="mutating"
       @update:checked="completeTrick($event)"
     >
-      Completed
+      {{ t('trick.completed') }}
     </icon-checkbox>
 
     <icon-button
@@ -103,19 +103,20 @@
       <template #icon>
         <icon-share />
       </template>
-      Share
+      {{ t('trick.share') }}
     </icon-button>
   </bottom-bar>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
 import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { localiseTrick, slugToDiscipline } from '../helpers'
+import { enumKey, localiseTrick, slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 import useLanguage from '../hooks/useLanguage'
@@ -134,6 +135,7 @@ import IconCheckbox from '../components/IconCheckbox.vue'
 import BottomBar from '../components/BottomBar.vue'
 import TrickLevels from '../components/TrickLevels.vue'
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const analytics = getAnalytics()
@@ -213,8 +215,8 @@ const canShare = ref('share' in navigator)
 async function share () {
   if (!canShare.value) return false
   await navigator.share({
-    title: `the Tricktionary - ${localised.value.name}`,
-    text: 'Check out this trick on the Tricktionary',
+    title: t('trick.shareTitle', { name: localised.value.name }),
+    text: t('trick.shareText'),
     url: `${window.location.origin}${route.path}?utm_source=webshare&utm_medium=referral`
   })
   logEvent(analytics, 'share', {

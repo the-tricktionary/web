@@ -23,7 +23,7 @@
         :aria-busy="loading"
         @change="completeTrick(($event.target as HTMLInputElement).checked)"
       >
-      <span class="sr-only">Completed: {{ localised.name }}</span>
+      <span class="sr-only">{{ t('trick.completedTrick', { name: localised.name }) }}</span>
     </label>
     <router-link
       class="flex rounded-r border border-line p-2 items-center justify-center text-center hover:bg-elevated"
@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { disciplineToSlug, localiseTrick } from '../helpers'
 
@@ -73,6 +74,7 @@ defineEmits<{
   navigate: []
 }>()
 
+const { t } = useI18n()
 const trick = toRef(props, 'trick')
 const completed = toRef(props, 'completed')
 

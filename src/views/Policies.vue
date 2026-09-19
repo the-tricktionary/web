@@ -1,176 +1,123 @@
 <template>
   <div class="container max-w-80ch mx-auto px-2 pt-4 prose">
-    <h1>Policies</h1>
-    <h2>Privacy policy</h2>
-    <p>
-      The company <a href="https://swantzter.se" target="_blank" rel="noopener">Swantzer</a>
-      (org.no. 000718-5796, VAT no. SE000718579601) of Planteringsvägen 46C LGH 1202,
-      262 51 Ängelholm, SWEDEN is the data controller for the Tricktionary and operator
-      of the Tricktionary's store. This page was last updated 2026-09-18.
-    </p>
+    <h1>{{ t('policies.title') }}</h1>
+    <h2>{{ t('policies.privacy.title') }}</h2>
+    <i18n-t keypath="policies.privacy.controller" tag="p">
+      <template #company>
+        <a href="https://swantzter.se" target="_blank" rel="noopener">Swantzer</a>
+      </template>
+    </i18n-t>
 
-    <p>
-      When it comes to your personal information you may have the right to:
-    </p>
+    <p>{{ t('policies.privacy.rightsIntro') }}</p>
 
     <ul>
-      <li>Access information being processed (potentially in a reusable format)</li>
-      <li>Have your information erased or object to its use</li>
-      <li>Have your information rectified</li>
-      <li>Request the processing be restricted</li>
-      <li>File a complaint with us or a Data Protection Authority</li>
+      <li>{{ t('policies.privacy.rights.access') }}</li>
+      <li>{{ t('policies.privacy.rights.erase') }}</li>
+      <li>{{ t('policies.privacy.rights.rectify') }}</li>
+      <li>{{ t('policies.privacy.rights.restrict') }}</li>
+      <li>{{ t('policies.privacy.rights.complain') }}</li>
     </ul>
 
-    <p>
-      You may exercise your rights by contacting
-      <a href="mailto:contact@the-tricktionary.com">contact@the-tricktionary.com</a>.
-      If you wish to file a complaint see the website of the
-      <a href="https://www.imy.se/other-lang/in-english/">Swedish Authority for Privacy Protection (IMY)</a>
-      for their contact details.
-    </p>
+    <i18n-t keypath="policies.privacy.exercise" tag="p">
+      <template #email>
+        <a href="mailto:contact@the-tricktionary.com">contact@the-tricktionary.com</a>
+      </template>
+      <template #authority>
+        <a href="https://www.imy.se/other-lang/in-english/">{{ t('policies.privacy.exerciseAuthority') }}</a>
+      </template>
+    </i18n-t>
 
-    <p>
-      When using the Tricktionary, the following personal information may be
-      collected about you:
-    </p>
+    <p>{{ t('policies.privacy.collectedIntro') }}</p>
 
     <ul>
-      <li>Name</li>
-      <li>Email</li>
-      <li>Phone Number</li>
-      <li>Username</li>
-      <li>Your profile photo and account id on third party services such as Google</li>
-      <li>Data regarding our interactions with you</li>
-      <li>Your IP address</li>
-      <li>Your affiliation with rope skipping teams/clubs</li>
-      <li>Information about your affiliation with us, including if you volunteer for us</li>
-      <li>Billing and Shipping Addresses</li>
-      <li>Business association</li>
-      <li>Business registration number</li>
-      <li>VAT registration number</li>
-      <li>Aggregated usage statistics</li>
+      <li>{{ t('policies.privacy.collected.name') }}</li>
+      <li>{{ t('policies.privacy.collected.email') }}</li>
+      <li>{{ t('policies.privacy.collected.phone') }}</li>
+      <li>{{ t('policies.privacy.collected.username') }}</li>
+      <li>{{ t('policies.privacy.collected.thirdParty') }}</li>
+      <li>{{ t('policies.privacy.collected.interactions') }}</li>
+      <li>{{ t('policies.privacy.collected.ip') }}</li>
+      <li>{{ t('policies.privacy.collected.teams') }}</li>
+      <li>{{ t('policies.privacy.collected.affiliation') }}</li>
+      <li>{{ t('policies.privacy.collected.addresses') }}</li>
+      <li>{{ t('policies.privacy.collected.business') }}</li>
+      <li>{{ t('policies.privacy.collected.businessNumber') }}</li>
+      <li>{{ t('policies.privacy.collected.vatNumber') }}</li>
+      <li>{{ t('policies.privacy.collected.statistics') }}</li>
     </ul>
 
-    <p>
-      When visiting the-tricktionary.com we may automatically collect errors
-      that occurs during your usage of the site, this error collection contains
-      some technical data about your device such as IP-address, operating system
-      and browser version. We use this data to be able to provide a functional
-      service. You can read more in
-      <a href="https://sentry.io/legal/dpa/4.0.0/">Sentry's Data Processing Addendum.</a>
-      This transfer outside the EU uses standard contractual clauses.
-    </p>
+    <i18n-t keypath="policies.privacy.errors" tag="p">
+      <template #link>
+        <a href="https://sentry.io/legal/dpa/4.0.0/">{{ t('policies.privacy.errorsLink') }}</a>
+      </template>
+    </i18n-t>
 
-    <p>
-      When watching a video on the Tricktionary, usage data and video analytics
-      may be collected by Mux. You can read more in
-      <a href="https://mux.com/dpa/">Mux's Data Processing Addendum</a>.
-      This transfer outside the EU uses standard contractual clauses.
-    </p>
+    <i18n-t keypath="policies.privacy.mux" tag="p">
+      <template #link>
+        <a href="https://mux.com/dpa/">{{ t('policies.privacy.muxLink') }}</a>
+      </template>
+    </i18n-t>
 
-    <p>
-      We may collect aggregated usage statistics through Google Analytics,
-      if you have consented to the use of cookies.
-      This is used to improve the Tricktionary.
-      You can read more in <a href="https://www.google.com/analytics/terms/">Google Analytics' Terms of Service</a>.
-      This transfer outside the EU uses standard contractual clauses.
-    </p>
+    <i18n-t keypath="policies.privacy.analytics" tag="p">
+      <template #link>
+        <a href="https://www.google.com/analytics/terms/">{{ t('policies.privacy.analyticsLink') }}</a>
+      </template>
+    </i18n-t>
 
-    <p>
-      When making a purchase your payment will be processed through Stripe,
-      Stripe is also used to securely collect all information needed for the
-      purchase such as billing address, shipping address, payment details.
-      Swantzer will never be able to see your payment details.
-      You can read more in <a href="https://stripe.com/en-se/privacy-center/legal">Stripe's Privacy Center</a>.
-    </p>
+    <i18n-t keypath="policies.privacy.stripe" tag="p">
+      <template #link>
+        <a href="https://stripe.com/en-se/privacy-center/legal">{{ t('policies.privacy.stripeLink') }}</a>
+      </template>
+    </i18n-t>
 
-    <p>Your personal information may be used for the following purposes:</p>
+    <p>{{ t('policies.privacy.purposesIntro') }}</p>
 
     <ul>
-      <li>To improve and debug the Tricktionary</li>
-      <li>To manage your relationship with the Tricktionary</li>
-      <li>Account management</li>
-      <li>Protection from abuse</li>
-      <li>To enable you to reset your password</li>
-      <li>To respond to support inquiries by email</li>
-      <li>To fulfil orders you've made with us</li>
-      <li>Compliance with valid legal processes and legislation</li>
-      <li>
-        If you choose to sign in via Phone, your phone number will be stored
-        by Google to improve Spam and Abuse prevention across their services
-      </li>
+      <li>{{ t('policies.privacy.purposes.improve') }}</li>
+      <li>{{ t('policies.privacy.purposes.relationship') }}</li>
+      <li>{{ t('policies.privacy.purposes.account') }}</li>
+      <li>{{ t('policies.privacy.purposes.abuse') }}</li>
+      <li>{{ t('policies.privacy.purposes.password') }}</li>
+      <li>{{ t('policies.privacy.purposes.support') }}</li>
+      <li>{{ t('policies.privacy.purposes.orders') }}</li>
+      <li>{{ t('policies.privacy.purposes.compliance') }}</li>
+      <li>{{ t('policies.privacy.purposes.phone') }}</li>
     </ul>
 
-    <p>
-      When using the Tricktionary and its online services your data may be transferred
-      and/or processed by organisations outside of the European Union; Brazil;
-      California, USA or territories with an EU adequacy decision under GDPR,
-      when such processing occurs Swantzter has put appropriate safeguards in
-      place to guarantee your rights and freedoms, primarily through standard
-      contractual clauses.
-    </p>
+    <p>{{ t('policies.privacy.transfers') }}</p>
 
-    <p>
-      Where data is necessary to run our service, the Lawful Basis we use will
-      generally be “Legitimate Interest” - i.e. the genuine need of
-      the Tricktionary to process data on you while operating a service which
-      you benefit from, and where you have chosen to use the service, in order
-      to make it available to you and others. In rare instances where required
-      by law to hold or process data, our lawful basis may be "Legal Obligation"
-      or "Public Task".
-    </p>
+    <p>{{ t('policies.privacy.lawfulBasis') }}</p>
 
-    <p>We do not knowingly process data on you which is “Special Category”.</p>
+    <p>{{ t('policies.privacy.specialCategory') }}</p>
 
-    <p>
-      Any financial transactions with Swantzter will be stored for at least 7
-      years to comply with Swedish law.
-    </p>
+    <p>{{ t('policies.privacy.retention') }}</p>
 
-    <p>
-      the Tricktionary reserves the right to change this policy at any time, without
-      notice. The currently active version can be found on this website.
-    </p>
+    <p>{{ t('policies.privacy.changes') }}</p>
 
-    <h2>Cookies</h2>
+    <h2>{{ t('policies.cookies.title') }}</h2>
 
-    <p>
-      We use 3'rd party cookies to provide the service to you and perform
-      analytics, by using the site you agree to the usage of 3'rd party cookies
-      and cookies created by ourselves.
-    </p>
+    <p>{{ t('policies.cookies.body') }}</p>
 
-    <h2>Return policy</h2>
+    <h2>{{ t('policies.returns.title') }}</h2>
 
-    <p>
-      In accordance to Swedish law you may return any product bought in our
-      store within 14 days from the date you, or any third party who isn't the
-      transportation company, recieve it. Please notify us by email as soon as
-      possible if you wish to make a return, we must recieve an email with your
-      intent to return the product(s) before the 14 days have elapsed. You are
-      responsible for arranging shippment for returns, except if the product
-      doesn't align with its specification. We will process your refund when we
-      have recieved your return. We will not refund products with clear signs
-      of use.
-    </p>
+    <p>{{ t('policies.returns.body') }}</p>
 
-    <h2>Disclaimer</h2>
+    <h2>{{ t('policies.disclaimer.title') }}</h2>
 
-    <p>
-      The tricktionary cannot guarantee the correctness of any data provided and
-      cannot be held liable for any data provided through this service.
-    </p>
+    <p>{{ t('policies.disclaimer.data') }}</p>
 
-    <p>
-      FISAC-IRSF timing tracks is property of IJRU and cannot be
-      reproduced without the explicit permission from IJRU.
-    </p>
+    <p>{{ t('policies.disclaimer.timing') }}</p>
 
-    <p>
-      &copy; 2016 the Tricktionary's contributors, for more detailed copyright
-      information see <a href="https://github.com/the-tricktionary">the Tricktionary on GitHub</a>,
-      the source code is released under the MIT licence, trick data and videos
-      are licensed under the CC BY 4.0 Intl License.
-    </p>
+    <i18n-t keypath="policies.disclaimer.copyright" tag="p">
+      <template #link>
+        <a href="https://github.com/the-tricktionary">{{ t('policies.disclaimer.copyrightLink') }}</a>
+      </template>
+    </i18n-t>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>

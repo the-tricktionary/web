@@ -1,6 +1,6 @@
 <template>
   <label v-if="languages.length > 1" :class="showLabel ? 'block max-w-120' : 'inline-flex items-center gap-2'">
-    <span :class="showLabel ? 'block mb-1' : 'sr-only'">Language</span>
+    <span :class="showLabel ? 'block mb-1' : 'sr-only'">{{ t('language.label') }}</span>
     <select
       :class="showLabel ? 'w-full block rounded' : 'rounded py-1'"
       :value="lang"
@@ -14,10 +14,13 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 import useLanguage from '../hooks/useLanguage'
 
 const { showLabel } = defineProps<{ showLabel?: boolean }>()
 
+const { t } = useI18n()
 const { languages, lang, setLang } = useLanguage()
 
 /** The name of a language in that language itself, the tag when we can't name it */

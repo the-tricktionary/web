@@ -12,13 +12,16 @@
       />
     </div>
     <p class="text-center mb-2">
-      The above content is an ad
+      {{ t('ad.disclosure') }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 const anyWin = window as any
 
 if (!('adsbygoogle' in anyWin)) {

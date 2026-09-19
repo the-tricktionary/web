@@ -1,0 +1,206 @@
+{
+  "about": {
+    "apps": "The tricktionary is available as an Android™ app and as this webapp. If you want to help build the tricktionary, please email {email}. Our code is open-source under the MIT license and available on {github}.",
+    "sport": "The sport of competitive jump roping is a continually growing international community of some of the world's most talented athletes. This app aims to help anyone hoping to become involved in this phenomenal sport by giving anyone with a phone the power to learn all levels and types of jump rope skills. The Tricktionary is organized by type (Basics, Multiples, Power, Rope Manipulation, Releases...) and by level. It provides a description, a video, prerequisites, and what to learn next for each trick.",
+    "support": "As a few last words, if you believe this service is something that we should continue working on, please feel free to share the Tricktionary with friends! Or consider a small donation to help us pay the administrative costs. Check out our shop for products that helps us pay the bills too.",
+    "title": "About the Tricktionary"
+  },
+  "ad": {
+    "disclosure": "The above content is an ad"
+  },
+  "auth": {
+    "contactUs": "contact us",
+    "email": "Email",
+    "emailTitle": "Sign in/sign up with email",
+    "error": "Failed to log in with error: \"{error}\". Please try again, if this error persists please {contact}",
+    "google": "Sign in with Google",
+    "linkSent": "An email with a link to login has been sent to your email.",
+    "sendMagicLink": "Send magic link",
+    "socialTitle": "Sign in/sign up with external accounts",
+    "title": "Sign in / Sign up"
+  },
+  "cookies": {
+    "accept": "I accept cookies",
+    "body": "We would like to use cookies to collect anonymous aggregated usage statistics to know what features to improve. Read more in our {policy}.",
+    "deny": "I deny cookies",
+    "privacyPolicy": "privacy policy",
+    "title": "Cookies"
+  },
+  "enums": {
+    "discipline": {
+      "DoubleDutch": "Double Dutch",
+      "SingleRope": "Single Rope",
+      "Wheel": "Wheel"
+    },
+    "trickType": {
+      "Basic": "basic",
+      "Impossible": "impossible",
+      "Manipulation": "manipulation",
+      "Multiple": "multiple",
+      "Power": "power",
+      "Release": "release"
+    },
+    "verificationLevel": {
+      "Judge": "Level verified by a judge",
+      "Official": "Officially verified level"
+    }
+  },
+  "footer": {
+    "policies": "Privacy policy, store policy"
+  },
+  "home": {
+    "discipline": "Discipline",
+    "hideCompleted": "Hide Completed",
+    "level": "Level {level}",
+    "loading": "Loading tricks...",
+    "noTricks": "Oops! We couldn't find any tricks with the given filters.",
+    "search": "Search tricks"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "links": {
+    "donate": "Donate",
+    "shop": "Shop"
+  },
+  "nav": {
+    "label": "Main",
+    "profile": "Profile",
+    "shop": "Shop",
+    "signIn": "Sign in",
+    "tricks": "Tricks"
+  },
+  "notFound": {
+    "goHome": "Go home",
+    "title": "Not found"
+  },
+  "policies": {
+    "cookies": {
+      "body": "We use 3'rd party cookies to provide the service to you and perform analytics, by using the site you agree to the usage of 3'rd party cookies and cookies created by ourselves.",
+      "title": "Cookies"
+    },
+    "disclaimer": {
+      "copyright": "© 2016 the Tricktionary's contributors, for more detailed copyright information see {link}, the source code is released under the MIT licence, trick data and videos are licensed under the CC BY 4.0 Intl License.",
+      "copyrightLink": "the Tricktionary on GitHub",
+      "data": "The tricktionary cannot guarantee the correctness of any data provided and cannot be held liable for any data provided through this service.",
+      "timing": "FISAC-IRSF timing tracks is property of IJRU and cannot be reproduced without the explicit permission from IJRU.",
+      "title": "Disclaimer"
+    },
+    "privacy": {
+      "analytics": "We may collect aggregated usage statistics through Google Analytics, if you have consented to the use of cookies. This is used to improve the Tricktionary. You can read more in {link}. This transfer outside the EU uses standard contractual clauses.",
+      "analyticsLink": "Google Analytics' Terms of Service",
+      "changes": "the Tricktionary reserves the right to change this policy at any time, without notice. The currently active version can be found on this website.",
+      "collected": {
+        "addresses": "Billing and Shipping Addresses",
+        "affiliation": "Information about your affiliation with us, including if you volunteer for us",
+        "business": "Business association",
+        "businessNumber": "Business registration number",
+        "email": "Email",
+        "interactions": "Data regarding our interactions with you",
+        "ip": "Your IP address",
+        "name": "Name",
+        "phone": "Phone Number",
+        "statistics": "Aggregated usage statistics",
+        "teams": "Your affiliation with rope skipping teams/clubs",
+        "thirdParty": "Your profile photo and account id on third party services such as Google",
+        "username": "Username",
+        "vatNumber": "VAT registration number"
+      },
+      "collectedIntro": "When using the Tricktionary, the following personal information may be collected about you:",
+      "controller": "The company {company} (org.no. 000718-5796, VAT no. SE000718579601) of Planteringsvägen 46C LGH 1202, 262 51 Ängelholm, SWEDEN is the data controller for the Tricktionary and operator of the Tricktionary's store. This page was last updated 2026-09-18.",
+      "errors": "When visiting the-tricktionary.com we may automatically collect errors that occurs during your usage of the site, this error collection contains some technical data about your device such as IP-address, operating system and browser version. We use this data to be able to provide a functional service. You can read more in {link} This transfer outside the EU uses standard contractual clauses.",
+      "errorsLink": "Sentry's Data Processing Addendum.",
+      "exercise": "You may exercise your rights by contacting {email}. If you wish to file a complaint see the website of the {authority} for their contact details.",
+      "exerciseAuthority": "Swedish Authority for Privacy Protection (IMY)",
+      "lawfulBasis": "Where data is necessary to run our service, the Lawful Basis we use will generally be “Legitimate Interest” - i.e. the genuine need of the Tricktionary to process data on you while operating a service which you benefit from, and where you have chosen to use the service, in order to make it available to you and others. In rare instances where required by law to hold or process data, our lawful basis may be \"Legal Obligation\" or \"Public Task\".",
+      "mux": "When watching a video on the Tricktionary, usage data and video analytics may be collected by Mux. You can read more in {link}. This transfer outside the EU uses standard contractual clauses.",
+      "muxLink": "Mux's Data Processing Addendum",
+      "purposes": {
+        "abuse": "Protection from abuse",
+        "account": "Account management",
+        "compliance": "Compliance with valid legal processes and legislation",
+        "improve": "To improve and debug the Tricktionary",
+        "orders": "To fulfil orders you've made with us",
+        "password": "To enable you to reset your password",
+        "phone": "If you choose to sign in via Phone, your phone number will be stored by Google to improve Spam and Abuse prevention across their services",
+        "relationship": "To manage your relationship with the Tricktionary",
+        "support": "To respond to support inquiries by email"
+      },
+      "purposesIntro": "Your personal information may be used for the following purposes:",
+      "retention": "Any financial transactions with Swantzter will be stored for at least 7 years to comply with Swedish law.",
+      "rights": {
+        "access": "Access information being processed (potentially in a reusable format)",
+        "complain": "File a complaint with us or a Data Protection Authority",
+        "erase": "Have your information erased or object to its use",
+        "rectify": "Have your information rectified",
+        "restrict": "Request the processing be restricted"
+      },
+      "rightsIntro": "When it comes to your personal information you may have the right to:",
+      "specialCategory": "We do not knowingly process data on you which is “Special Category”.",
+      "stripe": "When making a purchase your payment will be processed through Stripe, Stripe is also used to securely collect all information needed for the purchase such as billing address, shipping address, payment details. Swantzer will never be able to see your payment details. You can read more in {link}.",
+      "stripeLink": "Stripe's Privacy Center",
+      "title": "Privacy policy",
+      "transfers": "When using the Tricktionary and its online services your data may be transferred and/or processed by organisations outside of the European Union; Brazil; California, USA or territories with an EU adequacy decision under GDPR, when such processing occurs Swantzter has put appropriate safeguards in place to guarantee your rights and freedoms, primarily through standard contractual clauses."
+    },
+    "returns": {
+      "body": "In accordance to Swedish law you may return any product bought in our store within 14 days from the date you, or any third party who isn't the transportation company, recieve it. Please notify us by email as soon as possible if you wish to make a return, we must recieve an email with your intent to return the product(s) before the 14 days have elapsed. You are responsible for arranging shippment for returns, except if the product doesn't align with its specification. We will process your refund when we have recieved your return. We will not refund products with clear signs of use.",
+      "title": "Return policy"
+    },
+    "title": "Policies"
+  },
+  "profile": {
+    "signOut": "Sign out"
+  },
+  "refresh": {
+    "dismiss": "Dismiss",
+    "message": "New version available, click on reload to update.",
+    "reload": "Reload"
+  },
+  "shop": {
+    "addOne": "Add one {product} to cart",
+    "checkout": "Checkout",
+    "contact": "If you have questions, if you want to place a large order, or if you're interested in a partnership, email {email}.",
+    "currency": "Currency",
+    "intro": "To keep the Tricktionary running we have decided to sell a few products, the point isn't to make huge money, it's rather to help as many athletes as possible get as good as possible at jump rope/rope skipping, and we aren't making a huge profit on any of these products. The Tricktionary will stay free but your support would help a lot.",
+    "orders": "Orders are processed by the Swedish company {company}, owned and operated by one of the Tricktionary's developers. Your bank statement will say your payment was made to Swantzter. You can find more about the terms for your purchase in our {policies}.",
+    "policies": "Policies",
+    "pricePerPiece": "{price} / pcs",
+    "quantity": "Quantity:",
+    "removeOne": "Remove one {product} from cart",
+    "subtotal": "{subtotal} + {shipping} Shipping",
+    "success": {
+      "backToTricks": "Back to the Tricks",
+      "thanks": "Thank you for your order! You will recieve an email with your receipt soon."
+    },
+    "title": "Shop"
+  },
+  "trick": {
+    "allTricks": "All Tricks",
+    "alternativeNames": "Alternative names: {names}",
+    "completed": "Completed",
+    "completedTrick": "Completed: {name}",
+    "level": "{ruleset} Level {level}",
+    "levels": {
+      "actions": "Actions",
+      "default": "Default",
+      "level": "Level",
+      "noLevel": "No level",
+      "ruleset": "Ruleset",
+      "showAll": "Show all rulesets",
+      "showFewer": "Show fewer",
+      "title": "Levels",
+      "useAsDefault": "Use as default"
+    },
+    "loading": "Loading trick...",
+    "next": "Next",
+    "previous": "Previous",
+    "share": "Share",
+    "shareText": "Check out this trick on the Tricktionary",
+    "shareTitle": "the Tricktionary - {name}",
+    "verification": {
+      "Judge": "This level has been verified by a certified judge, but not yet officially.",
+      "Official": "This level has been officially verified for this ruleset."
+    },
+    "videoTitle": "Video of the trick"
+  }
+}

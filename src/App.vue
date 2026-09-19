@@ -10,10 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, watch } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { useHead } from '@unhead/vue'
 import { apolloClient } from './apollo'
+import i18n from './i18n'
 import NavHeader from './components/NavHeader.vue'
 import CookieConsent from './components/CookieConsent.vue'
 import RefreshNeeded from './components/RefreshNeeded.vue'
@@ -22,6 +23,10 @@ import useLanguage from './hooks/useLanguage'
 provide(DefaultApolloClient, apolloClient)
 
 const { lang } = useLanguage()
+
+watch(lang, lang => {
+  i18n.global.locale.value = lang
+}, { immediate: true })
 
 useHead({
   htmlAttrs: { lang },

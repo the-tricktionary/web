@@ -19,7 +19,7 @@
       v-else-if="primaryYouTubeEmbedLink"
       class="w-full h-full"
       type="text/html"
-      title="Video of the trick"
+      :title="t('trick.videoTitle')"
       allow="autoplay; picture-in-picture"
       allowfullscreen
       :src="primaryYouTubeEmbedLink"
@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import '@mux/mux-player'
 
 import { VideoHost, VideoType } from '../graphql/generated/graphql'
@@ -56,6 +57,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const { user } = useAuth()
 const { lang } = useLanguage()
 const cookieConsent = useCookieConsent()
