@@ -111,7 +111,7 @@
           </tbody>
         </table>
 
-        <div v-if="speedResult.timingTrack" class="mt-4">
+        <div v-if="speedResult.timingTrack?.audioUrl" class="mt-4">
           <h2 class="mb-2">
             {{ t('speed.details.timingTrack') }}
           </h2>

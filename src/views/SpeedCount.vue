@@ -9,14 +9,14 @@
         <select v-model="eventDefinitionId" required class="rounded">
           <optgroup v-for="group of eventGroups" :key="group.label" :label="group.label">
             <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
-              {{ eventDefinition.name }}{{ eventDefinition.timingTrack ? ' ♪' : '' }}
+              {{ eventDefinition.name }}{{ eventDefinition.timingTrack?.audioUrl ? ' ♪' : '' }}
             </option>
           </optgroup>
         </select>
         <span class="text-muted text-sm">{{ t('speed.count.trackHint') }}</span>
       </label>
 
-      <label v-if="selectedEvent?.timingTrack" class="flex items-center gap-2">
+      <label v-if="selectedEvent?.timingTrack?.audioUrl" class="flex items-center gap-2">
         <input v-model="useTrack" type="checkbox">
         <span>{{ t('speed.count.playTrack') }}</span>
       </label>
@@ -80,7 +80,7 @@
       </div>
 
       <audio
-        v-if="useTrack && selectedEvent?.timingTrack"
+        v-if="useTrack && selectedEvent?.timingTrack?.audioUrl"
         ref="audioRef"
         :src="selectedEvent.timingTrack.audioUrl"
         preload="auto"
@@ -187,8 +187,13 @@ const now = ref(Date.now())
 const audioRef = useTemplateRef('audioRef')
 const wakeLock = useWakeLock()
 
-const track = computed(() => useTrack.value ? selectedEvent.value?.timingTrack ?? null : null)
-const startCueOffset = computed(() => track.value?.cues.find(cue => cue.type === TimingCueType.Start)?.offset ?? 0)
+/**
+ * An event may carry cues without any audio, so playing a track and storing
+ * one are separate questions: only audio can be played, but the cues are
+ * worth keeping either way, since they are what splits a relay by athlete.
+ */
+const playback = computed(() => useTrack.value && selectedEvent.value?.timingTrack?.audioUrl ? selectedEvent.value.timingTrack : null)
+const startCueOffset = computed(() => playback.value?.cues.find(cue => cue.type === TimingCueType.Start)?.offset ?? 0)
 
 const count = computed(() => marks.value.filter(mark => mark.schema === 'step' && !undone.has(mark.sequence)).length)
 
@@ -203,8 +208,8 @@ const elapsed = computed(() => Math.max(0, clock.value))
 
 const ticker = useIntervalFn(() => {
   now.value = Date.now()
-  // without a track the event ends itself when its time is up
-  if (!track.value && remaining.value === 0) finish()
+  // with no audio to end the event, it ends itself when its time is up
+  if (!playback.value && remaining.value === 0) finish()
 }, 100, { immediate: false })
 
 function addMark (mark: Omit<SpeedMarkInput, 'sequence' | 'timestamp'>) {
@@ -225,7 +230,7 @@ function begin () {
 async function start () {
   if (started.value) return
   started.value = true
-  if (track.value && audioRef.value) {
+  if (playback.value && audioRef.value) {
     try {
       await audioRef.value.play()
       // the 'start' mark is placed by onPlaying, when the audio really runs
@@ -299,7 +304,7 @@ async function save () {
       data: {
         eventDefinitionId: selectedEvent.value.id,
         marks: marks.value,
-        withTimingTrack: track.value != null,
+        withTimingTrack: selectedEvent.value.timingTrack != null,
         ...(name.value.trim() ? { name: name.value.trim() } : {})
       }
     })
