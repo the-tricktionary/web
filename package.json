@@ -21,14 +21,15 @@
     "@apollo/client": "^3.14.1",
     "@mux/mux-player": "^3.13.4",
     "@sentry/vue": "^10.75.0",
+    "@unhead/vue": "^3.4.1",
     "@vue/apollo-composable": "^4.2.2",
     "@vueuse/core": "^15.0.0",
-    "@vueuse/head": "^2.0.0",
     "apollo3-cache-persist": "^0.15.0",
     "firebase": "^12.19.0",
     "graphql": "^16.11.0",
     "graphql-tag": "^2.12.7",
     "vue": "^3.5.43",
+    "vue-i18n": "^11.4.12",
     "vue-router": "^5.3.1"
   },
   "devDependencies": {

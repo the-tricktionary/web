@@ -29,6 +29,19 @@
     ],
     "headers": [
       {
+        "source": "/locales/*.json",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "max-age=300"
+          }
+        ]
+      },
+      {
         "source": "**/*.@(css|js|png|svg|woff|woff2|eot|ttf|otf)",
         "headers": [
           {

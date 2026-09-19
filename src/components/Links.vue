@@ -26,17 +26,19 @@
       class="btn w-max min-w-[5rem] text-center inline-block"
       @click="logDonation()"
     >
-      Donate
+      {{ t('links.donate') }}
     </a>
     <router-link to="/shop" class="btn w-max min-w-[5rem] text-center inline-block">
-      Shop
+      {{ t('links.shop') }}
     </router-link>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getAnalytics, logEvent } from '@firebase/analytics'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const analytics = getAnalytics()
 
 function logDonation () {

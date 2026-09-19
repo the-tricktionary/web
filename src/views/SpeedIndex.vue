@@ -1,19 +1,19 @@
 <template>
   <div class="container mx-auto px-2 py-4 mb-20">
     <h1 class="mb-4">
-      Speed
+      {{ t('speed.title') }}
     </h1>
 
     <div v-if="loading && !speedResults.length" class="flex items-center justify-center flex-col" role="status">
       <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
-      Loading scores...
+      {{ t('speed.loading') }}
     </div>
 
     <div v-else-if="!speedResults.length" class="flex items-center justify-center flex-col text-center" role="status">
       <icon-timer class="w-32 h-32" aria-hidden="true" />
-      <p>You haven't recorded any speed scores yet.</p>
+      <p>{{ t('speed.empty') }}</p>
       <router-link :to="{ name: 'speed-create' }" class="btn w-max">
-        Record your first score
+        {{ t('speed.recordFirst') }}
       </router-link>
     </div>
 
@@ -31,7 +31,7 @@
         @click="loadMore()"
       >
         <icon-loading v-if="loading" class="animate-spin inline-block" aria-hidden="true" />
-        <span v-else>Load more</span>
+        <span v-else>{{ t('speed.loadMore') }}</span>
       </button>
     </template>
   </div>
@@ -41,14 +41,15 @@
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-plus />
       </span>
-      <span class="flex px-2 items-center">New score</span>
+      <span class="flex px-2 items-center">{{ t('speed.newScore') }}</span>
     </router-link>
   </bottom-bar>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 
 import { useSpeedResultsQuery } from '../graphql/generated/graphql'
@@ -61,7 +62,9 @@ import IconTimer from '~icons/mdi/timer-outline'
 
 const PAGE_SIZE = 20
 
-useHead({ title: 'Speed | the Tricktionary' })
+const { t } = useI18n()
+
+useHead({ title: computed(() => t('speed.title')) })
 
 const loadMoreRef = ref<HTMLElement>()
 const hasMore = ref(true)

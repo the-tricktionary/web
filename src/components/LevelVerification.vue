@@ -32,7 +32,10 @@
 
 <script setup lang="ts">
 import { computed, useId, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import { VerificationLevel } from '../graphql/generated/graphql'
+import { enumKey } from '../helpers'
 
 import IconCheck from '~icons/mdi/check'
 import IconCheckAll from '~icons/mdi/check-all'
@@ -46,18 +49,16 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const id = useId()
 const anchor = useTemplateRef<HTMLButtonElement>('anchor')
 const popover = useTemplateRef<HTMLDivElement>('popover')
 
-const label = computed(() => props.level === VerificationLevel.Official
-  ? 'Officially verified level'
-  : 'Level verified by a judge'
-)
-const description = computed(() => props.level === VerificationLevel.Official
-  ? 'This level has been officially verified for this ruleset.'
-  : 'This level has been verified by a certified judge, but not yet officially.'
-)
+const label = computed(() => t(enumKey('verificationLevel', props.level)))
+const description = computed(() => t(props.level === VerificationLevel.Official
+  ? 'trick.verification.Official'
+  : 'trick.verification.Judge'
+))
 
 const supportsPopover = typeof HTMLElement !== 'undefined' && 'showPopover' in HTMLElement.prototype
 const supportsAnchor = typeof CSS !== 'undefined' && CSS.supports('anchor-name: --a')

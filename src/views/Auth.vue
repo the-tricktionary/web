@@ -1,40 +1,48 @@
 <template>
   <h1 class="mx-auto text-center mt-8">
-    Sign in / Sign up
+    {{ t('auth.title') }}
   </h1>
   <div class="mx-auto container mt-2 px-2 flex flex-col md:flex-row justify-center items-center">
     <form class="w-full md:max-w-80 mb-4" @submit.prevent="logInWithProvider('google.com')">
       <h2 class="text-lg font-semibold">
-        Sign in/sign up with external accounts
+        {{ t('auth.socialTitle') }}
       </h2>
-      <input type="submit" value="Sign in with Google" class="btn">
-      <p v-if="socialErr" class="text-ttred-900">
-        Failed to log in with error: "{{ socialErr }}". Please try again,
-        if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
-      </p>
+      <input type="submit" :value="t('auth.google')" class="btn">
+      <i18n-t v-if="socialErr" keypath="auth.error" tag="p" class="text-ttred-900">
+        <template #error>
+          <span>{{ socialErr }}</span>
+        </template>
+        <template #contact>
+          <a href="mailto:contact@the-tricktionary.com">{{ t('auth.contactUs') }}</a>
+        </template>
+      </i18n-t>
     </form>
     <div class="hidden md:block w-full md:w-0 md:h-48 md:border-b-0 md:border-r border-line m-4" />
     <div class="w-full md:max-w-80">
       <form class="mb-4" @submit.prevent="sendEmailLink()">
         <h2 class="text-lg font-semibold">
-          Sign in/sign up with email
+          {{ t('auth.emailTitle') }}
         </h2>
         <input
           v-model="email.email"
           type="email"
           :disabled="email.linkSent"
-          aria-label="Email"
+          :aria-label="t('auth.email')"
           :required="true"
-          placeholder="Email"
+          :placeholder="t('auth.email')"
           class="w-full block rounded focus:border-b-ttred-900 border-line disabled:bg-sunken"
         >
-        <input type="submit" :disabled="email.linkSent" value="Send magic link" class="btn mt-2">
-        <p v-if="email.error" class="text-ttred-900">
-          Failed to log in with error: "{{ email.error }}". Please try again,
-          if this error persists please <a href="mailto:contact@the-tricktionary.com">contact us</a>
-        </p>
+        <input type="submit" :disabled="email.linkSent" :value="t('auth.sendMagicLink')" class="btn mt-2">
+        <i18n-t v-if="email.error" keypath="auth.error" tag="p" class="text-ttred-900">
+          <template #error>
+            <span>{{ email.error }}</span>
+          </template>
+          <template #contact>
+            <a href="mailto:contact@the-tricktionary.com">{{ t('auth.contactUs') }}</a>
+          </template>
+        </i18n-t>
         <p v-if="email.linkSent">
-          An email with a link to login has been sent to your email.
+          {{ t('auth.linkSent') }}
         </p>
       </form>
       <!-- <form @submit.prevent="sendSMSCode()" >
@@ -56,11 +64,13 @@
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { getAuth, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from '@firebase/auth'
 import { onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import useAuth from '../hooks/useAuth'
 
 import type { FirebaseError } from '@firebase/util'
 
+const { t } = useI18n()
 const auth = getAuth()
 const { firebaseUser: user } = useAuth()
 const router = useRouter()

@@ -1,0 +1,183 @@
+{
+  "about": {
+    "apps": "The tricktionary is available as an Android™ app and as this webapp. If you want to help build the tricktionary, please email {email}. Our code is open-source under the MIT license and available on {github}.",
+    "sport": "The sport of competitive jump roping is a continually growing international community of some of the world's most talented athletes. This app aims to help anyone hoping to become involved in this phenomenal sport by giving anyone with a phone the power to learn all levels and types of jump rope skills. The Tricktionary is organized by type (Basics, Multiples, Power, Rope Manipulation, Releases...) and by level. It provides a description, a video, prerequisites, and what to learn next for each trick.",
+    "support": "As a few last words, if you believe this service is something that we should continue working on, please feel free to share the Tricktionary with friends! Or consider a small donation to help us pay the administrative costs. Check out our shop for products that helps us pay the bills too.",
+    "title": "About the Tricktionary"
+  },
+  "ad": {
+    "disclosure": "The above content is an ad"
+  },
+  "auth": {
+    "contactUs": "contact us",
+    "email": "Email",
+    "emailTitle": "Sign in/sign up with email",
+    "error": "Failed to log in with error: \"{error}\". Please try again, if this error persists please {contact}",
+    "google": "Sign in with Google",
+    "linkSent": "An email with a link to login has been sent to your email.",
+    "sendMagicLink": "Send magic link",
+    "socialTitle": "Sign in/sign up with external accounts",
+    "title": "Sign in / Sign up"
+  },
+  "cookies": {
+    "accept": "I accept cookies",
+    "body": "We would like to use cookies to collect anonymous aggregated usage statistics to know what features to improve. Read more in our {policy}.",
+    "deny": "I deny cookies",
+    "privacyPolicy": "privacy policy",
+    "title": "Cookies"
+  },
+  "enums": {
+    "discipline": {
+      "DoubleDutch": "Double Dutch",
+      "SingleRope": "Single Rope",
+      "Wheel": "Wheel"
+    },
+    "trickType": {
+      "Basic": "basic",
+      "Impossible": "impossible",
+      "Manipulation": "manipulation",
+      "Multiple": "multiple",
+      "Power": "power",
+      "Release": "release"
+    },
+    "verificationLevel": {
+      "Judge": "Level verified by a judge",
+      "Official": "Officially verified level"
+    }
+  },
+  "footer": {
+    "policies": "Privacy policy, store policy"
+  },
+  "home": {
+    "discipline": "Discipline",
+    "hideCompleted": "Hide Completed",
+    "level": "Level {level}",
+    "loading": "Loading tricks...",
+    "noTricks": "Oops! We couldn't find any tricks with the given filters.",
+    "search": "Search tricks"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "links": {
+    "donate": "Donate",
+    "shop": "Shop"
+  },
+  "nav": {
+    "label": "Main",
+    "profile": "Profile",
+    "shop": "Shop",
+    "signIn": "Sign in",
+    "speed": "Speed",
+    "toggleMenu": "Toggle menu",
+    "tricks": "Tricks"
+  },
+  "notFound": {
+    "goHome": "Go home",
+    "title": "Not found"
+  },
+  "profile": {
+    "signOut": "Sign out"
+  },
+  "refresh": {
+    "dismiss": "Dismiss",
+    "message": "New version available, click on reload to update.",
+    "reload": "Reload"
+  },
+  "shop": {
+    "addOne": "Add one {product} to cart",
+    "checkout": "Checkout",
+    "contact": "If you have questions, if you want to place a large order, or if you're interested in a partnership, email {email}.",
+    "currency": "Currency",
+    "intro": "To keep the Tricktionary running we have decided to sell a few products, the point isn't to make huge money, it's rather to help as many athletes as possible get as good as possible at jump rope/rope skipping, and we aren't making a huge profit on any of these products. The Tricktionary will stay free but your support would help a lot.",
+    "orders": "Orders are processed by the Swedish company {company}, owned and operated by one of the Tricktionary's developers. Your bank statement will say your payment was made to Swantzter. You can find more about the terms for your purchase in our {policies}.",
+    "policies": "Policies",
+    "pricePerPiece": "{price} / pcs",
+    "quantity": "Quantity:",
+    "removeOne": "Remove one {product} from cart",
+    "subtotal": "{subtotal} + {shipping} Shipping",
+    "success": {
+      "backToTricks": "Back to the Tricks",
+      "thanks": "Thank you for your order! You will recieve an email with your receipt soon."
+    },
+    "title": "Shop"
+  },
+  "speed": {
+    "allScores": "All scores",
+    "create": {
+      "customEvent": "Custom event...",
+      "customName": "Event name",
+      "customNamePlaceholder": "e.g. 2x30s pairs",
+      "duration": "Duration (seconds)",
+      "durationHint": "Use 0 for events without a time limit",
+      "event": "Event",
+      "failed": "Failed to save the score: {error}",
+      "name": "Name",
+      "namePlaceholder": "e.g. Practice, Regionals 2026",
+      "optional": "(optional)",
+      "save": "Save score",
+      "score": "Score",
+      "title": "New speed score"
+    },
+    "details": {
+      "averagePace": "Average pace",
+      "backToScores": "Back to your scores",
+      "confirmDelete": "Do you really want to delete this score? This cannot be undone.",
+      "counted": "Counted",
+      "countedLive": "Live, over {duration}",
+      "delete": "Delete score",
+      "duration": "Duration",
+      "edit": "Edit",
+      "event": "Event",
+      "failedDelete": "Failed to delete: {error}",
+      "failedSave": "Failed to save: {error}",
+      "loading": "Loading score...",
+      "misses": "Misses",
+      "name": "Name",
+      "notFound": "Score not found",
+      "pace": "{pace} steps/s",
+      "peakPace": "Peak pace",
+      "saveChanges": "Save changes",
+      "score": "Score",
+      "scoreLocked": "This score was counted live, so its total can't be edited.",
+      "stepsLost": "Steps lost"
+    },
+    "empty": "You haven't recorded any speed scores yet.",
+    "loadMore": "Load more",
+    "loading": "Loading scores...",
+    "newScore": "New score",
+    "noTimeLimit": "No time limit",
+    "recordFirst": "Record your first score",
+    "steps": "steps",
+    "title": "Speed"
+  },
+  "trick": {
+    "allTricks": "All Tricks",
+    "alternativeNames": "Alternative names: {names}",
+    "completed": "Completed",
+    "completedTrick": "Completed: {name}",
+    "level": "{ruleset} Level {level}",
+    "levels": {
+      "actions": "Actions",
+      "default": "Default",
+      "level": "Level",
+      "noLevel": "No level",
+      "ruleset": "Ruleset",
+      "showAll": "Show all rulesets",
+      "showFewer": "Show fewer",
+      "title": "Levels",
+      "useAsDefault": "Use as default"
+    },
+    "loading": "Loading trick...",
+    "next": "Next",
+    "previous": "Previous",
+    "share": "Share",
+    "shareText": "Check out this trick on the Tricktionary",
+    "shareTitle": "the Tricktionary - {name}",
+    "verification": {
+      "Judge": "This level has been verified by a certified judge, but not yet officially.",
+      "Official": "This level has been officially verified for this ruleset."
+    },
+    "videoTitle": "Video of the trick"
+  }
+}

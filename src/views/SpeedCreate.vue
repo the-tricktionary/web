@@ -1,70 +1,70 @@
 <template>
   <div class="container mx-auto px-2 py-4 mb-20">
     <h1 class="mb-4">
-      New speed score
+      {{ t('speed.create.title') }}
     </h1>
 
     <form class="flex flex-col gap-4 max-w-120" @submit.prevent="save()">
       <label class="flex flex-col gap-1">
-        <span class="font-semibold">Event</span>
+        <span class="font-semibold">{{ t('speed.create.event') }}</span>
         <select v-model="eventDefinitionId" required class="rounded" :disabled="saving">
           <option v-for="group of eventGroups" :key="group.label" disabled class="font-bold">
             {{ group.label }}
           </option>
           <template v-for="group of eventGroups" :key="`${group.label}-options`">
             <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
-              {{ eventDefinition.name }} ({{ formatDuration(eventDefinition.totalDuration) }})
+              {{ eventDefinition.name }} ({{ duration(eventDefinition.totalDuration) }})
             </option>
           </template>
           <option :value="CUSTOM">
-            Custom event...
+            {{ t('speed.create.customEvent') }}
           </option>
         </select>
       </label>
 
       <template v-if="eventDefinitionId === CUSTOM">
         <label class="flex flex-col gap-1">
-          <span class="font-semibold">Event name</span>
+          <span class="font-semibold">{{ t('speed.create.customName') }}</span>
           <input
             v-model="customName"
             type="text"
             required
             maxlength="120"
-            placeholder="e.g. 2x30s pairs"
+            :placeholder="t('speed.create.customNamePlaceholder')"
             class="rounded"
             :disabled="saving"
           >
         </label>
         <label class="flex flex-col gap-1">
-          <span class="font-semibold">Duration (seconds)</span>
+          <span class="font-semibold">{{ t('speed.create.duration') }}</span>
           <input
             v-model.number="customDuration"
             type="number"
             required
             min="0"
-            max="86400"
+            max="3600"
             step="1"
             class="rounded"
             :disabled="saving"
           >
-          <span class="text-muted text-sm">Use 0 for events without a time limit</span>
+          <span class="text-muted text-sm">{{ t('speed.create.durationHint') }}</span>
         </label>
       </template>
 
       <label class="flex flex-col gap-1">
-        <span class="font-semibold">Name <span class="text-muted font-normal">(optional)</span></span>
+        <span class="font-semibold">{{ t('speed.create.name') }} <span class="text-muted font-normal">{{ t('speed.create.optional') }}</span></span>
         <input
           v-model="name"
           type="text"
           maxlength="120"
-          placeholder="e.g. Practice, Regionals 2026"
+          :placeholder="t('speed.create.namePlaceholder')"
           class="rounded"
           :disabled="saving"
         >
       </label>
 
       <label class="flex flex-col gap-1">
-        <span class="font-semibold">Score</span>
+        <span class="font-semibold">{{ t('speed.create.score') }}</span>
         <input
           v-model.number="count"
           type="number"
@@ -79,12 +79,12 @@
       </label>
 
       <p v-if="error" class="text-ttred-900" role="alert">
-        Failed to save the score: {{ error }}
+        {{ t('speed.create.failed', { error }) }}
       </p>
 
       <button type="submit" class="btn" :disabled="saving || !valid">
         <icon-loading v-if="saving" class="animate-spin inline-block" aria-hidden="true" />
-        <span v-else>Save score</span>
+        <span v-else>{{ t('speed.create.save') }}</span>
       </button>
     </form>
   </div>
@@ -94,7 +94,7 @@
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
-      <span class="flex px-2 items-center">All scores</span>
+      <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
     </router-link>
   </bottom-bar>
 </template>
@@ -102,11 +102,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import { useCreateSpeedResultMutation, useEventDefinitionsQuery } from '../graphql/generated/graphql'
-import { formatDuration } from '../helpers'
+import useSpeedFormat from '../hooks/useSpeedFormat'
 import useAuth from '../hooks/useAuth'
 import { addSpeedResultToCache } from '../hooks/useSpeedResults'
 
@@ -118,7 +119,10 @@ import type { EventDefinitionsQuery } from '../graphql/generated/graphql'
 
 const CUSTOM = 'custom'
 
-useHead({ title: 'New speed score | the Tricktionary' })
+const { t } = useI18n()
+const { duration } = useSpeedFormat()
+
+useHead({ title: computed(() => t('speed.create.title')) })
 
 const router = useRouter()
 const analytics = getAnalytics()
@@ -135,7 +139,7 @@ const eventGroups = computed(() => {
   return [...groups.entries()]
     .sort(([a], [b]) => a - b)
     .map(([totalDuration, eventDefinitions]) => ({
-      label: formatDuration(totalDuration),
+      label: duration(totalDuration),
       eventDefinitions: [...eventDefinitions].sort((a, b) => a.name.localeCompare(b.name))
     }))
 })

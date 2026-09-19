@@ -1,13 +1,16 @@
 <template>
   <discipline-selector v-model:discipline="discipline" />
-  <links />
+
+  <div class="container mx-auto px-2 mt-2 flex justify-end empty:hidden">
+    <language-selector />
+  </div>
 
   <bottom-bar>
     <input
       v-model="search"
       type="search"
-      placeholder="Search tricks"
-      aria-label="Search tricks"
+      :placeholder="t('home.search')"
+      :aria-label="t('home.search')"
       class="rounded focus:border-b-ttred-900 border-line flex-grow"
     >
 
@@ -16,7 +19,7 @@
       class="w-max whitespace-nowrap"
       :class="{ hidden: !user }"
     >
-      Hide Completed
+      {{ t('home.hideCompleted') }}
     </icon-checkbox>
   </bottom-bar>
 
@@ -38,32 +41,36 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue'
 import About from '../components/About.vue'
 import TtFooter from '../components/Footer.vue'
-import Links from '../components/Links.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
+import LanguageSelector from '../components/LanguageSelector.vue'
 
 import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
+import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
 import { refDebounced } from '@vueuse/core'
 
 import BottomBar from '../components/BottomBar.vue'
 
+const { t } = useI18n()
 const discipline = ref<Discipline>()
 const settings = useSettings()
 const analytics = getAnalytics()
 const { firebaseUser, user } = useAuth({ withChecklist: true })
+const { lang } = useLanguage()
 
 const tricksQuery = useTricksQuery({
   discipline: discipline.value,
-  withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
-  lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
+  withLocalised: lang.value !== 'en',
+  lang: lang.value
 })
 const tricks = computed(() => tricksQuery.result.value?.tricks ?? [])
 const checklist = ref<Set<string>>(new Set())
@@ -73,14 +80,11 @@ const debouncedSearch = refDebounced(search, 1000)
 watch(discipline, discipline => {
   tricksQuery.variables.value!.discipline = discipline ?? Discipline.SingleRope
 })
+watch(lang, lang => {
+  tricksQuery.variables.value!.withLocalised = lang !== 'en'
+  tricksQuery.variables.value!.lang = lang
+})
 watch(user, user => {
-  if (user?.lang && user.lang !== 'en') {
-    tricksQuery.variables.value!.withLocalised = true
-    tricksQuery.variables.value!.lang = user?.lang
-  } else {
-    tricksQuery.variables.value!.withLocalised = false
-    tricksQuery.variables.value!.lang = undefined
-  }
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
 watch(debouncedSearch, search => {

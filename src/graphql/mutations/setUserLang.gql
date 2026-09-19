@@ -1,0 +1,6 @@
+mutation SetUserLang ($lang: String) {
+  setUserLang (lang: $lang) {
+    id
+    lang
+  }
+}

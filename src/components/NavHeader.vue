@@ -10,7 +10,7 @@
       class="nav-link sm:hidden inline-flex items-center justify-center min-h-8 cursor-pointer"
       :aria-expanded="showNav"
       aria-controls="main-nav"
-      aria-label="Toggle menu"
+      :aria-label="t('nav.toggleMenu')"
       @click="showNav = !showNav"
     >
       <icon-close v-if="showNav" aria-hidden="true" />
@@ -21,23 +21,23 @@
       id="main-nav"
       class="flex max-sm:absolute max-sm:top-full max-sm:inset-x-0 max-sm:flex-col max-sm:bg-ttred-500 max-sm:border-b max-sm:border-ttred-900"
       :class="{ 'max-sm:hidden': !showNav }"
-      aria-label="Main"
+      :aria-label="t('nav.label')"
       @click="showNav = false"
     >
       <router-link exact-active-class="active" class="nav-link" to="/">
-        Tricks
+        {{ t('nav.tricks') }}
       </router-link>
       <router-link active-class="active" class="nav-link" to="/speed">
-        Speed
+        {{ t('nav.speed') }}
       </router-link>
       <router-link active-class="active" class="nav-link" to="/shop">
-        Shop
+        {{ t('nav.shop') }}
       </router-link>
       <router-link v-if="user" active-class="active" class="nav-link" to="/profile">
-        Profile
+        {{ t('nav.profile') }}
       </router-link>
       <router-link v-else active-class="active" class="nav-link" to="/auth">
-        Sign in
+        {{ t('nav.signIn') }}
       </router-link>
     </nav>
   </header>
@@ -45,12 +45,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { onClickOutside } from '@vueuse/core'
 import useAuth from '../hooks/useAuth'
 
 import IconMenu from '~icons/mdi/menu'
 import IconClose from '~icons/mdi/close'
 
+const { t } = useI18n()
 const { firebaseUser: user } = useAuth()
 const showNav = ref(false)
 const headerRef = ref<HTMLElement>()

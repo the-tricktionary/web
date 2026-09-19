@@ -184,6 +184,15 @@ export default defineConfig({
           }
           input::placeholder, textarea::placeholder { color: var(--tt-muted); }
 
+          /* The chevron a native select loses to appearance: none */
+          select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 7.5 5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+          }
+
           /* Visible focus indicator for everything focusable */
           :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
             outline: 2px solid ${brand.ttred[900]};

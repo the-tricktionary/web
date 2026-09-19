@@ -8,19 +8,21 @@
     </span>
     <span class="col-start-1 row-start-2 text-muted text-sm truncate">
       <template v-if="result.name">{{ result.eventDefinition.name }} &middot; </template>
-      {{ formatDuration(result.eventDefinition.totalDuration) }} &middot;
-      <time :datetime="new Date(result.createdAt).toISOString()">{{ formatDateTime(result.createdAt) }}</time>
+      {{ duration(result.eventDefinition.totalDuration) }} &middot;
+      <time :datetime="new Date(result.createdAt).toISOString()">{{ dateTime(result.createdAt) }}</time>
     </span>
 
     <span class="col-start-2 row-span-2 flex flex-col justify-center items-center">
-      <span class="text-3xl font-bold leading-none">{{ result.count }}</span>
-      <span class="text-muted text-xs">steps</span>
+      <span class="text-3xl font-bold leading-none">{{ number(result.count) }}</span>
+      <span class="text-muted text-xs">{{ t('speed.steps') }}</span>
     </span>
   </router-link>
 </template>
 
 <script setup lang="ts">
-import { formatDateTime, formatDuration } from '../helpers'
+import { useI18n } from 'vue-i18n'
+
+import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import type { PropType } from 'vue'
 import type { SpeedResultBaseFragment } from '../graphql/generated/graphql'
@@ -31,4 +33,7 @@ defineProps({
     required: true
   }
 })
+
+const { t } = useI18n()
+const { dateTime, duration, number } = useSpeedFormat()
 </script>

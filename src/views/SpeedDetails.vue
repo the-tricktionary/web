@@ -1,16 +1,16 @@
 <template>
   <div v-if="loading && !speedResult" class="container mx-auto flex items-center justify-center flex-col" role="status">
     <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
-    Loading score...
+    {{ t('speed.details.loading') }}
   </div>
 
   <div v-else-if="!speedResult" class="container mx-auto flex flex-col items-center justify-center">
     <h1 class="mt-10">
-      Score not found
+      {{ t('speed.details.notFound') }}
     </h1>
     <p>
       <router-link :to="{ name: 'speed' }">
-        Back to your scores
+        {{ t('speed.details.backToScores') }}
       </router-link>
     </p>
   </div>
@@ -18,42 +18,42 @@
   <div v-else class="container mx-auto px-2 py-4 mb-20 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8">
     <div>
       <p class="text-muted font-semibold mb-0">
-        <time :datetime="new Date(speedResult.createdAt).toISOString()">{{ formatDateTime(speedResult.createdAt) }}</time>
+        <time :datetime="new Date(speedResult.createdAt).toISOString()">{{ dateTime(speedResult.createdAt) }}</time>
       </p>
       <h1 class="mb-4">
         {{ speedResult.name ?? speedResult.eventDefinition.name }}
       </h1>
 
       <p class="flex items-baseline gap-2 mb-6">
-        <span class="text-6xl font-bold leading-none">{{ speedResult.count }}</span>
-        <span class="text-muted">steps</span>
+        <span class="text-6xl font-bold leading-none">{{ number(speedResult.count) }}</span>
+        <span class="text-muted">{{ t('speed.steps') }}</span>
       </p>
 
       <dl class="grid grid-cols-[max-content_auto] gap-x-6 gap-y-2">
         <dt class="font-semibold">
-          Event
+          {{ t('speed.details.event') }}
         </dt>
         <dd>{{ speedResult.eventDefinition.name }}</dd>
         <dt class="font-semibold">
-          Duration
+          {{ t('speed.details.duration') }}
         </dt>
-        <dd>{{ formatDuration(speedResult.eventDefinition.totalDuration) }}</dd>
+        <dd>{{ duration(speedResult.eventDefinition.totalDuration) }}</dd>
 
         <template v-if="speedResult.analysis">
           <dt class="font-semibold">
-            Average pace
+            {{ t('speed.details.averagePace') }}
           </dt>
-          <dd>{{ speedResult.analysis.stepsPerSecond }} steps/s</dd>
+          <dd>{{ t('speed.details.pace', { pace: number(speedResult.analysis.stepsPerSecond) }) }}</dd>
           <dt class="font-semibold">
-            Peak pace
+            {{ t('speed.details.peakPace') }}
           </dt>
-          <dd>{{ speedResult.analysis.maxStepsPerSecond }} steps/s</dd>
+          <dd>{{ t('speed.details.pace', { pace: number(speedResult.analysis.maxStepsPerSecond) }) }}</dd>
           <dt class="font-semibold">
-            Misses
+            {{ t('speed.details.misses') }}
           </dt>
           <dd>{{ speedResult.analysis.misses }}</dd>
           <dt class="font-semibold">
-            Steps lost
+            {{ t('speed.details.stepsLost') }}
           </dt>
           <dd>{{ speedResult.analysis.stepsLost }}</dd>
         </template>
@@ -62,11 +62,11 @@
 
     <div>
       <h2 class="mb-2">
-        Edit
+        {{ t('speed.details.edit') }}
       </h2>
       <form class="flex flex-col gap-4" @submit.prevent="save()">
         <label class="flex flex-col gap-1">
-          <span class="font-semibold">Name</span>
+          <span class="font-semibold">{{ t('speed.details.name') }}</span>
           <input
             v-model="editName"
             type="text"
@@ -77,7 +77,7 @@
           >
         </label>
         <label class="flex flex-col gap-1">
-          <span class="font-semibold">Score</span>
+          <span class="font-semibold">{{ t('speed.details.score') }}</span>
           <input
             v-model.number="editCount"
             type="number"
@@ -88,17 +88,17 @@
             class="rounded"
             :disabled="saving || !!speedResult.analysis"
           >
-          <span v-if="speedResult.analysis" class="text-muted text-sm">This score was counted live, so its total can't be edited.</span>
+          <span v-if="speedResult.analysis" class="text-muted text-sm">{{ t('speed.details.scoreLocked') }}</span>
         </label>
         <p v-if="error" class="text-ttred-900" role="alert">
           {{ error }}
         </p>
         <button type="submit" class="btn" :disabled="saving || !dirty">
           <icon-loading v-if="saving" class="animate-spin inline-block" aria-hidden="true" />
-          <span v-else>Save changes</span>
+          <span v-else>{{ t('speed.details.saveChanges') }}</span>
         </button>
         <button type="button" class="btn text-ttred-900" :disabled="saving" @click="remove()">
-          Delete score
+          {{ t('speed.details.delete') }}
         </button>
       </form>
     </div>
@@ -109,7 +109,7 @@
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
-      <span class="flex px-2 items-center">All scores</span>
+      <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
     </router-link>
   </bottom-bar>
 </template>
@@ -117,10 +117,11 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 
 import { useDeleteSpeedResultMutation, useSpeedResultQuery, useUpdateSpeedResultMutation } from '../graphql/generated/graphql'
-import { formatDateTime, formatDuration } from '../helpers'
+import useSpeedFormat from '../hooks/useSpeedFormat'
 import { removeSpeedResultFromCache } from '../hooks/useSpeedResults'
 
 import BottomBar from '../components/BottomBar.vue'
@@ -129,6 +130,8 @@ import IconChevronLeft from '~icons/mdi/chevron-left'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
+const { dateTime, duration, number } = useSpeedFormat()
 
 const speedResultId = computed(() => route.params.id as string)
 const speedResultQuery = useSpeedResultQuery(() => ({ speedResultId: speedResultId.value }), { fetchPolicy: 'cache-and-network' })
@@ -136,7 +139,7 @@ const { loading } = speedResultQuery
 const speedResult = computed(() => speedResultQuery.result.value?.me?.speedResult)
 
 useHead({
-  title: computed(() => speedResult.value ? `${speedResult.value.name ?? speedResult.value.eventDefinition.name} | the Tricktionary` : 'Speed | the Tricktionary')
+  title: computed(() => speedResult.value ? speedResult.value.name ?? speedResult.value.eventDefinition.name : t('speed.title'))
 })
 
 const editName = ref('')
@@ -176,20 +179,20 @@ async function save () {
       }
     })
   } catch (err) {
-    error.value = `Failed to save: ${(err as Error).message}`
+    error.value = t('speed.details.failedSave', { error: (err as Error).message })
     throw err
   }
 }
 
 async function remove () {
   if (!speedResult.value || saving.value) return
-  if (!window.confirm('Do you really want to delete this score? This cannot be undone.')) return
+  if (!window.confirm(t('speed.details.confirmDelete'))) return
   error.value = null
   try {
     await deleteResult({ speedResultId: speedResult.value.id })
     await router.replace({ name: 'speed' })
   } catch (err) {
-    error.value = `Failed to delete: ${(err as Error).message}`
+    error.value = t('speed.details.failedDelete', { error: (err as Error).message })
     throw err
   }
 }
