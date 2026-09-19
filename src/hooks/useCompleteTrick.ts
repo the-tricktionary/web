@@ -1,6 +1,7 @@
 import { getAnalytics, logEvent } from '@firebase/analytics'
-import type { MeQuery, MeQueryVariables } from '../graphql/generated/graphql'
-import { MeDocument, useCompleteTrickMutation } from '../graphql/generated/graphql'
+import { getAuth } from '@firebase/auth'
+import type { Reference } from '@apollo/client/core'
+import { useCompleteTrickMutation } from '../graphql/generated/graphql'
 
 const analytics = getAnalytics()
 
@@ -8,24 +9,33 @@ export default function useCompleteTrick (variables?: { trickId: string, complet
   const mutation = useCompleteTrickMutation(() => ({
     ...(variables ? { variables } : {}),
     update (cache, { data }) {
-      const cachedData = cache.readQuery<MeQuery, MeQueryVariables>({ query: MeDocument, variables: { withChecklist: true } })
+      // The checklist is the same field on the same user however it was
+      // asked for, so the change is made on the entity rather than in one
+      // query's result. The API keys users by their Firebase uid.
+      const userId = getAuth().currentUser?.uid
+      if (userId == null) return
 
-      if (cachedData?.me?.checklist?.length) {
-        const checklist = [...cachedData.me.checklist]
-        if (data?.deleteTrickCompletion) {
-          const cachedIdx = cachedData.me.checklist.findIndex(tc => tc.id === data.deleteTrickCompletion?.id)
-          checklist.splice(cachedIdx, 1)
-        }
-        if (data?.createTrickCompletion?.id) {
-          checklist.push(data.createTrickCompletion)
-        }
+      const added = data?.createTrickCompletion
+      const removed = data?.deleteTrickCompletion
 
-        cache.writeQuery<MeQuery, MeQueryVariables>({
-          query: MeDocument,
-          variables: { withChecklist: true },
-          data: { me: { ...cachedData.me, checklist } }
-        })
-      }
+      cache.modify({
+        id: cache.identify({ __typename: 'User', id: userId }),
+        fields: {
+          checklist (existing, { readField, toReference }) {
+            const completions: readonly Reference[] = Array.isArray(existing) ? existing : []
+            if (removed) return completions.filter(ref => readField<string>('id', ref) !== removed.id)
+            if (!added) return completions
+            if (completions.some(ref => readField<string>('id', ref) === added.id)) return completions
+            const reference = toReference({ __typename: 'TrickCompletion', id: added.id })
+            return reference ? [...completions, reference] : completions
+          },
+          // The counts are the API's to work out, and a dropped field makes
+          // the profile ask for them again
+          checklistStats (_existing, { DELETE }) {
+            return DELETE
+          }
+        }
+      })
     }
   }))
 

@@ -1,0 +1,20 @@
+fragment ProfileHeader on User {
+  id
+  username
+  name
+  photo
+  profile {
+    public
+    checklist
+    speed
+  }
+  checklistStats {
+    completed
+    total
+    levels {
+      level
+      completed
+      total
+    }
+  }
+}

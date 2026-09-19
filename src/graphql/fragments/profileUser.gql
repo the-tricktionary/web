@@ -1,0 +1,25 @@
+#import "./profileHeader.gql"
+#import "./trickBox.gql"
+#import "./speedResult.gql"
+#import "./speedAnalysis.gql"
+
+fragment ProfileUser on User {
+  ...ProfileHeader
+  speedPersonalBests @include(if: $withSpeed) {
+    ...SpeedResultBase
+    eventDefinition {
+      id
+      name
+      totalDuration
+    }
+    analysis {
+      ...SpeedAnalysisFields
+    }
+  }
+  checklist @include(if: $withChecklist) {
+    id
+    trick {
+      ...TrickBox
+    }
+  }
+}

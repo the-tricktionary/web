@@ -1,0 +1,25 @@
+#import "../fragments/profileHeader.gql"
+#import "../fragments/profileUser.gql"
+
+# Somebody else's profile is loaded in two steps: the header tells us what
+# it lets us see, the details then ask only for the parts it does. A field we
+# may not read answers with an error, which would null the whole user. Your
+# own profile shows everything, so it needs no header of its own.
+
+query ProfileHeader ($usernameOrId: ID!) {
+  user (usernameOrId: $usernameOrId) {
+    ...ProfileHeader
+  }
+}
+
+query ProfileDetails ($usernameOrId: ID!, $withChecklist: Boolean!, $withSpeed: Boolean!, $withLocalised: Boolean!, $lang: String) {
+  user (usernameOrId: $usernameOrId) {
+    ...ProfileUser
+  }
+}
+
+query MyProfileDetails ($withChecklist: Boolean!, $withSpeed: Boolean!, $withLocalised: Boolean!, $lang: String) {
+  me {
+    ...ProfileUser
+  }
+}

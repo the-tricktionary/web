@@ -25,6 +25,8 @@ export const routes: RouteRecordRaw[] = [
 
   { name: 'auth', path: '/auth', component: async () => await import('./views/Auth.vue') },
   { name: 'profile', path: '/profile', component: async () => await import('./views/Profile.vue'), meta: { requiresAuth: true } },
+  { name: 'profile-user', path: '/profile/:usernameOrId', component: async () => await import('./views/Profile.vue') },
+  { name: 'settings', path: '/settings', component: async () => await import('./views/Settings.vue'), meta: { requiresAuth: true } },
   { name: 'policies', path: '/policies', component: async () => await import('./views/Policies.vue') },
   { name: 'shop', path: '/shop', component: async () => await import('./views/Shop.vue') },
   { name: 'shop-success', path: '/shop-success', component: async () => await import('./views/ShopSuccess.vue') },

@@ -4,7 +4,13 @@ query Me ($withChecklist: Boolean!) {
     username
     name
     photo
+    email
     lang
+    profile {
+      public
+      checklist
+      speed
+    }
     checklist @include(if: $withChecklist) {
       id
       trick {

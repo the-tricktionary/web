@@ -1,0 +1,10 @@
+mutation SetProfileOptions ($data: ProfileOptionsInput!) {
+  setProfileOptions (data: $data) {
+    id
+    profile {
+      public
+      checklist
+      speed
+    }
+  }
+}
