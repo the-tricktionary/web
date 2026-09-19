@@ -1,18 +1,12 @@
 <template>
-  <div class="container mx-auto px-2 py-4 mb-20">
+  <div class="container mx-auto px-2 py-4" :class="{ 'mb-20': showBottomBar }">
     <!-- Setup -->
     <form v-if="phase === 'setup'" class="flex flex-col gap-4 max-w-120" @submit.prevent="begin()">
       <h1>{{ t('speed.count.title') }}</h1>
 
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.count.event') }}</span>
-        <select v-model="eventDefinitionId" required class="rounded">
-          <optgroup v-for="group of eventGroups" :key="group.label" :label="group.label">
-            <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
-              {{ eventDefinition.name }}{{ eventDefinition.timingTrack?.audioUrl ? ' ♪' : '' }}
-            </option>
-          </optgroup>
-        </select>
+        <event-picker v-model="eventDefinitionId" mark-audio required />
         <span class="text-muted text-sm">{{ t('speed.count.trackHint') }}</span>
       </label>
 
@@ -32,14 +26,14 @@
     </form>
 
     <!-- Counting -->
-    <div v-else-if="phase === 'counting'" class="flex flex-col items-center gap-4 select-none">
+    <div v-else-if="phase === 'counting'" class="flex flex-col items-center gap-3 select-none min-h-[calc(100dvh-7rem)]">
       <p class="text-muted font-semibold m-0">
         {{ selectedEvent?.name }}
       </p>
 
       <p class="text-5xl font-bold tabular-nums m-0" aria-live="off">
         <template v-if="!started">
-          {{ useTrack ? t('speed.count.ready') : seconds(selectedEvent?.totalDuration ?? 0) }}
+          {{ waitingForTrack ? t('speed.count.ready') : seconds(selectedEvent?.totalDuration ?? 0) }}
         </template>
         <template v-else-if="clock < 0">
           {{ seconds(clock, { tenths: true }) }}
@@ -54,39 +48,37 @@
         <span class="text-muted">{{ t('speed.steps') }}</span>
       </p>
 
+      <!-- Above the tap target, so a thumb reaching for a step cannot hit them -->
+      <div class="grid grid-cols-2 gap-2 w-full max-w-120">
+        <button type="button" class="btn" :disabled="!counting || count === 0" @click="undo()">
+          {{ t('speed.count.undo') }}
+        </button>
+        <button type="button" class="btn" :disabled="!started" @click="finish()">
+          {{ t('speed.count.stop') }}
+        </button>
+      </div>
+
       <button
         type="button"
-        class="w-full max-w-120 h-60 rounded-lg text-3xl font-bold text-white bg-ttred-500 border-2 border-ttred-900 touch-manipulation active:bg-ttred-900 disabled:bg-elevated disabled:text-muted disabled:border-line"
-        :disabled="!started || finished"
-        @pointerdown.prevent="step()"
+        class="w-full max-w-120 flex-1 min-h-60 rounded-lg text-3xl font-bold text-white bg-ttred-500 border-2 border-ttred-900 touch-manipulation active:bg-ttred-900 disabled:bg-elevated disabled:text-muted disabled:border-line"
+        :disabled="finished || loadingTrack"
+        @pointerdown.prevent="tap()"
         @touchmove.prevent
         @click.prevent
       >
-        {{ started ? t('speed.count.step') : t('speed.count.pressStart') }}
-      </button>
-
-      <div class="grid grid-cols-2 gap-2 w-full max-w-120">
-        <button v-if="!started" type="button" class="btn col-span-2" @click="start()">
-          {{ t('speed.count.start') }}
-        </button>
-        <template v-else>
-          <button type="button" class="btn" :disabled="count === 0" @click="undo()">
-            {{ t('speed.count.undo') }}
-          </button>
-          <button type="button" class="btn" @click="finish()">
-            {{ t('speed.count.stop') }}
-          </button>
+        <template v-if="loadingTrack">
+          {{ t('speed.count.loadingTrack') }}
         </template>
-      </div>
-
-      <audio
-        v-if="useTrack && selectedEvent?.timingTrack?.audioUrl"
-        ref="audioRef"
-        :src="selectedEvent.timingTrack.audioUrl"
-        preload="auto"
-        @playing="onPlaying"
-        @ended="finish()"
-      />
+        <template v-else-if="!started">
+          {{ t('speed.count.tapToStart') }}
+        </template>
+        <template v-else-if="clock < 0">
+          {{ t('speed.count.ready') }}
+        </template>
+        <template v-else>
+          {{ t('speed.count.step') }}
+        </template>
+      </button>
     </div>
 
     <!-- Done -->
@@ -96,28 +88,63 @@
         <span class="text-6xl font-bold leading-none">{{ number(count) }}</span>
         <span class="text-muted">{{ t('speed.count.stepsIn', { time: seconds(elapsed, { tenths: true }) }) }}</span>
       </p>
-
-      <p v-if="error" class="text-ttred-900" role="alert">
-        {{ t('speed.count.failed', { error }) }}
-      </p>
-
-      <button type="button" class="btn" :disabled="saving" @click="save()">
-        <icon-loading v-if="saving" class="animate-spin inline-block" aria-hidden="true" />
-        <span v-else>{{ t('speed.count.save') }}</span>
-      </button>
-      <button type="button" class="btn" :disabled="saving" @click="discard()">
-        {{ t('speed.count.discard') }}
-      </button>
     </div>
   </div>
 
-  <bottom-bar>
-    <router-link :to="{ name: 'speed' }" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
+  <!--
+    The audio lives outside the phases so it starts buffering as soon as an
+    event is picked, and keeps its buffer across the setup and counting steps.
+  -->
+  <audio
+    v-if="trackUrl"
+    ref="audioRef"
+    :src="trackUrl"
+    preload="auto"
+    @canplaythrough="audioReady = true"
+    @error="audioFailed = true"
+    @playing="onPlaying"
+    @ended="finish()"
+  />
+
+  <bottom-bar v-if="phase === 'done' && error">
+    <p class="text-ttred-900 mb-0" role="alert">
+      {{ t('speed.count.failed', { error }) }}
+    </p>
+  </bottom-bar>
+
+  <bottom-bar v-if="showBottomBar">
+    <button
+      v-if="phase === 'done'"
+      type="button"
+      class="btn grid grid-cols-[2rem_auto] w-max mt-0"
+      :disabled="saving"
+      @click="discard()"
+    >
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-close />
+      </span>
+      <span class="flex px-2 items-center">{{ t('speed.count.discard') }}</span>
+    </button>
+    <router-link v-else :to="{ name: 'speed' }" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
       <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
     </router-link>
+
+    <button
+      v-if="phase === 'done'"
+      type="button"
+      class="btn grid grid-cols-[2rem_auto] w-max mt-0 ml-auto"
+      :disabled="saving"
+      @click="save()"
+    >
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-loading v-if="saving" class="animate-spin" />
+        <icon-content-save v-else />
+      </span>
+      <span class="flex px-2 items-center">{{ t('speed.count.save') }}</span>
+    </button>
   </bottom-bar>
 </template>
 
@@ -128,20 +155,25 @@ import { useRouter } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useIntervalFn, useWakeLock } from '@vueuse/core'
 import { getAnalytics, logEvent } from '@firebase/analytics'
+import { createMarkReducer, simpleReducer } from '@ropescore/rulesets'
 
-import { TimingCueType, useCreateSpeedResultMutation, useEventDefinitionsQuery } from '../graphql/generated/graphql'
+import { TimingCueType, useCreateSpeedResultMutation } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
+import useEventDefinitions from '../hooks/useEventDefinitions'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 import { addSpeedResultToCache } from '../hooks/useSpeedResults'
 
 import BottomBar from '../components/BottomBar.vue'
+import EventPicker from '../components/EventPicker.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
+import IconContentSave from '~icons/mdi/content-save'
+import IconClose from '~icons/mdi/close'
 
-import type { EventDefinitionsQuery, SpeedMarkInput } from '../graphql/generated/graphql'
+import type { SpeedMarkInput } from '../graphql/generated/graphql'
 
 const { t } = useI18n()
-const { duration, number, seconds } = useSpeedFormat()
+const { number, seconds } = useSpeedFormat()
 
 useHead({ title: computed(() => t('speed.count.title')) })
 
@@ -151,20 +183,7 @@ const { user } = useAuth()
 
 // --- setup
 
-const eventDefinitionsQuery = useEventDefinitionsQuery({ fetchPolicy: 'cache-and-network' })
-const eventDefinitions = computed(() => eventDefinitionsQuery.result.value?.eventDefinitions ?? [])
-const eventGroups = computed(() => {
-  const groups = new Map<number, EventDefinitionsQuery['eventDefinitions']>()
-  for (const eventDefinition of eventDefinitions.value) {
-    const group = groups.get(eventDefinition.totalDuration) ?? []
-    group.push(eventDefinition)
-    groups.set(eventDefinition.totalDuration, group)
-  }
-  return [...groups.entries()]
-    .sort(([a], [b]) => a - b)
-    .map(([totalDuration, defs]) => ({ label: duration(totalDuration), eventDefinitions: [...defs].sort((a, b) => a.name.localeCompare(b.name)) }))
-})
-
+const { eventDefinitions } = useEventDefinitions()
 const eventDefinitionId = ref('')
 const selectedEvent = computed(() => eventDefinitions.value.find(eventDefinition => eventDefinition.id === eventDefinitionId.value))
 const useTrack = ref(true)
@@ -177,14 +196,15 @@ const phase = ref<Phase>('setup')
 
 /** The marks in the rulesets shape, timestamps in epoch milliseconds */
 const marks = ref<SpeedMarkInput[]>([])
-const undone = new Set<number>()
 const started = ref(false)
 const finished = ref(false)
-/** Epoch ms of the 'start' mark: the start press, or the moment the audio began */
+/** Epoch ms of the 'start' mark: the first tap, or the moment the audio began */
 const startedAt = ref<number | null>(null)
 const now = ref(Date.now())
 
 const audioRef = useTemplateRef('audioRef')
+const audioReady = ref(false)
+const audioFailed = ref(false)
 const wakeLock = useWakeLock()
 
 /**
@@ -192,10 +212,26 @@ const wakeLock = useWakeLock()
  * one are separate questions: only audio can be played, but the cues are
  * worth keeping either way, since they are what splits a relay by athlete.
  */
-const playback = computed(() => useTrack.value && selectedEvent.value?.timingTrack?.audioUrl ? selectedEvent.value.timingTrack : null)
+const playback = computed(() => useTrack.value && !audioFailed.value ? selectedEvent.value?.timingTrack ?? null : null)
+const trackUrl = computed(() => useTrack.value ? selectedEvent.value?.timingTrack?.audioUrl ?? null : null)
 const startCueOffset = computed(() => playback.value?.cues.find(cue => cue.type === TimingCueType.Start)?.offset ?? 0)
 
-const count = computed(() => marks.value.filter(mark => mark.schema === 'step' && !undone.has(mark.sequence)).length)
+/**
+ * A track that pauses to buffer mid-count would silently stretch the event,
+ * so the count cannot begin until the whole file is known to play through.
+ */
+const waitingForTrack = computed(() => trackUrl.value != null && !audioFailed.value)
+const loadingTrack = computed(() => waitingForTrack.value && !audioReady.value)
+
+/**
+ * The same reducer the API scores with, so the running total the athlete
+ * sees is the one their result will be saved with, undos included.
+ */
+const count = computed(() => {
+  const reducer = createMarkReducer<string, string>(simpleReducer)
+  for (const mark of marks.value) reducer.addMark(mark)
+  return Math.max(0, Math.round(reducer.tally.step ?? 0))
+})
 
 /** Seconds since the go signal, negative during a track's lead-in */
 const clock = computed(() => startedAt.value == null ? 0 : (now.value - startedAt.value - startCueOffset.value) / 1000)
@@ -206,11 +242,22 @@ const remaining = computed(() => {
 })
 const elapsed = computed(() => Math.max(0, clock.value))
 
+/** Steps only count once the go signal has sounded */
+const counting = computed(() => started.value && !finished.value && clock.value >= 0)
+/** Leaving mid-count is an accident waiting to happen, so the bar goes away */
+const showBottomBar = computed(() => phase.value !== 'counting' || !started.value)
+
 const ticker = useIntervalFn(() => {
   now.value = Date.now()
   // with no audio to end the event, it ends itself when its time is up
   if (!playback.value && remaining.value === 0) finish()
 }, 100, { immediate: false })
+
+// a different event means a different file to buffer
+watch(trackUrl, () => {
+  audioReady.value = false
+  audioFailed.value = false
+})
 
 function addMark (mark: Omit<SpeedMarkInput, 'sequence' | 'timestamp'>) {
   marks.value.push({ sequence: marks.value.length, timestamp: Date.now(), ...mark })
@@ -219,7 +266,6 @@ function addMark (mark: Omit<SpeedMarkInput, 'sequence' | 'timestamp'>) {
 function begin () {
   if (!selectedEvent.value) return
   marks.value = []
-  undone.clear()
   started.value = false
   finished.value = false
   startedAt.value = null
@@ -227,26 +273,38 @@ function begin () {
   void wakeLock.request('screen')
 }
 
+/**
+ * The tap target is also the start button: without a track the first tap
+ * starts the event and counts as the first step, with one it starts the
+ * audio and taps are ignored until the go signal.
+ */
+function tap () {
+  if (finished.value || loadingTrack.value) return
+  if (!started.value) {
+    void start()
+    return
+  }
+  if (!counting.value) return
+  addMark({ schema: 'step' })
+  navigator.vibrate?.(40)
+}
+
 async function start () {
-  if (started.value) return
   started.value = true
   if (playback.value && audioRef.value) {
     try {
       await audioRef.value.play()
       // the 'start' mark is placed by onPlaying, when the audio really runs
+      return
     } catch {
-      // autoplay refused or the file is missing: fall back to counting without the track
-      useTrack.value = false
-      startManually()
+      // autoplay refused: fall back to counting without the track
+      audioFailed.value = true
     }
-  } else {
-    startManually()
   }
-}
-
-function startManually () {
   startedAt.value = Date.now()
   addMark({ schema: 'start' })
+  // no lead-in to wait through, so this tap is the first step
+  addMark({ schema: 'step' })
   ticker.resume()
   navigator.vibrate?.(75)
 }
@@ -260,16 +318,9 @@ function onPlaying () {
   ticker.resume()
 }
 
-function step () {
-  if (!started.value || finished.value) return
-  addMark({ schema: 'step' })
-  navigator.vibrate?.(40)
-}
-
 function undo () {
-  const last = [...marks.value].reverse().find(mark => mark.schema === 'step' && !undone.has(mark.sequence))
-  if (!last) return
-  undone.add(last.sequence)
+  const last = [...marks.value].reverse().find(mark => mark.schema === 'step')
+  if (!last || count.value === 0) return
   addMark({ schema: 'undo', target: last.sequence })
 }
 

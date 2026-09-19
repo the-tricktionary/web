@@ -1,7 +1,7 @@
 <template>
   <router-link
     class="grid grid-cols-[auto_5rem] grid-rows-[auto_auto] rounded border border-line bg-surface hover:bg-elevated p-2 gap-x-2"
-    :to="{ name: 'speed-details', params: { id: result.id } }"
+    :to="to ?? { name: 'speed-details', params: { id: result.id } }"
   >
     <span class="col-start-1 row-start-1 font-bold truncate">
       {{ result.name ?? result.eventDefinition.name }}
@@ -25,12 +25,18 @@ import { useI18n } from 'vue-i18n'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import type { PropType } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
 import type { SpeedResultBaseFragment } from '../graphql/generated/graphql'
 
 defineProps({
   result: {
     type: Object as PropType<SpeedResultBaseFragment>,
     required: true
+  },
+  /** Where the box links, the result's own page unless something else is given */
+  to: {
+    type: Object as PropType<RouteLocationRaw>,
+    default: undefined
   }
 })
 

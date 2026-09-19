@@ -100,3 +100,9 @@ export function formatClock (seconds: number) {
   const remainder = seconds % 60
   return `${minutes}:${String(remainder).padStart(2, '0')}`
 }
+
+/**
+ * The event picker's value for "none of the listed events": the score then
+ * carries its own definition rather than pointing at one.
+ */
+export const CUSTOM_EVENT = 'custom'

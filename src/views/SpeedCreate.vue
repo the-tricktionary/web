@@ -7,21 +7,10 @@
     <form :id="formId" class="flex flex-col gap-4 max-w-120" @submit.prevent="save()">
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.create.event') }}</span>
-        <select v-model="eventDefinitionId" required class="rounded" :disabled="saving">
-          <!-- Ungrouped and first, so it reads as the odd one out rather than
-               as a trailing member of the last duration group -->
-          <option :value="CUSTOM">
-            {{ t('speed.create.customEvent') }}
-          </option>
-          <optgroup v-for="group of eventGroups" :key="group.label" :label="group.label">
-            <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
-              {{ eventDefinition.name }}
-            </option>
-          </optgroup>
-        </select>
+        <event-picker v-model="eventDefinitionId" allow-custom required :disabled="saving" />
       </label>
 
-      <template v-if="eventDefinitionId === CUSTOM">
+      <template v-if="eventDefinitionId === CUSTOM_EVENT">
         <label class="flex flex-col gap-1">
           <span class="font-semibold">{{ t('speed.create.customName') }}</span>
           <input
@@ -169,24 +158,20 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
-import { TimingCueType, useCreateSpeedResultMutation, useEventDefinitionsQuery } from '../graphql/generated/graphql'
-import useSpeedFormat from '../hooks/useSpeedFormat'
+import { TimingCueType, useCreateSpeedResultMutation } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import { addSpeedResultToCache } from '../hooks/useSpeedResults'
+import { CUSTOM_EVENT } from '../helpers'
 
 import BottomBar from '../components/BottomBar.vue'
+import EventPicker from '../components/EventPicker.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconContentSave from '~icons/mdi/content-save'
 import IconPlus from '~icons/mdi/plus'
 import IconClose from '~icons/mdi/close'
 
-import type { EventDefinitionsQuery } from '../graphql/generated/graphql'
-
-const CUSTOM = 'custom'
-
 const { t } = useI18n()
-const { duration } = useSpeedFormat()
 
 /** Lets the submit button live in the bottom bar, outside the form element */
 const formId = useId()
@@ -196,22 +181,6 @@ useHead({ title: computed(() => t('speed.create.title')) })
 const router = useRouter()
 const analytics = getAnalytics()
 const { user } = useAuth()
-
-const eventDefinitionsQuery = useEventDefinitionsQuery({ fetchPolicy: 'cache-first' })
-const eventGroups = computed(() => {
-  const groups = new Map<number, EventDefinitionsQuery['eventDefinitions']>()
-  for (const eventDefinition of eventDefinitionsQuery.result.value?.eventDefinitions ?? []) {
-    const group = groups.get(eventDefinition.totalDuration) ?? []
-    group.push(eventDefinition)
-    groups.set(eventDefinition.totalDuration, group)
-  }
-  return [...groups.entries()]
-    .sort(([a], [b]) => a - b)
-    .map(([totalDuration, eventDefinitions]) => ({
-      label: duration(totalDuration),
-      eventDefinitions: [...eventDefinitions].sort((a, b) => a.name.localeCompare(b.name))
-    }))
-})
 
 const eventDefinitionId = ref<string>('')
 const customName = ref('')
@@ -257,7 +226,7 @@ const switchError = computed(() => {
 const valid = computed(() => {
   if (!Number.isSafeInteger(count.value) || count.value! < 0) return false
   if (!eventDefinitionId.value) return false
-  if (eventDefinitionId.value === CUSTOM) {
+  if (eventDefinitionId.value === CUSTOM_EVENT) {
     if (switchError.value) return false
     return customName.value.trim().length > 0 && Number.isSafeInteger(customDuration.value) && customDuration.value >= 0
   }
@@ -280,7 +249,7 @@ async function save () {
       data: {
         count: count.value,
         ...(name.value.trim() ? { name: name.value.trim() } : {}),
-        ...(eventDefinitionId.value === CUSTOM
+        ...(eventDefinitionId.value === CUSTOM_EVENT
           ? {
               eventDefinition: {
                 name: customName.value.trim(),

@@ -96,7 +96,7 @@
           <tbody>
             <tr v-for="segment of speedResult.analysis.segments" :key="segment.index" class="border-b border-line">
               <td class="py-1 pr-2">
-                {{ segment.label ?? t('speed.details.athlete', { n: segment.index + 1 }) }}
+                {{ segment.label ?? t('speed.details.segmentN', { n: segment.index + 1 }) }}
               </td>
               <td class="py-1 pr-2 tabular-nums">
                 {{ seconds(segment.start) }} – {{ seconds(segment.end) }}

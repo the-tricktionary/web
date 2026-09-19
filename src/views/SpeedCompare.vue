@@ -10,8 +10,6 @@
     </div>
 
     <template v-else-if="a && b">
-      <chart-legend :items="[{ label: labelOf(a), color: theme.series[0] }, { label: labelOf(b), color: theme.series[1] }]" class="mb-2" />
-
       <speed-pace-chart
         v-if="a.analysis && b.analysis"
         :series="[
@@ -62,18 +60,12 @@
         {{ t('speed.compare.sameEventOnly', { event: a.eventDefinition.name }) }}
       </label>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <router-link
+        <speed-box
           v-for="candidate of candidates"
           :key="candidate.id"
+          :result="candidate"
           :to="{ name: 'speed-compare', query: { a: a.id, b: candidate.id } }"
-          class="rounded border border-line bg-surface hover:bg-elevated p-2 flex justify-between gap-2"
-        >
-          <span class="truncate">
-            <span class="font-bold">{{ candidate.name ?? candidate.eventDefinition.name }}</span><br>
-            <span class="text-muted text-sm">{{ dateTime(candidate.createdAt) }}</span>
-          </span>
-          <span class="text-2xl font-bold">{{ number(candidate.count) }}</span>
-        </router-link>
+        />
       </div>
       <p v-if="!candidates.length" class="text-muted">
         {{ t('speed.compare.noCandidates') }}
@@ -106,11 +98,10 @@ import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 
 import { useSpeedResultQuery, useSpeedResultsQuery } from '../graphql/generated/graphql'
-import useChartTheme from '../hooks/useChartTheme'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import BottomBar from '../components/BottomBar.vue'
-import ChartLegend from '../components/ChartLegend.vue'
+import SpeedBox from '../components/SpeedBox.vue'
 import SpeedPaceChart from '../components/SpeedPaceChart.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
@@ -125,7 +116,6 @@ const { dateTime, duration, number } = useSpeedFormat()
 useHead({ title: computed(() => t('speed.compare.title')) })
 
 const route = useRoute()
-const theme = useChartTheme()
 
 const idA = computed(() => typeof route.query.a === 'string' ? route.query.a : '')
 const idB = computed(() => typeof route.query.b === 'string' ? route.query.b : '')

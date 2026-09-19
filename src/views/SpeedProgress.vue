@@ -6,14 +6,7 @@
 
     <label class="flex flex-col gap-1 max-w-120 mb-6">
       <span class="font-semibold">{{ t('speed.progress.event') }}</span>
-      <select v-model="eventDefinitionId" class="rounded">
-        <option value="" disabled>
-          {{ t('speed.progress.pickEvent') }}
-        </option>
-        <option v-for="eventDefinition of eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
-          {{ eventDefinition.name }} ({{ duration(eventDefinition.totalDuration) }})
-        </option>
-      </select>
+      <event-picker v-model="eventDefinitionId" :placeholder="t('speed.progress.pickEvent')" />
     </label>
 
     <template v-if="eventDefinitionId">
@@ -82,10 +75,12 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useHead } from '@unhead/vue'
 
-import { useEventDefinitionsQuery, useSpeedResultsQuery } from '../graphql/generated/graphql'
+import { useSpeedResultsQuery } from '../graphql/generated/graphql'
+import useEventDefinitions from '../hooks/useEventDefinitions'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import BottomBar from '../components/BottomBar.vue'
+import EventPicker from '../components/EventPicker.vue'
 import SpeedProgressionChart from '../components/SpeedProgressionChart.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
@@ -93,15 +88,14 @@ import IconChevronLeft from '~icons/mdi/chevron-left'
 const PAGE_SIZE = 100
 
 const { t } = useI18n()
-const { dateTime, duration, number } = useSpeedFormat()
+const { dateTime, number } = useSpeedFormat()
 
 useHead({ title: computed(() => t('speed.progress.title')) })
 
 const route = useRoute()
 const router = useRouter()
 
-const eventDefinitionsQuery = useEventDefinitionsQuery({ fetchPolicy: 'cache-first' })
-const eventDefinitions = computed(() => eventDefinitionsQuery.result.value?.eventDefinitions ?? [])
+const { eventDefinitions } = useEventDefinitions()
 
 const eventDefinitionId = ref(typeof route.query.event === 'string' ? route.query.event : '')
 const selectedEvent = computed(() => eventDefinitions.value.find(eventDefinition => eventDefinition.id === eventDefinitionId.value))
