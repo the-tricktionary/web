@@ -22,7 +22,8 @@ export default function useUiMessages () {
       provideApolloClient(apolloClient)
       const { onResult } = useUiMessagesQuery({ lang }, { fetchPolicy: 'cache-first' })
       onResult(({ data }) => {
-        if (data) i18n.global.setLocaleMessage(lang, data.uiMessages)
+        // apollo freezes its results and flatJson unfolds the keys in place
+        if (data) i18n.global.setLocaleMessage(lang, { ...data.uiMessages })
       })
     })
   }, { immediate: true })
