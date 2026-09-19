@@ -8,14 +8,16 @@
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.create.event') }}</span>
         <select v-model="eventDefinitionId" required class="rounded" :disabled="saving">
+          <!-- Ungrouped and first, so it reads as the odd one out rather than
+               as a trailing member of the last duration group -->
+          <option :value="CUSTOM">
+            {{ t('speed.create.customEvent') }}
+          </option>
           <optgroup v-for="group of eventGroups" :key="group.label" :label="group.label">
             <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
               {{ eventDefinition.name }}
             </option>
           </optgroup>
-          <option :value="CUSTOM">
-            {{ t('speed.create.customEvent') }}
-          </option>
         </select>
       </label>
 
