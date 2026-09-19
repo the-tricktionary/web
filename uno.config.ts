@@ -121,6 +121,10 @@ export default defineConfig({
     // Generic button, also used for link-buttons and submit inputs
     btn: [
       'block w-full p-2 rounded text-center cursor-pointer',
+      // A label that wraps makes the button, and the bottom bar holding it, a
+      // line taller. A w-max button sizes to its label so it never truncates;
+      // the ellipsis only catches a full-width button whose label cannot fit.
+      'whitespace-nowrap overflow-hidden text-ellipsis',
       'bg-surface border border-solid border-line',
       'hover:bg-elevated',
       'disabled:cursor-default disabled:bg-elevated disabled:text-muted',
