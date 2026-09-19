@@ -148,6 +148,7 @@
     "countFirst": "Count your first score",
     "countLive": "Count live",
     "create": {
+      "addSwitch": "Add a switch",
       "customEvent": "Custom event...",
       "customName": "Event name",
       "customNamePlaceholder": "e.g. 2x30s pairs",
@@ -158,8 +159,19 @@
       "name": "Name",
       "namePlaceholder": "e.g. Practice, Regionals 2026",
       "optional": "(optional)",
+      "removeSwitch": "Remove switch {n}",
       "save": "Save score",
       "score": "Score",
+      "switchAt": "Switch {n}, seconds into the event",
+      "switchDuplicate": "Two switches cannot happen at the same second.",
+      "switchLabel": "Switch {n} label",
+      "switchLabelPlaceholder": "e.g. Athlete {n}",
+      "switchMissing": "Give every switch a time, or remove the empty ones.",
+      "switchNeedsDuration": "Switches need an event with a time limit.",
+      "switchOutside": "Switches have to fall between the start and {duration} seconds.",
+      "switchSeconds": "Seconds",
+      "switches": "Athlete switches",
+      "switchesHint": "For a relay, the seconds at which the athletes change over. Each stretch is then counted and charted on its own.",
       "title": "New speed score"
     },
     "details": {
