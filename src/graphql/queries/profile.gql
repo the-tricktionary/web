@@ -1,10 +1,8 @@
 #import "../fragments/profileHeader.gql"
 #import "../fragments/profileUser.gql"
 
-# Somebody else's profile is loaded in two steps: the header tells us what
-# it lets us see, the details then ask only for the parts it does. A field we
-# may not read answers with an error, which would null the whole user. Your
-# own profile shows everything, so it needs no header of its own.
+# A hidden field errors and nulls the whole user, so somebody else's profile
+# loads its header first and the details then ask only for what it shows.
 
 query ProfileHeader ($usernameOrId: ID!) {
   user (usernameOrId: $usernameOrId) {

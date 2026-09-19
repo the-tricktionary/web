@@ -9,9 +9,7 @@ export default function useCompleteTrick (variables?: { trickId: string, complet
   const mutation = useCompleteTrickMutation(() => ({
     ...(variables ? { variables } : {}),
     update (cache, { data }) {
-      // The checklist is the same field on the same user however it was
-      // asked for, so the change is made on the entity rather than in one
-      // query's result. The API keys users by their Firebase uid.
+      // the API keys users by their Firebase uid
       const userId = getAuth().currentUser?.uid
       if (userId == null) return
 
@@ -29,8 +27,7 @@ export default function useCompleteTrick (variables?: { trickId: string, complet
             const reference = toReference({ __typename: 'TrickCompletion', id: added.id })
             return reference ? [...completions, reference] : completions
           },
-          // The counts are the API's to work out, and a dropped field makes
-          // the profile ask for them again
+          // dropped so the profile refetches them
           checklistStats (_existing, { DELETE }) {
             return DELETE
           }

@@ -42,7 +42,6 @@ defineProps<{
 const { t } = useI18n()
 const { number } = useSpeedFormat()
 
-/** How full a level's bar is, a level without tricks reads as empty */
 function percent (level: { completed: number, total: number }) {
   if (level.total <= 0) return 0
   return Math.min(100, Math.round((level.completed / level.total) * 100))

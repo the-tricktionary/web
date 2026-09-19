@@ -66,7 +66,7 @@ type PersonalBest = NonNullable<ProfileUserFragment['speedPersonalBests']>[numbe
 
 const props = defineProps<{
   results: readonly PersonalBest[]
-  /** Only your own scores can be opened, the details view reads your account */
+  /** The details view only opens your own scores */
   isMe: boolean
 }>()
 
@@ -76,7 +76,6 @@ const { dateTime, number } = useSpeedFormat()
 const selectedId = ref(props.results[0]?.id ?? '')
 const selected = computed(() => props.results.find(result => result.id === selectedId.value))
 
-// The events on offer change as the profile loads, so fall back to the first
 watch(() => props.results, results => {
   if (!results.some(result => result.id === selectedId.value)) selectedId.value = results[0]?.id ?? ''
 })

@@ -100,20 +100,17 @@ const { firebaseUser } = useAuth()
 const { lang } = useLanguage()
 
 const usernameOrId = computed(() => typeof route.params.usernameOrId === 'string' ? route.params.usernameOrId : '')
-/** `/profile` is always you, `/profile/<username>` may turn out to be */
 const isOwnRoute = computed(() => usernameOrId.value === '')
 
-// Somebody else's checklist and personal bests answer with an error when
-// their profile hides them, and an error on those non-null lists would null
-// the whole user. So the header comes first and says what to ask for.
+// a field the profile hides errors and nulls the whole user, so the header
+// decides what the details ask for
 const headerQuery = useProfileHeaderQuery(
   () => ({ usernameOrId: usernameOrId.value }),
   () => ({ enabled: !isOwnRoute.value, fetchPolicy: 'cache-and-network' })
 )
 const header = computed(() => headerQuery.result.value?.user ?? null)
 
-// A private profile only answers to its owner, and on a cold load the first
-// request may go out before the session is restored, so ask again once it is
+// the first request may leave before the session is restored
 watch(() => firebaseUser.value?.uid, () => {
   if (!isOwnRoute.value) void headerQuery.refetch()
 })
@@ -131,7 +128,6 @@ const detailsQuery = useProfileDetailsQuery(
   () => ({ enabled: !isOwnRoute.value && header.value != null, fetchPolicy: 'cache-and-network' })
 )
 
-// Your own profile shows all of itself, so it needs no header to know that
 const myDetailsQuery = useMyProfileDetailsQuery(
   () => ({ withChecklist: true, withSpeed: true, withLocalised: lang.value !== 'en', lang: lang.value }),
   () => ({ enabled: isOwnRoute.value, fetchPolicy: 'cache-and-network' })
@@ -154,7 +150,6 @@ useHead({
 })
 
 const shareSupported = ref('share' in navigator)
-/** Nothing to share while the profile is only visible to you */
 const canShare = computed(() => shareSupported.value && !(isMe.value && user.value?.profile.public !== true))
 
 async function share () {

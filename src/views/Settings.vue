@@ -171,10 +171,7 @@ import IconAccountCircle from '~icons/mdi/account-circle'
 
 import type { UserProfileInput } from '../graphql/generated/graphql'
 
-/**
- * Kept in step with the API: 3 to 30 lowercase letters, digits, dots, dashes
- * or underscores, starting and ending with a letter or a digit
- */
+/** Same as the API's usernameSchema */
 const USERNAME_PATTERN = '^[a-z0-9][a-z0-9._-]{1,28}[a-z0-9]$'
 
 type ProfileOption = 'public' | 'checklist' | 'speed'
@@ -190,9 +187,7 @@ useHead({ title: computed(() => t('settings.title')) })
 const name = ref('')
 const username = ref('')
 
-// The form follows the saved values, not the query result: the account is
-// refetched on every token refresh, and that must not wipe what is being
-// typed, while a save (or a sign-in that lands here) does fill the form in
+// follows the saved values, so a refetch doesn't wipe what is being typed
 watch(() => user.value?.name ?? '', saved => { name.value = saved }, { immediate: true })
 watch(() => user.value?.username ?? '', saved => { username.value = saved }, { immediate: true })
 
@@ -213,7 +208,6 @@ async function saveProfile () {
   const trimmedName = name.value.trim()
   const trimmedUsername = username.value.trim()
   const nameChanged = trimmedName !== (user.value.name ?? '')
-  // both fields are set on every save, an emptied username releases it
   const data: UserProfileInput = {
     name: trimmedName,
     username: trimmedUsername === '' ? null : trimmedUsername
@@ -228,14 +222,12 @@ async function saveProfile () {
     return
   }
 
-  // Firebase carries the display name into the sign-in provider's own UI and
-  // into the token, but it is not where the profile is read from
+  // mirrored into the token and the provider's UI, best effort
   try {
     if (nameChanged && auth.currentUser) await updateProfile(auth.currentUser, { displayName: trimmedName })
-  } catch { /* the name is saved where it matters, so this is not worth reporting */ }
+  } catch {}
 }
 
-/** Whether the API refused the username because somebody else holds it */
 function usernameTaken (err: unknown) {
   const graphQLErrors = (err as { graphQLErrors?: Array<{ extensions?: Record<string, unknown> }> } | null | undefined)?.graphQLErrors ?? []
   return graphQLErrors.some(error => error.extensions?.reason === 'taken' && error.extensions.field === 'username')
@@ -268,7 +260,7 @@ async function setOption (option: ProfileOption, checked: boolean) {
   }
 }
 
-// the router sends signed out visitors of this page to the sign in page
+// the router guard redirects on sign out
 async function signOut () {
   await auth.signOut()
 }

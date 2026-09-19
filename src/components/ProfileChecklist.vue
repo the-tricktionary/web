@@ -33,7 +33,6 @@ type Completion = NonNullable<ProfileUserFragment['checklist']>[number]
 
 const props = defineProps<{
   checklist: readonly Completion[]
-  /** Only you may tick tricks off your own list */
   isMe: boolean
 }>()
 
