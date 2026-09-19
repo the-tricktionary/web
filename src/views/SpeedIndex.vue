@@ -1,8 +1,11 @@
 <template>
   <div class="container mx-auto px-2 py-4 mb-20">
-    <h1 class="mb-4">
-      {{ t('speed.title') }}
-    </h1>
+    <div class="flex justify-between items-center gap-2 mb-4">
+      <h1>{{ t('speed.title') }}</h1>
+      <router-link :to="{ name: 'speed-progress' }" class="btn w-max mt-0">
+        {{ t('speed.progress.title') }}
+      </router-link>
+    </div>
 
     <div v-if="loading && !speedResults.length" class="flex items-center justify-center flex-col" role="status">
       <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
@@ -12,8 +15,8 @@
     <div v-else-if="!speedResults.length" class="flex items-center justify-center flex-col text-center" role="status">
       <icon-timer class="w-32 h-32" aria-hidden="true" />
       <p>{{ t('speed.empty') }}</p>
-      <router-link :to="{ name: 'speed-create' }" class="btn w-max">
-        {{ t('speed.recordFirst') }}
+      <router-link :to="{ name: 'speed-count' }" class="btn w-max">
+        {{ t('speed.countFirst') }}
       </router-link>
     </div>
 
@@ -41,7 +44,13 @@
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-plus />
       </span>
-      <span class="flex px-2 items-center">{{ t('speed.newScore') }}</span>
+      <span class="flex px-2 items-center">{{ t('speed.enterScore') }}</span>
+    </router-link>
+    <router-link :to="{ name: 'speed-count' }" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-timer />
+      </span>
+      <span class="flex px-2 items-center">{{ t('speed.countLive') }}</span>
     </router-link>
   </bottom-bar>
 </template>

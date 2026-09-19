@@ -1,0 +1,16 @@
+fragment SpeedAnalysisFields on SpeedAnalysis {
+  duration
+  stepsPerSecond
+  maxStepsPerSecond
+  misses
+  stepsLost
+  stepsPerSecondSeries
+  segments {
+    index
+    label
+    start
+    end
+    count
+    stepsPerSecond
+  }
+}

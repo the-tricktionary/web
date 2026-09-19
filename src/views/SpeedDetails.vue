@@ -41,6 +41,10 @@
 
         <template v-if="speedResult.analysis">
           <dt class="font-semibold">
+            {{ t('speed.details.counted') }}
+          </dt>
+          <dd>{{ t('speed.details.countedLive', { duration: seconds(speedResult.analysis.duration, { tenths: true }) }) }}</dd>
+          <dt class="font-semibold">
             {{ t('speed.details.averagePace') }}
           </dt>
           <dd>{{ t('speed.details.pace', { pace: number(speedResult.analysis.stepsPerSecond) }) }}</dd>
@@ -58,6 +62,66 @@
           <dd>{{ speedResult.analysis.stepsLost }}</dd>
         </template>
       </dl>
+
+      <template v-if="speedResult.analysis">
+        <h2 class="mt-6 mb-2">
+          {{ t('speed.details.paceTitle') }}
+        </h2>
+        <speed-pace-chart
+          :series="[{ label: speedResult.name ?? speedResult.eventDefinition.name, stepsPerSecondSeries: speedResult.analysis.stepsPerSecondSeries }]"
+          :segments="speedResult.analysis.segments"
+          :chart-label="t('speed.chart.paceOf', { event: speedResult.eventDefinition.name })"
+        />
+
+        <table v-if="speedResult.analysis.segments.length > 1" class="w-full border-collapse mt-4">
+          <caption class="text-left font-semibold mb-1">
+            {{ t('speed.details.perAthlete') }}
+          </caption>
+          <thead>
+            <tr class="border-b border-line text-left">
+              <th scope="col" class="py-1 pr-2">
+                {{ t('speed.details.segment') }}
+              </th>
+              <th scope="col" class="py-1 pr-2">
+                {{ t('speed.details.time') }}
+              </th>
+              <th scope="col" class="py-1 pr-2 text-right">
+                {{ t('speed.details.steps') }}
+              </th>
+              <th scope="col" class="py-1 text-right">
+                {{ t('speed.details.paceColumn') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="segment of speedResult.analysis.segments" :key="segment.index" class="border-b border-line">
+              <td class="py-1 pr-2">
+                {{ segment.label ?? t('speed.details.athlete', { n: segment.index + 1 }) }}
+              </td>
+              <td class="py-1 pr-2 tabular-nums">
+                {{ seconds(segment.start) }} – {{ seconds(segment.end) }}
+              </td>
+              <td class="py-1 pr-2 text-right tabular-nums">
+                {{ number(segment.count) }}
+              </td>
+              <td class="py-1 text-right tabular-nums">
+                {{ t('speed.details.pace', { pace: number(segment.stepsPerSecond) }) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div v-if="speedResult.timingTrack" class="mt-4">
+          <h2 class="mb-2">
+            {{ t('speed.details.timingTrack') }}
+          </h2>
+          <audio :src="speedResult.timingTrack.audioUrl" controls preload="none" class="w-full" />
+        </div>
+
+        <router-link :to="{ name: 'speed-compare', query: { a: speedResult.id } }" class="btn w-max mt-4">
+          {{ t('speed.details.compare') }}
+        </router-link>
+      </template>
     </div>
 
     <div>
@@ -125,13 +189,14 @@ import useSpeedFormat from '../hooks/useSpeedFormat'
 import { removeSpeedResultFromCache } from '../hooks/useSpeedResults'
 
 import BottomBar from '../components/BottomBar.vue'
+import SpeedPaceChart from '../components/SpeedPaceChart.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
-const { dateTime, duration, number } = useSpeedFormat()
+const { dateTime, duration, number, seconds } = useSpeedFormat()
 
 const speedResultId = computed(() => route.params.id as string)
 const speedResultQuery = useSpeedResultQuery(() => ({ speedResultId: speedResultId.value }), { fetchPolicy: 'cache-and-network' })
