@@ -1,5 +1,5 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, TrickType, VerificationLevel } from './graphql/generated/graphql'
+import { Discipline, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
@@ -106,3 +106,27 @@ export function formatClock (seconds: number) {
  * carries its own definition rather than pointing at one.
  */
 export const CUSTOM_EVENT = 'custom'
+
+/** A switch in a custom relay as the form edits it, offset in seconds */
+export interface SwitchRow {
+  key: number
+  offset: number | undefined
+  label: string
+}
+
+/**
+ * The switch rows in the shape the API takes: sorted, in milliseconds, and
+ * without the empty labels or the keys the form needs for its list.
+ */
+export function switchCuesInput (cues: SwitchRow[]) {
+  if (!cues.length) return {}
+  return {
+    cues: [...cues]
+      .sort((a, b) => (a.offset ?? 0) - (b.offset ?? 0))
+      .map(cue => ({
+        type: TimingCueType.Switch,
+        offset: (cue.offset ?? 0) * 1000,
+        ...(cue.label.trim() ? { label: cue.label.trim() } : {})
+      }))
+  }
+}

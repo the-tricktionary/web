@@ -6,11 +6,19 @@
 
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.count.event') }}</span>
-        <event-picker v-model="eventDefinitionId" mark-audio required />
+        <event-picker v-model="eventDefinitionId" mark-audio allow-custom required />
         <span class="text-muted text-sm">{{ t('speed.count.trackHint') }}</span>
       </label>
 
-      <label v-if="selectedEvent?.timingTrack?.audioUrl" class="flex items-center gap-2">
+      <custom-event-fields
+        v-if="isCustom"
+        v-model:name="customName"
+        v-model:total-duration="customDuration"
+        v-model:cues="cues"
+        v-model:valid="customValid"
+      />
+
+      <label v-if="event?.timingTrack?.audioUrl" class="flex items-center gap-2">
         <input v-model="useTrack" type="checkbox">
         <span>{{ t('speed.count.playTrack') }}</span>
       </label>
@@ -24,12 +32,12 @@
     <!-- Counting -->
     <div v-else-if="phase === 'counting'" class="flex flex-col items-center gap-3 select-none min-h-[calc(100dvh-7rem)]">
       <p class="text-muted font-semibold m-0">
-        {{ selectedEvent?.name }}
+        {{ event?.name }}
       </p>
 
       <p class="text-5xl font-bold tabular-nums m-0" aria-live="off">
         <template v-if="!started">
-          {{ waitingForTrack ? t('speed.count.ready') : seconds(selectedEvent?.totalDuration ?? 0) }}
+          {{ waitingForTrack ? t('speed.count.ready') : seconds(event?.totalDuration ?? 0) }}
         </template>
         <template v-else-if="clock < 0">
           {{ seconds(clock, { tenths: true }) }}
@@ -79,7 +87,7 @@
 
     <!-- Done -->
     <div v-else class="flex flex-col gap-4 max-w-120">
-      <h1>{{ selectedEvent?.name }}</h1>
+      <h1>{{ event?.name }}</h1>
       <p class="flex items-baseline gap-2">
         <span class="text-6xl font-bold leading-none">{{ number(count) }}</span>
         <span class="text-muted">{{ t('speed.count.stepsIn', { time: seconds(elapsed, { tenths: true }) }) }}</span>
@@ -133,7 +141,7 @@
       type="submit"
       :form="formId"
       class="btn grid grid-cols-[2rem_auto] w-max mt-0 ml-auto"
-      :disabled="!selectedEvent"
+      :disabled="!canBegin"
     >
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-timer />
@@ -171,8 +179,10 @@ import useAuth from '../hooks/useAuth'
 import useEventDefinitions from '../hooks/useEventDefinitions'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 import { addSpeedResultToCache } from '../hooks/useSpeedResults'
+import { CUSTOM_EVENT, switchCuesInput } from '../helpers'
 
 import BottomBar from '../components/BottomBar.vue'
+import CustomEventFields from '../components/CustomEventFields.vue'
 import EventPicker from '../components/EventPicker.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
@@ -181,6 +191,7 @@ import IconClose from '~icons/mdi/close'
 import IconTimer from '~icons/mdi/timer-outline'
 
 import type { SpeedMarkInput } from '../graphql/generated/graphql'
+import type { SwitchRow } from '../helpers'
 
 const { t } = useI18n()
 const { number, seconds } = useSpeedFormat()
@@ -198,7 +209,26 @@ const { user } = useAuth()
 
 const { eventDefinitions } = useEventDefinitions()
 const eventDefinitionId = ref('')
+const isCustom = computed(() => eventDefinitionId.value === CUSTOM_EVENT)
+
+const customName = ref('')
+const customDuration = ref<number>(30)
+const cues = ref<SwitchRow[]>([])
+const customValid = ref(false)
+
 const selectedEvent = computed(() => eventDefinitions.value.find(eventDefinition => eventDefinition.id === eventDefinitionId.value))
+
+/**
+ * The event being counted, whichever kind it is. A custom one has no
+ * document and no audio, but it still has a duration to run the clock
+ * against and switches to split the result by.
+ */
+const event = computed(() => isCustom.value
+  ? { name: customName.value.trim(), totalDuration: customDuration.value, timingTrack: null }
+  : selectedEvent.value ?? null
+)
+const canBegin = computed(() => isCustom.value ? customValid.value : selectedEvent.value != null)
+
 const useTrack = ref(true)
 const name = ref('')
 
@@ -225,8 +255,8 @@ const wakeLock = useWakeLock()
  * one are separate questions: only audio can be played, but the cues are
  * worth keeping either way, since they are what splits a relay by athlete.
  */
-const playback = computed(() => useTrack.value && !audioFailed.value ? selectedEvent.value?.timingTrack ?? null : null)
-const trackUrl = computed(() => useTrack.value ? selectedEvent.value?.timingTrack?.audioUrl ?? null : null)
+const playback = computed(() => useTrack.value && !audioFailed.value ? event.value?.timingTrack ?? null : null)
+const trackUrl = computed(() => useTrack.value ? event.value?.timingTrack?.audioUrl ?? null : null)
 const startCueOffset = computed(() => playback.value?.cues.find(cue => cue.type === TimingCueType.Start)?.offset ?? 0)
 
 /**
@@ -249,7 +279,7 @@ const count = computed(() => {
 /** Seconds since the go signal, negative during a track's lead-in */
 const clock = computed(() => startedAt.value == null ? 0 : (now.value - startedAt.value - startCueOffset.value) / 1000)
 const remaining = computed(() => {
-  const totalDuration = selectedEvent.value?.totalDuration ?? 0
+  const totalDuration = event.value?.totalDuration ?? 0
   if (totalDuration <= 0 || clock.value < 0) return null
   return Math.max(0, totalDuration - clock.value)
 })
@@ -277,7 +307,7 @@ function addMark (mark: Omit<SpeedMarkInput, 'sequence' | 'timestamp'>) {
 }
 
 function begin () {
-  if (!selectedEvent.value) return
+  if (!canBegin.value) return
   marks.value = []
   started.value = false
   finished.value = false
@@ -361,14 +391,25 @@ const { mutate, loading: saving } = useCreateSpeedResultMutation(() => ({
 }))
 
 async function save () {
-  if (!selectedEvent.value || saving.value) return
+  if (!canBegin.value || saving.value) return
   error.value = null
   try {
     const result = await mutate({
       data: {
-        eventDefinitionId: selectedEvent.value.id,
+        ...(isCustom.value
+          ? {
+              eventDefinition: {
+                name: customName.value.trim(),
+                totalDuration: customDuration.value,
+                ...switchCuesInput(cues.value)
+              }
+            }
+          : {
+              eventDefinitionId: selectedEvent.value!.id,
+              // a custom event's switches ride along on the definition itself
+              withTimingTrack: selectedEvent.value!.timingTrack != null
+            }),
         marks: marks.value,
-        withTimingTrack: selectedEvent.value.timingTrack != null,
         ...(name.value.trim() ? { name: name.value.trim() } : {})
       }
     })
