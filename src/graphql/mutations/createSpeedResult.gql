@@ -1,0 +1,5 @@
+mutation CreateSpeedResult ($data: SpeedResultInput!) {
+  createSpeedResult (data: $data) {
+    ...SpeedResultBase
+  }
+}

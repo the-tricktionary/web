@@ -121,6 +121,12 @@ export default defineConfig({
     // Generic button, also used for link-buttons and submit inputs
     btn: [
       'block w-full p-2 rounded text-center cursor-pointer',
+      // A label that wraps makes the button, and the bottom bar holding it, a
+      // line taller. min-w-min keeps it from being squeezed narrower than its
+      // label instead: as a flex child it may shrink, and with nowrap its
+      // min-content width is the whole label. A bar that runs out of room
+      // scrolls, which is what its overflow-x is for.
+      'whitespace-nowrap min-w-min',
       'bg-surface border border-solid border-line',
       'hover:bg-elevated',
       'disabled:cursor-default disabled:bg-elevated disabled:text-muted',
@@ -183,6 +189,15 @@ export default defineConfig({
             line-height: 1.5rem;
           }
           input::placeholder, textarea::placeholder { color: var(--tt-muted); }
+
+          /* A disabled control reads as recessed and muted, as the btn shortcut does */
+          input:where([type="text"], [type="email"], [type="search"], [type="url"], [type="tel"], [type="number"], [type="password"]):disabled,
+          select:disabled,
+          textarea:disabled {
+            background-color: var(--tt-sunken);
+            color: var(--tt-muted);
+            cursor: default;
+          }
 
           /* The chevron a native select loses to appearance: none */
           select {

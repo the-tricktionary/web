@@ -1,0 +1,8 @@
+query SpeedResults ($limit: Int, $startAfter: Timestamp) {
+  me {
+    id
+    speedResults (limit: $limit, startAfter: $startAfter) {
+      ...SpeedResultBase
+    }
+  }
+}
