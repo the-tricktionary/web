@@ -7,14 +7,11 @@
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.count.event') }}</span>
         <select v-model="eventDefinitionId" required class="rounded">
-          <template v-for="group of eventGroups" :key="group.label">
-            <option disabled class="font-bold">
-              {{ group.label }}
-            </option>
+          <optgroup v-for="group of eventGroups" :key="group.label" :label="group.label">
             <option v-for="eventDefinition of group.eventDefinitions" :key="eventDefinition.id" :value="eventDefinition.id">
               {{ eventDefinition.name }}{{ eventDefinition.timingTrack ? ' ♪' : '' }}
             </option>
-          </template>
+          </optgroup>
         </select>
         <span class="text-muted text-sm">{{ t('speed.count.trackHint') }}</span>
       </label>
