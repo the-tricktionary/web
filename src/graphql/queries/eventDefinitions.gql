@@ -4,5 +4,8 @@ query EventDefinitions {
     name
     totalDuration
     eventDefinitionLookupCode
+    timingTrack {
+      ...TimingTrackFields
+    }
   }
 }

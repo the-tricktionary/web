@@ -1,0 +1,8 @@
+fragment TimingTrackFields on TimingTrack {
+  audioUrl
+  cues {
+    type
+    offset
+    label
+  }
+}

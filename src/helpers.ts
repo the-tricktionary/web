@@ -1,5 +1,5 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, TrickType, VerificationLevel } from './graphql/generated/graphql'
+import { Discipline, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
@@ -99,4 +99,78 @@ export function formatClock (seconds: number) {
   const minutes = Math.floor(seconds / 60)
   const remainder = seconds % 60
   return `${minutes}:${String(remainder).padStart(2, '0')}`
+}
+
+/**
+ * The event picker's value for "none of the listed events": the score then
+ * carries its own definition rather than pointing at one.
+ */
+export const CUSTOM_EVENT = 'custom'
+
+/** A switch in a custom relay as the form edits it, offset in seconds */
+export interface SwitchRow {
+  key: number
+  offset: number | undefined
+  label: string
+}
+
+/**
+ * The switch rows in the shape the API takes: sorted, in milliseconds, and
+ * without the empty labels or the keys the form needs for its list.
+ *
+ * A segment is named by the cue that opens it, so the opening one needs a
+ * start cue at zero to carry its name. It is only worth sending when there
+ * is a switch to divide the event in the first place.
+ */
+export function switchCuesInput (cues: SwitchRow[], openingLabel = '') {
+  if (!cues.length) return {}
+  const opening = openingLabel.trim()
+  return {
+    cues: [
+      ...(opening ? [{ type: TimingCueType.Start, offset: 0, label: opening }] : []),
+      ...[...cues]
+        .sort((a, b) => (a.offset ?? 0) - (b.offset ?? 0))
+        .map(cue => ({
+          type: TimingCueType.Switch,
+          offset: (cue.offset ?? 0) * 1000,
+          ...(cue.label.trim() ? { label: cue.label.trim() } : {})
+        }))
+    ]
+  }
+}
+
+export interface Segment {
+  index: number
+  label?: string
+  /** Seconds from the start of the event */
+  start: number
+  end: number
+}
+
+/**
+ * The stretches an event is divided into, mirroring the API's own split so
+ * the counter can say which one is running. Cue offsets are measured from
+ * the start cue where there is one, and from zero otherwise.
+ */
+export function segmentsOf (
+  totalDuration: number,
+  cues: ReadonlyArray<{ type: TimingCueType, offset: number, label?: string | null }> = []
+): Segment[] {
+  const startCue = cues.find(cue => cue.type === TimingCueType.Start)
+  const switches = cues.filter(cue => cue.type === TimingCueType.Switch).sort((a, b) => a.offset - b.offset)
+  const opening = { offset: startCue?.offset ?? 0, label: startCue?.label }
+  if (!switches.length) return [{ index: 0, start: 0, end: totalDuration, ...(opening.label ? { label: opening.label } : {}) }]
+
+  const segments: Segment[] = []
+  let previous: { offset: number, label?: string | null } = opening
+  for (const cue of [...switches, { offset: opening.offset + totalDuration * 1000, label: null }]) {
+    segments.push({
+      index: segments.length,
+      start: (previous.offset - opening.offset) / 1000,
+      end: Math.min(totalDuration, (cue.offset - opening.offset) / 1000),
+      ...(previous.label ? { label: previous.label } : {})
+    })
+    previous = cue
+  }
+  return segments
 }
