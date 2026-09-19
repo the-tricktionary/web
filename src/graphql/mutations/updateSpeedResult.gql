@@ -1,0 +1,5 @@
+mutation UpdateSpeedResult ($speedResultId: ID!, $data: SpeedResultUpdateInput!) {
+  updateSpeedResult (speedResultId: $speedResultId, data: $data) {
+    ...SpeedResultBase
+  }
+}

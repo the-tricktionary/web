@@ -86,3 +86,17 @@ export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatF
     currency
   }).format(price?.unitAmount / 100)
 }
+
+export function formatDateTime (date: number | Date, lang: string) {
+  return new Intl.DateTimeFormat(lang, {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  }).format(date)
+}
+
+/** Whole seconds as m:ss, callers say what a missing time limit means */
+export function formatClock (seconds: number) {
+  const minutes = Math.floor(seconds / 60)
+  const remainder = seconds % 60
+  return `${minutes}:${String(remainder).padStart(2, '0')}`
+}

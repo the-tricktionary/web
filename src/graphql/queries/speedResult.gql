@@ -1,0 +1,16 @@
+query SpeedResult ($speedResultId: ID!) {
+  me {
+    id
+    speedResult (speedResultId: $speedResultId) {
+      ...SpeedResultBase
+      analysis {
+        duration
+        stepsPerSecond
+        maxStepsPerSecond
+        misses
+        stepsLost
+        stepsPerSecondSeries
+      }
+    }
+  }
+}

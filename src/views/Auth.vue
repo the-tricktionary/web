@@ -65,7 +65,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { getAuth, GoogleAuthProvider, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from '@firebase/auth'
 import { onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useAuth from '../hooks/useAuth'
 
 import type { FirebaseError } from '@firebase/util'
@@ -74,6 +74,7 @@ const { t } = useI18n()
 const auth = getAuth()
 const { firebaseUser: user } = useAuth()
 const router = useRouter()
+const route = useRoute()
 const analytics = getAnalytics()
 
 const email = reactive({
@@ -86,7 +87,13 @@ const socialErr = ref<string | null>(null)
 
 watch(user, newUser => {
   if (newUser) {
-    void router.replace('/profile')
+    // Sent here by the auth guard? Go back to where they were headed, but
+    // only to a path on this site
+    const redirect = route.query.redirect
+    const target = typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//')
+      ? redirect
+      : '/profile'
+    void router.replace(target)
   }
 })
 

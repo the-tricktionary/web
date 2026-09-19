@@ -68,6 +68,8 @@
     "profile": "Profile",
     "shop": "Shop",
     "signIn": "Sign in",
+    "speed": "Speed",
+    "toggleMenu": "Toggle menu",
     "tricks": "Tricks"
   },
   "notFound": {
@@ -99,6 +101,55 @@
       "thanks": "Thank you for your order! You will recieve an email with your receipt soon."
     },
     "title": "Shop"
+  },
+  "speed": {
+    "allScores": "All scores",
+    "create": {
+      "customEvent": "Custom event...",
+      "customName": "Event name",
+      "customNamePlaceholder": "e.g. 2x30s pairs",
+      "duration": "Duration (seconds)",
+      "durationHint": "Use 0 for events without a time limit",
+      "event": "Event",
+      "failed": "Failed to save the score: {error}",
+      "name": "Name",
+      "namePlaceholder": "e.g. Practice, Regionals 2026",
+      "optional": "(optional)",
+      "save": "Save score",
+      "score": "Score",
+      "title": "New speed score"
+    },
+    "details": {
+      "averagePace": "Average pace",
+      "backToScores": "Back to your scores",
+      "confirmDelete": "Do you really want to delete this score? This cannot be undone.",
+      "counted": "Counted",
+      "countedLive": "Live, over {duration}",
+      "delete": "Delete score",
+      "duration": "Duration",
+      "edit": "Edit",
+      "event": "Event",
+      "failedDelete": "Failed to delete: {error}",
+      "failedSave": "Failed to save: {error}",
+      "loading": "Loading score...",
+      "misses": "Misses",
+      "name": "Name",
+      "notFound": "Score not found",
+      "pace": "{pace} steps/s",
+      "peakPace": "Peak pace",
+      "saveChanges": "Save changes",
+      "score": "Score",
+      "scoreLocked": "This score was counted live, so its total can't be edited.",
+      "stepsLost": "Steps lost"
+    },
+    "empty": "You haven't recorded any speed scores yet.",
+    "loadMore": "Load more",
+    "loading": "Loading scores...",
+    "newScore": "New score",
+    "noTimeLimit": "No time limit",
+    "recordFirst": "Record your first score",
+    "steps": "steps",
+    "title": "Speed"
   },
   "trick": {
     "allTricks": "All Tricks",

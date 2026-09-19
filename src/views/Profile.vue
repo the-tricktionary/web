@@ -10,23 +10,12 @@
 
 <script setup lang="ts">
 import { getAuth } from '@firebase/auth'
-import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 
 import LanguageSelector from '../components/LanguageSelector.vue'
-import useAuth from '../hooks/useAuth'
 
 const { t } = useI18n()
 const auth = getAuth()
-const { firebaseUser: user } = useAuth()
-const router = useRouter()
-
-watch(user, newUser => {
-  if (!newUser) {
-    void router.replace('/auth')
-  }
-})
 
 async function signOut () {
   await auth.signOut()
