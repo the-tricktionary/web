@@ -1,13 +1,28 @@
-import { defineConfig } from 'vite'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { defineConfig, type Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Unfonts from 'unplugin-fonts/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import Unocss from 'unocss/vite'
 import Icons from 'unplugin-icons/vite'
 
+// the admin reads the English keys and strings from https://the-tricktionary.com/locales/en.json
+const englishMessages = {
+  name: 'english-messages',
+  generateBundle () {
+    this.emitFile({
+      type: 'asset',
+      fileName: 'locales/en.json',
+      source: readFileSync(fileURLToPath(new URL('./src/locales/en.json', import.meta.url)))
+    })
+  }
+} satisfies Plugin
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    englishMessages,
     vue({
       template: {
         compilerOptions: {

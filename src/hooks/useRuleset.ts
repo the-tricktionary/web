@@ -1,15 +1,15 @@
 import { computed } from 'vue'
 import { useRulesetsQuery } from '../graphql/generated/graphql'
-import useAuth from './useAuth'
+import useLanguage from './useLanguage'
 import useSettings from './useSettings'
 
 // the tricktionary's own 1-5 levels are stored as a ruleset, but aren't one to follow
 const TRICKTIONARY_RULES_ID = 'tricktionary'
 
 export default function useRuleset () {
-  const { user } = useAuth()
+  const { lang } = useLanguage()
   const settings = useSettings()
-  const rulesetsQuery = useRulesetsQuery(() => ({ lang: user.value?.lang }))
+  const rulesetsQuery = useRulesetsQuery(() => ({ lang: lang.value }))
 
   const rulesets = computed(() => (rulesetsQuery.result.value?.rulesets ?? []).filter(ruleset => ruleset.id !== TRICKTIONARY_RULES_ID))
   const primary = computed(() => rulesets.value.find(ruleset => ruleset.isPrimary))

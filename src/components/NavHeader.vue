@@ -5,27 +5,30 @@
       the Tricktionary
     </router-link>
 
-    <nav class="flex" aria-label="Main">
+    <nav class="flex" :aria-label="t('nav.label')">
       <router-link exact-active-class="active" class="nav-link" to="/">
-        Tricks
+        {{ t('nav.tricks') }}
       </router-link>
       <!-- <router-link active-class="active" class="nav-link" to="/speed">Speed</router-link> -->
       <router-link active-class="active" class="nav-link" to="/shop">
-        Shop
+        {{ t('nav.shop') }}
       </router-link>
       <router-link v-if="user" active-class="active" class="nav-link" to="/profile">
-        Profile
+        {{ t('nav.profile') }}
       </router-link>
       <router-link v-else active-class="active" class="nav-link" to="/auth">
-        Sign in
+        {{ t('nav.signIn') }}
       </router-link>
     </nav>
   </header>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 import useAuth from '../hooks/useAuth'
 
+const { t } = useI18n()
 const { firebaseUser: user } = useAuth()
 </script>
 

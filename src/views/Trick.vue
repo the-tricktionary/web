@@ -1,25 +1,27 @@
 <template>
   <div v-if="loading" class="container mx-auto flex items-center justify-center flex-col" role="status">
     <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
-    Loading trick...
+    {{ t('trick.loading') }}
   </div>
   <div v-else-if="trick" class="grid grid-cols-1 lg:grid-cols-[4fr_1fr] gap-4 container mx-auto px-2 py-4 mb-20">
     <div>
       <div class="mb-4">
-        <h1>{{ trick.localised?.name ?? trick.en?.name }}</h1>
+        <h1 :lang="localised.nameLang === lang ? undefined : localised.nameLang">
+          {{ localised.name }}
+        </h1>
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
-            {{ trick.trickType }}
+            {{ t(enumKey('trickType', trick.trickType)) }}
             <template v-if="level">
-              &mdash; {{ ruleset?.name }} Level {{ level.level }}
+              &mdash; {{ t('trick.level', { ruleset: ruleset?.name ?? '', level: level.level }) }}
               <level-verification v-if="level.verificationLevel" :level="level.verificationLevel" />
             </template>
           </span>
         </p>
 
-        <p v-if="(trick.localised?.alternativeNames?.length ?? 0 > 0) || (trick.en?.alternativeNames?.length ?? 0 > 0)">
-          Alternative names: {{ formatList(trick.en?.alternativeNames ?? [], trick.localised?.alternativeNames) }}
+        <p v-if="localised.alternativeNames.length">
+          {{ t('trick.alternativeNames', { names: alternativeNames }) }}
         </p>
       </div>
 
@@ -27,12 +29,12 @@
         v-if="trick.videos"
         :videos="trick.videos"
         :trick-id="trick.id"
-        :title="trick.localised?.name ?? trick.en?.name"
+        :title="localised.name"
       />
 
       <div class="my-4">
-        <p>
-          {{ trick.localised?.description ?? trick.en?.description }}
+        <p :lang="localised.descriptionLang === lang ? undefined : localised.descriptionLang">
+          {{ localised.description }}
         </p>
       </div>
     </div>
@@ -42,7 +44,7 @@
 
       <div v-if="trick.prerequisiteFor.length">
         <h2 class="mb-4 text-2xl font-semibold relative">
-          Next
+          {{ t('trick.next') }}
         </h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <trick-box
@@ -58,7 +60,7 @@
 
       <div v-if="trick.prerequisites.length">
         <h2 class="w-32 mb-4 text-2xl font-semibold relative" :class="{ 'mt-6': trick.prerequisiteFor.length }">
-          Previous
+          {{ t('trick.previous') }}
         </h2>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
           <trick-box
@@ -79,7 +81,7 @@
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
-      <span class="flex px-2 items-center">All Tricks</span>
+      <span class="flex px-2 items-center">{{ t('trick.allTricks') }}</span>
     </router-link>
 
     <icon-checkbox
@@ -89,7 +91,7 @@
       :loading="mutating"
       @update:checked="completeTrick($event)"
     >
-      Completed
+      {{ t('trick.completed') }}
     </icon-checkbox>
 
     <icon-button
@@ -101,21 +103,23 @@
       <template #icon>
         <icon-share />
       </template>
-      Share
+      {{ t('trick.share') }}
     </icon-button>
   </bottom-bar>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 
 import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { slugToDiscipline } from '../helpers'
+import { enumKey, localiseTrick, slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
+import useLanguage from '../hooks/useLanguage'
 import useRuleset from '../hooks/useRuleset'
 
 import Videos from '../components/Videos.vue'
@@ -131,33 +135,30 @@ import IconCheckbox from '../components/IconCheckbox.vue'
 import BottomBar from '../components/BottomBar.vue'
 import TrickLevels from '../components/TrickLevels.vue'
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const analytics = getAnalytics()
 const discipline = ref(slugToDiscipline(route.params.discipline as string))
 
 const { user } = useAuth({ withChecklist: true })
+const { lang } = useLanguage()
 const trickQuery = useTrickBySlugQuery({
   discipline: discipline as unknown as Discipline,
   slug: route.params.slug as string,
-  withLocalised: !!user.value?.lang && user.value?.lang !== 'en',
-  lang: !!user.value?.lang && user.value?.lang !== 'en' ? user.value.lang : undefined
+  withLocalised: lang.value !== 'en',
+  lang: lang.value
 })
 const { loading } = trickQuery
 const trick = computed(() => trickQuery.result.value?.trick)
+const localised = computed(() => localiseTrick(trick.value ?? {}, lang.value))
 
 const { ruleset } = useRuleset()
 const level = computed(() => trick.value?.levels.find(level => level.rulesId === ruleset.value?.id))
 
-const enListFormater = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
-
-function formatList (en: string[], local?: string[] | null) {
-  if (user.value?.lang && local) {
-    const localFormatter = new Intl.ListFormat(user.value.lang, { style: 'long', type: 'disjunction' })
-    return localFormatter.format(local)
-  }
-  return enListFormater.format(en)
-}
+const alternativeNames = computed(() => new Intl.ListFormat(localised.value.nameLang, { style: 'long', type: 'disjunction' })
+  .format(localised.value.alternativeNames)
+)
 
 const { mutate: completeTrickMutate, loading: mutating } = useCompleteTrick()
 
@@ -171,16 +172,12 @@ async function completeTrick (completed?: boolean) {
 }
 
 useHead({
-  title: computed(() => trick.value ? `${trick.value.localised?.name ?? trick.value.en?.name} | the Tricktionary` : 'the Tricktionary')
+  title: computed(() => trick.value ? localised.value.name : null)
 })
 
-watch(user, user => {
-  if (user?.lang) {
-    trickQuery.variables.value!.withLocalised = true
-    trickQuery.variables.value!.lang = user?.lang
-  } else {
-    trickQuery.variables.value!.withLocalised = false
-  }
+watch(lang, lang => {
+  trickQuery.variables.value!.withLocalised = lang !== 'en'
+  trickQuery.variables.value!.lang = lang
 })
 
 onBeforeRouteUpdate((to, from) => {
@@ -218,8 +215,8 @@ const canShare = ref('share' in navigator)
 async function share () {
   if (!canShare.value) return false
   await navigator.share({
-    title: `the Tricktionary - ${trick.value?.localised?.name ?? trick.value?.en?.name}`,
-    text: 'Check out this trick on the Tricktionary',
+    title: t('trick.shareTitle', { name: localised.value.name }),
+    text: t('trick.shareText'),
     url: `${window.location.origin}${route.path}?utm_source=webshare&utm_medium=referral`
   })
   logEvent(analytics, 'share', {

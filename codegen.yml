@@ -5,6 +5,7 @@ schema:
 config:
   scalars:
     Timestamp: number
+    JSONObject: Record<string, unknown>
 generates:
   src/graphql/generated/graphql.ts:
     plugins:

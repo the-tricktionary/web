@@ -1,30 +1,27 @@
 <template>
   <div class="container mx-auto px-2 pt-4 pb-20">
-    <h1>Shop</h1>
+    <h1>{{ t('shop.title') }}</h1>
 
-    <p>
-      To keep the Tricktionary running we have decided to sell a few products,
-      the point isn't to make huge money, it's rather to help as many athletes
-      as possible get as good as possible at jump rope/rope skipping, and we
-      aren't making a huge profit on any of these products. The Tricktionary
-      will stay free but your support would help a lot.
-    </p>
+    <p>{{ t('shop.intro') }}</p>
 
-    <p>
-      Orders are processed by the Swedish company <a href="https://swantzter.se/?utm_source=the-tricktionary&utm_medium=referral">Swantzter</a>,
-      owned and operated by one of the Tricktionary's developers. Your bank
-      statement will say your payment was made to Swantzter. You can find
-      more about the terms for your purchase in our <router-link to="/policies">
-        Policies
-      </router-link>.
-    </p>
+    <i18n-t keypath="shop.orders" tag="p">
+      <template #company>
+        <a href="https://swantzter.se/?utm_source=the-tricktionary&utm_medium=referral">Swantzter</a>
+      </template>
+      <template #policies>
+        <router-link to="/policies">
+          {{ t('shop.policies') }}
+        </router-link>
+      </template>
+    </i18n-t>
 
-    <p>
-      If you have questions, if you want to place a large order, or if you're
-      interested in a partnership, email <a href="mailto:shop@the-tricktionary.com">shop@the-tricktionary.com</a>.
-    </p>
+    <i18n-t keypath="shop.contact" tag="p">
+      <template #email>
+        <a href="mailto:shop@the-tricktionary.com">shop@the-tricktionary.com</a>
+      </template>
+    </i18n-t>
 
-    <div class="w-full border-b border-line flex justify-center overflow-x-auto" role="group" aria-label="Currency">
+    <div class="w-full border-b border-line flex justify-center overflow-x-auto" role="group" :aria-label="t('shop.currency')">
       <button
         v-for="c in currencies"
         :key="c"
@@ -39,7 +36,7 @@
         class="hover:bg-elevated hover:border-ttred-900 hover:border-b-2 hover:mb-0 py-2 px-8 whitespace-nowrap"
         @click="currency = c"
       >
-        {{ c.toLocaleUpperCase() }}
+        {{ c.toLocaleUpperCase(lang) }}
       </button>
     </div>
 
@@ -61,11 +58,11 @@
             <icon-cart v-if="!loading" />
             <icon-loading v-else class="animate-spin" />
           </template>
-          Checkout
+          {{ t('shop.checkout') }}
         </icon-button>
 
         <span class="ml-4">
-          {{ formattedSubtotal }} + {{ formatPrice(shippingRates, currency) }} Shipping
+          {{ t('shop.subtotal', { subtotal: formattedSubtotal, shipping: formatPrice(shippingRates, currency, lang) }) }}
         </span>
       </div>
     </bottom-bar>
@@ -74,10 +71,12 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Currency, useCreateCheckoutSessionMutation, useProductsQuery } from '../graphql/generated/graphql'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import { formatPrice } from '../helpers'
+import useLanguage from '../hooks/useLanguage'
 
 import ProductBox from '../components/ProductBox.vue'
 import BottomBar from '../components/BottomBar.vue'
@@ -85,13 +84,16 @@ import IconButton from '../components/IconButton.vue'
 import IconCart from '~icons/mdi/cart-outline'
 import IconLoading from '~icons/mdi/loading'
 
+const { t } = useI18n()
+const { lang } = useLanguage()
+
 const productsQuery = useProductsQuery()
 
 const products = computed(() => productsQuery.result.value?.products ?? [])
 const shippingRates = computed(() => productsQuery.result.value?.shippingRates ?? [])
 const currencies = computed(() =>
   [...new Set(products.value.flatMap(p => p.prices.map(price => price.currency)))]
-    .sort((a, b) => a.localeCompare(b))
+    .sort((a, b) => a.localeCompare(b, lang.value))
 )
 
 const analytics = getAnalytics()
@@ -109,7 +111,7 @@ const subtotal = computed(() => Object.entries(selection)
   }, 0)
 )
 const formattedSubtotal = computed(() => {
-  return new Intl.NumberFormat('en', {
+  return new Intl.NumberFormat(lang.value, {
     style: 'currency',
     currency: currency.value
   }).format(subtotal.value / 100)
