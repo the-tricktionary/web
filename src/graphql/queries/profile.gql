@@ -1,0 +1,23 @@
+#import "../fragments/profileHeader.gql"
+#import "../fragments/profileUser.gql"
+
+# A hidden field errors and nulls the whole user, so somebody else's profile
+# loads its header first and the details then ask only for what it shows.
+
+query ProfileHeader ($usernameOrId: ID!) {
+  user (usernameOrId: $usernameOrId) {
+    ...ProfileHeader
+  }
+}
+
+query ProfileDetails ($usernameOrId: ID!, $withChecklist: Boolean!, $withSpeed: Boolean!, $withLocalised: Boolean!, $lang: String) {
+  user (usernameOrId: $usernameOrId) {
+    ...ProfileUser
+  }
+}
+
+query MyProfileDetails ($withChecklist: Boolean!, $withSpeed: Boolean!, $withLocalised: Boolean!, $lang: String) {
+  me {
+    ...ProfileUser
+  }
+}

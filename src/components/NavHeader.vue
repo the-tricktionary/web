@@ -36,6 +36,9 @@
       <router-link v-if="user" active-class="active" class="nav-link" to="/profile">
         {{ t('nav.profile') }}
       </router-link>
+      <router-link v-if="user" active-class="active" class="nav-link" to="/settings">
+        {{ t('nav.settings') }}
+      </router-link>
       <router-link v-else active-class="active" class="nav-link" to="/auth">
         {{ t('nav.signIn') }}
       </router-link>

@@ -66,6 +66,7 @@
   "nav": {
     "label": "Main",
     "profile": "Profile",
+    "settings": "Settings",
     "shop": "Shop",
     "signIn": "Sign in",
     "speed": "Speed",
@@ -77,12 +78,53 @@
     "title": "Not found"
   },
   "profile": {
-    "signOut": "Sign out"
+    "anonymous": "Anonymous jumper",
+    "completedOf": "{completed} / {total}",
+    "completedTricks": "Completed tricks",
+    "event": "Event",
+    "level": "Level {level}",
+    "loading": "Loading profile...",
+    "noneInDiscipline": "No completed tricks in this discipline yet.",
+    "notFound": "This profile is private or doesn't exist",
+    "openScore": "Open score",
+    "personalBests": "Personal bests",
+    "private": "Your profile is private, so nobody else can see this page.",
+    "privateSettings": "Make it public",
+    "settings": "Settings",
+    "shareText": "Check out this profile on the Tricktionary",
+    "shareTitle": "the Tricktionary - {name}",
+    "stats": "Progress",
+    "title": "Profile",
+    "tricksCompleted": "tricks completed"
   },
   "refresh": {
     "dismiss": "Dismiss",
     "message": "New version available, click on reload to update.",
     "reload": "Reload"
+  },
+  "settings": {
+    "account": "Account",
+    "checklist": "Show completed tricks",
+    "checklistExplanation": "Adds the list of tricks you have completed to your public profile.",
+    "email": "Email",
+    "failedSave": "Failed to save: {error}",
+    "language": "Language",
+    "name": "Name",
+    "photoNote": "Your photo comes from the account you sign in with, change it there.",
+    "privacy": "Privacy",
+    "profile": "Profile",
+    "public": "Public profile",
+    "publicExplanation": "Lets anyone see your name, photo, username and how many tricks you have completed per level.",
+    "save": "Save",
+    "signOut": "Sign out",
+    "speed": "Show speed scores",
+    "speedExplanation": "Adds your personal best in each speed event to your public profile.",
+    "title": "Settings",
+    "username": "Username",
+    "usernameHelp": "3 to 30 lowercase letters, digits, dots, dashes and underscores, starting and ending with a letter or a digit.",
+    "usernameTaken": "That username is already taken, please pick another one.",
+    "usernameUrl": "Your profile will be at {url}",
+    "viewProfile": "View your public profile"
   },
   "shop": {
     "addOne": "Add one {product} to cart",
