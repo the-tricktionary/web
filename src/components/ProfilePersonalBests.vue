@@ -14,19 +14,22 @@
     </label>
 
     <div v-if="selected" class="border border-line rounded p-4 max-w-160">
-      <p class="text-muted font-semibold mb-0">
-        <time :datetime="new Date(selected.createdAt).toISOString()">{{ dateTime(selected.createdAt) }}</time>
-      </p>
-
-      <p class="flex items-baseline gap-2 mb-4">
+      <div class="flex items-baseline justify-between gap-4">
+        <p class="text-muted font-semibold mb-0">
+          <time :datetime="new Date(selected.createdAt).toISOString()">{{ dateTime(selected.createdAt) }}</time>
+        </p>
         <router-link
           v-if="isMe"
           :to="{ name: 'speed-details', params: { id: selected.id } }"
-          class="text-6xl font-bold leading-none"
+          class="inline-flex items-center text-sm text-link hover:text-link-hover underline whitespace-nowrap rounded"
         >
-          {{ number(selected.count) }}
+          {{ t('profile.openScore') }}
+          <icon-chevron-right aria-hidden="true" />
         </router-link>
-        <span v-else class="text-6xl font-bold leading-none">{{ number(selected.count) }}</span>
+      </div>
+
+      <p class="flex items-baseline gap-2 mb-4">
+        <span class="text-6xl font-bold leading-none">{{ number(selected.count) }}</span>
         <span class="text-muted">{{ t('speed.steps') }}</span>
       </p>
 
@@ -59,6 +62,7 @@ import { useI18n } from 'vue-i18n'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import SpeedPaceChart from './SpeedPaceChart.vue'
+import IconChevronRight from '~icons/mdi/chevron-right'
 
 import type { ProfileUserFragment } from '../graphql/generated/graphql'
 
