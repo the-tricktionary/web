@@ -251,8 +251,7 @@
       "segmentN": "Segment {n}",
       "steps": "Steps",
       "stepsLost": "Steps lost",
-      "time": "Time",
-      "timingTrack": "Timing track"
+      "time": "Time"
     },
     "empty": "You haven't recorded any speed scores yet.",
     "enterScore": "Enter score",

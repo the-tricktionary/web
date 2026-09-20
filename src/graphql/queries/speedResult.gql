@@ -3,9 +3,6 @@ query SpeedResult ($speedResultId: ID!) {
     id
     speedResult (speedResultId: $speedResultId) {
       ...SpeedResultBase
-      timingTrack {
-        ...TimingTrackFields
-      }
       analysis {
         ...SpeedAnalysisFields
       }
