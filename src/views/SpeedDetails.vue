@@ -111,13 +111,6 @@
           </tbody>
         </table>
 
-        <div v-if="speedResult.timingTrack?.audioUrl" class="mt-4">
-          <h2 class="mb-2">
-            {{ t('speed.details.timingTrack') }}
-          </h2>
-          <audio :src="speedResult.timingTrack.audioUrl" controls preload="none" class="w-full" />
-        </div>
-
         <router-link :to="{ name: 'speed-compare', query: { a: speedResult.id } }" class="btn w-max mt-4">
           {{ t('speed.details.compare') }}
         </router-link>
