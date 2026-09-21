@@ -32,7 +32,7 @@
             </th>
           </tr>
           <tr v-for="trick of group.tricks" :key="trick.id">
-            <th scope="row" class="sticky left-0 z-10 bg-surface border-b border-line text-left font-normal p-2 min-w-40">
+            <th scope="row" class="sticky left-0 z-10 bg-surface border-b border-line text-left font-normal p-2 min-w-40 max-w-[55vw] md:max-w-80 whitespace-normal">
               <router-link :to="trick.to" :lang="trick.nameLang === lang ? undefined : trick.nameLang">
                 {{ trick.name }}
               </router-link>
