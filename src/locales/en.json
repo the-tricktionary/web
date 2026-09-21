@@ -312,6 +312,13 @@
     "goHome": "Go home",
     "title": "Not found"
   },
+  "notices": {
+    "close": "Close notice",
+    "counter": "{current} of {total}",
+    "next": "Next notice",
+    "previous": "Previous notice",
+    "region": "Notices"
+  },
   "profile": {
     "anonymous": "Anonymous jumper",
     "bestSegment": "Best own segment",

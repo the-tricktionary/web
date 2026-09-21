@@ -1,0 +1,14 @@
+query Notices ($lang: String!) {
+  notices {
+    id
+    updatedAt
+    text (lang: $lang) {
+      lang
+      body
+      links {
+        label
+        url
+      }
+    }
+  }
+}

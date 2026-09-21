@@ -1,4 +1,6 @@
 <template>
+  <global-notices />
+
   <discipline-selector v-model:discipline="discipline" />
 
   <div class="container mx-auto px-2 mt-2 flex justify-end empty:hidden">
@@ -46,6 +48,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import TrickList from '../components/TrickList.vue'
 import DisciplineSelector from '../components/DisciplineSelector.vue'
+import GlobalNotices from '../components/GlobalNotices.vue'
 import About from '../components/About.vue'
 import TtFooter from '../components/Footer.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
