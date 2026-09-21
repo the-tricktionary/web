@@ -9,7 +9,7 @@
       {{ t('speed.details.notFound') }}
     </h1>
     <p>
-      <router-link :to="{ name: 'speed' }">
+      <router-link :to="backTo">
         {{ t('speed.details.backToScores') }}
       </router-link>
     </p>
@@ -219,11 +219,11 @@
   </bottom-bar>
 
   <bottom-bar>
-    <router-link :to="{ name: 'speed' }" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
+    <router-link :to="backTo" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
-      <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
+      <span class="flex px-2 items-center">{{ t(fromGroup ? 'speed.groupScores' : 'speed.allScores') }}</span>
     </router-link>
 
     <div v-if="speedResult && canManage" class="flex gap-4 ml-auto">
@@ -289,6 +289,13 @@ import IconLock from '~icons/mdi/lock'
 
 const route = useRoute()
 const router = useRouter()
+
+/** The group's speed tab links here with its id, so the way back leads there */
+const fromGroup = computed(() => typeof route.query.group === 'string' && route.query.group !== '' ? route.query.group : null)
+const backTo = computed(() => fromGroup.value
+  ? { name: 'group-speed', params: { id: fromGroup.value } }
+  : { name: 'speed' }
+)
 const { t } = useI18n()
 const { firebaseUser } = useAuth()
 const { dateTime, duration, number, seconds } = useSpeedFormat()
@@ -454,7 +461,7 @@ async function remove () {
   error.value = null
   try {
     await deleteResult({ speedResultId: speedResult.value.id })
-    await router.replace({ name: 'speed' })
+    await router.replace(backTo.value)
   } catch (err) {
     error.value = t('speed.details.failedDelete', { error: (err as Error).message })
     throw err

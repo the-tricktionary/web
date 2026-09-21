@@ -39,7 +39,12 @@
             {{ t('groups.speed.bestsEmpty', { name: member.name }) }}
           </p>
           <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <speed-box v-for="best of bests" :key="best.id" :result="best" />
+            <speed-box
+              v-for="best of bests"
+              :key="best.id"
+              :result="best"
+              :to="{ name: 'speed-details', params: { id: best.id }, query: { group: groupId } }"
+            />
           </div>
 
           <p v-if="!eventDefinitionId" class="text-muted mb-0">

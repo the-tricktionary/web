@@ -65,7 +65,12 @@
 
     <div v-else class="flex flex-col gap-4">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <speed-box v-for="result of results" :key="result.id" :result="result" />
+        <speed-box
+          v-for="result of results"
+          :key="result.id"
+          :result="result"
+          :to="{ name: 'speed-details', params: { id: result.id }, query: { group: groupId } }"
+        />
       </div>
 
       <button

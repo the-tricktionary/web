@@ -365,6 +365,7 @@
   },
   "speed": {
     "allScores": "All scores",
+    "groupScores": "Group scores",
     "chart": {
       "compareOf": "Steps per second of {a} and {b}",
       "date": "Date",
