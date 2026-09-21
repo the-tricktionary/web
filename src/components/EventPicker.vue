@@ -3,6 +3,9 @@
     <option v-if="placeholder" value="" disabled>
       {{ placeholder }}
     </option>
+    <option v-if="anyLabel" value="">
+      {{ anyLabel }}
+    </option>
     <!-- Ungrouped and first, so it reads as the odd one out rather than
          as a trailing member of the last duration group -->
     <option v-if="allowCustom" :value="CUSTOM_EVENT">
@@ -27,6 +30,8 @@ withDefaults(defineProps<{
   allowCustom?: boolean
   /** A disabled first entry shown while nothing is selected */
   placeholder?: string
+  /** A selectable empty entry, for a filter that may match any event */
+  anyLabel?: string
   /** Marks events that have audio to play, for the live counter */
   markAudio?: boolean
   required?: boolean
@@ -34,6 +39,7 @@ withDefaults(defineProps<{
 }>(), {
   allowCustom: false,
   placeholder: undefined,
+  anyLabel: undefined,
   markAudio: false,
   required: false,
   disabled: false

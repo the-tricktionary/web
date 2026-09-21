@@ -113,6 +113,23 @@ export function formatClock (seconds: number) {
  */
 export const CUSTOM_EVENT = 'custom'
 
+/**
+ * The set of athletes on a score, encoded as the API encodes it: distinct
+ * member ids, sorted, joined with a pipe.
+ */
+export function constellationKey (memberIds: readonly string[]) {
+  return [...new Set(memberIds)].sort((a, b) => a.localeCompare(b)).join('|')
+}
+
+export function constellationMemberIds (key: string) {
+  return key ? key.split('|') : []
+}
+
+/** The athletes of a constellation, named for a filter option or a legend */
+export function constellationNames (members: ReadonlyArray<{ name: string }>) {
+  return members.map(member => member.name).sort((a, b) => a.localeCompare(b)).join(', ')
+}
+
 /** A switch in a custom relay as the form edits it, offset in seconds */
 export interface SwitchRow {
   key: number

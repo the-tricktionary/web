@@ -1,0 +1,52 @@
+#import "../fragments/speedResult.gql"
+
+query GroupSpeedResults ($groupId: ID!, $limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $constellation: [ID!]) {
+  group (groupId: $groupId) {
+    id
+    speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId, constellation: $constellation) {
+      ...SpeedResultBase
+    }
+  }
+}
+
+query GroupConstellations ($groupId: ID!) {
+  group (groupId: $groupId) {
+    id
+    constellations {
+      key
+      resultCount
+      members {
+        id
+        name
+      }
+    }
+  }
+}
+
+# The roster is the only way in: there is no query for one member on its own
+query GroupMemberSpeed ($groupId: ID!, $eventDefinitionId: ID!, $withProgression: Boolean!) {
+  group (groupId: $groupId) {
+    id
+    members {
+      id
+      speedPersonalBests {
+        ...SpeedResultBase
+      }
+      speedProgression (eventDefinitionId: $eventDefinitionId) @include(if: $withProgression) {
+        count
+        stepsPerSecond
+        segment {
+          index
+          label
+        }
+        result {
+          id
+          createdAt
+          participants {
+            ...SpeedParticipantBase
+          }
+        }
+      }
+    }
+  }
+}

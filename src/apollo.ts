@@ -19,6 +19,19 @@ const authLink = setContext(async (_, { headers }) => {
 
 const cache = new InMemoryCache({
   typePolicies: {
+    Group: {
+      fields: {
+        speedResults: {
+          // As User.speedResults, with the filters a group's list also takes
+          keyArgs: ['eventDefinitionId', 'constellation'],
+          merge (existing: readonly Reference[] = [], incoming: readonly Reference[], { readField }) {
+            const merged = new Map<string, Reference>()
+            for (const ref of [...existing, ...incoming]) merged.set(ref.__ref, ref)
+            return [...merged.values()].sort((a, b) => (readField<number>('createdAt', b) ?? 0) - (readField<number>('createdAt', a) ?? 0))
+          }
+        }
+      }
+    },
     User: {
       merge (existing, incoming, { mergeObjects }) {
         return mergeObjects(existing, incoming)
