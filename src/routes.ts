@@ -29,6 +29,7 @@ export const routes: RouteRecordRaw[] = [
   { name: 'settings', path: '/settings', component: async () => await import('./views/Settings.vue'), meta: { requiresAuth: true } },
   { name: 'policies', path: '/policies', component: async () => await import('./views/Policies.vue') },
   { name: 'shop', path: '/shop', component: async () => await import('./views/Shop.vue') },
+  { name: 'booklets', path: '/booklets', component: async () => await import('./views/Booklets.vue') },
   { name: 'shop-success', path: '/shop-success', component: async () => await import('./views/ShopSuccess.vue') },
   { name: 'not_found', path: '/:catchAll(.*)*', component: async () => await import('./views/404.vue') }
 ]

@@ -46,7 +46,9 @@ export default defineConfig({
       workbox: {
         navigateFallbackDenylist: [
           /^\/__\//,
-          /^\/sitemap\.xml/
+          /^\/sitemap\.xml/,
+          // served by the API through a Hosting rewrite, like the sitemap
+          /^\/booklets\/.*\.pdf/
         ],
         offlineGoogleAnalytics: true
       },
