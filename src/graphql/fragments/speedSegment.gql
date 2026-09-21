@@ -1,0 +1,8 @@
+fragment SpeedSegmentFields on SpeedSegment {
+  index
+  label
+  start
+  end
+  count
+  stepsPerSecond
+}

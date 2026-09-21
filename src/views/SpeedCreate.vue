@@ -59,6 +59,23 @@
           :disabled="saving"
         >
       </label>
+
+      <icon-checkbox
+        v-if="segments.length > 1"
+        :checked="perSegment"
+        :disabled="saving"
+        @update:checked="perSegment = $event"
+      >
+        {{ t('speed.create.perSegment') }}
+      </icon-checkbox>
+
+      <segment-counts-input
+        v-if="perSegment && segments.length > 1"
+        v-model="segmentCounts"
+        :segments="segments"
+        :total="count"
+        :disabled="saving"
+      />
     </form>
   </div>
 
@@ -112,7 +129,9 @@ import BottomBar from '../components/BottomBar.vue'
 import CustomEventFields from '../components/CustomEventFields.vue'
 import EventPicker from '../components/EventPicker.vue'
 import GroupPicker from '../components/GroupPicker.vue'
+import IconCheckbox from '../components/IconCheckbox.vue'
 import ParticipantPicker from '../components/ParticipantPicker.vue'
+import SegmentCountsInput from '../components/SegmentCountsInput.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconContentSave from '~icons/mdi/content-save'
@@ -136,6 +155,8 @@ const openingLabel = ref('')
 const customValid = ref(false)
 const name = ref('')
 const count = ref<number>()
+const perSegment = ref(false)
+const segmentCounts = ref<Array<number | undefined>>([])
 const groupId = ref('')
 const participants = ref<SpeedParticipantInput[]>([])
 const error = ref<string | null>(null)
@@ -154,9 +175,24 @@ const segments = computed(() => eventDefinitionId.value === CUSTOM_EVENT
 // a different group's athletes are not this one's
 watch(groupId, () => { participants.value = [] })
 
+// the legs of one event say nothing about another's
+watch(() => segments.value.length, length => {
+  if (length < 2) perSegment.value = false
+  segmentCounts.value = Array.from({ length }, () => undefined)
+})
+
+const segmentSum = computed(() => segmentCounts.value.reduce<number>((steps, segmentCount) => steps + (Number.isSafeInteger(segmentCount) ? segmentCount! : 0), 0))
+
+const segmentCountsValid = computed(() =>
+  segmentCounts.value.length === segments.value.length &&
+  segmentCounts.value.every(segmentCount => Number.isSafeInteger(segmentCount) && segmentCount! >= 0) &&
+  segmentSum.value === count.value
+)
+
 const valid = computed(() => {
   if (!Number.isSafeInteger(count.value) || count.value! < 0) return false
   if (!eventDefinitionId.value) return false
+  if (perSegment.value && !segmentCountsValid.value) return false
   return eventDefinitionId.value !== CUSTOM_EVENT || customValid.value
 })
 
@@ -175,6 +211,7 @@ async function save () {
     const result = await mutate({
       data: {
         count: count.value,
+        ...(perSegment.value ? { segmentCounts: segmentCounts.value.map(segmentCount => segmentCount ?? 0) } : {}),
         ...(name.value.trim() ? { name: name.value.trim() } : {}),
         ...(eventDefinitionId.value === CUSTOM_EVENT
           ? {

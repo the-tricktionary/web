@@ -73,7 +73,13 @@
           :chart-label="t('speed.chart.paceOf', { event: speedResult.eventDefinition.name })"
         />
 
-        <table v-if="speedResult.analysis.segments.length > 1" class="w-full border-collapse mt-4">
+        <router-link :to="{ name: 'speed-compare', query: { a: speedResult.id } }" class="btn w-max mt-4">
+          {{ t('speed.details.compare') }}
+        </router-link>
+      </template>
+
+      <template v-if="speedResult.segments.length > 1">
+        <table class="w-full border-collapse mt-4">
           <caption class="text-left font-semibold mb-1">
             {{ t('speed.details.perAthlete') }}
           </caption>
@@ -94,7 +100,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="segment of speedResult.analysis.segments" :key="segment.index" class="border-b border-line">
+            <tr v-for="segment of speedResult.segments" :key="segment.index" class="border-b border-line">
               <td class="py-1 pr-2">
                 {{ segment.label ?? t('speed.details.segmentN', { n: segment.index + 1 }) }}
               </td>
@@ -110,10 +116,6 @@
             </tr>
           </tbody>
         </table>
-
-        <router-link :to="{ name: 'speed-compare', query: { a: speedResult.id } }" class="btn w-max mt-4">
-          {{ t('speed.details.compare') }}
-        </router-link>
       </template>
     </div>
 
@@ -151,6 +153,23 @@
             >
             <span v-if="speedResult.analysis" class="text-muted text-sm">{{ t('speed.details.scoreLocked') }}</span>
           </label>
+
+          <icon-checkbox
+            v-if="canSplit"
+            :checked="editPerSegment"
+            :disabled="saving"
+            @update:checked="editPerSegment = $event"
+          >
+            {{ t('speed.create.perSegment') }}
+          </icon-checkbox>
+
+          <segment-counts-input
+            v-if="canSplit && editPerSegment"
+            v-model="editSegmentCounts"
+            :segments="eventSegments"
+            :total="editCount"
+            :disabled="saving"
+          />
 
           <label class="flex flex-col gap-1">
             <span class="font-semibold">{{ t('speed.group.label') }}</span>
@@ -224,7 +243,7 @@
         type="submit"
         :form="formId"
         class="btn grid grid-cols-[2rem_auto] w-max mt-0"
-        :disabled="saving || !dirty"
+        :disabled="saving || !dirty || !valid"
       >
         <span class="flex h-full items-center justify-center" aria-hidden="true">
           <icon-loading v-if="saving" class="animate-spin" />
@@ -252,12 +271,15 @@ import {
 import useAuth from '../hooks/useAuth'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 import { removeSpeedResultFromCache } from '../hooks/useSpeedResults'
+import { segmentsOf } from '../helpers'
 
 import type { SpeedParticipantInput, SpeedResultQuery } from '../graphql/generated/graphql'
 
 import BottomBar from '../components/BottomBar.vue'
 import GroupPicker from '../components/GroupPicker.vue'
+import IconCheckbox from '../components/IconCheckbox.vue'
 import ParticipantPicker from '../components/ParticipantPicker.vue'
+import SegmentCountsInput from '../components/SegmentCountsInput.vue'
 import SpeedPaceChart from '../components/SpeedPaceChart.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
@@ -290,11 +312,22 @@ const canManage = computed(() => {
     speedResult.value.group?.myMembership?.role === GroupRole.Admin
 })
 
-/** The legs to assign, a score without an analysis was competed whole */
-const segments = computed(() => speedResult.value?.analysis?.segments ?? [])
+/** The legs the score itself has, a score that says nothing about them was competed whole */
+const segments = computed(() => speedResult.value?.segments ?? [])
+
+/** What the event splits into, so a plain count can be given a count per leg */
+const eventSegments = computed(() => {
+  const eventDefinition = speedResult.value?.eventDefinition
+  if (!eventDefinition) return []
+  return segmentsOf(eventDefinition.totalDuration, eventDefinition.timingTrack?.cues ?? [])
+})
+
+const canSplit = computed(() => !speedResult.value?.analysis && eventSegments.value.length > 1)
 
 const editName = ref('')
 const editCount = ref<number>()
+const editPerSegment = ref(false)
+const editSegmentCounts = ref<Array<number | undefined>>([])
 const editGroupId = ref('')
 const editParticipants = ref<SpeedParticipantInput[]>([])
 const error = ref<string | null>(null)
@@ -312,6 +345,8 @@ function participantsOf (result: Result | null | undefined): SpeedParticipantInp
 watch(speedResult, result => {
   editName.value = result?.name ?? ''
   editCount.value = result?.count
+  editPerSegment.value = !!result?.segmentCounts?.length
+  editSegmentCounts.value = [...result?.segmentCounts ?? []]
   editGroupId.value = result?.group?.id ?? ''
   editParticipants.value = participantsOf(result)
 }, { immediate: true })
@@ -326,10 +361,22 @@ const participantKey = (participants: readonly SpeedParticipantInput[]) => parti
   .sort((a, b) => a.localeCompare(b))
   .join(',')
 
+/** The legs as they would be saved, an empty list clears them */
+const editedSegmentCounts = computed(() => canSplit.value && editPerSegment.value ? editSegmentCounts.value : [])
+
+const segmentCountsKey = (counts: ReadonlyArray<number | undefined>) => counts.map(count => count ?? '').join(',')
+
+/** The count and its legs are one record, so a change to either sends both */
+const countRecordDirty = computed(() => {
+  if (!speedResult.value || speedResult.value.analysis) return false
+  if (Number.isSafeInteger(editCount.value) && editCount.value !== speedResult.value.count) return true
+  return segmentCountsKey(editedSegmentCounts.value) !== segmentCountsKey(speedResult.value.segmentCounts ?? [])
+})
+
 const detailsDirty = computed(() => {
   if (!speedResult.value) return false
   if (editName.value.trim() !== (speedResult.value.name ?? '')) return true
-  return !speedResult.value.analysis && Number.isSafeInteger(editCount.value) && editCount.value !== speedResult.value.count
+  return countRecordDirty.value
 })
 
 const sharingDirty = computed(() => {
@@ -339,6 +386,17 @@ const sharingDirty = computed(() => {
 })
 
 const dirty = computed(() => detailsDirty.value || sharingDirty.value)
+
+const segmentSum = computed(() => editedSegmentCounts.value.reduce<number>((steps, segmentCount) => steps + (Number.isSafeInteger(segmentCount) ? segmentCount! : 0), 0))
+
+const valid = computed(() => {
+  if (!countRecordDirty.value) return true
+  if (!Number.isSafeInteger(editCount.value) || editCount.value! < 0) return false
+  if (!editedSegmentCounts.value.length) return true
+  return editedSegmentCounts.value.length === eventSegments.value.length &&
+    editedSegmentCounts.value.every(segmentCount => Number.isSafeInteger(segmentCount) && segmentCount! >= 0) &&
+    segmentSum.value === editCount.value
+})
 
 function participantLabel (segmentIndex: number | null) {
   if (segmentIndex == null) return t('speed.group.wholeScore')
@@ -364,8 +422,13 @@ async function save () {
         speedResultId: speedResult.value.id,
         data: {
           name: editName.value.trim(),
-          ...(!speedResult.value.analysis && Number.isSafeInteger(editCount.value) && editCount.value !== speedResult.value.count
-            ? { count: editCount.value }
+          ...(countRecordDirty.value
+            ? {
+                count: editCount.value,
+                ...(editedSegmentCounts.value.length
+                  ? { segmentCounts: editedSegmentCounts.value.map(segmentCount => segmentCount ?? 0) }
+                  : {})
+              }
             : {})
         }
       })

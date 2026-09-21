@@ -1,3 +1,5 @@
+#import "./speedSegment.gql"
+
 fragment SpeedAnalysisFields on SpeedAnalysis {
   duration
   stepsPerSecond
@@ -6,11 +8,6 @@ fragment SpeedAnalysisFields on SpeedAnalysis {
   stepsLost
   stepsPerSecondSeries
   segments {
-    index
-    label
-    start
-    end
-    count
-    stepsPerSecond
+    ...SpeedSegmentFields
   }
 }

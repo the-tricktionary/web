@@ -1,3 +1,5 @@
+#import "./speedSegment.gql"
+
 fragment SpeedParticipantBase on SpeedParticipant {
   segmentIndex
   member {
@@ -41,5 +43,14 @@ fragment SpeedResultSharing on SpeedResult {
       id
       role
     }
+  }
+}
+
+# The legs of a score, as entered on a plain count or derived from its marks
+fragment SpeedResultSegments on SpeedResult {
+  id
+  segmentCounts
+  segments {
+    ...SpeedSegmentFields
   }
 }
