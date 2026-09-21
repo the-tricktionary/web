@@ -122,7 +122,7 @@ const paper = ref<Paper>(defaultPaper())
 const bookletLang = ref(lang.value)
 const rulesId = ref<string | null>(ruleset.value?.id ?? null)
 const detailed = ref(false)
-const layout = ref<Layout>('pages')
+const layout = ref<Layout>('booklet')
 
 // the site's language and followed ruleset arrive once their queries answer,
 // the form follows them until a choice is made here
@@ -132,8 +132,8 @@ watch(lang, lang => { if (!langTouched.value) bookletLang.value = lang })
 watch(ruleset, ruleset => { if (!rulesetTouched.value) rulesId.value = ruleset?.id ?? null })
 
 const layouts = computed(() => [
-  { value: 'pages' as const, label: t('booklets.layoutPages'), help: t('booklets.layoutPagesHelp') },
-  { value: 'booklet' as const, label: t('booklets.layoutBooklet'), help: t('booklets.layoutBookletHelp') }
+  { value: 'booklet' as const, label: t('booklets.layoutBooklet'), help: t('booklets.layoutBookletHelp') },
+  { value: 'pages' as const, label: t('booklets.layoutPages'), help: t('booklets.layoutPagesHelp') }
 ])
 
 // Served by the API through a Firebase Hosting rewrite, whose CDN caches each
@@ -149,7 +149,7 @@ const downloadUrl = computed(() => {
   if (bookletLang.value !== 'en') params.set('lang', bookletLang.value)
   if (detailed.value) params.set('detailed', '1')
   if (rulesId.value != null) params.set('rulesId', rulesId.value)
-  if (layout.value !== 'pages') params.set('layout', layout.value)
+  if (layout.value !== 'booklet') params.set('layout', layout.value)
   return `${endpoint}?${params.toString()}`
 })
 
