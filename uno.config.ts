@@ -182,6 +182,7 @@ export default defineConfig({
           }
           h1 { font-size: 2.25rem; line-height: 2.5rem; font-weight: 600; }
           h2 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; }
+          th { white-space: nowrap; }
 
           /* Replacement for the windicss forms plugin, only the controls this app uses */
           input:where([type="text"], [type="email"], [type="search"], [type="url"], [type="tel"], [type="number"], [type="password"]),
