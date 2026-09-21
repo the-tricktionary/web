@@ -136,15 +136,14 @@ const layouts = computed(() => [
   { value: 'pages' as const, label: t('booklets.layoutPages'), help: t('booklets.layoutPagesHelp') }
 ])
 
-// Served by the API through a Firebase Hosting rewrite, whose CDN caches each
-// combination of parameters, so defaults are left out to share cache entries.
-// In development there is no rewrite, so the API is asked directly.
-const endpoint = import.meta.env.DEV
-  ? `${import.meta.env.VITE_GRAPHQL_URL}/booklets/tricks.pdf`
-  : '/booklets/tricks.pdf'
+// Served by the API through a Firebase Hosting rewrite on the site's own
+// origin, whose CDN caches each combination of parameters, so defaults are
+// left out to share cache entries. In development there is no rewrite, so the
+// API is asked directly.
+const origin = import.meta.env.DEV ? import.meta.env.VITE_GRAPHQL_URL : window.location.origin
 
 const downloadUrl = computed(() => {
-  const url = new URL(endpoint, window.location.origin)
+  const url = new URL('/booklets/tricks.pdf', origin)
   url.searchParams.set('discipline', disciplineToSlug(discipline.value))
   if (paper.value !== 'a4') url.searchParams.set('paper', paper.value)
   if (bookletLang.value !== 'en') url.searchParams.set('lang', bookletLang.value)
