@@ -154,7 +154,8 @@ const filtered = computed(() => eventDefinitionId.value !== '' || groupId.value 
 
 const variables = computed(() => ({
   limit: PAGE_SIZE,
-  eventDefinitionId: eventDefinitionId.value === '' ? null : eventDefinitionId.value
+  eventDefinitionId: eventDefinitionId.value === '' ? null : eventDefinitionId.value,
+  groupId: groupId.value === '' ? null : groupId.value
 }))
 
 const groupVariables = computed(() => ({
