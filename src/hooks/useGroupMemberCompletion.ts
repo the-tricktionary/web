@@ -37,7 +37,9 @@ function optimisticCompletion (memberId: string, trickId: string) {
     setGroupMemberTrickCompletion: {
       __typename: 'TrickCompletion',
       id: `optimistic:${memberId}:${trickId}`,
-      trick: { __typename: 'Trick', id: trickId }
+      createdAt: Date.now(),
+      trick: { __typename: 'Trick', id: trickId },
+      recordedBy: null
     }
   } as SetGroupMemberTrickCompletionMutation
 }

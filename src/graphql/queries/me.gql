@@ -13,8 +13,13 @@ query Me ($withChecklist: Boolean!) {
     }
     checklist @include(if: $withChecklist) {
       id
+      createdAt
       trick {
         id
+      }
+      recordedBy {
+        id
+        name
       }
     }
   }

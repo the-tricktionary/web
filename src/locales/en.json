@@ -454,6 +454,8 @@
       "useAsDefault": "Use as default"
     },
     "loading": "Loading trick...",
+    "markedCompleted": "Marked completed on {date}",
+    "markedCompletedBy": "Marked completed on {date} by {name}",
     "next": "Next",
     "previous": "Previous",
     "share": "Share",

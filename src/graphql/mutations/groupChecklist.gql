@@ -1,8 +1,13 @@
 mutation SetGroupMemberTrickCompletion ($memberId: ID!, $trickId: ID!, $completed: Boolean!) {
   setGroupMemberTrickCompletion (memberId: $memberId, trickId: $trickId, completed: $completed) {
     id
+    createdAt
     trick {
       id
+    }
+    recordedBy {
+      id
+      name
     }
   }
 }

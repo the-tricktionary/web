@@ -1,8 +1,13 @@
 mutation CompleteTrick ($trickId: ID!, $completed: Boolean!) {
   createTrickCompletion (trickId: $trickId) @include(if: $completed) {
     id
+    createdAt
     trick {
       id
+    }
+    recordedBy {
+      id
+      name
     }
   }
   deleteTrickCompletion (trickId: $trickId) @skip(if: $completed) {

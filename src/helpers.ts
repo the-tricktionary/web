@@ -89,6 +89,10 @@ export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatF
   }).format(price?.unitAmount / 100)
 }
 
+export function formatDate (date: number | Date, lang: string) {
+  return new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(date)
+}
+
 export function formatDateTime (date: number | Date, lang: string) {
   return new Intl.DateTimeFormat(lang, {
     dateStyle: 'medium',
