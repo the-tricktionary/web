@@ -308,14 +308,21 @@ const now = ref(Date.now())
 const audioRef = useTemplateRef('audioRef')
 const audioReady = ref(false)
 const audioFailed = ref(false)
+/** Whether the audio really ran, which is what makes the 'start' mark its start */
+const playedTrack = ref(false)
 const wakeLock = useWakeLock()
 
 /**
- * An event may carry cues without any audio, so playing a track and storing
- * one are separate questions: only audio can be played, but the cues are
- * worth keeping either way, since they are what splits a relay by athlete.
+ * The track we are actually playing, which takes audio: an event may carry
+ * cues without any file, and such a cue-only track is never "played". Leaving
+ * it out here is what lets the ticker end the event at its duration, and what
+ * keeps the clock from offsetting by a start cue that never sounded. The cues
+ * are read from the event either way, since they split a relay by athlete.
  */
-const playback = computed(() => useTrack.value && !audioFailed.value ? event.value?.timingTrack ?? null : null)
+const playback = computed(() => useTrack.value && !audioFailed.value && event.value?.timingTrack?.audioUrl
+  ? event.value.timingTrack
+  : null
+)
 const trackUrl = computed(() => useTrack.value ? event.value?.timingTrack?.audioUrl ?? null : null)
 const startCueOffset = computed(() => playback.value?.cues.find(cue => cue.type === TimingCueType.Start)?.offset ?? 0)
 
@@ -393,6 +400,7 @@ function begin () {
   started.value = false
   finished.value = false
   startedAt.value = null
+  playedTrack.value = false
   phase.value = 'counting'
   void wakeLock.request('screen')
 }
@@ -438,6 +446,7 @@ function onPlaying () {
   if (startedAt.value != null || !audioRef.value) return
   const audioStart = Date.now() - audioRef.value.currentTime * 1000
   startedAt.value = audioStart
+  playedTrack.value = true
   marks.value.push({ sequence: marks.value.length, timestamp: Math.round(audioStart), schema: 'start' })
   ticker.resume()
 }
@@ -487,8 +496,10 @@ async function save () {
             }
           : {
               eventDefinitionId: selectedEvent.value!.id,
-              // a custom event's switches ride along on the definition itself
-              withTimingTrack: selectedEvent.value!.timingTrack != null
+              // the API snapshots a known event's cues either way, rebased to the
+              // go signal when the audio was not played; this says that it was, so
+              // the 'start' mark is the audio's start
+              withTimingTrack: playedTrack.value
             }),
         marks: marks.value,
         ...(name.value.trim() ? { name: name.value.trim() } : {}),

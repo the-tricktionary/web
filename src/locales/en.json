@@ -19,6 +19,44 @@
     "socialTitle": "Sign in/sign up with external accounts",
     "title": "Sign in / Sign up"
   },
+  "booklet": {
+    "copyright": "© the Tricktionary 2016–{year}",
+    "count": "Count",
+    "date": "Date",
+    "generated": "Generated {date}",
+    "info": "Detailed information and videos of the tricks are available on the-tricktionary.com or in the Tricktionary's Android app.",
+    "isbn": "ISBN {isbn}",
+    "levels": "Levels according to {ruleset}. ✓ marks a level that has been verified.",
+    "map": "Trick map",
+    "mapExplanation": "An arrow leads from a trick to a trick that builds on it. The more tricks build on one, the bigger its dot.",
+    "printedBy": "Printed by {printer}, {year}",
+    "speedEvent": "Speed event",
+    "unrated": "Unrated"
+  },
+  "booklets": {
+    "detailed": "Include the descriptions",
+    "detailedHelp": "Names and alternative names are always included.",
+    "download": "Download PDF",
+    "intro": "Print your own trick booklet: a checklist of every trick by level and type, with pages for logging speed at the back. Pick what you want and download the PDF.",
+    "language": "Language",
+    "layout": "Layout",
+    "layoutBooklet": "Booklet",
+    "layoutBookletHelp": "Half-size pages laid out two per sheet. Print double-sided flipping on the short edge, fold the stack down the middle and staple it.",
+    "layoutPages": "Pages",
+    "layoutPagesHelp": "One page per sheet, print as is.",
+    "noRuleset": "None",
+    "paper": "Paper size",
+    "paperA4": "A4",
+    "paperLetter": "Letter",
+    "printed": {
+      "cta": "Buy the printed booklet",
+      "text": "The Tricktionary is also available as a bound, printed booklet in our shop. Every order goes directly to keeping the Tricktionary running.",
+      "title": "Prefer a printed one?"
+    },
+    "ruleset": "Show levels from",
+    "rulesetHelp": "Each trick is labelled with its level in this ruleset, ✓ when the level has been verified.",
+    "title": "Booklets"
+  },
   "cookies": {
     "accept": "I accept cookies",
     "body": "We would like to use cookies to collect anonymous aggregated usage statistics to know what features to improve. Read more in our {policy}.",
@@ -236,6 +274,7 @@
     "label": "Language"
   },
   "links": {
+    "booklets": "Booklets",
     "donate": "Donate",
     "shop": "Shop"
   },
@@ -306,6 +345,8 @@
   },
   "shop": {
     "addOne": "Add one {product} to cart",
+    "booklets": "Rather print it yourself? {link}",
+    "bookletsLink": "Download a booklet for free",
     "checkout": "Checkout",
     "contact": "If you have questions, if you want to place a large order, or if you're interested in a partnership, email {email}.",
     "currency": "Currency",

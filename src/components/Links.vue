@@ -31,6 +31,9 @@
     <router-link to="/shop" class="btn w-max min-w-[5rem] text-center inline-block">
       {{ t('links.shop') }}
     </router-link>
+    <router-link to="/booklets" class="btn w-max min-w-[5rem] text-center inline-block">
+      {{ t('links.booklets') }}
+    </router-link>
   </div>
 </template>
 

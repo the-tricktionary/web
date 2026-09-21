@@ -21,6 +21,14 @@
       </template>
     </i18n-t>
 
+    <i18n-t keypath="shop.booklets" tag="p">
+      <template #link>
+        <router-link to="/booklets">
+          {{ t('shop.bookletsLink') }}
+        </router-link>
+      </template>
+    </i18n-t>
+
     <div class="w-full border-b border-line flex justify-center overflow-x-auto" role="group" :aria-label="t('shop.currency')">
       <button
         v-for="c in currencies"
