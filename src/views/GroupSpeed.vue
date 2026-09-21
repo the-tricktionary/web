@@ -12,8 +12,8 @@
           <option :value="ANY_CONSTELLATION">
             {{ t('groups.speed.allConstellations') }}
           </option>
-          <optgroup v-for="group of constellationGroups" :key="group.size" :label="t('groups.athletes', group.size)">
-            <option v-for="option of group.constellations" :key="option.key" :value="option.key">
+          <optgroup v-for="bucket of constellationGroups" :key="bucket.size" :label="t('groups.athletes', bucket.size)">
+            <option v-for="option of bucket.constellations" :key="option.key" :value="option.key">
               {{ t('groups.speed.constellationOption', { names: constellationNames(option.members), count: option.resultCount }) }}
             </option>
           </optgroup>
@@ -27,20 +27,6 @@
     <p v-if="error" class="text-ttred-900 mb-0" role="alert">
       {{ error }}
     </p>
-
-    <section v-if="eventDefinitionId && points.length" class="flex flex-col gap-2">
-      <h2 class="mb-0">
-        {{ t('groups.speed.progressTitle') }}
-      </h2>
-      <speed-progression-chart
-        :points="points"
-        :series="series"
-        :chart-label="t('groups.speed.chart', { event: eventName })"
-      />
-      <p class="text-muted text-sm mb-0">
-        {{ t('groups.speed.caption') }}
-      </p>
-    </section>
 
     <div v-if="loading && !results.length" class="flex items-center justify-center flex-col" role="status">
       <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
@@ -85,8 +71,6 @@
         <span v-else>{{ t('speed.loadMore') }}</span>
       </button>
     </div>
-
-    <group-athlete-speed :group-id="groupId" :event-definition-id="eventDefinitionId" />
   </div>
 
   <group-bottom-bar />
@@ -98,24 +82,17 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
 
-import { useGroupConstellationsQuery, useGroupSpeedResultsQuery } from '../graphql/generated/graphql'
+import { useGroupSpeedResultsQuery } from '../graphql/generated/graphql'
 import { constellationMemberIds, constellationNames } from '../helpers'
 import useAuth from '../hooks/useAuth'
-import useEventDefinitions from '../hooks/useEventDefinitions'
+import useGroupConstellations from '../hooks/useGroupConstellations'
 
 import EventPicker from '../components/EventPicker.vue'
-import GroupAthleteSpeed from '../components/GroupAthleteSpeed.vue'
 import GroupBottomBar from '../components/GroupBottomBar.vue'
 import SpeedBox from '../components/SpeedBox.vue'
-import SpeedProgressionChart from '../components/SpeedProgressionChart.vue'
 import IconFilterRemove from '~icons/mdi/filter-remove-outline'
 import IconLoading from '~icons/mdi/loading'
 import IconTimer from '~icons/mdi/timer-outline'
-
-import type { ProgressionPoint } from '../components/SpeedProgressionChart.vue'
-import type { GroupConstellationsQuery, SpeedResultBaseFragment } from '../graphql/generated/graphql'
-
-type Constellation = NonNullable<GroupConstellationsQuery['group']>['constellations'][number]
 
 const PAGE_SIZE = 20
 /** No member id is a bare star, so it cannot be a constellation's key */
@@ -124,18 +101,18 @@ const ANY_CONSTELLATION = '*'
 const { t } = useI18n()
 const route = useRoute()
 const { firebaseUser } = useAuth()
-const { eventDefinitions } = useEventDefinitions()
 
 const groupId = computed(() => typeof route.params.id === 'string' ? route.params.id : '')
 
 const eventDefinitionId = ref('')
 const constellation = ref(ANY_CONSTELLATION)
 const filtered = computed(() => eventDefinitionId.value !== '' || constellation.value !== ANY_CONSTELLATION)
-const eventName = computed(() => eventDefinitions.value.find(eventDefinition => eventDefinition.id === eventDefinitionId.value)?.name ?? '')
 
 const error = ref<string | null>(null)
 const loadMoreRef = ref<HTMLElement>()
 const pagesLoaded = ref(1)
+
+const { constellationGroups } = useGroupConstellations(groupId)
 
 const variables = computed(() => ({
   groupId: groupId.value,
@@ -143,25 +120,6 @@ const variables = computed(() => ({
   eventDefinitionId: eventDefinitionId.value === '' ? null : eventDefinitionId.value,
   constellation: constellation.value === ANY_CONSTELLATION ? null : constellationMemberIds(constellation.value)
 }))
-
-const constellationsQuery = useGroupConstellationsQuery(
-  () => ({ groupId: groupId.value }),
-  () => ({ enabled: groupId.value !== '', fetchPolicy: 'cache-and-network' })
-)
-const constellations = computed(() => constellationsQuery.result.value?.group?.constellations ?? [])
-
-/** The constellations in buckets of how many athletes jumped, fewest first, each bucket in the order the group gave them */
-const constellationGroups = computed(() => {
-  const bySize = new Map<number, Constellation[]>()
-  for (const option of constellations.value) {
-    const bucket = bySize.get(option.members.length) ?? []
-    bucket.push(option)
-    bySize.set(option.members.length, bucket)
-  }
-  return [...bySize.entries()]
-    .toSorted(([a], [b]) => a - b)
-    .map(([size, options]) => ({ size, constellations: options }))
-})
 
 const resultsQuery = useGroupSpeedResultsQuery(
   () => ({ ...variables.value, startAfter: null }),
@@ -172,18 +130,10 @@ const results = computed(() => resultsQuery.result.value?.group?.speedResults ??
 const hasMore = computed(() => results.value.length >= pagesLoaded.value * PAGE_SIZE)
 
 resultsQuery.onError(err => { error.value = t('groups.speed.failed', { error: err.message }) })
-resultsQuery.onResult(({ loading }) => {
-  if (loading) return
-  error.value = null
-  // a progression wants every score of the event, not only the first page
-  if (eventDefinitionId.value && hasMore.value) void loadMore()
-})
+resultsQuery.onResult(({ loading }) => { if (!loading) error.value = null })
 
 // the first request may leave before the session is restored
-watch(() => firebaseUser.value?.uid, () => {
-  void constellationsQuery.refetch()
-  void resultsQuery.refetch()
-})
+watch(() => firebaseUser.value?.uid, () => { void resultsQuery.refetch() })
 
 watch(variables, () => { pagesLoaded.value = 1 })
 
@@ -204,29 +154,4 @@ function clearFilters () {
   eventDefinitionId.value = ''
   constellation.value = ANY_CONSTELLATION
 }
-
-function seriesOf (result: SpeedResultBaseFragment) {
-  return result.participants.length
-    ? constellationNames(result.participants.map(participant => participant.member))
-    : t('groups.speed.unassigned')
-}
-
-const points = computed<ProgressionPoint[]>(() => results.value.map(result => ({
-  id: result.id,
-  date: new Date(result.createdAt),
-  count: result.count,
-  name: result.name ?? result.eventDefinition.name,
-  series: seriesOf(result)
-})))
-
-const series = computed(() => {
-  const counts = new Map<string, number>()
-  for (const result of results.value) {
-    const label = seriesOf(result)
-    counts.set(label, (counts.get(label) ?? 0) + 1)
-  }
-  return [...counts.entries()]
-    .sort(([labelA, countA], [labelB, countB]) => countB - countA || labelA.localeCompare(labelB))
-    .map(([label]) => label)
-})
 </script>

@@ -82,6 +82,8 @@ import IconPencil from '~icons/mdi/pencil'
 const tabs = [
   { name: 'group-tricks', label: 'groups.tabs.tricks' },
   { name: 'group-speed', label: 'groups.tabs.speed' },
+  { name: 'group-analysis', label: 'groups.tabs.analysis' },
+  { name: 'group-bests', label: 'groups.tabs.bests' },
   { name: 'group-members', label: 'groups.tabs.members' }
 ]
 

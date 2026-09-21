@@ -35,6 +35,8 @@ export const routes: RouteRecordRaw[] = [
       { path: '', redirect: to => ({ name: 'group-tricks', params: to.params }) },
       { name: 'group-tricks', path: 'tricks', component: async () => await import('./views/GroupTricks.vue') },
       { name: 'group-speed', path: 'speed', component: async () => await import('./views/GroupSpeed.vue') },
+      { name: 'group-analysis', path: 'analysis', component: async () => await import('./views/GroupSpeedAnalysis.vue') },
+      { name: 'group-bests', path: 'bests', component: async () => await import('./views/GroupSpeedBests.vue') },
       { name: 'group-members', path: 'members', component: async () => await import('./views/GroupMembers.vue') }
     ]
   },

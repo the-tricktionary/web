@@ -1,10 +1,28 @@
 #import "../fragments/speedResult.gql"
+#import "../fragments/speedSegment.gql"
 
 query GroupSpeedResults ($groupId: ID!, $limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $constellation: [ID!]) {
   group (groupId: $groupId) {
     id
     speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId, constellation: $constellation) {
       ...SpeedResultBase
+    }
+  }
+}
+
+# The scores behind the analysis tab: the totals, each score's pace and the
+# sections an athlete's own count comes from
+query GroupSpeedAnalysis ($groupId: ID!, $limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $constellation: [ID!]) {
+  group (groupId: $groupId) {
+    id
+    speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId, constellation: $constellation) {
+      ...SpeedResultBase
+      analysis {
+        stepsPerSecond
+      }
+      segments {
+        ...SpeedSegmentFields
+      }
     }
   }
 }
@@ -18,30 +36,6 @@ query GroupConstellations ($groupId: ID!) {
       members {
         id
         name
-      }
-    }
-  }
-}
-
-query GroupMemberSpeed ($memberId: ID!, $eventDefinitionId: ID!, $withProgression: Boolean!) {
-  groupMember (memberId: $memberId) {
-    id
-    speedPersonalBests {
-      ...SpeedResultBase
-    }
-    speedProgression (eventDefinitionId: $eventDefinitionId) @include(if: $withProgression) {
-      count
-      stepsPerSecond
-      segment {
-        index
-        label
-      }
-      result {
-        id
-        createdAt
-        participants {
-          ...SpeedParticipantBase
-        }
       }
     }
   }
