@@ -4,21 +4,22 @@
       {{ t('groups.title') }}
     </h1>
 
-    <section v-if="pendingInvites.length">
-      <h2 class="mb-2">
+    <section v-if="pendingInvites.length" class="flex flex-col gap-2">
+      <h2 class="mb-0">
         {{ t('groups.invites.title') }}
       </h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <group-invite-card v-for="invite of pendingInvites" :key="invite.id" :invite="invite" />
       </div>
+      <hr class="border-0 border-t border-line mt-6 mb-0">
     </section>
 
-    <section v-if="pendingRequests.length">
-      <h2 class="mb-2">
+    <section v-if="waitingRequests.length" class="flex flex-col gap-2">
+      <h2 class="mb-0">
         {{ t('groups.requests.title') }}
       </h2>
-      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0">
-        <li v-for="request of pendingRequests" :key="request.id" class="rounded border border-line bg-surface p-2">
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0 m-0">
+        <li v-for="request of waitingRequests" :key="request.id" class="rounded border border-line bg-surface p-2">
           <p class="font-bold mb-0 truncate">
             {{ request.group.name }}
           </p>
@@ -27,6 +28,7 @@
           </p>
         </li>
       </ul>
+      <hr class="border-0 border-t border-line mt-6 mb-0">
     </section>
 
     <div v-if="loading && !groups.length" class="flex items-center justify-center flex-col" role="status">
@@ -87,13 +89,17 @@ import IconPlus from '~icons/mdi/plus'
 
 const { t } = useI18n()
 const { firebaseUser } = useAuth()
-const { pendingInvites, pendingRequests } = useGroupInvites()
+const { pendingInvites, pendingRequests, refetch: refetchInvites } = useGroupInvites()
 
 useHead({ title: computed(() => t('groups.title')) })
 
 const groupsQuery = useMyGroupsQuery({ fetchPolicy: 'cache-and-network' })
 const { loading } = groupsQuery
 const groups = computed(() => groupsQuery.result.value?.me?.groups ?? [])
+
+// a request the admins have let in is a group now, whatever the cached invite still says
+const waitingRequests = computed(() => pendingRequests.value.filter(request => !groups.value.some(group => group.id === request.group.id)))
+void refetchInvites()
 
 // the first request may leave before the session is restored
 watch(() => firebaseUser.value?.uid, () => { void groupsQuery.refetch() })

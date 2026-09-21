@@ -22,7 +22,8 @@ function createState () {
 
   const { firebaseUser } = useAuth()
 
-  const query = useGroupInvitesQuery({ fetchPolicy: 'cache-and-network' })
+  // an answer to a request arrives from somebody else's session
+  const query = useGroupInvitesQuery({ fetchPolicy: 'cache-and-network', pollInterval: 120_000 })
 
   // the first request may leave before the session is restored
   watch(() => firebaseUser.value?.uid, () => { void query.refetch() })
@@ -41,7 +42,7 @@ function createState () {
 
   const badgeCount = computed(() => pendingInvites.value.length)
 
-  return { invites, pendingInvites, pendingRequests, badgeCount, loading: query.loading }
+  return { invites, pendingInvites, pendingRequests, badgeCount, loading: query.loading, refetch: query.refetch }
 }
 
 export default function useGroupInvites () {
