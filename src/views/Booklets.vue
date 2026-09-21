@@ -5,7 +5,7 @@
     </h1>
     <p>{{ t('booklets.intro') }}</p>
 
-    <form class="flex flex-col gap-4 mt-4" @submit.prevent>
+    <form class="flex flex-col gap-4 mt-4" @submit.prevent="download()">
       <discipline-selector v-model:discipline="discipline" />
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -144,13 +144,14 @@ const endpoint = import.meta.env.DEV
   : '/booklets/tricks.pdf'
 
 const downloadUrl = computed(() => {
-  const params = new URLSearchParams({ discipline: disciplineToSlug(discipline.value) })
-  if (paper.value !== 'a4') params.set('paper', paper.value)
-  if (bookletLang.value !== 'en') params.set('lang', bookletLang.value)
-  if (detailed.value) params.set('detailed', '1')
-  if (rulesId.value != null) params.set('rulesId', rulesId.value)
-  if (layout.value !== 'booklet') params.set('layout', layout.value)
-  return `${endpoint}?${params.toString()}`
+  const url = new URL(endpoint, window.location.origin)
+  url.searchParams.set('discipline', disciplineToSlug(discipline.value))
+  if (paper.value !== 'a4') url.searchParams.set('paper', paper.value)
+  if (bookletLang.value !== 'en') url.searchParams.set('lang', bookletLang.value)
+  if (detailed.value) url.searchParams.set('detailed', '1')
+  if (rulesId.value != null) url.searchParams.set('rulesId', rulesId.value)
+  if (layout.value !== 'booklet') url.searchParams.set('layout', layout.value)
+  return url.href
 })
 
 /** The name of a language in that language itself, the tag when we can't name it */
@@ -161,6 +162,12 @@ function languageName (tag: string) {
   } catch {
     return tag
   }
+}
+
+/** Submitting the form, e.g. with the enter key, is the same as following the link */
+function download () {
+  logDownload()
+  window.open(downloadUrl.value, '_blank', 'noopener')
 }
 
 function logDownload () {

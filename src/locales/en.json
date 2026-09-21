@@ -26,12 +26,12 @@
     "generated": "Generated {date}",
     "info": "Detailed information and videos of the tricks are available on the-tricktionary.com or in the Tricktionary's Android app.",
     "isbn": "ISBN {isbn}",
+    "levels": "Levels according to {ruleset}. ✓ marks a level that has been verified.",
     "map": "Trick map",
     "mapExplanation": "An arrow leads from a trick to a trick that builds on it. The more tricks build on one, the bigger its dot.",
     "printedBy": "Printed by {printer}, {year}",
     "speedEvent": "Speed event",
-    "unrated": "Unrated",
-    "verified": "Verified level"
+    "unrated": "Unrated"
   },
   "booklets": {
     "detailed": "Include the descriptions",
