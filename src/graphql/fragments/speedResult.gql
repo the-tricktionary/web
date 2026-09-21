@@ -1,3 +1,16 @@
+#import "./speedSegment.gql"
+
+fragment SpeedParticipantBase on SpeedParticipant {
+  segmentIndex
+  member {
+    id
+    name
+    user {
+      id
+    }
+  }
+}
+
 fragment SpeedResultBase on SpeedResult {
   id
   name
@@ -8,5 +21,36 @@ fragment SpeedResultBase on SpeedResult {
     id
     name
     totalDuration
+  }
+  group {
+    id
+    name
+  }
+  participants {
+    ...SpeedParticipantBase
+  }
+}
+
+# Only a score's own page asks who may share and assign it
+fragment SpeedResultSharing on SpeedResult {
+  id
+  creator {
+    id
+  }
+  group {
+    id
+    myMembership {
+      id
+      role
+    }
+  }
+}
+
+# The legs of a score, as entered on a plain count or derived from its marks
+fragment SpeedResultSegments on SpeedResult {
+  id
+  segmentCounts
+  segments {
+    ...SpeedSegmentFields
   }
 }

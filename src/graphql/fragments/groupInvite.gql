@@ -1,0 +1,45 @@
+#import "./group.gql"
+
+fragment GroupInviteBase on GroupInvite {
+  id
+  kind
+  status
+  role
+  observer
+  expiresAt
+  createdAt
+  group {
+    id
+    name
+  }
+  invitedBy {
+    id
+    name
+    username
+  }
+}
+
+# What an admin sees of the group's own invitations and join requests
+fragment GroupInviteAdmin on GroupInvite {
+  id
+  kind
+  status
+  role
+  observer
+  expiresAt
+  createdAt
+  user {
+    id
+    name
+    username
+  }
+  member {
+    id
+    name
+  }
+  invitedBy {
+    id
+    name
+    username
+  }
+}

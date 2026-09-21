@@ -1,0 +1,52 @@
+#import "../fragments/speedResult.gql"
+#import "../fragments/speedPersonalBest.gql"
+#import "../fragments/speedSegment.gql"
+
+query GroupSpeedResults ($groupId: ID!, $limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $constellation: [ID!]) {
+  group (groupId: $groupId) {
+    id
+    speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId, constellation: $constellation) {
+      ...SpeedResultBase
+    }
+  }
+}
+
+# The scores behind the analysis tab: the totals, each score's pace and the
+# sections an athlete's own count comes from
+query GroupSpeedAnalysis ($groupId: ID!, $limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $constellation: [ID!]) {
+  group (groupId: $groupId) {
+    id
+    speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId, constellation: $constellation) {
+      ...SpeedResultBase
+      analysis {
+        stepsPerSecond
+      }
+      segments {
+        ...SpeedSegmentFields
+      }
+    }
+  }
+}
+
+query GroupConstellations ($groupId: ID!) {
+  group (groupId: $groupId) {
+    id
+    constellations {
+      key
+      resultCount
+      members {
+        id
+        name
+      }
+    }
+  }
+}
+
+query GroupMemberBests ($memberId: ID!) {
+  groupMember (memberId: $memberId) {
+    id
+    speedBests {
+      ...SpeedPersonalBestBase
+    }
+  }
+}

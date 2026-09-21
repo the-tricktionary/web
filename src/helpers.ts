@@ -1,14 +1,16 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
+import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
+  groupInviteKind: GroupInviteKind,
+  groupRole: GroupRole,
   trickType: TrickType,
   verificationLevel: VerificationLevel
 }
 
 /** The message key holding the label of an enum value, e.g. `enums.trickType.Basic` */
-export function enumKey (name: keyof typeof enums, value: Discipline | TrickType | VerificationLevel) {
+export function enumKey (name: keyof typeof enums, value: Discipline | GroupInviteKind | GroupRole | TrickType | VerificationLevel) {
   const member = Object.entries(enums[name]).find(([, enumValue]) => enumValue === value)?.[0]
   return `enums.${name}.${member ?? value}`
 }
@@ -87,6 +89,10 @@ export function formatPrice (prices: PricesFormatFields | Readonly<PricesFormatF
   }).format(price?.unitAmount / 100)
 }
 
+export function formatDate (date: number | Date, lang: string) {
+  return new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(date)
+}
+
 export function formatDateTime (date: number | Date, lang: string) {
   return new Intl.DateTimeFormat(lang, {
     dateStyle: 'medium',
@@ -106,6 +112,23 @@ export function formatClock (seconds: number) {
  * carries its own definition rather than pointing at one.
  */
 export const CUSTOM_EVENT = 'custom'
+
+/**
+ * The set of athletes on a score, encoded as the API encodes it: distinct
+ * member ids, sorted, joined with a pipe.
+ */
+export function constellationKey (memberIds: readonly string[]) {
+  return [...new Set(memberIds)].sort((a, b) => a.localeCompare(b)).join('|')
+}
+
+export function constellationMemberIds (key: string) {
+  return key ? key.split('|') : []
+}
+
+/** The athletes of a constellation, named for a filter option or a legend */
+export function constellationNames (members: ReadonlyArray<{ name: string }>) {
+  return members.map(member => member.name).sort((a, b) => a.localeCompare(b)).join(', ')
+}
 
 /** A switch in a custom relay as the form edits it, offset in seconds */
 export interface SwitchRow {

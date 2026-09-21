@@ -3,6 +3,20 @@ query SpeedResult ($speedResultId: ID!) {
     id
     speedResult (speedResultId: $speedResultId) {
       ...SpeedResultBase
+      ...SpeedResultSharing
+      ...SpeedResultSegments
+      excludedFromPersonalBests
+      # The event's own switches decide how many counts the edit form can take
+      eventDefinition {
+        id
+        timingTrack {
+          cues {
+            type
+            offset
+            label
+          }
+        }
+      }
       analysis {
         ...SpeedAnalysisFields
       }

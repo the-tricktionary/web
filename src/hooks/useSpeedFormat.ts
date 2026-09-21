@@ -21,6 +21,10 @@ export default function useSpeedFormat () {
       const secondsText = tenths ? rest.toFixed(1).padStart(4, '0') : String(Math.floor(rest)).padStart(2, '0')
       return `${sign}${minutes}:${secondsText}`
     },
-    number: (n: number) => new Intl.NumberFormat(lang.value).format(n)
+    /** A count or a pace, with a fixed number of decimals where one is asked for */
+    number: (n: number, { decimals }: { decimals?: number } = {}) => new Intl.NumberFormat(
+      lang.value,
+      decimals == null ? {} : { minimumFractionDigits: decimals, maximumFractionDigits: decimals }
+    ).format(n)
   }
 }

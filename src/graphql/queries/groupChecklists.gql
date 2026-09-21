@@ -1,0 +1,29 @@
+#import "../fragments/trickBox.gql"
+
+query GroupChecklists ($groupId: ID!, $discipline: Discipline, $withLocalised: Boolean!, $lang: String) {
+  group (groupId: $groupId) {
+    id
+    myMembership {
+      id
+      role
+    }
+    members {
+      id
+      name
+      observer
+      user {
+        id
+      }
+      # one row per completion per athlete, so nothing beyond what a cell draws
+      checklist {
+        id
+        trick {
+          id
+        }
+      }
+    }
+  }
+  tricks (discipline: $discipline) {
+    ...TrickBox
+  }
+}

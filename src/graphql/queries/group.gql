@@ -1,0 +1,39 @@
+#import "../fragments/groupMember.gql"
+#import "../fragments/groupInvite.gql"
+
+query Group ($groupId: ID!) {
+  group (groupId: $groupId) {
+    id
+    name
+    myMembership {
+      id
+      role
+      observer
+    }
+  }
+}
+
+query GroupMembers ($groupId: ID!) {
+  group (groupId: $groupId) {
+    id
+    myMembership {
+      id
+      role
+      observer
+    }
+    members {
+      ...GroupMemberBase
+    }
+  }
+}
+
+# Split off so a plain member never asks for the fields only an admin may read
+query GroupAdmin ($groupId: ID!) {
+  group (groupId: $groupId) {
+    id
+    joinCode
+    invites {
+      ...GroupInviteAdmin
+    }
+  }
+}

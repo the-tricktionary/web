@@ -1,7 +1,7 @@
-query SpeedResults ($limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID) {
+query SpeedResults ($limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $groupId: ID) {
   me {
     id
-    speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId) {
+    speedResults (limit: $limit, startAfter: $startAfter, eventDefinitionId: $eventDefinitionId, groupId: $groupId) {
       ...SpeedResultBase
     }
   }

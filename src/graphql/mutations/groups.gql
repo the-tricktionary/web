@@ -1,0 +1,96 @@
+#import "../fragments/group.gql"
+#import "../fragments/groupInvite.gql"
+#import "../fragments/groupMember.gql"
+
+mutation CreateGroup ($name: String!) {
+  createGroup (name: $name) {
+    ...GroupBase
+  }
+}
+
+mutation RespondToGroupInvite ($inviteId: ID!, $accept: Boolean!) {
+  respondToGroupInvite (inviteId: $inviteId, accept: $accept) {
+    id
+    status
+    kind
+    group {
+      ...GroupBase
+    }
+  }
+}
+
+mutation RequestToJoinGroup ($joinCode: String!) {
+  requestToJoinGroup (joinCode: $joinCode) {
+    ...GroupInviteBase
+  }
+}
+
+mutation UpdateGroup ($groupId: ID!, $name: String!) {
+  updateGroup (groupId: $groupId, name: $name) {
+    id
+    name
+  }
+}
+
+mutation AddGroupAthlete ($groupId: ID!, $name: String!) {
+  addGroupAthlete (groupId: $groupId, name: $name) {
+    ...GroupMemberBase
+  }
+}
+
+mutation UpdateGroupMember ($memberId: ID!, $data: GroupMemberInput!) {
+  updateGroupMember (memberId: $memberId, data: $data) {
+    ...GroupMemberBase
+  }
+}
+
+# One who has competed is kept as an athlete the group manages, so the row may
+# come back changed rather than gone
+mutation RemoveGroupMember ($memberId: ID!) {
+  removeGroupMember (memberId: $memberId) {
+    ...GroupMemberBase
+  }
+}
+
+mutation LeaveGroup ($groupId: ID!) {
+  leaveGroup (groupId: $groupId) {
+    id
+  }
+}
+
+mutation InviteToGroup ($groupId: ID!, $usernameOrId: ID!, $role: GroupRole!, $observer: Boolean!, $memberId: ID) {
+  inviteToGroup (groupId: $groupId, usernameOrId: $usernameOrId, role: $role, observer: $observer, memberId: $memberId) {
+    ...GroupInviteAdmin
+  }
+}
+
+mutation CancelGroupInvite ($inviteId: ID!) {
+  cancelGroupInvite (inviteId: $inviteId) {
+    id
+    status
+  }
+}
+
+mutation SetGroupJoinCode ($groupId: ID!) {
+  setGroupJoinCode (groupId: $groupId) {
+    id
+    joinCode
+  }
+}
+
+mutation ClearGroupJoinCode ($groupId: ID!) {
+  clearGroupJoinCode (groupId: $groupId) {
+    id
+    joinCode
+  }
+}
+
+mutation RespondToGroupJoinRequest ($inviteId: ID!, $accept: Boolean!, $memberId: ID) {
+  respondToGroupJoinRequest (inviteId: $inviteId, accept: $accept, memberId: $memberId) {
+    id
+    status
+    member {
+      ...GroupMemberBase
+    }
+  }
+}

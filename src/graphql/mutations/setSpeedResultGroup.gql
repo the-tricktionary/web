@@ -1,0 +1,8 @@
+#import "../fragments/speedResult.gql"
+
+mutation SetSpeedResultGroup ($speedResultId: ID!, $data: SpeedResultGroupInput!) {
+  setSpeedResultGroup (speedResultId: $speedResultId, data: $data) {
+    ...SpeedResultBase
+    ...SpeedResultSharing
+  }
+}

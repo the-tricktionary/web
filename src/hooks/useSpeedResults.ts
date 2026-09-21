@@ -7,6 +7,10 @@ import type { SpeedResultBaseFragment } from '../graphql/generated/graphql'
  */
 
 export function addSpeedResultToCache (cache: ApolloCache<unknown>, userId: string, speedResult: SpeedResultBaseFragment) {
+  // your own list is what you competed in plus what you entered and have not assigned
+  const competed = speedResult.participants.some(participant => participant.member.user?.id === userId)
+  if (speedResult.group && speedResult.participants.length > 0 && !competed) return
+
   const userRef = cache.identify({ __typename: 'User', id: userId })
   if (!userRef) return
   cache.modify({
@@ -14,9 +18,11 @@ export function addSpeedResultToCache (cache: ApolloCache<unknown>, userId: stri
     fields: {
       speedResults (existing, { toReference, storeFieldName }) {
         const list: readonly Reference[] = Array.isArray(existing) ? existing as readonly Reference[] : []
-        // a listing filtered to another event does not get this result
-        const filtered = /"eventDefinitionId":"([^"]+)"/.exec(storeFieldName)?.[1]
-        if (filtered && filtered !== speedResult.eventDefinition.id) return list
+        // a listing filtered to another event or another group does not get this result
+        const filteredEvent = /"eventDefinitionId":"([^"]+)"/.exec(storeFieldName)?.[1]
+        if (filteredEvent && filteredEvent !== speedResult.eventDefinition.id) return list
+        const filteredGroup = /"groupId":"([^"]+)"/.exec(storeFieldName)?.[1]
+        if (filteredGroup && filteredGroup !== speedResult.group?.id) return list
         const ref = toReference(speedResult)
         if (!ref || list.some(e => e.__ref === ref.__ref)) return list
         return [ref, ...list]

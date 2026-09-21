@@ -117,6 +117,11 @@ export default defineConfig({
       }
     }
   },
+  rules: [
+    // A block wider than the page container, out to a 1rem gutter; the gutter is
+    // what keeps the document from scrolling sideways, since 100vw counts the scrollbar
+    ['full-bleed', { 'margin-inline': 'calc(50% - 50vw + 1rem)' }]
+  ],
   shortcuts: {
     // Generic button, also used for link-buttons and submit inputs
     btn: [
@@ -131,7 +136,9 @@ export default defineConfig({
       'hover:bg-elevated',
       'disabled:cursor-default disabled:bg-elevated disabled:text-muted',
       'focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ttred-900 focus-visible:outline-offset-2'
-    ].join(' ')
+    ].join(' '),
+    // The floor for anything meant to be hit with a thumb, 44 CSS px square
+    'touch-target': 'min-w-11 min-h-11'
   },
   preflights: [
     {
@@ -175,6 +182,7 @@ export default defineConfig({
           }
           h1 { font-size: 2.25rem; line-height: 2.5rem; font-weight: 600; }
           h2 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; }
+          th { white-space: nowrap; }
 
           /* Replacement for the windicss forms plugin, only the controls this app uses */
           input:where([type="text"], [type="email"], [type="search"], [type="url"], [type="tel"], [type="number"], [type="password"]),

@@ -1,0 +1,12 @@
+fragment GroupMemberBase on GroupMember {
+  id
+  name
+  role
+  observer
+  createdAt
+  user {
+    id
+    name
+    username
+  }
+}

@@ -73,6 +73,12 @@
           />
         </div>
       </div>
+
+      <p v-if="completion" class="text-muted text-sm mt-6 mb-0">
+        {{ completion.recordedBy
+          ? t('trick.markedCompletedBy', { date: formatDate(completion.createdAt, lang), name: completion.recordedBy.name ?? '' })
+          : t('trick.markedCompleted', { date: formatDate(completion.createdAt, lang) }) }}
+      </p>
     </div>
   </div>
 
@@ -116,7 +122,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
 import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { enumKey, localiseTrick, slugToDiscipline } from '../helpers'
+import { enumKey, formatDate, localiseTrick, slugToDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 import useLanguage from '../hooks/useLanguage'
@@ -227,6 +233,8 @@ async function share () {
 const completed = computed(() => {
   return new Set(user.value?.checklist?.map(checklistItem => checklistItem.trick.id))
 })
+
+const completion = computed(() => user.value?.checklist?.find(checklistItem => checklistItem.trick.id === trick.value?.id))
 
 // the andoird app tracks these events, so we do too
 function viewNext (trick: TrickBoxFragment) {
