@@ -1,5 +1,7 @@
 <template>
   <div class="flex flex-col gap-4">
+    <discipline-selector v-model:discipline="discipline" />
+
     <p v-if="!canEdit" class="text-muted mb-0">
       {{ t('groups.tricks.readOnly') }}
     </p>
@@ -27,9 +29,6 @@
   </div>
 
   <group-bottom-bar>
-    <div class="flex-none">
-      <discipline-selector v-model:discipline="discipline" />
-    </div>
     <icon-checkbox v-model:checked="hideCompleted" class="w-max flex-none whitespace-nowrap">
       {{ t('groups.tricks.hideCompleted') }}
     </icon-checkbox>
