@@ -11,8 +11,15 @@
         role="img"
         :aria-label="t('speed.countedScore')"
       />
+      <icon-account-question
+        v-if="needsAthletes"
+        class="shrink-0 text-muted"
+        role="img"
+        :aria-label="t('speed.group.needsAthletes')"
+      />
     </span>
     <span class="col-start-1 row-start-2 text-muted text-sm truncate">
+      <template v-if="result.group">{{ result.group.name }} &middot; </template>
       <template v-if="result.name">{{ result.eventDefinition.name }} &middot; </template>
       {{ duration(result.eventDefinition.totalDuration) }} &middot;
       <time :datetime="new Date(result.createdAt).toISOString()">{{ dateTime(result.createdAt) }}</time>
@@ -26,17 +33,19 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import useSpeedFormat from '../hooks/useSpeedFormat'
 
+import IconAccountQuestion from '~icons/mdi/account-question'
 import IconChart from '~icons/mdi/chart-line'
 
 import type { PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import type { SpeedResultBaseFragment } from '../graphql/generated/graphql'
 
-defineProps({
+const props = defineProps({
   result: {
     type: Object as PropType<SpeedResultBaseFragment>,
     required: true
@@ -50,4 +59,7 @@ defineProps({
 
 const { t } = useI18n()
 const { dateTime, duration, number } = useSpeedFormat()
+
+/** A score shared with a group that nobody has been named on yet */
+const needsAthletes = computed(() => props.result.group != null && props.result.participants.length === 0)
 </script>

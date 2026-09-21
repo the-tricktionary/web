@@ -97,8 +97,9 @@ export function removeMemberFromCache (cache: ApolloCache<unknown>, groupId: str
 }
 
 /**
- * Approving a join request answers with the invitation, not with the row it
- * claimed or created, so the list is dropped for the query to fetch again.
+ * For an API that answers a join request with the invitation alone: without
+ * the row it claimed or created, the list is dropped for the query to fetch
+ * again.
  */
 export function evictMembersFromCache (cache: ApolloCache<unknown>, groupId: string) {
   cache.evict({ id: cache.identify({ __typename: 'Group', id: groupId }), fieldName: 'members' })

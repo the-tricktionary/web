@@ -408,6 +408,16 @@
     },
     "empty": "You haven't recorded any speed scores yet.",
     "enterScore": "Enter score",
+    "group": {
+      "label": "Group",
+      "needsAthletes": "Nobody has been named on this score yet",
+      "noAthletes": "This group has no athletes to name yet.",
+      "none": "Not shared with a group",
+      "title": "Group",
+      "unassigned": "Nobody",
+      "whoCompeted": "Who competed",
+      "wholeScore": "The whole score"
+    },
     "loadMore": "Load more",
     "loading": "Loading scores...",
     "newScore": "New score",

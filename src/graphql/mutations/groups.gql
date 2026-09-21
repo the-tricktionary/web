@@ -89,5 +89,8 @@ mutation RespondToGroupJoinRequest ($inviteId: ID!, $accept: Boolean!, $memberId
   respondToGroupJoinRequest (inviteId: $inviteId, accept: $accept, memberId: $memberId) {
     id
     status
+    member {
+      ...GroupMemberBase
+    }
   }
 }

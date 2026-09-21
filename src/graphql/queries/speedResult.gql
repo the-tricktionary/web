@@ -3,6 +3,7 @@ query SpeedResult ($speedResultId: ID!) {
     id
     speedResult (speedResultId: $speedResultId) {
       ...SpeedResultBase
+      ...SpeedResultSharing
       analysis {
         ...SpeedAnalysisFields
       }

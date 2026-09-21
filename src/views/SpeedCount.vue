@@ -24,6 +24,18 @@
         <span>{{ t('speed.count.playTrack') }}</span>
       </label>
 
+      <label v-if="groups.length" class="flex flex-col gap-1">
+        <span class="font-semibold">{{ t('speed.group.label') }} <span class="text-muted font-normal">{{ t('speed.create.optional') }}</span></span>
+        <group-picker v-model="groupId" />
+      </label>
+
+      <participant-picker
+        v-if="groupId"
+        v-model="participants"
+        :group-id="groupId"
+        :segments="segments"
+      />
+
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('speed.create.name') }} <span class="text-muted font-normal">{{ t('speed.create.optional') }}</span></span>
         <input v-model="name" type="text" maxlength="120" :placeholder="t('speed.create.namePlaceholder')" class="rounded">
@@ -208,6 +220,7 @@ import { createMarkReducer, simpleReducer } from '@ropescore/rulesets'
 import { TimingCueType, useCreateSpeedResultMutation } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useEventDefinitions from '../hooks/useEventDefinitions'
+import useMyGroups from '../hooks/useMyGroups'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 import { addSpeedResultToCache } from '../hooks/useSpeedResults'
 import { CUSTOM_EVENT, segmentsOf, switchCuesInput } from '../helpers'
@@ -215,13 +228,15 @@ import { CUSTOM_EVENT, segmentsOf, switchCuesInput } from '../helpers'
 import BottomBar from '../components/BottomBar.vue'
 import CustomEventFields from '../components/CustomEventFields.vue'
 import EventPicker from '../components/EventPicker.vue'
+import GroupPicker from '../components/GroupPicker.vue'
+import ParticipantPicker from '../components/ParticipantPicker.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconContentSave from '~icons/mdi/content-save'
 import IconClose from '~icons/mdi/close'
 import IconTimer from '~icons/mdi/timer-outline'
 
-import type { SpeedMarkInput } from '../graphql/generated/graphql'
+import type { SpeedMarkInput, SpeedParticipantInput } from '../graphql/generated/graphql'
 import type { SwitchRow } from '../helpers'
 
 const { t } = useI18n()
@@ -269,6 +284,13 @@ const activeCues = computed(() => isCustom.value
 
 const useTrack = ref(true)
 const name = ref('')
+
+const { groups } = useMyGroups()
+const groupId = ref('')
+const participants = ref<SpeedParticipantInput[]>([])
+
+// a different group's athletes are not this one's
+watch(groupId, () => { participants.value = [] })
 
 // --- counting
 
@@ -469,7 +491,8 @@ async function save () {
               withTimingTrack: selectedEvent.value!.timingTrack != null
             }),
         marks: marks.value,
-        ...(name.value.trim() ? { name: name.value.trim() } : {})
+        ...(name.value.trim() ? { name: name.value.trim() } : {}),
+        ...(groupId.value ? { groupId: groupId.value, participants: participants.value } : {})
       }
     })
     const created = result?.data?.createSpeedResult

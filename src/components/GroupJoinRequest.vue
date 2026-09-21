@@ -41,7 +41,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useRespondToGroupJoinRequestMutation } from '../graphql/generated/graphql'
-import { evictMembersFromCache, removeInviteFromGroupCache } from '../hooks/useGroups'
+import { addMemberToCache, evictMembersFromCache, removeInviteFromGroupCache } from '../hooks/useGroups'
 
 import type { PropType } from 'vue'
 import type { GroupInviteAdminFragment, GroupMemberBaseFragment } from '../graphql/generated/graphql'
@@ -72,7 +72,8 @@ const { mutate: respondTo, loading: saving } = useRespondToGroupJoinRequestMutat
     const answered = data?.respondToGroupJoinRequest
     if (!answered) return
     removeInviteFromGroupCache(cache, props.groupId, answered.id)
-    evictMembersFromCache(cache, props.groupId)
+    if (answered.member) addMemberToCache(cache, props.groupId, answered.member)
+    else evictMembersFromCache(cache, props.groupId)
   }
 }))
 

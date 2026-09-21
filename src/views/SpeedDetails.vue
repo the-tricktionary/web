@@ -118,39 +118,78 @@
     </div>
 
     <div>
-      <h2 class="mb-2">
-        {{ t('speed.details.edit') }}
-      </h2>
-      <form :id="formId" class="flex flex-col gap-4" @submit.prevent="save()">
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">{{ t('speed.details.name') }}</span>
-          <input
-            v-model="editName"
-            type="text"
-            maxlength="120"
-            class="rounded"
+      <template v-if="canManage">
+        <h2 class="mb-2">
+          {{ t('speed.details.edit') }}
+        </h2>
+        <form :id="formId" class="flex flex-col gap-4" @submit.prevent="save()">
+          <label class="flex flex-col gap-1">
+            <span class="font-semibold">{{ t('speed.details.name') }}</span>
+            <input
+              v-model="editName"
+              type="text"
+              maxlength="120"
+              class="rounded"
+              :disabled="saving"
+              :placeholder="speedResult.eventDefinition.name"
+            >
+          </label>
+          <label class="flex flex-col gap-1">
+            <span class="font-semibold flex items-center gap-1">
+              {{ t('speed.details.score') }}
+              <icon-lock v-if="speedResult.analysis" class="text-muted" aria-hidden="true" />
+            </span>
+            <input
+              v-model.number="editCount"
+              type="number"
+              min="0"
+              max="1000000"
+              step="1"
+              inputmode="numeric"
+              class="rounded"
+              :disabled="saving || !!speedResult.analysis"
+            >
+            <span v-if="speedResult.analysis" class="text-muted text-sm">{{ t('speed.details.scoreLocked') }}</span>
+          </label>
+
+          <label class="flex flex-col gap-1">
+            <span class="font-semibold">{{ t('speed.group.label') }}</span>
+            <group-picker v-model="editGroupId" :disabled="saving" />
+          </label>
+
+          <participant-picker
+            v-if="editGroupId"
+            v-model="editParticipants"
+            :group-id="editGroupId"
+            :segments="segments"
             :disabled="saving"
-            :placeholder="speedResult.eventDefinition.name"
-          >
-        </label>
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold flex items-center gap-1">
-            {{ t('speed.details.score') }}
-            <icon-lock v-if="speedResult.analysis" class="text-muted" aria-hidden="true" />
-          </span>
-          <input
-            v-model.number="editCount"
-            type="number"
-            min="0"
-            max="1000000"
-            step="1"
-            inputmode="numeric"
-            class="rounded"
-            :disabled="saving || !!speedResult.analysis"
-          >
-          <span v-if="speedResult.analysis" class="text-muted text-sm">{{ t('speed.details.scoreLocked') }}</span>
-        </label>
-      </form>
+          />
+        </form>
+      </template>
+
+      <template v-else-if="speedResult.group">
+        <h2 class="mb-2">
+          {{ t('speed.group.title') }}
+        </h2>
+        <p class="font-semibold">
+          {{ speedResult.group.name }}
+        </p>
+
+        <h3 class="font-semibold mb-1">
+          {{ t('speed.group.whoCompeted') }}
+        </h3>
+        <p v-if="!speedResult.participants.length" class="text-muted">
+          {{ t('speed.group.needsAthletes') }}
+        </p>
+        <dl v-else class="grid grid-cols-[max-content_auto] gap-x-6 gap-y-2">
+          <template v-for="participant of speedResult.participants" :key="participant.member.id">
+            <dt class="text-muted">
+              {{ participantLabel(participant.segmentIndex) }}
+            </dt>
+            <dd>{{ participant.member.name }}</dd>
+          </template>
+        </dl>
+      </template>
     </div>
   </div>
 
@@ -168,7 +207,7 @@
       <span class="flex px-2 items-center">{{ t('speed.allScores') }}</span>
     </router-link>
 
-    <div v-if="speedResult" class="flex gap-4 ml-auto">
+    <div v-if="speedResult && canManage" class="flex gap-4 ml-auto">
       <button
         type="button"
         class="btn grid grid-cols-[2rem_auto] w-max mt-0 text-ttred-900"
@@ -203,11 +242,22 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 
-import { useDeleteSpeedResultMutation, useSpeedResultQuery, useUpdateSpeedResultMutation } from '../graphql/generated/graphql'
+import {
+  GroupRole,
+  useDeleteSpeedResultMutation,
+  useSetSpeedResultGroupMutation,
+  useSpeedResultQuery,
+  useUpdateSpeedResultMutation
+} from '../graphql/generated/graphql'
+import useAuth from '../hooks/useAuth'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 import { removeSpeedResultFromCache } from '../hooks/useSpeedResults'
 
+import type { SpeedParticipantInput, SpeedResultQuery } from '../graphql/generated/graphql'
+
 import BottomBar from '../components/BottomBar.vue'
+import GroupPicker from '../components/GroupPicker.vue'
+import ParticipantPicker from '../components/ParticipantPicker.vue'
 import SpeedPaceChart from '../components/SpeedPaceChart.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconChevronLeft from '~icons/mdi/chevron-left'
@@ -218,6 +268,7 @@ import IconLock from '~icons/mdi/lock'
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
+const { firebaseUser } = useAuth()
 const { dateTime, duration, number, seconds } = useSpeedFormat()
 
 /** Lets the save button live in the bottom bar, outside the form element */
@@ -232,42 +283,102 @@ useHead({
   title: computed(() => speedResult.value ? speedResult.value.name ?? speedResult.value.eventDefinition.name : t('speed.title'))
 })
 
+/** The creator and the admins of the group it is shared with may edit it */
+const canManage = computed(() => {
+  if (!speedResult.value) return false
+  return speedResult.value.creator.id === firebaseUser.value?.uid ||
+    speedResult.value.group?.myMembership?.role === GroupRole.Admin
+})
+
+/** The legs to assign, a score without an analysis was competed whole */
+const segments = computed(() => speedResult.value?.analysis?.segments ?? [])
+
 const editName = ref('')
 const editCount = ref<number>()
+const editGroupId = ref('')
+const editParticipants = ref<SpeedParticipantInput[]>([])
 const error = ref<string | null>(null)
 
+type Result = NonNullable<NonNullable<SpeedResultQuery['me']>['speedResult']>
+
+function participantsOf (result: Result | null | undefined): SpeedParticipantInput[] {
+  return result?.participants.map(participant => ({
+    memberId: participant.member.id,
+    ...(participant.segmentIndex == null ? {} : { segmentIndex: participant.segmentIndex })
+  })) ?? []
+}
+
+/** Follows the saved values, so a refetch doesn't wipe what is being edited */
 watch(speedResult, result => {
   editName.value = result?.name ?? ''
   editCount.value = result?.count
+  editGroupId.value = result?.group?.id ?? ''
+  editParticipants.value = participantsOf(result)
 }, { immediate: true })
 
-const dirty = computed(() => {
+// the seeding above sets the saved group, so only a real change clears who competed
+watch(editGroupId, groupId => {
+  if (groupId !== (speedResult.value?.group?.id ?? '')) editParticipants.value = []
+})
+
+const participantKey = (participants: readonly SpeedParticipantInput[]) => participants
+  .map(participant => `${participant.segmentIndex ?? ''}:${String(participant.memberId)}`)
+  .sort((a, b) => a.localeCompare(b))
+  .join(',')
+
+const detailsDirty = computed(() => {
   if (!speedResult.value) return false
   if (editName.value.trim() !== (speedResult.value.name ?? '')) return true
   return !speedResult.value.analysis && Number.isSafeInteger(editCount.value) && editCount.value !== speedResult.value.count
 })
 
+const sharingDirty = computed(() => {
+  if (!speedResult.value) return false
+  if (editGroupId.value !== (speedResult.value.group?.id ?? '')) return true
+  return participantKey(editParticipants.value) !== participantKey(participantsOf(speedResult.value))
+})
+
+const dirty = computed(() => detailsDirty.value || sharingDirty.value)
+
+function participantLabel (segmentIndex: number | null) {
+  if (segmentIndex == null) return t('speed.group.wholeScore')
+  const segment = segments.value.find(entry => entry.index === segmentIndex)
+  return segment?.label ?? t('speed.details.segmentN', { n: segmentIndex + 1 })
+}
+
 const { mutate: update, loading: updating } = useUpdateSpeedResultMutation({})
+const { mutate: setGroup, loading: sharing } = useSetSpeedResultGroupMutation({})
 const { mutate: deleteResult, loading: deleting } = useDeleteSpeedResultMutation(() => ({
   update (cache, { data }) {
     if (data?.deleteSpeedResult) removeSpeedResultFromCache(cache, data.deleteSpeedResult.id)
   }
 }))
-const saving = computed(() => updating.value || deleting.value)
+const saving = computed(() => updating.value || sharing.value || deleting.value)
 
 async function save () {
   if (!speedResult.value || !dirty.value || saving.value) return
   error.value = null
   try {
-    await update({
-      speedResultId: speedResult.value.id,
-      data: {
-        name: editName.value.trim(),
-        ...(!speedResult.value.analysis && Number.isSafeInteger(editCount.value) && editCount.value !== speedResult.value.count
-          ? { count: editCount.value }
-          : {})
-      }
-    })
+    if (detailsDirty.value) {
+      await update({
+        speedResultId: speedResult.value.id,
+        data: {
+          name: editName.value.trim(),
+          ...(!speedResult.value.analysis && Number.isSafeInteger(editCount.value) && editCount.value !== speedResult.value.count
+            ? { count: editCount.value }
+            : {})
+        }
+      })
+    }
+    if (sharingDirty.value) {
+      await setGroup({
+        speedResultId: speedResult.value.id,
+        data: {
+          groupId: editGroupId.value === '' ? null : editGroupId.value,
+          participants: editGroupId.value === '' ? [] : editParticipants.value
+        }
+      })
+    }
   } catch (err) {
     error.value = t('speed.details.failedSave', { error: (err as Error).message })
     throw err
