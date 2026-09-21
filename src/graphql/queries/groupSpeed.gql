@@ -23,28 +23,24 @@ query GroupConstellations ($groupId: ID!) {
   }
 }
 
-# The roster is the only way in: there is no query for one member on its own
-query GroupMemberSpeed ($groupId: ID!, $eventDefinitionId: ID!, $withProgression: Boolean!) {
-  group (groupId: $groupId) {
+query GroupMemberSpeed ($memberId: ID!, $eventDefinitionId: ID!, $withProgression: Boolean!) {
+  groupMember (memberId: $memberId) {
     id
-    members {
-      id
-      speedPersonalBests {
-        ...SpeedResultBase
+    speedPersonalBests {
+      ...SpeedResultBase
+    }
+    speedProgression (eventDefinitionId: $eventDefinitionId) @include(if: $withProgression) {
+      count
+      stepsPerSecond
+      segment {
+        index
+        label
       }
-      speedProgression (eventDefinitionId: $eventDefinitionId) @include(if: $withProgression) {
-        count
-        stepsPerSecond
-        segment {
-          index
-          label
-        }
-        result {
-          id
-          createdAt
-          participants {
-            ...SpeedParticipantBase
-          }
+      result {
+        id
+        createdAt
+        participants {
+          ...SpeedParticipantBase
         }
       }
     }

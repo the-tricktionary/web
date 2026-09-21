@@ -146,11 +146,11 @@ const membersQuery = useGroupMembersQuery(
 
 const speedQuery = useGroupMemberSpeedQuery(
   () => ({
-    groupId: props.groupId,
+    memberId: memberId.value,
     eventDefinitionId: props.eventDefinitionId,
     withProgression: props.eventDefinitionId !== ''
   }),
-  () => ({ enabled: memberId.value !== '' && props.groupId !== '', fetchPolicy: 'cache-and-network' })
+  () => ({ enabled: memberId.value !== '', fetchPolicy: 'cache-and-network' })
 )
 const { loading } = speedQuery
 
@@ -169,7 +169,7 @@ const athletes = computed(() => (membersQuery.result.value?.group?.members ?? []
 )
 
 const member = computed(() => athletes.value.find(athlete => athlete.id === memberId.value) ?? null)
-const speedMember = computed(() => speedQuery.result.value?.group?.members.find(entry => entry.id === memberId.value) ?? null)
+const speedMember = computed(() => speedQuery.result.value?.groupMember ?? null)
 const bests = computed(() => speedMember.value?.speedPersonalBests ?? [])
 const progression = computed(() => speedMember.value?.speedProgression ?? [])
 
