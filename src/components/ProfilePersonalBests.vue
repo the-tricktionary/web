@@ -28,13 +28,13 @@
         </router-link>
       </div>
 
-      <p class="flex items-baseline gap-2" :class="ownSection ? 'mb-1' : 'mb-4'">
+      <p class="flex items-baseline gap-2" :class="ownSegmentLine ? 'mb-1' : 'mb-4'">
         <span class="text-6xl font-bold leading-none">{{ number(total.count) }}</span>
         <span class="text-muted">{{ t('speed.steps') }}</span>
       </p>
 
-      <p v-if="ownSection" class="text-muted mb-4">
-        {{ ownSection }}
+      <p v-if="ownSegmentLine" class="text-muted mb-4">
+        {{ ownSegmentLine }}
       </p>
 
       <template v-if="total.analysis">
@@ -74,7 +74,7 @@ type PersonalBest = NonNullable<ProfileUserFragment['speedBests']>[number]
 
 const props = defineProps<{
   bests: readonly PersonalBest[]
-  /** Whose bests these are, for the line naming their own section */
+  /** Whose bests these are, for the line naming their own segment */
   name: string
   /** The details view only opens your own scores */
   isMe: boolean
@@ -87,14 +87,14 @@ const selectedId = ref(props.bests[0]?.eventDefinition.id ?? '')
 const selected = computed(() => props.bests.find(best => best.eventDefinition.id === selectedId.value))
 const total = computed(() => selected.value?.total)
 
-/** What the athlete jumped themselves, when the best is a score they shared a leg of */
-const ownSection = computed(() => {
+/** What the athlete jumped themselves, when the best is a score they shared a segment of */
+const ownSegmentLine = computed(() => {
   const segment = selected.value?.ownSegment
   if (!segment) return ''
   const count = number(segment.count)
   return segment.segment?.label
-    ? t('profile.ownSectionLabelled', { name: props.name, label: segment.segment.label, count })
-    : t('profile.ownSection', { name: props.name, count })
+    ? t('profile.ownSegmentLabelled', { name: props.name, label: segment.segment.label, count })
+    : t('profile.ownSegment', { name: props.name, count })
 })
 
 watch(() => props.bests, bests => {

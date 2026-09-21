@@ -72,7 +72,7 @@
       </template>
     </div>
 
-    <section v-if="mode === 'sections' && tableRows.length" class="flex flex-col gap-2">
+    <section v-if="mode === 'segments' && tableRows.length" class="flex flex-col gap-2">
       <h2 class="mb-0">
         {{ t('groups.speed.analysis.tableTitle') }}
       </h2>
@@ -104,13 +104,13 @@
               </th>
               <template v-if="athlete">
                 <th scope="col" class="py-2 pr-2 text-right">
-                  {{ t('groups.speed.analysis.sectionSteps') }}
+                  {{ t('groups.speed.analysis.segmentSteps') }}
                 </th>
                 <th scope="col" class="py-2 pr-2 text-right">
-                  {{ t('groups.speed.analysis.sectionPace') }}
+                  {{ t('groups.speed.analysis.segmentPace') }}
                 </th>
                 <th scope="col" class="py-2 text-right">
-                  {{ t('groups.speed.analysis.sectionShare') }}
+                  {{ t('groups.speed.analysis.segmentShare') }}
                 </th>
               </template>
             </tr>
@@ -130,13 +130,13 @@
               </td>
               <template v-if="athlete">
                 <td class="py-2 pr-2 text-right tabular-nums">
-                  {{ entry.section ? number(entry.section.count) : '–' }}
+                  {{ entry.segment ? number(entry.segment.count) : '–' }}
                 </td>
                 <td class="py-2 pr-2 text-right tabular-nums whitespace-nowrap">
-                  {{ entry.section ? t('speed.details.pace', { pace: number(entry.section.stepsPerSecond, { decimals: 2 }) }) : '–' }}
+                  {{ entry.segment ? t('speed.details.pace', { pace: number(entry.segment.stepsPerSecond, { decimals: 2 }) }) : '–' }}
                 </td>
                 <td class="py-2 text-right tabular-nums">
-                  {{ entry.section ? t('groups.speed.analysis.share', { share: number(entry.section.share, { decimals: 0 }) }) : '–' }}
+                  {{ entry.segment ? t('groups.speed.analysis.share', { share: number(entry.segment.share, { decimals: 0 }) }) : '–' }}
                 </td>
               </template>
             </tr>
@@ -199,13 +199,13 @@ const { selectionResults, loading, error, reload } = useGroupSpeedAnalysis(group
 // the first request may leave before the session is restored
 watch(() => firebaseUser.value?.uid, () => { reload() })
 
-type Mode = 'none' | 'event' | 'constellations' | 'sections' | 'compare'
+type Mode = 'none' | 'event' | 'constellations' | 'segments' | 'compare'
 
 const mode = computed<Mode>(() => {
   if (!eventDefinitionId.value && !picked.value.length) return 'none'
   if (!eventDefinitionId.value) return 'constellations'
   if (!picked.value.length) return 'event'
-  return picked.value.length === 1 ? 'sections' : 'compare'
+  return picked.value.length === 1 ? 'segments' : 'compare'
 })
 
 function constellationLabel (key: string) {
@@ -222,7 +222,7 @@ function resultConstellation (result: AnalysisResult) {
 
 /** The athletes of the one picked constellation, named as the group names them */
 const athletes = computed(() => {
-  if (mode.value !== 'sections') return []
+  if (mode.value !== 'segments') return []
   const key = picked.value[0] ?? ''
   const found = constellations.value.find(option => option.key === key)
   return (found?.members ?? []).toSorted((a, b) => a.name.localeCompare(b.name))
@@ -232,10 +232,24 @@ const athlete = computed(() => athletes.value.find(member => member.id === athle
 
 watch(picked, () => { athleteId.value = '' })
 
-function sectionOf (result: AnalysisResult, memberId: string) {
+function segmentOf (result: AnalysisResult, memberId: string) {
   const participant = result.participants.find(entry => entry.member.id === memberId)
   if (participant?.segmentIndex == null) return null
   return result.segments.find(segment => segment.index === participant.segmentIndex) ?? null
+}
+
+/** What a score's line is named after: who jumped it, which event, or both */
+function seriesLabel (result: AnalysisResult, constellationKey: string) {
+  switch (mode.value) {
+    case 'event':
+      return resultConstellation(result)
+    case 'compare':
+      return constellationLabel(constellationKey)
+    default:
+      return picked.value.length > 1
+        ? t('groups.speed.analysis.eventConstellation', { event: result.eventDefinition.name, names: constellationLabel(constellationKey) })
+        : result.eventDefinition.name
+  }
 }
 
 /** The lines the chart draws, ordered so the busiest ones take the first colours */
@@ -250,7 +264,7 @@ const chart = computed<{ points: ProgressionPoint[], series: string[], dashedSer
   const counts = new Map<string, number>()
   const addSeries = (label: string) => counts.set(label, (counts.get(label) ?? 0) + 1)
 
-  if (mode.value === 'sections') {
+  if (mode.value === 'segments') {
     const results = selectionResults.value[0]?.results ?? []
     const totalLabel = t('groups.speed.analysis.total')
     for (const result of results) {
@@ -264,13 +278,13 @@ const chart = computed<{ points: ProgressionPoint[], series: string[], dashedSer
       addSeries(totalLabel)
       if (athletes.value.length < 2) continue
       for (const member of athletes.value) {
-        const segment = sectionOf(result, member.id)
+        const segment = segmentOf(result, member.id)
         if (!segment) continue
         points.push({
           id: `${result.id}-${member.id}`,
           date: new Date(result.createdAt),
           count: segment.count,
-          name: segment.label ?? t('groups.speed.sectionN', { n: segment.index + 1 }),
+          name: segment.label ?? t('speed.details.segmentN', { n: segment.index + 1 }),
           series: member.name
         })
         addSeries(member.name)
@@ -283,13 +297,7 @@ const chart = computed<{ points: ProgressionPoint[], series: string[], dashedSer
   for (const { selection, results } of selectionResults.value) {
     const key = selection.constellation ? selection.constellation.join('|') : null
     for (const result of results) {
-      const label = mode.value === 'event'
-        ? resultConstellation(result)
-        : mode.value === 'compare'
-          ? constellationLabel(key ?? '')
-          : picked.value.length > 1
-            ? t('groups.speed.analysis.eventConstellation', { event: result.eventDefinition.name, names: constellationLabel(key ?? '') })
-            : result.eventDefinition.name
+      const label = seriesLabel(result, key ?? '')
       points.push({
         id: `${result.id}-${key ?? '*'}`,
         date: new Date(result.createdAt),
@@ -308,8 +316,8 @@ const chartLabel = computed(() => {
   switch (mode.value) {
     case 'constellations':
       return t('groups.speed.analysis.chartConstellations')
-    case 'sections':
-      return t('groups.speed.analysis.chartSections', { names: constellationLabel(picked.value[0] ?? ''), event: eventName.value })
+    case 'segments':
+      return t('groups.speed.analysis.chartSegments', { names: constellationLabel(picked.value[0] ?? ''), event: eventName.value })
     default:
       return t('groups.speed.chart', { event: eventName.value })
   }
@@ -319,9 +327,9 @@ const caption = computed(() => {
   switch (mode.value) {
     case 'constellations':
       return t('groups.speed.analysis.constellationsCaption')
-    case 'sections':
+    case 'segments':
       return athletes.value.length > 1
-        ? t('groups.speed.analysis.sectionsCaption')
+        ? t('groups.speed.analysis.segmentsCaption')
         : t('groups.speed.caption')
     default:
       return t('groups.speed.caption')
@@ -329,17 +337,17 @@ const caption = computed(() => {
 })
 
 const tableRows = computed(() => {
-  if (mode.value !== 'sections') return []
+  if (mode.value !== 'segments') return []
   const results = (selectionResults.value[0]?.results ?? []).toSorted((a, b) => b.createdAt - a.createdAt)
   return results.map(result => {
     const duration = result.eventDefinition.totalDuration
-    const segment = athlete.value ? sectionOf(result, athlete.value.id) : null
+    const segment = athlete.value ? segmentOf(result, athlete.value.id) : null
     return {
       id: result.id,
       createdAt: result.createdAt,
       count: result.count,
       pace: result.analysis?.stepsPerSecond ?? (duration > 0 ? result.count / duration : null),
-      section: segment
+      segment: segment
         ? {
             count: segment.count,
             stepsPerSecond: segment.stepsPerSecond,

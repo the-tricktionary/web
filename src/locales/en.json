@@ -222,24 +222,24 @@
       "analysis": {
         "allAthletes": "All athletes",
         "chartConstellations": "Scores over time for the picked constellations, one line per event",
-        "chartSections": "{names} in the {event} over time, one line for the total and one per section",
+        "chartSegments": "{names} in the {event} over time, one line for the total and one per segment",
         "constellations": "Constellations",
         "constellationsCaption": "Each dot is a score, with a line per event and its trend.",
         "empty": "No scores match this selection yet.",
         "eventConstellation": "{event} · {names}",
-        "hintBody": "An event on its own compares its constellations. A constellation on its own compares the events it has scores in. Both together follow that constellation in that event, one line for the total and one per athlete's section.",
+        "hintBody": "An event on its own compares its constellations. A constellation on its own compares the events it has scores in. Both together follow that constellation in that event, one line for the total and one per athlete's segment.",
         "hintTitle": "Pick an event, a constellation, or both",
         "noConstellations": "No scores are shared with this group yet, so there are no constellations to pick.",
-        "sectionPace": "Section pace",
-        "sectionShare": "Share",
-        "sectionSteps": "Section steps",
-        "sectionsCaption": "Each dot is a score. The dashed lines follow each athlete's own section.",
+        "segmentPace": "Segment pace",
+        "segmentShare": "Share",
+        "segmentSteps": "Segment steps",
+        "segmentsCaption": "Each dot is a score. The dashed lines follow each athlete's own segment.",
         "share": "{share}%",
         "tableTitle": "Every score in this selection",
         "total": "Total"
       },
       "athlete": "Athlete",
-      "bestSections": "Best own section",
+      "bestSegments": "Best own segment",
       "bestTotals": "Best totals",
       "bests": "Personal bests",
       "bestsEmpty": "No scores name {name} yet.",
@@ -256,7 +256,6 @@
       "loading": "Loading scores...",
       "noAthletes": "There are no athletes in this group yet.",
       "pickAthlete": "Pick an athlete",
-      "sectionN": "Section {n}",
       "unassigned": "Nobody assigned yet"
     },
     "tabs": {
@@ -322,8 +321,8 @@
     "noneInDiscipline": "No completed tricks in this discipline yet.",
     "notFound": "This profile is private or doesn't exist",
     "openScore": "Open score",
-    "ownSection": "{name}'s section: {count}",
-    "ownSectionLabelled": "{name}'s section ({label}): {count}",
+    "ownSegment": "{name}'s segment: {count}",
+    "ownSegmentLabelled": "{name}'s segment ({label}): {count}",
     "personalBests": "Personal bests",
     "private": "Your profile is private, so nobody else can see this page.",
     "privateSettings": "Make it public",
@@ -385,17 +384,6 @@
   },
   "speed": {
     "allScores": "All scores",
-    "clearFilters": "Clear the filters",
-    "emptyFiltered": "No scores match these filters.",
-    "filters": {
-      "anyConstellation": "Any constellation",
-      "anyEvent": "Any event",
-      "anyGroup": "Any group",
-      "constellation": "Constellation",
-      "event": "Event",
-      "group": "Group"
-    },
-    "groupScores": "Group scores",
     "chart": {
       "compareOf": "Steps per second of {a} and {b}",
       "date": "Date",
@@ -406,6 +394,7 @@
       "steps": "Steps",
       "stepsPerSecond": "Steps per second"
     },
+    "clearFilters": "Clear the filters",
     "compare": {
       "back": "Back",
       "date": "Date",
@@ -509,7 +498,16 @@
       "time": "Time"
     },
     "empty": "You haven't recorded any speed scores yet.",
+    "emptyFiltered": "No scores match these filters.",
     "enterScore": "Enter score",
+    "filters": {
+      "anyConstellation": "Any constellation",
+      "anyEvent": "Any event",
+      "anyGroup": "Any group",
+      "constellation": "Constellation",
+      "event": "Event",
+      "group": "Group"
+    },
     "group": {
       "label": "Group",
       "needsAthletes": "Nobody has been named on this score yet",
@@ -520,6 +518,7 @@
       "whoCompeted": "Who jumped it",
       "wholeScore": "The whole score"
     },
+    "groupScores": "Group scores",
     "loadMore": "Load more",
     "loading": "Loading scores...",
     "newScore": "New score",

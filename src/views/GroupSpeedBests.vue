@@ -58,16 +58,16 @@
           </div>
         </section>
 
-        <section v-if="sectionBests.length" class="flex flex-col gap-2">
+        <section v-if="segmentBests.length" class="flex flex-col gap-2">
           <h3 class="font-semibold mb-0">
-            {{ t('groups.speed.bestSections') }}
+            {{ t('groups.speed.bestSegments') }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <speed-box
-              v-for="best of sectionBests"
+              v-for="best of segmentBests"
               :key="best.eventDefinition.id"
               :result="best.ownSegment.result"
-              :title="sectionLabel(best.ownSegment.segment)"
+              :title="segmentLabel(best.ownSegment.segment)"
               :count="best.ownSegment.count"
               :note="paceNote(best.ownSegment.stepsPerSecond)"
               :to="{ name: 'speed-details', params: { id: best.ownSegment.result.id }, query: { group: groupId } }"
@@ -97,7 +97,7 @@ import IconLoading from '~icons/mdi/loading'
 import type { SpeedPersonalBestBaseFragment } from '../graphql/generated/graphql'
 
 type PersonalBest = SpeedPersonalBestBaseFragment
-type OwnSection = NonNullable<PersonalBest['ownSegment']>
+type OwnSegment = NonNullable<PersonalBest['ownSegment']>
 
 const { t } = useI18n()
 const route = useRoute()
@@ -136,15 +136,13 @@ const athletes = computed(() => (membersQuery.result.value?.group?.members ?? []
 
 const member = computed(() => athletes.value.find(athlete => athlete.id === memberId.value) ?? null)
 
-const bests = computed(() => (bestsQuery.result.value?.groupMember?.speedBests ?? [])
-  .toSorted((a, b) => a.eventDefinition.name.localeCompare(b.eventDefinition.name))
-)
+const bests = computed(() => bestsQuery.result.value?.groupMember?.speedBests ?? [])
 
-const sectionBests = computed(() => bests.value.filter((best): best is PersonalBest & { ownSegment: OwnSection } => best.ownSegment != null))
+const segmentBests = computed(() => bests.value.filter((best): best is PersonalBest & { ownSegment: OwnSegment } => best.ownSegment != null))
 
-function sectionLabel (segment: OwnSection['segment']) {
+function segmentLabel (segment: OwnSegment['segment']) {
   if (!segment) return t('speed.group.wholeScore')
-  return segment.label ?? t('groups.speed.sectionN', { n: segment.index + 1 })
+  return segment.label ?? t('speed.details.segmentN', { n: segment.index + 1 })
 }
 
 function paceNote (stepsPerSecond: number | null) {
