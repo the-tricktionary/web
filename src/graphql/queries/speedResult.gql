@@ -5,6 +5,7 @@ query SpeedResult ($speedResultId: ID!) {
       ...SpeedResultBase
       ...SpeedResultSharing
       ...SpeedResultSegments
+      excludedFromPersonalBests
       # The event's own switches decide how many counts the edit form can take
       eventDefinition {
         id

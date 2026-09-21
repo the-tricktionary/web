@@ -171,6 +171,17 @@
             :disabled="saving"
           />
 
+          <div class="flex flex-col gap-1">
+            <icon-checkbox
+              :checked="editExcluded"
+              :disabled="saving"
+              @update:checked="editExcluded = $event"
+            >
+              {{ t('speed.details.excludeFromBests') }}
+            </icon-checkbox>
+            <span class="text-muted text-sm">{{ t('speed.details.excludeFromBestsHint') }}</span>
+          </div>
+
           <label class="flex flex-col gap-1">
             <span class="font-semibold">{{ t('speed.group.label') }}</span>
             <group-picker v-model="editGroupId" :disabled="saving" />
@@ -264,6 +275,7 @@ import { useHead } from '@unhead/vue'
 import {
   GroupRole,
   useDeleteSpeedResultMutation,
+  useExcludeSpeedResultFromPersonalBestsMutation,
   useSetSpeedResultGroupMutation,
   useSpeedResultQuery,
   useUpdateSpeedResultMutation
@@ -337,6 +349,7 @@ const editPerSegment = ref(false)
 const editSegmentCounts = ref<Array<number | undefined>>([])
 const editGroupId = ref('')
 const editParticipants = ref<SpeedParticipantInput[]>([])
+const editExcluded = ref(false)
 const error = ref<string | null>(null)
 
 type Result = NonNullable<NonNullable<SpeedResultQuery['me']>['speedResult']>
@@ -356,6 +369,7 @@ watch(speedResult, result => {
   editSegmentCounts.value = [...result?.segmentCounts ?? []]
   editGroupId.value = result?.group?.id ?? ''
   editParticipants.value = participantsOf(result)
+  editExcluded.value = result?.excludedFromPersonalBests ?? false
 }, { immediate: true })
 
 // the seeding above sets the saved group, so only a real change clears who competed
@@ -392,7 +406,9 @@ const sharingDirty = computed(() => {
   return participantKey(editParticipants.value) !== participantKey(participantsOf(speedResult.value))
 })
 
-const dirty = computed(() => detailsDirty.value || sharingDirty.value)
+const bestsDirty = computed(() => speedResult.value != null && editExcluded.value !== speedResult.value.excludedFromPersonalBests)
+
+const dirty = computed(() => detailsDirty.value || sharingDirty.value || bestsDirty.value)
 
 const segmentSum = computed(() => editedSegmentCounts.value.reduce<number>((steps, segmentCount) => steps + (Number.isSafeInteger(segmentCount) ? segmentCount! : 0), 0))
 
@@ -413,12 +429,13 @@ function participantLabel (segmentIndex: number | null) {
 
 const { mutate: update, loading: updating } = useUpdateSpeedResultMutation({})
 const { mutate: setGroup, loading: sharing } = useSetSpeedResultGroupMutation({})
+const { mutate: excludeFromBests, loading: excluding } = useExcludeSpeedResultFromPersonalBestsMutation({})
 const { mutate: deleteResult, loading: deleting } = useDeleteSpeedResultMutation(() => ({
   update (cache, { data }) {
     if (data?.deleteSpeedResult) removeSpeedResultFromCache(cache, data.deleteSpeedResult.id)
   }
 }))
-const saving = computed(() => updating.value || sharing.value || deleting.value)
+const saving = computed(() => updating.value || sharing.value || excluding.value || deleting.value)
 
 async function save () {
   if (!speedResult.value || !dirty.value || saving.value) return
@@ -439,6 +456,9 @@ async function save () {
             : {})
         }
       })
+    }
+    if (bestsDirty.value) {
+      await excludeFromBests({ speedResultId: speedResult.value.id, excluded: editExcluded.value })
     }
     if (sharingDirty.value) {
       await setGroup({

@@ -1,0 +1,6 @@
+mutation ExcludeSpeedResultFromPersonalBests ($speedResultId: ID!, $excluded: Boolean!) {
+  excludeSpeedResultFromPersonalBests (speedResultId: $speedResultId, excluded: $excluded) {
+    id
+    excludedFromPersonalBests
+  }
+}

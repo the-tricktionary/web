@@ -486,6 +486,8 @@
       "duration": "Duration",
       "edit": "Edit",
       "event": "Event",
+      "excludeFromBests": "Leave out of personal bests",
+      "excludeFromBestsHint": "The score stays in your lists and analysis, only the bests skip it.",
       "failedDelete": "Failed to delete: {error}",
       "failedSave": "Failed to save: {error}",
       "loading": "Loading score...",
