@@ -9,14 +9,14 @@
         "source": "/sitemap.xml",
         "run": {
           "serviceId": "tricktionary-api",
-          "region": "europe-west1"
+          "region": "us-central1"
         }
       },
       {
         "source": "/booklets/*.pdf",
         "run": {
           "serviceId": "tricktionary-api",
-          "region": "europe-west1"
+          "region": "us-central1"
         }
       },
       {
