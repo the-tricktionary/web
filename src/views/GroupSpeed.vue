@@ -12,9 +12,11 @@
           <option :value="ANY_CONSTELLATION">
             {{ t('groups.speed.allConstellations') }}
           </option>
-          <option v-for="option of constellations" :key="option.key" :value="option.key">
-            {{ t('groups.speed.constellationOption', { names: constellationNames(option.members), count: option.resultCount }) }}
-          </option>
+          <optgroup v-for="group of constellationGroups" :key="group.size" :label="t('groups.athletes', group.size)">
+            <option v-for="option of group.constellations" :key="option.key" :value="option.key">
+              {{ t('groups.speed.constellationOption', { names: constellationNames(option.members), count: option.resultCount }) }}
+            </option>
+          </optgroup>
           <option value="">
             {{ t('groups.speed.unassigned') }}
           </option>
@@ -81,6 +83,8 @@
 
     <group-athlete-speed :group-id="groupId" :event-definition-id="eventDefinitionId" />
   </div>
+
+  <group-bottom-bar />
 </template>
 
 <script setup lang="ts">
@@ -96,6 +100,7 @@ import useEventDefinitions from '../hooks/useEventDefinitions'
 
 import EventPicker from '../components/EventPicker.vue'
 import GroupAthleteSpeed from '../components/GroupAthleteSpeed.vue'
+import GroupBottomBar from '../components/GroupBottomBar.vue'
 import SpeedBox from '../components/SpeedBox.vue'
 import SpeedProgressionChart from '../components/SpeedProgressionChart.vue'
 import IconFilterRemove from '~icons/mdi/filter-remove-outline'
@@ -103,7 +108,9 @@ import IconLoading from '~icons/mdi/loading'
 import IconTimer from '~icons/mdi/timer-outline'
 
 import type { ProgressionPoint } from '../components/SpeedProgressionChart.vue'
-import type { SpeedResultBaseFragment } from '../graphql/generated/graphql'
+import type { GroupConstellationsQuery, SpeedResultBaseFragment } from '../graphql/generated/graphql'
+
+type Constellation = NonNullable<GroupConstellationsQuery['group']>['constellations'][number]
 
 const PAGE_SIZE = 20
 /** No member id is a bare star, so it cannot be a constellation's key */
@@ -137,6 +144,19 @@ const constellationsQuery = useGroupConstellationsQuery(
   () => ({ enabled: groupId.value !== '', fetchPolicy: 'cache-and-network' })
 )
 const constellations = computed(() => constellationsQuery.result.value?.group?.constellations ?? [])
+
+/** The constellations in buckets of how many athletes jumped, fewest first, each bucket in the order the group gave them */
+const constellationGroups = computed(() => {
+  const bySize = new Map<number, Constellation[]>()
+  for (const option of constellations.value) {
+    const bucket = bySize.get(option.members.length) ?? []
+    bucket.push(option)
+    bySize.set(option.members.length, bucket)
+  }
+  return [...bySize.entries()]
+    .toSorted(([a], [b]) => a - b)
+    .map(([size, options]) => ({ size, constellations: options }))
+})
 
 const resultsQuery = useGroupSpeedResultsQuery(
   () => ({ ...variables.value, startAfter: null }),

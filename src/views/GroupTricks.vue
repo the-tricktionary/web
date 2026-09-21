@@ -1,15 +1,8 @@
 <template>
   <div class="flex flex-col gap-4">
-    <discipline-selector v-model:discipline="discipline" />
-
-    <div class="flex flex-wrap items-center gap-4">
-      <icon-checkbox v-model:checked="hideCompleted" class="w-max">
-        {{ t('groups.tricks.hideCompleted') }}
-      </icon-checkbox>
-      <p v-if="!canEdit" class="text-muted mb-0">
-        {{ t('groups.tricks.readOnly') }}
-      </p>
-    </div>
+    <p v-if="!canEdit" class="text-muted mb-0">
+      {{ t('groups.tricks.readOnly') }}
+    </p>
 
     <div v-if="loading && !athletes.length" class="flex items-center justify-center flex-col" role="status">
       <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
@@ -32,6 +25,15 @@
       :hide-completed="hideCompleted"
     />
   </div>
+
+  <group-bottom-bar>
+    <div class="flex-none">
+      <discipline-selector v-model:discipline="discipline" />
+    </div>
+    <icon-checkbox v-model:checked="hideCompleted" class="w-max flex-none whitespace-nowrap">
+      {{ t('groups.tricks.hideCompleted') }}
+    </icon-checkbox>
+  </group-bottom-bar>
 </template>
 
 <script setup lang="ts">
@@ -44,6 +46,7 @@ import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
 
 import DisciplineSelector from '../components/DisciplineSelector.vue'
+import GroupBottomBar from '../components/GroupBottomBar.vue'
 import GroupTrickTable from '../components/GroupTrickTable.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import IconAccountGroup from '~icons/mdi/account-group'

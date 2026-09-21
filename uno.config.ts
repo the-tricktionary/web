@@ -117,6 +117,11 @@ export default defineConfig({
       }
     }
   },
+  rules: [
+    // A block wider than the page container, out to a 1rem gutter; the gutter is
+    // what keeps the document from scrolling sideways, since 100vw counts the scrollbar
+    ['full-bleed', { 'margin-inline': 'calc(50% - 50vw + 1rem)' }]
+  ],
   shortcuts: {
     // Generic button, also used for link-buttons and submit inputs
     btn: [

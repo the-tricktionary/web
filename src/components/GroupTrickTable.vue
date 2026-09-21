@@ -4,8 +4,8 @@
       {{ error }}
     </p>
 
-    <!-- relative so the visually hidden labels inside the cells do not widen the page -->
-    <div v-if="levels.length" class="relative overflow-auto max-h-[70dvh] border border-line rounded">
+    <!-- relative keeps the hidden labels from widening the page, isolate keeps the sticky cells under the bars -->
+    <div v-if="levels.length" class="relative isolate full-bleed overflow-auto max-h-[70dvh] border border-line rounded">
       <table class="border-collapse">
         <caption class="sr-only">
           {{ t('groups.tricks.caption') }}

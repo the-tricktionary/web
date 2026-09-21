@@ -60,6 +60,7 @@
     "accept": "Accept",
     "athlete": "Athlete",
     "athletes": "No athletes | 1 athlete | {count} athletes",
+    "backToGroups": "Back to groups",
     "consent": {
       "adminsCanTick": "The people responsible for this group can mark tricks as completed on your behalf.",
       "checklistVisible": "Everyone in this group can see which tricks you have completed, which is otherwise private.",

@@ -161,6 +161,8 @@
       <group-join-code :group-id="groupId" :join-code="joinCode" />
     </template>
   </div>
+
+  <group-bottom-bar />
 </template>
 
 <script setup lang="ts">
@@ -183,6 +185,7 @@ import { enumKey } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import { addInviteToGroupCache, addMemberToCache, removeGroupFromCache } from '../hooks/useGroups'
 
+import GroupBottomBar from '../components/GroupBottomBar.vue'
 import GroupInviteRow from '../components/GroupInviteRow.vue'
 import GroupJoinCode from '../components/GroupJoinCode.vue'
 import GroupJoinRequest from '../components/GroupJoinRequest.vue'
