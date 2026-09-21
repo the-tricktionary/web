@@ -19,7 +19,7 @@
 
         <label class="flex flex-col gap-1">
           <span class="font-semibold">{{ t('booklets.language') }}</span>
-          <select v-model="bookletLang" class="rounded">
+          <select v-model="bookletLang" class="rounded" @change="langTouched = true">
             <option v-for="language of languages" :key="language.id" :value="language.id" :lang="language.id">
               {{ languageName(language.id) }}
             </option>
@@ -29,7 +29,7 @@
 
       <label class="flex flex-col gap-1">
         <span class="font-semibold">{{ t('booklets.ruleset') }}</span>
-        <select v-model="rulesId" class="rounded" :aria-describedby="rulesetHelpId">
+        <select v-model="rulesId" class="rounded" :aria-describedby="rulesetHelpId" @change="rulesetTouched = true">
           <option :value="null">{{ t('booklets.noRuleset') }}</option>
           <option v-for="rs of rulesets" :key="rs.id" :value="rs.id">
             {{ rs.name }}
@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
@@ -123,6 +123,13 @@ const bookletLang = ref(lang.value)
 const rulesId = ref<string | null>(ruleset.value?.id ?? null)
 const detailed = ref(false)
 const layout = ref<Layout>('pages')
+
+// the site's language and followed ruleset arrive once their queries answer,
+// the form follows them until a choice is made here
+const langTouched = ref(false)
+const rulesetTouched = ref(false)
+watch(lang, lang => { if (!langTouched.value) bookletLang.value = lang })
+watch(ruleset, ruleset => { if (!rulesetTouched.value) rulesId.value = ruleset?.id ?? null })
 
 const layouts = computed(() => [
   { value: 'pages' as const, label: t('booklets.layoutPages'), help: t('booklets.layoutPagesHelp') },
