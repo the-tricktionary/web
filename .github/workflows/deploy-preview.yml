@@ -5,14 +5,21 @@ on:
 
 jobs:
   build_and_preview:
+    # A fork's pull request gets neither the OIDC token nor the environment
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     environment:
       name: branch-deploy
-      url: ${{ steps.deploy.outputs.details_url }}
+      url: ${{ steps.deploy.outputs.url }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+        with:
+          # the Sentry release lists the commits since the previous release
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -23,23 +30,33 @@ jobs:
           VITE_COMMIT_REF: ${{ github.sha }}
           VITE_CONTEXT: branch-deploy
           VITE_GRAPHQL_URL: https://api.the-tricktionary.com
-          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          VITE_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        id: deploy
+      - uses: google-github-actions/auth@v3
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROJECT_5641153190345267944 }}'
-          expires: 30d
-          projectId: project-5641153190345267944
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      # The channel's own hostname is added to the Firebase Auth authorized
+      # domains by the CLI, which is why the deploy account needs
+      # firebaseauth.admin. 30d is the maximum the CLI accepts.
+      - name: Deploy preview channel
+        id: deploy
+        run: |
+          npx firebase-tools@15.30.2 hosting:channel:deploy "pr${{ github.event.number }}" \
+            --project "${{ vars.GCP_PROJECT_ID }}" --expires 30d --json > "$RUNNER_TEMP/channel.json"
+          echo "url=$(jq -er '[.result[].url][0]' "$RUNNER_TEMP/channel.json")" >> "$GITHUB_OUTPUT"
 
       - name: Create Sentry release
-        uses: getsentry/action-release@v1
+        uses: getsentry/action-release@v3
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
         with:
           environment: branch-deploy
           sourcemaps: ./dist
-          version_prefix: tricktionary-web-v4@
+          release_prefix: tricktionary-web-v4@
+          # the previous release may point at a commit this repository no longer has
+          ignore_missing: true

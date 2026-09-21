@@ -11,9 +11,15 @@ jobs:
     environment:
       name: production
       url: https://the-tricktionary.com
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+        with:
+          # the Sentry release lists the commits since the previous release
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -24,21 +30,27 @@ jobs:
           VITE_COMMIT_REF: ${{ github.sha }}
           VITE_CONTEXT: production
           VITE_GRAPHQL_URL: https://api.the-tricktionary.com
-          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          VITE_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: google-github-actions/auth@v3
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROJECT_5641153190345267944 }}'
-          channelId: live
-          projectId: project-5641153190345267944
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      # firebase-tools picks up the credentials the step above wrote, so the
+      # deploy needs no service account key.
+      - run: npx firebase-tools@15.30.2 deploy --only hosting --project "${{ vars.GCP_PROJECT_ID }}"
+
       - name: Create Sentry release
-        uses: getsentry/action-release@v1
+        uses: getsentry/action-release@v3
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
         with:
           environment: production
           sourcemaps: ./dist
-          version_prefix: tricktionary-web-v4@
+          release_prefix: tricktionary-web-v4@
+          # the previous release may point at a commit this repository no longer has
+          ignore_missing: true
