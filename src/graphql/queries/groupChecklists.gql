@@ -20,10 +20,6 @@ query GroupChecklists ($groupId: ID!, $discipline: Discipline, $withLocalised: B
         trick {
           id
         }
-        recordedBy {
-          id
-          name
-        }
       }
     }
   }

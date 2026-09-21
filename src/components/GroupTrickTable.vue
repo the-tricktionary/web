@@ -49,22 +49,8 @@
                   :disabled="!canEdit"
                   @change="toggle(athlete, trick.id, ($event.target as HTMLInputElement).checked)"
                 >
-                <span class="sr-only">
-                  {{ t('groups.tricks.completedBy', { athlete: athlete.name, trick: trick.name }) }}
-                  <template v-if="ticked.get(`${athlete.id}:${trick.id}`)?.recordedBy">
-                    {{ t('groups.tricks.recordedByCoach') }}
-                  </template>
-                </span>
-                <icon-check-decagram
-                  v-if="ticked.get(`${athlete.id}:${trick.id}`)?.recordedBy"
-                  class="text-success"
-                  aria-hidden="true"
-                />
-                <icon-check
-                  v-else-if="ticked.has(`${athlete.id}:${trick.id}`)"
-                  class="text-success"
-                  aria-hidden="true"
-                />
+                <span class="sr-only">{{ t('groups.tricks.completedBy', { athlete: athlete.name, trick: trick.name }) }}</span>
+                <icon-check v-if="ticked.has(`${athlete.id}:${trick.id}`)" class="text-success" aria-hidden="true" />
               </label>
             </td>
           </tr>
@@ -73,18 +59,13 @@
     </div>
 
     <p v-else class="text-muted mb-0">
-      {{ t('groups.tricks.noDifferences') }}
-    </p>
-
-    <p v-if="levels.length" class="text-muted text-sm mb-0 flex items-center gap-1">
-      <icon-check-decagram aria-hidden="true" />
-      {{ t('groups.tricks.recordedByCoach') }}
+      {{ t('groups.tricks.allCompleted') }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { disciplineToSlug, localiseTrick, trickSorter } from '../helpers'
@@ -92,7 +73,6 @@ import useGroupMemberCompletion from '../hooks/useGroupMemberCompletion'
 import useLanguage from '../hooks/useLanguage'
 
 import IconCheck from '~icons/mdi/check'
-import IconCheckDecagram from '~icons/mdi/check-decagram'
 
 import type { PropType } from 'vue'
 import type { GroupChecklistsQuery } from '../graphql/generated/graphql'
@@ -109,13 +89,8 @@ const props = defineProps({
     type: Array as PropType<Athlete[]>,
     required: true
   },
-  /** The admin doing the ticking, whom the API stamps on every completion */
-  recordedBy: {
-    type: Object as PropType<{ id: string, name: string } | null>,
-    default: null
-  },
   canEdit: Boolean,
-  showDifferences: Boolean
+  hideCompleted: Boolean
 })
 
 const { t } = useI18n()
@@ -123,7 +98,7 @@ const { lang } = useLanguage()
 
 const error = ref<string | null>(null)
 
-const { toggle: toggleCompletion, onError } = useGroupMemberCompletion(toRef(props, 'recordedBy'))
+const { toggle: toggleCompletion, onError } = useGroupMemberCompletion()
 
 onError(err => { error.value = t('groups.tricks.failed', { error: err.message }) })
 
@@ -135,15 +110,14 @@ const ticked = computed(() => {
   return map
 })
 
-function agreed (trickId: string) {
-  const first = ticked.value.has(`${props.athletes[0]?.id}:${trickId}`)
-  return !props.athletes.some(athlete => ticked.value.has(`${athlete.id}:${trickId}`) !== first)
+function everyoneCompleted (trickId: string) {
+  return props.athletes.every(athlete => ticked.value.has(`${athlete.id}:${trickId}`))
 }
 
 const levels = computed(() => {
   const byLevel = new Map<string, Array<{ id: string, to: string, name: string, nameLang: string }>>()
   for (const trick of [...props.tricks].sort(trickSorter(lang.value))) {
-    if (props.showDifferences && agreed(trick.id)) continue
+    if (props.hideCompleted && everyoneCompleted(trick.id)) continue
     const level = trick.ttLevels[0]?.level ?? ''
     const localised = localiseTrick(trick, lang.value)
     const rows = byLevel.get(level) ?? []

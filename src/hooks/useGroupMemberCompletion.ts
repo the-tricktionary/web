@@ -1,7 +1,6 @@
 import { useSetGroupMemberTrickCompletionMutation } from '../graphql/generated/graphql'
 
 import type { ApolloCache, Reference } from '@apollo/client/core'
-import type { Ref } from 'vue'
 import type { SetGroupMemberTrickCompletionMutation } from '../graphql/generated/graphql'
 
 type Completion = NonNullable<SetGroupMemberTrickCompletionMutation['setGroupMemberTrickCompletion']>
@@ -33,25 +32,23 @@ function patchChecklist (cache: ApolloCache<unknown>, id: string | undefined, tr
   })
 }
 
-function optimisticCompletion (memberId: string, trickId: string, recordedBy: { id: string, name: string } | null) {
+function optimisticCompletion (memberId: string, trickId: string) {
   return {
     setGroupMemberTrickCompletion: {
       __typename: 'TrickCompletion',
       id: `optimistic:${memberId}:${trickId}`,
-      trick: { __typename: 'Trick', id: trickId },
-      recordedBy: recordedBy ? { __typename: 'User', ...recordedBy } : null
+      trick: { __typename: 'Trick', id: trickId }
     }
   } as SetGroupMemberTrickCompletionMutation
 }
 
-/** `recordedBy` is the admin doing the ticking, which the API stamps on every completion */
-export default function useGroupMemberCompletion (recordedBy: Ref<{ id: string, name: string } | null>) {
+export default function useGroupMemberCompletion () {
   const mutation = useSetGroupMemberTrickCompletionMutation({})
 
   async function toggle (athlete: Athlete, trickId: string, completed: boolean) {
     return await mutation.mutate({ memberId: athlete.id, trickId, completed }, {
       optimisticResponse: completed
-        ? optimisticCompletion(athlete.id, trickId, recordedBy.value)
+        ? optimisticCompletion(athlete.id, trickId)
         : { setGroupMemberTrickCompletion: null },
       update (cache, { data }) {
         const added = data?.setGroupMemberTrickCompletion ?? null

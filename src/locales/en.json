@@ -70,13 +70,13 @@
     "create": {
       "failed": "Could not create the group: {error}",
       "name": "Group name",
-      "namePlaceholder": "The name of your squad",
+      "namePlaceholder": "The name of your group",
       "save": "Create group",
       "title": "Create a group"
     },
     "createGroup": "Create group",
     "decline": "Decline",
-    "empty": "You are not in any groups yet. Create one for your squad, or join one with a code you were given.",
+    "empty": "You are not in any groups yet. Create one, or join one with a code you were given.",
     "failedRespond": "Could not answer the invitation: {error}",
     "invitedBy": "{name} invited you",
     "invitedByUnknown": "You have been invited",
@@ -129,7 +129,7 @@
       "failedSave": "Could not save the change: {error}",
       "hasAccount": "Has an account",
       "invite": "Invite someone",
-      "inviteAsObserver": "They join to watch rather than to compete",
+      "inviteAsObserver": "Exclude from the group's checklist and speed scores",
       "inviteExplain": "By username, or by user id when they have no username.",
       "inviteToClaim": "Invite them to claim this",
       "lastAdmin": "The only admin of the group, and a group needs one.",
@@ -186,15 +186,14 @@
     },
     "title": "Groups",
     "tricks": {
+      "allCompleted": "Everyone has completed every trick of this discipline.",
       "caption": "Tricks down the side, athletes across the top",
       "completedBy": "{athlete} has completed {trick}",
       "failed": "Could not save the tick: {error}",
-      "loading": "Loading the squad...",
+      "hideCompleted": "Hide tricks everyone has completed",
+      "loading": "Loading the group...",
       "noAthletes": "Nobody competes in this group yet, so there is nothing to compare.",
-      "noDifferences": "The whole squad agrees on every trick of this discipline.",
       "readOnly": "Only an admin of the group can change these.",
-      "recordedByCoach": "Ticked off by a coach",
-      "showDifferences": "Only where the squad disagrees",
       "trick": "Trick"
     },
     "youAreAdmin": "You are an admin"

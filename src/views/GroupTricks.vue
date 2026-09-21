@@ -3,8 +3,8 @@
     <discipline-selector v-model:discipline="discipline" />
 
     <div class="flex flex-wrap items-center gap-4">
-      <icon-checkbox v-model:checked="showDifferences" class="w-max">
-        {{ t('groups.tricks.showDifferences') }}
+      <icon-checkbox v-model:checked="hideCompleted" class="w-max">
+        {{ t('groups.tricks.hideCompleted') }}
       </icon-checkbox>
       <p v-if="!canEdit" class="text-muted mb-0">
         {{ t('groups.tricks.readOnly') }}
@@ -28,9 +28,8 @@
       v-else
       :tricks="tricks"
       :athletes="athletes"
-      :recorded-by="recordedBy"
       :can-edit="canEdit"
-      :show-differences="showDifferences"
+      :hide-completed="hideCompleted"
     />
   </div>
 </template>
@@ -57,7 +56,7 @@ const { lang } = useLanguage()
 
 const groupId = computed(() => typeof route.params.id === 'string' ? route.params.id : '')
 const discipline = ref<Discipline>(Discipline.SingleRope)
-const showDifferences = ref(false)
+const hideCompleted = ref(false)
 
 const checklistsQuery = useGroupChecklistsQuery(
   () => ({
@@ -84,9 +83,4 @@ const athletes = computed(() => members.value
 
 const canEdit = computed(() => group.value?.myMembership?.role === GroupRole.Admin)
 
-const recordedBy = computed(() => {
-  const uid = firebaseUser.value?.uid
-  const mine = members.value.find(member => member.id === group.value?.myMembership?.id)
-  return uid && mine ? { id: uid, name: mine.name } : null
-})
 </script>
