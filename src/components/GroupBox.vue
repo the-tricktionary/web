@@ -5,7 +5,7 @@
   >
     <span class="font-bold truncate">{{ group.name }}</span>
     <span class="text-muted text-sm truncate">
-      {{ athletes === 1 ? t('groups.athlete') : t('groups.athletes', { count: athletes }) }}
+      {{ t('groups.athletes', athletes) }}
       <template v-if="isAdmin"> &middot; {{ t('groups.youAreAdmin') }}</template>
     </span>
   </router-link>

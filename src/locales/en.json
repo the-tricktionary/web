@@ -59,12 +59,11 @@
   "groups": {
     "accept": "Accept",
     "athlete": "Athlete",
-    "athleteCount": "1 athlete",
-    "athletesCount": "{count} athletes",
+    "athletes": "No athletes | 1 athlete | {count} athletes",
     "consent": {
-      "adminsCanTick": "The people running this group can tick tricks off for you, and anything they tick shows on your profile just like a trick you ticked yourself.",
+      "adminsCanTick": "The people responsible for this group can mark tricks as completed on your behalf.",
       "checklistVisible": "Everyone in this group can see which tricks you have completed, which is otherwise private.",
-      "title": "What joining means"
+      "title": "By joining"
     },
     "create": {
       "failed": "Could not create the group: {error}",
@@ -91,15 +90,15 @@
       "failed": "Could not ask to join: {error}",
       "loading": "Looking up the code...",
       "lookUp": "Look up",
-      "needsApproval": "Redeeming a code does not join the group, it asks to. An admin still has to let you in before you are a member.",
+      "needsApproval": "You can use a code to ask to join a group, someone responsible for the group will have to accept your request.",
       "notFound": "No group answers to that code. It may have been changed or cleared since you were given it.",
-      "requested": "Your request to join {name} has been sent. An admin still has to let you in.",
+      "requested": "Your request to join {name} has been sent. Someone responsible for the group will have to approve it.",
       "title": "Join a group with a code"
     },
     "joinCode": {
       "clear": "Clear the code",
       "confirmClear": "Clear the join code? The link stops working and nobody can redeem it until you generate a new one.",
-      "confirmRegenerate": "Generate a new code? The old one stops working straight away, which is how a leaked link is revoked.",
+      "confirmRegenerate": "Generate a new code? The old one stops working straight away.",
       "copied": "Copied",
       "copyLink": "Copy the link",
       "explain": "Anybody with the code can ask to join. An admin still has to let them in.",
@@ -117,9 +116,9 @@
       "athletes": "Athletes",
       "cancel": "Cancel",
       "cancelClaim": "Invite somebody new instead",
-      "claiming": "This invitation hands over {name}, so what the group recorded against that row becomes theirs.",
-      "confirmLeave": "Leave this group? If you have competed in scores it holds, your name stays on them as an athlete the group manages.",
-      "confirmRemove": "Remove {name} from this group? If they have competed in scores it holds, they stay as an athlete the group manages so those scores still say who competed.",
+      "claiming": "Whoever accepts this invitation takes over {name}'s checklist and speed scores.",
+      "confirmLeave": "Are you sure you want to leave this group?",
+      "confirmRemove": "Remove {name} from this group? If they have speed scores in the group, they stay listed as an athlete without an account so those scores keep their name.",
       "demote": "Make a member",
       "failedAdd": "Could not add the athlete: {error}",
       "failedInvite": "Could not send the invitation: {error}",
@@ -139,7 +138,7 @@
       "managed": "No account, the group keeps their checklist",
       "name": "Name",
       "namePlaceholder": "The name you call them by",
-      "noAthletes": "Nobody competes in this group yet.",
+      "noAthletes": "There are no athletes in this group yet.",
       "observers": "Observers",
       "promote": "Make an admin",
       "remove": "Remove from the group",
@@ -199,7 +198,7 @@
       "failed": "Could not load the scores: {error}",
       "leg": "Leg",
       "loading": "Loading scores...",
-      "noAthletes": "Nobody competes in this group yet.",
+      "noAthletes": "There are no athletes in this group yet.",
       "pickAthlete": "Pick an athlete",
       "pickEventFor": "Pick an event above to see how {name} has progressed in it.",
       "progressTitle": "How the group has progressed",
@@ -218,7 +217,7 @@
       "failed": "Could not save the tick: {error}",
       "hideCompleted": "Hide tricks everyone has completed",
       "loading": "Loading the group...",
-      "noAthletes": "Nobody competes in this group yet, so there is nothing to compare.",
+      "noAthletes": "There are no athletes in this group yet, so there is nothing to compare.",
       "readOnly": "Only an admin of the group can change these.",
       "trick": "Trick"
     },
@@ -440,7 +439,7 @@
       "none": "Not shared with a group",
       "title": "Group",
       "unassigned": "Nobody",
-      "whoCompeted": "Who competed",
+      "whoCompeted": "Who jumped it",
       "wholeScore": "The whole score"
     },
     "loadMore": "Load more",
