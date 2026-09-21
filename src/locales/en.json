@@ -381,6 +381,16 @@
   },
   "speed": {
     "allScores": "All scores",
+    "clearFilters": "Clear the filters",
+    "emptyFiltered": "No scores match these filters.",
+    "filters": {
+      "anyConstellation": "Any constellation",
+      "anyEvent": "Any event",
+      "anyGroup": "Any group",
+      "constellation": "Constellation",
+      "event": "Event",
+      "group": "Group"
+    },
     "groupScores": "Group scores",
     "chart": {
       "compareOf": "Steps per second of {a} and {b}",
