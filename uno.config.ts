@@ -131,7 +131,9 @@ export default defineConfig({
       'hover:bg-elevated',
       'disabled:cursor-default disabled:bg-elevated disabled:text-muted',
       'focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ttred-900 focus-visible:outline-offset-2'
-    ].join(' ')
+    ].join(' '),
+    // The floor for anything meant to be hit with a thumb, 44 CSS px square
+    'touch-target': 'min-w-11 min-h-11'
   },
   preflights: [
     {
