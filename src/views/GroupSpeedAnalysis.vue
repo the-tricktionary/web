@@ -6,33 +6,16 @@
         <event-picker v-model="eventDefinitionId" :any-label="t('groups.speed.allEvents')" />
       </label>
 
-      <fieldset class="flex flex-col gap-2 border border-line rounded px-2 pb-2 min-w-60 max-w-120 flex-grow">
-        <legend class="font-semibold px-1">
-          {{ t('groups.speed.analysis.constellations') }}
-        </legend>
-        <p v-if="!constellations.length" class="text-muted mb-0">
-          {{ t('groups.speed.analysis.noConstellations') }}
-        </p>
-        <div v-else class="flex flex-col gap-2 max-h-60 overflow-y-auto">
-          <div v-for="bucket of constellationGroups" :key="bucket.size" class="flex flex-col">
-            <p class="text-muted text-sm mb-0">
-              {{ t('groups.athletes', bucket.size) }}
-            </p>
-            <label
-              v-for="option of bucket.constellations"
-              :key="option.key"
-              class="flex items-center gap-2 touch-target cursor-pointer"
-            >
-              <input v-model="picked" type="checkbox" :value="option.key" class="w-5 h-5">
-              <span>{{ t('groups.speed.constellationOption', { names: constellationNames(option.members), count: option.resultCount }) }}</span>
-            </label>
-          </div>
-          <label class="flex items-center gap-2 touch-target cursor-pointer">
-            <input v-model="picked" type="checkbox" value="" class="w-5 h-5">
-            <span>{{ t('groups.speed.unassigned') }}</span>
-          </label>
-        </div>
-      </fieldset>
+      <div class="flex flex-col gap-1 min-w-60">
+        <span :id="constellationsLabelId" class="font-semibold">{{ t('groups.speed.analysis.constellations') }}</span>
+        <multi-select
+          v-model="picked"
+          :groups="constellationOptions"
+          :placeholder="t(constellations.length ? 'groups.speed.allConstellations' : 'groups.speed.analysis.noConstellations')"
+          :labelledby="constellationsLabelId"
+          :disabled="!constellations.length"
+        />
+      </div>
     </div>
 
     <p v-if="error" class="text-ttred-900 mb-0" role="alert">
@@ -150,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -163,10 +146,12 @@ import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import EventPicker from '../components/EventPicker.vue'
 import GroupBottomBar from '../components/GroupBottomBar.vue'
+import MultiSelect from '../components/MultiSelect.vue'
 import SpeedProgressionChart from '../components/SpeedProgressionChart.vue'
 import IconLoading from '~icons/mdi/loading'
 
 import type { ProgressionPoint } from '../components/SpeedProgressionChart.vue'
+import type { MultiSelectGroup } from '../components/MultiSelect.vue'
 import type { AnalysisResult, SpeedSelection } from '../hooks/useGroupSpeedAnalysis'
 
 const { t } = useI18n()
@@ -183,6 +168,18 @@ const picked = ref<string[]>([])
 const athleteId = ref('')
 
 const { constellations, constellationGroups } = useGroupConstellations(groupId)
+const constellationsLabelId = useId()
+
+const constellationOptions = computed<MultiSelectGroup[]>(() => [
+  ...constellationGroups.value.map(bucket => ({
+    label: t('groups.athletes', bucket.size),
+    options: bucket.constellations.map(option => ({
+      value: option.key,
+      label: t('groups.speed.constellationOption', { names: constellationNames(option.members), count: option.resultCount })
+    }))
+  })),
+  { options: [{ value: '', label: t('groups.speed.unassigned') }] }
+])
 
 const eventName = computed(() => eventDefinitions.value.find(eventDefinition => eventDefinition.id === eventDefinitionId.value)?.name ?? '')
 
