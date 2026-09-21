@@ -1,4 +1,5 @@
 #import "../fragments/speedResult.gql"
+#import "../fragments/speedPersonalBest.gql"
 #import "../fragments/speedSegment.gql"
 
 query GroupSpeedResults ($groupId: ID!, $limit: Int, $startAfter: Timestamp, $eventDefinitionId: ID, $constellation: [ID!]) {
@@ -37,6 +38,15 @@ query GroupConstellations ($groupId: ID!) {
         id
         name
       }
+    }
+  }
+}
+
+query GroupMemberBests ($memberId: ID!) {
+  groupMember (memberId: $memberId) {
+    id
+    speedBests {
+      ...SpeedPersonalBestBase
     }
   }
 }

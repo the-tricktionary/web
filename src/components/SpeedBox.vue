@@ -4,7 +4,7 @@
     :to="to ?? { name: 'speed-details', params: { id: result.id } }"
   >
     <span class="col-start-1 row-start-1 flex items-center gap-1 min-w-0">
-      <span class="font-bold truncate">{{ result.name ?? result.eventDefinition.name }}</span>
+      <span class="font-bold truncate">{{ title ?? result.name ?? result.eventDefinition.name }}</span>
       <icon-chart
         v-if="result.counted"
         class="shrink-0 text-muted"
@@ -20,13 +20,14 @@
     </span>
     <span class="col-start-1 row-start-2 text-muted text-sm truncate">
       <template v-if="result.group">{{ result.group.name }} &middot; </template>
-      <template v-if="result.name">{{ result.eventDefinition.name }} &middot; </template>
+      <template v-if="result.name || title">{{ result.eventDefinition.name }} &middot; </template>
       {{ duration(result.eventDefinition.totalDuration) }} &middot;
+      <template v-if="note">{{ note }} &middot; </template>
       <time :datetime="new Date(result.createdAt).toISOString()">{{ dateTime(result.createdAt) }}</time>
     </span>
 
     <span class="col-start-2 row-span-2 flex flex-col justify-center items-center">
-      <span class="text-3xl font-bold leading-none">{{ number(result.count) }}</span>
+      <span class="text-3xl font-bold leading-none">{{ number(count ?? result.count) }}</span>
       <span class="text-muted text-xs">{{ t('speed.steps') }}</span>
     </span>
   </router-link>
@@ -53,6 +54,21 @@ const props = defineProps({
   /** Where the box links, the result's own page unless something else is given */
   to: {
     type: Object as PropType<RouteLocationRaw>,
+    default: undefined
+  },
+  /** Replaces the score's own heading, for a box about a part of the score */
+  title: {
+    type: String,
+    default: undefined
+  },
+  /** Replaces the score's own count, for a box about a part of the score */
+  count: {
+    type: Number,
+    default: undefined
+  },
+  /** An extra word in the line under the heading, e.g. a pace */
+  note: {
+    type: String,
     default: undefined
   }
 })

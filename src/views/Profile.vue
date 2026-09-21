@@ -44,7 +44,7 @@
 
     <profile-stats :stats="user.checklistStats" />
 
-    <profile-personal-bests v-if="personalBests.length" :results="personalBests" :is-me="isMe" />
+    <profile-personal-bests v-if="personalBests.length" :bests="personalBests" :name="displayName" :is-me="isMe" />
 
     <profile-checklist v-if="checklist" :checklist="checklist" :is-me="isMe" />
   </div>
@@ -137,7 +137,7 @@ const details = computed(() => (isOwnRoute.value ? myDetailsQuery.result.value?.
 const user = computed<ProfileUserFragment | ProfileHeaderFragment | null>(() => details.value ?? header.value)
 const loading = computed(() => isOwnRoute.value ? myDetailsQuery.loading.value : headerQuery.loading.value)
 
-const personalBests = computed(() => details.value?.speedPersonalBests ?? [])
+const personalBests = computed(() => details.value?.speedBests ?? [])
 const checklist = computed(() => details.value?.checklist)
 
 const displayName = computed(() => {

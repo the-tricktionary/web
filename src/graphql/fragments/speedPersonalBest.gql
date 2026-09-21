@@ -1,0 +1,25 @@
+#import "./speedResult.gql"
+
+# An athlete's best in one event: the best score they jumped, and their best
+# section of one, which is null when they have never jumped a section of it
+fragment SpeedPersonalBestBase on SpeedPersonalBest {
+  eventDefinition {
+    id
+    name
+    totalDuration
+  }
+  total {
+    ...SpeedResultBase
+  }
+  ownSegment {
+    count
+    stepsPerSecond
+    segment {
+      index
+      label
+    }
+    result {
+      ...SpeedResultBase
+    }
+  }
+}

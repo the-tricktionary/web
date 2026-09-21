@@ -1,19 +1,16 @@
 #import "./profileHeader.gql"
 #import "./trickBox.gql"
-#import "./speedResult.gql"
+#import "./speedPersonalBest.gql"
 #import "./speedAnalysis.gql"
 
 fragment ProfileUser on User {
   ...ProfileHeader
-  speedPersonalBests @include(if: $withSpeed) {
-    ...SpeedResultBase
-    eventDefinition {
-      id
-      name
-      totalDuration
-    }
-    analysis {
-      ...SpeedAnalysisFields
+  speedBests @include(if: $withSpeed) {
+    ...SpeedPersonalBestBase
+    total {
+      analysis {
+        ...SpeedAnalysisFields
+      }
     }
   }
   checklist @include(if: $withChecklist) {

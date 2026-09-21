@@ -270,7 +270,7 @@ const chart = computed<{ points: ProgressionPoint[], series: string[], dashedSer
           id: `${result.id}-${member.id}`,
           date: new Date(result.createdAt),
           count: segment.count,
-          name: segment.label ?? t('groups.speed.analysis.sectionN', { n: segment.index + 1 }),
+          name: segment.label ?? t('groups.speed.sectionN', { n: segment.index + 1 }),
           series: member.name
         })
         addSeries(member.name)

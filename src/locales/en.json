@@ -230,7 +230,6 @@
         "hintBody": "An event on its own compares its constellations. A constellation on its own compares the events it has scores in. Both together follow that constellation in that event, one line for the total and one per athlete's section.",
         "hintTitle": "Pick an event, a constellation, or both",
         "noConstellations": "No scores are shared with this group yet, so there are no constellations to pick.",
-        "sectionN": "Section {n}",
         "sectionPace": "Section pace",
         "sectionShare": "Share",
         "sectionSteps": "Section steps",
@@ -240,6 +239,8 @@
         "total": "Total"
       },
       "athlete": "Athlete",
+      "bestSections": "Best own section",
+      "bestTotals": "Best totals",
       "bests": "Personal bests",
       "bestsEmpty": "No scores name {name} yet.",
       "bestsPick": "Pick an athlete to see their personal bests.",
@@ -255,6 +256,7 @@
       "loading": "Loading scores...",
       "noAthletes": "There are no athletes in this group yet.",
       "pickAthlete": "Pick an athlete",
+      "sectionN": "Section {n}",
       "unassigned": "Nobody assigned yet"
     },
     "tabs": {
@@ -320,6 +322,8 @@
     "noneInDiscipline": "No completed tricks in this discipline yet.",
     "notFound": "This profile is private or doesn't exist",
     "openScore": "Open score",
+    "ownSection": "{name}'s section: {count}",
+    "ownSectionLabelled": "{name}'s section ({label}): {count}",
     "personalBests": "Personal bests",
     "private": "Your profile is private, so nobody else can see this page.",
     "privateSettings": "Make it public",
