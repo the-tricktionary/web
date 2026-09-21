@@ -230,6 +230,7 @@
         "hintBody": "An event on its own compares its constellations. A constellation on its own compares the events it has scores in. Both together follow that constellation in that event, one line for the total and one per athlete's segment.",
         "hintTitle": "Pick an event, a constellation, or both",
         "noConstellations": "No constellations yet",
+        "sameName": "{name} ({n})",
         "segmentPace": "Segment pace",
         "segmentShare": "Share",
         "segmentSteps": "Segment steps",

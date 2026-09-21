@@ -67,7 +67,7 @@
             {{ t('groups.speed.analysis.allAthletes') }}
           </option>
           <option v-for="option of athletes" :key="option.id" :value="option.id">
-            {{ option.name }}
+            {{ option.label }}
           </option>
         </select>
       </label>
@@ -217,12 +217,24 @@ function resultConstellation (result: AnalysisResult) {
     : t('groups.speed.unassigned')
 }
 
-/** The athletes of the one picked constellation, named as the group names them */
+/**
+ * The athletes of the one picked constellation, each with a label of its own:
+ * two athletes can share a name, and a series is told by its label.
+ */
 const athletes = computed(() => {
   if (mode.value !== 'segments') return []
   const key = picked.value[0] ?? ''
   const found = constellations.value.find(option => option.key === key)
-  return (found?.members ?? []).toSorted((a, b) => a.name.localeCompare(b.name))
+  const members = (found?.members ?? []).toSorted((a, b) => a.name.localeCompare(b.name))
+  const nameCounts = new Map<string, number>()
+  for (const member of members) nameCounts.set(member.name, (nameCounts.get(member.name) ?? 0) + 1)
+  const seen = new Map<string, number>()
+  return members.map(member => {
+    const nth = (seen.get(member.name) ?? 0) + 1
+    seen.set(member.name, nth)
+    const label = (nameCounts.get(member.name) ?? 0) > 1 ? t('groups.speed.analysis.sameName', { name: member.name, n: nth }) : member.name
+    return { ...member, label }
+  })
 })
 
 const athlete = computed(() => athletes.value.find(member => member.id === athleteId.value) ?? null)
@@ -282,12 +294,12 @@ const chart = computed<{ points: ProgressionPoint[], series: string[], dashedSer
           date: new Date(result.createdAt),
           count: segment.count,
           name: segment.label ?? t('speed.details.segmentN', { n: segment.index + 1 }),
-          series: member.name
+          series: member.label
         })
-        addSeries(member.name)
+        addSeries(member.label)
       }
     }
-    const dashedSeries = athletes.value.map(member => member.name).filter(name => counts.has(name))
+    const dashedSeries = athletes.value.map(member => member.label).filter(label => counts.has(label))
     return { points, series: [totalLabel, ...dashedSeries], dashedSeries }
   }
 
