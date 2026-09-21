@@ -23,6 +23,22 @@ export const routes: RouteRecordRaw[] = [
   { name: 'speed-progress', path: '/speed/progress', component: async () => await import('./views/SpeedProgress.vue'), meta: { requiresAuth: true } },
   { name: 'speed-details', path: '/speed/:id', component: async () => await import('./views/SpeedDetails.vue'), meta: { requiresAuth: true } },
 
+  { name: 'groups', path: '/groups', component: async () => await import('./views/GroupsIndex.vue'), meta: { requiresAuth: true } },
+  { name: 'groups-create', path: '/groups/create', component: async () => await import('./views/GroupCreate.vue'), meta: { requiresAuth: true } },
+  // declared before /groups/:id, or a join link matches as a group id
+  { name: 'groups-join', path: '/groups/join/:code?', component: async () => await import('./views/GroupJoin.vue'), meta: { requiresAuth: true } },
+  {
+    path: '/groups/:id',
+    component: async () => await import('./views/GroupPage.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', redirect: to => ({ name: 'group-tricks', params: to.params }) },
+      { name: 'group-tricks', path: 'tricks', component: async () => await import('./views/GroupTricks.vue') },
+      { name: 'group-speed', path: 'speed', component: async () => await import('./views/GroupSpeed.vue') },
+      { name: 'group-members', path: 'members', component: async () => await import('./views/GroupMembers.vue') }
+    ]
+  },
+
   { name: 'auth', path: '/auth', component: async () => await import('./views/Auth.vue') },
   { name: 'profile', path: '/profile', component: async () => await import('./views/Profile.vue'), meta: { requiresAuth: true } },
   { name: 'profile-user', path: '/profile/:usernameOrId', component: async () => await import('./views/Profile.vue') },

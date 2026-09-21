@@ -162,6 +162,7 @@ import { useI18n } from 'vue-i18n'
 import { getAuth, updateProfile } from '@firebase/auth'
 import { useHead } from '@unhead/vue'
 
+import { apolloClient, persistor } from '../apollo'
 import { useSetProfileOptionsMutation, useUpdateUserProfileMutation } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 
@@ -263,5 +264,8 @@ async function setOption (option: ProfileOption, checked: boolean) {
 // the router guard redirects on sign out
 async function signOut () {
   await auth.signOut()
+  // groups leave other people's names in the cache kept on this device
+  await persistor.purge()
+  await apolloClient.clearStore()
 }
 </script>

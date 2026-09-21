@@ -1,14 +1,16 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
+import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
+  groupInviteKind: GroupInviteKind,
+  groupRole: GroupRole,
   trickType: TrickType,
   verificationLevel: VerificationLevel
 }
 
 /** The message key holding the label of an enum value, e.g. `enums.trickType.Basic` */
-export function enumKey (name: keyof typeof enums, value: Discipline | TrickType | VerificationLevel) {
+export function enumKey (name: keyof typeof enums, value: Discipline | GroupInviteKind | GroupRole | TrickType | VerificationLevel) {
   const member = Object.entries(enums[name]).find(([, enumValue]) => enumValue === value)?.[0]
   return `enums.${name}.${member ?? value}`
 }

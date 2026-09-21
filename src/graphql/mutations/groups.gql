@@ -1,0 +1,25 @@
+#import "../fragments/group.gql"
+#import "../fragments/groupInvite.gql"
+
+mutation CreateGroup ($name: String!) {
+  createGroup (name: $name) {
+    ...GroupBase
+  }
+}
+
+mutation RespondToGroupInvite ($inviteId: ID!, $accept: Boolean!) {
+  respondToGroupInvite (inviteId: $inviteId, accept: $accept) {
+    id
+    status
+    kind
+    group {
+      ...GroupBase
+    }
+  }
+}
+
+mutation RequestToJoinGroup ($joinCode: String!) {
+  requestToJoinGroup (joinCode: $joinCode) {
+    ...GroupInviteBase
+  }
+}

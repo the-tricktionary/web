@@ -1,6 +1,6 @@
 import { ApolloClient, createHttpLink, InMemoryCache, type Reference } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
-import { persistCache } from 'apollo3-cache-persist'
+import { CachePersistor } from 'apollo3-cache-persist'
 import { getAuth } from 'firebase/auth'
 
 const httpLink = createHttpLink({
@@ -40,10 +40,13 @@ const cache = new InMemoryCache({
   }
 })
 
-void persistCache({
+/** Exported so signing out can empty what was kept on the device */
+export const persistor = new CachePersistor({
   cache,
   storage: localStorage
 })
+
+void persistor.restore()
 
 export const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),

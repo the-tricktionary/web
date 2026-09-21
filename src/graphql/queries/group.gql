@@ -1,0 +1,11 @@
+query Group ($groupId: ID!) {
+  group (groupId: $groupId) {
+    id
+    name
+    myMembership {
+      id
+      role
+      observer
+    }
+  }
+}

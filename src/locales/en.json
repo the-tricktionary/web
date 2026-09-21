@@ -32,6 +32,14 @@
       "SingleRope": "Single Rope",
       "Wheel": "Wheel"
     },
+    "groupInviteKind": {
+      "Invited": "Invitation",
+      "Requested": "Request"
+    },
+    "groupRole": {
+      "Admin": "Admin",
+      "Member": "Member"
+    },
     "trickType": {
       "Basic": "Basic",
       "Impossible": "Impossible",
@@ -47,6 +55,64 @@
   },
   "footer": {
     "policies": "Privacy policy, store policy"
+  },
+  "groups": {
+    "accept": "Accept",
+    "athlete": "Athlete",
+    "athleteCount": "1 athlete",
+    "athletesCount": "{count} athletes",
+    "comingSoon": "This tab is still being built.",
+    "consent": {
+      "adminsCanTick": "The people running this group can tick tricks off for you, and anything they tick shows on your profile just like a trick you ticked yourself.",
+      "checklistVisible": "Everyone in this group can see which tricks you have completed, which is otherwise private.",
+      "title": "What joining means"
+    },
+    "create": {
+      "failed": "Could not create the group: {error}",
+      "name": "Group name",
+      "namePlaceholder": "The name of your squad",
+      "save": "Create group",
+      "title": "Create a group"
+    },
+    "createGroup": "Create group",
+    "decline": "Decline",
+    "empty": "You are not in any groups yet. Create one for your squad, or join one with a code you were given.",
+    "failedRespond": "Could not answer the invitation: {error}",
+    "invitedBy": "{name} invited you",
+    "invitedByUnknown": "You have been invited",
+    "invites": {
+      "title": "Invitations"
+    },
+    "invitesBadge": "{count} group invitations waiting for your answer",
+    "join": {
+      "another": "Use a different code",
+      "code": "Join code",
+      "codePlaceholder": "The code you were given",
+      "confirm": "Ask to join",
+      "failed": "Could not ask to join: {error}",
+      "loading": "Looking up the code...",
+      "lookUp": "Look up",
+      "needsApproval": "Redeeming a code does not join the group, it asks to. An admin still has to let you in before you are a member.",
+      "notFound": "No group answers to that code. It may have been changed or cleared since you were given it.",
+      "requested": "Your request to join {name} has been sent. An admin still has to let you in.",
+      "title": "Join a group with a code"
+    },
+    "joinWithCode": "Join with a code",
+    "loading": "Loading groups...",
+    "notFound": "This group does not exist, or you are not in it.",
+    "observer": "Observer",
+    "requests": {
+      "title": "Requests you have sent",
+      "waiting": "Waiting on the group's admins to let you in."
+    },
+    "seeGroups": "See your groups",
+    "tabs": {
+      "members": "Members",
+      "speed": "Speed",
+      "tricks": "Tricks"
+    },
+    "title": "Groups",
+    "youAreAdmin": "You are an admin"
   },
   "home": {
     "discipline": "Discipline",
@@ -64,6 +130,7 @@
     "shop": "Shop"
   },
   "nav": {
+    "groups": "Groups",
     "label": "Main",
     "profile": "Profile",
     "settings": "Settings",
@@ -71,6 +138,7 @@
     "signIn": "Sign in",
     "speed": "Speed",
     "toggleMenu": "Toggle menu",
+    "toggleMenuInvites": "Toggle menu, {count} group invitations waiting for your answer",
     "tricks": "Tricks"
   },
   "notFound": {

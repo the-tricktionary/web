@@ -1,0 +1,13 @@
+fragment GroupBase on Group {
+  id
+  name
+  members {
+    id
+    observer
+  }
+  myMembership {
+    id
+    role
+    observer
+  }
+}

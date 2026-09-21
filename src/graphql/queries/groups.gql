@@ -1,0 +1,30 @@
+#import "../fragments/group.gql"
+#import "../fragments/groupInvite.gql"
+
+query MyGroups {
+  me {
+    id
+    groups {
+      ...GroupBase
+    }
+  }
+}
+
+# One query behind both the nav badge and the list, so answering an invite
+# moves them together
+query GroupInvites {
+  me {
+    id
+    groupInvites {
+      ...GroupInviteBase
+    }
+  }
+}
+
+# Only id and name resolve for somebody outside the group
+query GroupByJoinCode ($joinCode: String!) {
+  groupByJoinCode (joinCode: $joinCode) {
+    id
+    name
+  }
+}

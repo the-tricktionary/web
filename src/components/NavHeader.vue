@@ -10,11 +10,12 @@
       class="nav-link sm:hidden inline-flex items-center justify-center min-h-8 cursor-pointer"
       :aria-expanded="showNav"
       aria-controls="main-nav"
-      :aria-label="t('nav.toggleMenu')"
+      :aria-label="user && badgeCount ? t('nav.toggleMenuInvites', { count: badgeCount }) : t('nav.toggleMenu')"
       @click="showNav = !showNav"
     >
       <icon-close v-if="showNav" aria-hidden="true" />
       <icon-menu v-else aria-hidden="true" />
+      <span v-if="user && badgeCount" class="invite-badge ml-1" aria-hidden="true">{{ badgeCount }}</span>
     </button>
 
     <nav
@@ -29,6 +30,13 @@
       </router-link>
       <router-link active-class="active" class="nav-link" to="/speed">
         {{ t('nav.speed') }}
+      </router-link>
+      <router-link v-if="user" active-class="active" class="nav-link" to="/groups">
+        {{ t('nav.groups') }}
+        <span v-if="badgeCount" class="invite-badge ml-1">
+          <span aria-hidden="true">{{ badgeCount }}</span>
+          <span class="sr-only">{{ t('groups.invitesBadge', { count: badgeCount }) }}</span>
+        </span>
       </router-link>
       <router-link active-class="active" class="nav-link" to="/shop">
         {{ t('nav.shop') }}
@@ -51,12 +59,14 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { onClickOutside } from '@vueuse/core'
 import useAuth from '../hooks/useAuth'
+import useGroupInvites from '../hooks/useGroupInvites'
 
 import IconMenu from '~icons/mdi/menu'
 import IconClose from '~icons/mdi/close'
 
 const { t } = useI18n()
 const { firebaseUser: user } = useAuth()
+const { badgeCount } = useGroupInvites()
 const showNav = ref(false)
 const headerRef = ref<HTMLElement>()
 
@@ -85,6 +95,13 @@ onClickOutside(headerRef, () => {
     @apply border-t;
     @apply border-ttred-900;
   }
+}
+
+.invite-badge {
+  @apply inline-flex items-center justify-center;
+  @apply min-w-5 h-5 px-1;
+  @apply rounded-full bg-ttyellow-500;
+  @apply text-xs font-bold text-black;
 }
 
 .nav-link:hover,
