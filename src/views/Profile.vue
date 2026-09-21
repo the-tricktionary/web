@@ -44,7 +44,7 @@
 
     <profile-stats :stats="user.checklistStats" />
 
-    <profile-personal-bests v-if="personalBests.length" :bests="personalBests" :name="displayName" :is-me="isMe" />
+    <profile-personal-bests v-if="personalBests.length" :bests="personalBests" :is-me="isMe" />
 
     <profile-checklist v-if="checklist" :checklist="checklist" :is-me="isMe" />
   </div>

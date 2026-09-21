@@ -12,6 +12,13 @@ fragment ProfileUser on User {
         ...SpeedAnalysisFields
       }
     }
+    ownSegment {
+      result {
+        analysis {
+          ...SpeedAnalysisFields
+        }
+      }
+    }
   }
   checklist @include(if: $withChecklist) {
     id
