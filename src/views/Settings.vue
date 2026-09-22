@@ -81,6 +81,13 @@
 
     <section class="mb-8">
       <h2 class="mb-2">
+        {{ t('settings.theme') }}
+      </h2>
+      <theme-selector />
+    </section>
+
+    <section class="mb-8">
+      <h2 class="mb-2">
         {{ t('settings.privacy') }}
       </h2>
 
@@ -168,6 +175,7 @@ import useAuth from '../hooks/useAuth'
 
 import IconCheckbox from '../components/IconCheckbox.vue'
 import LanguageSelector from '../components/LanguageSelector.vue'
+import ThemeSelector from '../components/ThemeSelector.vue'
 import IconAccountCircle from '~icons/mdi/account-circle'
 
 import type { UserProfileInput } from '../graphql/generated/graphql'
