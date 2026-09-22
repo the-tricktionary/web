@@ -31,7 +31,7 @@
 
   <div v-if="submitPrompt && !loading && numTricks > 0" class="flex justify-center mt-8">
     <router-link :to="submitTo" class="btn w-max inline-block">
-      {{ t('home.submitCta') }}
+      {{ t('home.submitAny') }}
     </router-link>
   </div>
 </template>

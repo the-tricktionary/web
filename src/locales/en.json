@@ -299,6 +299,7 @@
     "loading": "Loading tricks...",
     "noTricks": "Oops! We couldn't find any tricks with the given filters.",
     "search": "Search tricks",
+    "submitAny": "Submit a trick",
     "submitCta": "Submit the trick",
     "submitPrompt": "Can't find it?"
   },
