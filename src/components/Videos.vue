@@ -18,15 +18,6 @@
         @ended="playAgain()"
         @play="restartFinishedCycle()"
       />
-      <iframe
-        v-else-if="primaryYouTubeEmbedLink"
-        class="w-full h-full"
-        type="text/html"
-        :title="t('trick.videoTitle')"
-        allow="autoplay; picture-in-picture"
-        allowfullscreen
-        :src="primaryYouTubeEmbedLink"
-      />
     </div>
 
     <div v-if="canChooseSpeed" class="flex gap-2 mt-2" role="group" :aria-label="t('trick.playback.label')">
@@ -58,7 +49,6 @@ import '@mux/mux-player'
 import { VideoHost, VideoType } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useCookieConsent from '../hooks/useCookieConsent'
-import useLanguage from '../hooks/useLanguage'
 
 import type { PropType } from 'vue'
 import type MuxPlayerElement from '@mux/mux-player'
@@ -88,7 +78,6 @@ const props = defineProps({
 
 const { t } = useI18n()
 const { user } = useAuth()
-const { lang } = useLanguage()
 const cookieConsent = useCookieConsent()
 
 const player = useTemplateRef<MuxPlayerElement>('player')
@@ -98,19 +87,14 @@ const speed = ref<Speed | null>(null)
 /** Plays finished in the current cycle */
 const plays = ref(0)
 
-/** The video of this host whose type comes first in the given order */
-function preferred (host: VideoHost, types: VideoType[]) {
-  const hosted = props.videos.filter(video => video.host === host)
-  for (const type of types) {
+const muxVideo = computed(() => {
+  const hosted = props.videos.filter(video => video.host === VideoHost.Mux)
+  for (const type of [VideoType.FullSpeed, VideoType.SlowMo]) {
     const video = hosted.find(video => video.type === type)
     if (video) return video
   }
   return null
-}
-
-// Prefer the self-hosted Mux video, fall back to YouTube for tricks that
-// haven't been migrated yet
-const muxVideo = computed(() => preferred(VideoHost.Mux, [VideoType.FullSpeed, VideoType.SlowMo]))
+})
 
 // A FullSpeed video is one run at natural speed, so the slow motion is ours to play
 const canChooseSpeed = computed(() => muxVideo.value?.type === VideoType.FullSpeed)
@@ -154,21 +138,6 @@ function chooseSpeed (choice: Speed) {
 watch(() => muxVideo.value?.videoId, () => {
   speed.value = null
   plays.value = 0
-})
-
-const primaryYouTubeEmbedLink = computed(() => {
-  // the reverse of the Mux order: an embed can't be slowed down, so an edited clip is the better watch here
-  const video = preferred(VideoHost.YouTube, [VideoType.SlowMo, VideoType.FullSpeed])
-  if (!video) return null
-  const params = new URLSearchParams()
-  params.append('hl', lang.value)
-  params.append('origin', window.location.origin)
-  params.append('playsinline', '1')
-  params.append('rel', '0')
-  params.append('loop', '1')
-  params.append('autoplay', '1')
-
-  return `https://www.youtube.com/embed/${video.videoId}?${params.toString()}`
 })
 </script>
 

@@ -124,8 +124,7 @@
           <span :id="attributionNameHelpId" class="text-muted text-sm">{{ t('submit.attributionNameHelp') }}</span>
         </label>
 
-        <label class="flex gap-2 items-start cursor-pointer">
-          <input v-model="acceptLicence" type="checkbox" required class="mt-1" :disabled="busy">
+        <icon-checkbox v-model:checked="acceptLicence" :disabled="busy">
           <i18n-t keypath="submit.licence" tag="span">
             <template #licence>
               <a
@@ -136,7 +135,7 @@
               >{{ t('submit.licenceName') }}</a>
             </template>
           </i18n-t>
-        </label>
+        </icon-checkbox>
 
         <div v-if="uploading">
           <label :for="progressId" class="block mb-1">{{ t('submit.uploading') }}</label>
@@ -156,7 +155,7 @@
           </router-link>
         </div>
 
-        <button type="submit" class="btn w-max inline-flex items-center gap-2" :disabled="busy">
+        <button type="submit" class="btn w-max inline-flex items-center gap-2" :disabled="busy || !acceptLicence">
           <icon-loading v-if="busy" class="animate-spin" aria-hidden="true" />
           <icon-upload v-else aria-hidden="true" />
           {{ registered ? t('submit.retry') : t('submit.save') }}
@@ -188,6 +187,7 @@ import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
 
 import BottomBar from '../components/BottomBar.vue'
+import IconCheckbox from '../components/IconCheckbox.vue'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconLoading from '~icons/mdi/loading'
 import IconUpload from '~icons/mdi/upload'
@@ -294,6 +294,7 @@ onBeforeUnmount(() => {
 /** Mux hands out a URL that takes the file as the body of a single PUT */
 async function put (url: string, video: File) {
   await new Promise<void>((resolve, reject) => {
+    // XMLHttpRequest rather than fetch, which has no upload progress events
     const request = new XMLHttpRequest()
     request.open('PUT', url)
     request.setRequestHeader('Content-Type', video.type)
@@ -312,7 +313,7 @@ async function put (url: string, video: File) {
 
 async function save () {
   const video = file.value
-  if (busy.value || !video) return
+  if (busy.value || !video || !acceptLicence.value) return
   error.value = null
   uploadError.value = null
   progress.value = 0

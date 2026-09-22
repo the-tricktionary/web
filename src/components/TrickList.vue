@@ -3,7 +3,7 @@
     <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
     {{ t('home.loading') }}
   </div>
-  <template v-for="(trickTypes, level) of sorted" v-else-if="numTricks" :key="`tt-${level}`">
+  <template v-for="(trickTypes, level) of sorted" v-else-if="numTricks > 0" :key="`tt-${level}`">
     <h2 class="trick-level mx-auto w-32 px-4 mt-6 text-3xl font-bold relative text-center">
       {{ t('home.level', { level }) }}
     </h2>
@@ -29,7 +29,7 @@
     </template>
   </div>
 
-  <div v-if="submitPrompt && !loading && numTricks" class="flex justify-center mt-8">
+  <div v-if="submitPrompt && !loading && numTricks > 0" class="flex justify-center mt-8">
     <router-link :to="submitTo" class="btn w-max inline-block">
       {{ t('home.submitCta') }}
     </router-link>
