@@ -30,6 +30,8 @@
       :loading="tricksQuery.loading.value"
       :hide-completed="settings.hideCompleted"
       :enable-checklist="!!user"
+      submit-prompt
+      :discipline="discipline ?? Discipline.SingleRope"
     />
   </div>
 

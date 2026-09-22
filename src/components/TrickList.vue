@@ -21,6 +21,18 @@
   <div v-else class="flex items-center justify-center flex-col" role="status">
     <icon-confused class="w-32 h-32" aria-hidden="true" />
     {{ t('home.noTricks') }}
+    <template v-if="submitPrompt">
+      <span class="mt-4">{{ t('home.submitPrompt') }}</span>
+      <router-link :to="submitTo" class="btn w-max inline-block mt-2">
+        {{ t('home.submitCta') }}
+      </router-link>
+    </template>
+  </div>
+
+  <div v-if="submitPrompt && !loading && numTricks" class="flex justify-center mt-8">
+    <router-link :to="submitTo" class="btn w-max inline-block">
+      {{ t('home.submitCta') }}
+    </router-link>
   </div>
 </template>
 
@@ -37,7 +49,7 @@ import IconConfused from '~icons/mdi/map-marker-question-outline'
 import TrickBox from './TrickBox.vue'
 
 import type { PropType } from 'vue'
-import type { TricksQuery } from '../graphql/generated/graphql'
+import type { Discipline, TricksQuery } from '../graphql/generated/graphql'
 
 const props = defineProps({
   tricks: {
@@ -60,16 +72,31 @@ const props = defineProps({
   enableChecklist: {
     type: Boolean,
     default: false
+  },
+  /** Offers submitting a trick */
+  submitPrompt: {
+    type: Boolean,
+    default: false
+  },
+  /** Carried to the submit page as its preselected discipline */
+  discipline: {
+    type: String as PropType<Discipline>,
+    default: undefined
   }
 })
 
 const { t } = useI18n()
 const { lang } = useLanguage()
 
+const shown = computed(() => {
+  const dataTricks = [...props.tricks ?? []]
+  if (props.hideCompleted) return dataTricks.filter(t => !props.checklist.has(t.id))
+  return dataTricks
+})
+
 const sorted = computed(() => {
   const sorted: Record<string, Record<TrickType, TricksQuery['tricks']>> = {}
-  let dataTricks = [...props.tricks ?? []]
-  if (props.hideCompleted) dataTricks = dataTricks.filter(t => !props.checklist.has(t.id))
+  const dataTricks = [...shown.value]
   dataTricks.sort(trickSorter(lang.value))
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
@@ -80,7 +107,12 @@ const sorted = computed(() => {
   return sorted
 })
 
-const numTricks = computed(() => props.tricks?.length)
+const numTricks = computed(() => shown.value.length)
+
+const submitTo = computed(() => ({
+  name: 'submit-trick',
+  ...(props.discipline ? { query: { discipline: props.discipline } } : {})
+}))
 </script>
 
 <style scoped>

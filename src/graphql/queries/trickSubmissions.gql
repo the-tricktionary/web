@@ -1,0 +1,10 @@
+#import "../fragments/trickSubmission.gql"
+
+query MyTrickSubmissions {
+  me {
+    id
+    trickSubmissions {
+      ...TrickSubmissionBase
+    }
+  }
+}

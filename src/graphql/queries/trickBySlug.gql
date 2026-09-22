@@ -20,6 +20,9 @@ query TrickBySlug ($discipline: Discipline!, $slug: String!, $withLocalised: Boo
       type
       host
     }
+    contributors {
+      name
+    }
     levels {
       id
       rulesId

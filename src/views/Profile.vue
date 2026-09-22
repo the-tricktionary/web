@@ -44,6 +44,8 @@
 
     <profile-stats :stats="user.checklistStats" />
 
+    <profile-submissions v-if="isMe && submissions.length" :submissions="submissions" />
+
     <profile-personal-bests v-if="personalBests.length" :bests="personalBests" :is-me="isMe" />
 
     <profile-checklist v-if="checklist" :checklist="checklist" :is-me="isMe" />
@@ -77,7 +79,7 @@ import { useRoute } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
-import { useMyProfileDetailsQuery, useProfileDetailsQuery, useProfileHeaderQuery } from '../graphql/generated/graphql'
+import { useMyProfileDetailsQuery, useMyTrickSubmissionsQuery, useProfileDetailsQuery, useProfileHeaderQuery } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
 
@@ -86,6 +88,7 @@ import IconButton from '../components/IconButton.vue'
 import ProfileChecklist from '../components/ProfileChecklist.vue'
 import ProfilePersonalBests from '../components/ProfilePersonalBests.vue'
 import ProfileStats from '../components/ProfileStats.vue'
+import ProfileSubmissions from '../components/ProfileSubmissions.vue'
 import IconAccountCircle from '~icons/mdi/account-circle'
 import IconCog from '~icons/mdi/cog'
 import IconLoading from '~icons/mdi/loading'
@@ -132,6 +135,9 @@ const myDetailsQuery = useMyProfileDetailsQuery(
   () => ({ withChecklist: true, withSpeed: true, withLocalised: lang.value !== 'en', lang: lang.value }),
   () => ({ enabled: isOwnRoute.value, fetchPolicy: 'cache-and-network' })
 )
+
+const submissionsQuery = useMyTrickSubmissionsQuery(() => ({ enabled: isMe.value, fetchPolicy: 'cache-and-network' }))
+const submissions = computed(() => submissionsQuery.result.value?.me?.trickSubmissions ?? [])
 
 const details = computed(() => (isOwnRoute.value ? myDetailsQuery.result.value?.me : detailsQuery.result.value?.user) ?? null)
 const user = computed<ProfileUserFragment | ProfileHeaderFragment | null>(() => details.value ?? header.value)

@@ -28,6 +28,9 @@
       <router-link exact-active-class="active" class="nav-link" to="/">
         {{ t('nav.tricks') }}
       </router-link>
+      <router-link active-class="active" class="nav-link" to="/submit">
+        {{ t('nav.submit') }}
+      </router-link>
       <router-link active-class="active" class="nav-link" to="/speed">
         {{ t('nav.speed') }}
       </router-link>

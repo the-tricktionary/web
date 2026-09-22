@@ -1,0 +1,18 @@
+fragment TrickSubmissionBase on TrickSubmission {
+  id
+  name
+  discipline
+  status
+  reviewNote
+  createdAt
+  upload {
+    id
+    status
+    error
+  }
+  trick {
+    id
+    slug
+    discipline
+  }
+}

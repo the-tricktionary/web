@@ -91,7 +91,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
 import { Discipline } from '../graphql/generated/graphql'
-import { disciplineToSlug } from '../helpers'
+import { disciplineToSlug, languageName } from '../helpers'
 import useLanguage from '../hooks/useLanguage'
 import useRuleset from '../hooks/useRuleset'
 
@@ -152,16 +152,6 @@ const downloadUrl = computed(() => {
   if (layout.value !== 'booklet') url.searchParams.set('layout', layout.value)
   return url.href
 })
-
-/** The name of a language in that language itself, the tag when we can't name it */
-function languageName (tag: string) {
-  try {
-    const name = new Intl.DisplayNames([tag], { type: 'language' }).of(tag) ?? tag
-    return name.charAt(0).toLocaleUpperCase(tag) + name.slice(1)
-  } catch {
-    return tag
-  }
-}
 
 /** Submitting the form, e.g. with the enter key, is the same as following the link */
 function download () {
