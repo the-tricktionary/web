@@ -94,7 +94,7 @@
             >
             <label :for="fileId" class="file-picker">{{ t('submit.chooseVideo') }}</label>
             <span :class="{ 'text-muted': !picked }">{{ picked?.name ?? t('submit.noVideo') }}</span>
-            <button v-if="picked" type="button" class="btn inline-flex items-center gap-1 w-max" :disabled="busy" @click="clearFile(null)">
+            <button v-if="picked" type="button" class="file-picker inline-flex items-center gap-1" :disabled="busy" @click="clearFile(null)">
               <icon-close aria-hidden="true" />
               {{ t('submit.removeVideo') }}
             </button>
@@ -421,7 +421,7 @@ function message (err: unknown) {
 </script>
 
 <style scoped>
-/* not the btn class itself, the empty required file input makes the form invalid and form:invalid greys those out */
+/* the video row's buttons, not the btn class itself: an empty required file input makes the form invalid and form:invalid greys those out */
 .file-picker {
   @apply btn w-max;
 }
