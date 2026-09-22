@@ -1,0 +1,6 @@
+mutation SetUserTheme ($theme: Theme) {
+  setUserTheme (theme: $theme) {
+    id
+    theme
+  }
+}

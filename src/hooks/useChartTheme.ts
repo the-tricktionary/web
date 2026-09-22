@@ -1,5 +1,6 @@
 import { computed } from 'vue'
-import { usePreferredDark } from '@vueuse/core'
+
+import useTheme from './useTheme'
 
 /**
  * Chart colours for the current colour scheme.
@@ -15,9 +16,9 @@ import { usePreferredDark } from '@vueuse/core'
  * Everything else mirrors the semantic tokens in uno.config.ts.
  */
 export default function useChartTheme () {
-  const dark = usePreferredDark()
+  const { isDark } = useTheme()
 
-  return computed(() => dark.value
+  return computed(() => isDark.value
     ? {
         series: ['#3987e5', '#d95926', '#5cdcac', '#a86285', '#f2d24b', '#c9b2f5'] as const,
         surface: 'oklch(21% 0.034 264.665)',

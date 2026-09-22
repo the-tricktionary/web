@@ -365,6 +365,7 @@
     "signOut": "Sign out",
     "speed": "Show speed scores",
     "speedExplanation": "Adds your personal best in each speed event to your public profile.",
+    "theme": "Theme",
     "title": "Settings",
     "username": "Username",
     "usernameHelp": "3 to 30 lowercase letters, digits, dots, dashes and underscores, starting and ending with a letter or a digit.",
@@ -547,6 +548,12 @@
     "recordFirst": "Record your first score",
     "steps": "steps",
     "title": "Speed"
+  },
+  "theme": {
+    "dark": "Dark",
+    "label": "Theme",
+    "light": "Light",
+    "system": "Follow system"
   },
   "trick": {
     "allTricks": "All Tricks",
