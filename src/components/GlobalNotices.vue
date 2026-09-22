@@ -19,7 +19,7 @@
             <router-link v-if="link.url.startsWith('/')" class="btn w-max" :to="link.url">
               {{ link.label }}
             </router-link>
-            <a v-else class="btn w-max" target="_blank" rel="noopener" :href="link.url">
+            <a v-else class="btn w-max" :target="link.url.startsWith('mailto:') ? undefined : '_blank'" rel="noopener" :href="link.url">
               {{ link.label }}
             </a>
           </template>
