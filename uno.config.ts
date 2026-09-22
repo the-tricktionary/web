@@ -3,6 +3,18 @@ import presetWind4 from '@unocss/preset-wind4'
 import transformerDirectives from '@unocss/transformer-directives'
 import { colors } from '@unocss/preset-wind4/colors'
 
+/** Brand colours, the only values here that are ours rather than the preset's */
+const brand = {
+  ttred: {
+    500: '#fe3500',
+    900: '#da1100'
+  },
+  ttyellow: {
+    300: '#feedb2',
+    500: '#fec500'
+  }
+}
+
 /**
  * Semantic colour tokens.
  *
@@ -41,6 +53,10 @@ const lightTokens = {
   /** Lower-emphasis success, used while a completion is in flight */
   'success-soft': colors.green[300],
 
+  /** The home page's notice band, set apart from the header's red */
+  notice: brand.ttyellow[300],
+  'notice-content': colors.black,
+
   // Inverted surface, currently only the level-verification tooltip
   tooltip: colors.gray[900],
   'tooltip-content': colors.white
@@ -64,21 +80,12 @@ const darkTokens: typeof lightTokens = {
   success: colors.green[600],
   'success-soft': colors.green[800],
 
+  notice: brand.ttyellow[500],
+  'notice-content': colors.black,
+
   // Lighter than the surface, so it reads as raised rather than glaring
   tooltip: colors.gray[700],
   'tooltip-content': colors.gray[100]
-}
-
-/** Brand colours, the only values here that are ours rather than the preset's */
-const brand = {
-  ttred: {
-    500: '#fe3500',
-    900: '#da1100'
-  },
-  ttyellow: {
-    300: '#feedb2',
-    500: '#fec500'
-  }
 }
 
 const declarations = (tokens: typeof lightTokens) => Object.entries(tokens)
@@ -132,7 +139,7 @@ export default defineConfig({
       // min-content width is the whole label. A bar that runs out of room
       // scrolls, which is what its overflow-x is for.
       'whitespace-nowrap min-w-min',
-      'bg-surface border border-solid border-line',
+      'bg-surface text-content border border-solid border-line',
       'hover:bg-elevated',
       'disabled:cursor-default disabled:bg-elevated disabled:text-muted',
       'focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ttred-900 focus-visible:outline-offset-2'
