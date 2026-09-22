@@ -605,7 +605,7 @@
     "uploadRefused": "The video could not be uploaded, Mux answered {status}",
     "uploading": "Uploading",
     "video": "Video of the trick",
-    "videoHelp": "One clip of the trick, at most {seconds} seconds and {megabytes} MB.",
+    "videoHelp": "One clip of the trick, at most {seconds} seconds and {megabytes} MB. A single run at natural speed is enough: the site makes the slow motion itself.",
     "videoMissing": "Your submission is registered, but the video did not arrive: {error}. Send it again, or find the submission on your profile later.",
     "videoTooBig": "This file is larger than {megabytes} MB, please pick a smaller one.",
     "videoTooLong": "This video is longer than {seconds} seconds, please pick a shorter one."
@@ -638,6 +638,11 @@
     "markedCompleted": "Marked completed on {date}",
     "markedCompletedBy": "Marked completed on {date} by {name}",
     "next": "Next",
+    "playback": {
+      "full": "Full speed",
+      "label": "Playback speed",
+      "slow": "Slow motion"
+    },
     "previous": "Previous",
     "share": "Share",
     "shareText": "Check out this trick on the Tricktionary",
