@@ -6,7 +6,6 @@ import { ref } from 'vue'
 import { useMeQuery } from '../graphql/generated/graphql'
 import { computed } from 'vue'
 
-const analytics = getAnalytics()
 const firebaseUser = ref<User | null>()
 let off: Unsubscribe
 
@@ -22,7 +21,7 @@ export default function useAuth ({ withChecklist = false } = {}) {
       // refetch the user document from the db
       void userQuery.refetch()
       // set the user ID for analytics
-      setUserId(analytics, user?.uid ?? '')
+      setUserId(getAnalytics(), user?.uid ?? '')
       // set the user id for error reporting
       setUser(user ? { id: user.uid } : null)
     })
