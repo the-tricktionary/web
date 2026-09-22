@@ -151,9 +151,8 @@ export default defineConfig({
     {
       getCSS: () => `
           /*
-           * Dark mode follows the operating system. The data-theme attribute on
-           * <html> is an escape hatch that forces one scheme, so a manual
-           * toggle can be added later without touching any component.
+           * Dark mode follows the operating system unless the data-theme
+           * attribute on <html>, set from the theme setting, forces one scheme.
            */
           :root {
             color-scheme: light;
@@ -175,6 +174,21 @@ export default defineConfig({
           html {
             background-color: var(--tt-page);
             color: var(--tt-content);
+          }
+
+          body {
+            background-color: var(--tt-page);
+            min-height: 100dvh;
+          }
+
+          /* Revealed by rubber-band scrolling: the header's red above the page, the page colour below */
+          body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: linear-gradient(${brand.ttred[500]} 50%, var(--tt-page) 50%);
           }
 
           p { margin-bottom: 0.5rem; }

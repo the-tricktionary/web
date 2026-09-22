@@ -386,6 +386,7 @@
     "signOut": "Sign out",
     "speed": "Show speed scores",
     "speedExplanation": "Adds your personal best in each speed event to your public profile.",
+    "theme": "Theme",
     "title": "Settings",
     "username": "Username",
     "usernameHelp": "3 to 30 lowercase letters, digits, dots, dashes and underscores, starting and ending with a letter or a digit.",
@@ -608,6 +609,12 @@
     "videoMissing": "Your submission is registered, but the video did not arrive: {error}. Send it again, or find the submission on your profile later.",
     "videoTooBig": "This file is larger than {megabytes} MB, please pick a smaller one.",
     "videoTooLong": "This video is longer than {seconds} seconds, please pick a shorter one."
+  },
+  "theme": {
+    "dark": "Dark",
+    "label": "Theme",
+    "light": "Light",
+    "system": "Follow system"
   },
   "trick": {
     "allTricks": "All Tricks",
