@@ -595,6 +595,7 @@
     "rateLimitedGlobal": "The Tricktionary has taken as many submissions as it can review for now, please try again later.",
     "rateLimitedUser": "You have reached your limit of {limit} submissions for now. Wait for the ones you have sent to be reviewed, or try again later.",
     "retry": "Send the video again",
+    "removeVideo": "Remove video",
     "save": "Submit the trick",
     "seeSubmissions": "See your submissions",
     "title": "Submit a trick",
@@ -606,7 +607,7 @@
     "uploadRefused": "The video could not be uploaded, the upload was refused with status {status}",
     "uploading": "Uploading",
     "video": "Video of the trick",
-    "videoHelp": "One clip of the trick, at most {seconds} seconds and {megabytes} MB. A single run at natural speed is enough: the site makes the slow motion itself.",
+    "videoHelp": "One clip of the trick, preferably filmed horizontally, at most {seconds} seconds and {megabytes} MB. A single run at natural speed is enough: the site makes the slow motion itself.",
     "videoMissing": "Your submission is registered, but the video did not arrive: {error}. Send it again, or find the submission on your profile later.",
     "videoTooBig": "This file is larger than {megabytes} MB, please pick a smaller one.",
     "videoTooLong": "This video is longer than {seconds} seconds, please pick a shorter one."

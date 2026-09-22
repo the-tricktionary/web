@@ -94,6 +94,10 @@
             >
             <label :for="fileId" class="file-picker">{{ t('submit.chooseVideo') }}</label>
             <span :class="{ 'text-muted': !picked }">{{ picked?.name ?? t('submit.noVideo') }}</span>
+            <button v-if="picked" type="button" class="btn inline-flex items-center gap-1 w-max" :disabled="busy" @click="clearFile(null)">
+              <icon-close aria-hidden="true" />
+              {{ t('submit.removeVideo') }}
+            </button>
           </div>
           <span class="text-muted text-sm">{{ t('submit.videoHelp', { seconds: MAX_VIDEO_SECONDS, megabytes: MAX_VIDEO_MEGABYTES }) }}</span>
           <video
@@ -199,6 +203,7 @@ import useLanguage from '../hooks/useLanguage'
 import BottomBar from '../components/BottomBar.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import IconChevronLeft from '~icons/mdi/chevron-left'
+import IconClose from '~icons/mdi/close'
 import IconLoading from '~icons/mdi/loading'
 import IconUpload from '~icons/mdi/upload'
 
