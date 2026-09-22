@@ -14,7 +14,7 @@
     <template v-else>
       <p>{{ t('submit.intro') }}</p>
 
-      <form class="flex flex-col gap-4 mt-4" @submit.prevent="save()">
+      <form :id="formId" class="flex flex-col gap-4 mt-4" @submit.prevent="save()">
         <label class="flex flex-col gap-1">
           <span class="font-semibold">{{ t('submit.discipline') }}</span>
           <select v-model="discipline" required class="rounded" :disabled="busy">
@@ -136,33 +136,29 @@
             </template>
           </i18n-t>
         </icon-checkbox>
-
-        <div v-if="uploading">
-          <label :for="progressId" class="block mb-1">{{ t('submit.uploading') }}</label>
-          <progress :id="progressId" :value="progress" max="100" class="w-full block" />
-        </div>
-
-        <p v-if="error" role="alert" class="text-ttred-900 mb-0">
-          {{ error }}
-        </p>
-
-        <div v-if="uploadError" role="alert" class="flex flex-col gap-2">
-          <p class="text-ttred-900 mb-0">
-            {{ t('submit.videoMissing', { error: uploadError }) }}
-          </p>
-          <router-link :to="{ name: 'profile' }" class="text-link hover:text-link-hover underline w-max">
-            {{ t('submit.seeSubmissions') }}
-          </router-link>
-        </div>
-
-        <button type="submit" class="btn w-max inline-flex items-center gap-2" :disabled="busy || !acceptLicence">
-          <icon-loading v-if="busy" class="animate-spin" aria-hidden="true" />
-          <icon-upload v-else aria-hidden="true" />
-          {{ registered ? t('submit.retry') : t('submit.save') }}
-        </button>
       </form>
     </template>
   </div>
+
+  <bottom-bar v-if="error || uploadError">
+    <p v-if="error" class="text-ttred-900 mb-0" role="alert">
+      {{ error }}
+    </p>
+    <p v-else class="text-ttred-900 mb-0" role="alert">
+      {{ t('submit.videoMissing', { error: uploadError }) }}
+      <router-link :to="{ name: 'profile' }">
+        {{ t('submit.seeSubmissions') }}
+      </router-link>
+    </p>
+  </bottom-bar>
+
+  <!-- mounted with the bar below it, so the progress sits on the bar's top edge -->
+  <Teleport to="#bottom-bars">
+    <div v-if="uploading">
+      <label :for="progressId" class="sr-only">{{ t('submit.uploading') }}</label>
+      <progress :id="progressId" :value="progress" max="100" class="upload-progress" />
+    </div>
+  </Teleport>
 
   <bottom-bar>
     <router-link to="/" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
@@ -171,6 +167,20 @@
       </span>
       <span class="flex px-2 items-center">{{ t('trick.allTricks') }}</span>
     </router-link>
+
+    <button
+      v-if="!submitted"
+      type="submit"
+      :form="formId"
+      class="btn grid grid-cols-[2rem_auto] w-max mt-0 ml-auto"
+      :disabled="busy || !valid"
+    >
+      <span class="flex h-full items-center justify-center" aria-hidden="true">
+        <icon-loading v-if="busy" class="animate-spin" />
+        <icon-upload v-else />
+      </span>
+      <span class="flex px-2 items-center">{{ registered ? t('submit.retry') : t('submit.save') }}</span>
+    </button>
   </bottom-bar>
 </template>
 
@@ -204,6 +214,8 @@ const analytics = getAnalytics()
 const { user } = useAuth()
 const { languages, lang } = useLanguage()
 
+/** Lets the submit button live in the bottom bar, outside the form element */
+const formId = useId()
 const alternativeNamesHelpId = useId()
 const attributionNameHelpId = useId()
 const fileId = useId()
@@ -243,6 +255,14 @@ const { mutate, loading: saving } = useCreateTrickSubmissionMutation({})
 
 const busy = computed(() => saving.value || uploading.value)
 
+const valid = computed(() =>
+  discipline.value !== '' &&
+  name.value.trim().length > 0 &&
+  file.value != null &&
+  attributionName.value.trim().length > 0 &&
+  acceptLicence.value
+)
+
 // the name on the account is only an offer, the credit is whatever stands here
 watch(() => user.value?.name ?? '', accountName => {
   if (attributionName.value === '') attributionName.value = accountName
@@ -254,19 +274,25 @@ const alternativeNamesList = computed(() => alternativeNames.value
   .filter(alternativeName => alternativeName.length > 0)
 )
 
-/** Drops the chosen file, so the required input asks for another one */
-function clearFile (message: string | null) {
+/** Forgets the previous file, the input keeps whatever was just picked */
+function resetFile () {
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
   previewUrl.value = null
   picked.value = null
   file.value = null
+  fileError.value = null
+}
+
+/** Drops the chosen file, so the required input asks for another one */
+function clearFile (message: string | null) {
+  resetFile()
   if (fileInput.value) fileInput.value.value = ''
   fileError.value = message
 }
 
 function pickFile (event: Event) {
   const chosen = (event.target as HTMLInputElement).files?.[0] ?? null
-  clearFile(null)
+  resetFile()
   if (!chosen) return
   if (chosen.size > MAX_VIDEO_MEGABYTES * 1024 * 1024) {
     clearFile(t('submit.videoTooBig', { megabytes: MAX_VIDEO_MEGABYTES }))
@@ -313,7 +339,7 @@ async function put (url: string, video: File) {
 
 async function save () {
   const video = file.value
-  if (busy.value || !video || !acceptLicence.value) return
+  if (!valid.value || busy.value || !video) return
   error.value = null
   uploadError.value = null
   progress.value = 0
@@ -398,5 +424,29 @@ function message (err: unknown) {
 /* the sr-only input is what takes focus, so its label has to show the ring */
 input:focus-visible + .file-picker {
   @apply outline-2 outline-solid outline-ttred-900 outline-offset-2;
+}
+
+/* a flat strip on the bar's top edge, drawn by hand as the native bar has rounded ends */
+.upload-progress {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 0.25rem;
+  border: none;
+  border-radius: 0;
+  background-color: var(--tt-sunken);
+}
+
+.upload-progress::-webkit-progress-bar {
+  background-color: var(--tt-sunken);
+}
+
+.upload-progress::-webkit-progress-value {
+  background-color: theme('colors.ttred.500');
+  transition: width 0.2s ease-out;
+}
+
+.upload-progress::-moz-progress-bar {
+  background-color: theme('colors.ttred.500');
 }
 </style>
