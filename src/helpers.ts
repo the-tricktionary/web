@@ -1,16 +1,18 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickType, VerificationLevel } from './graphql/generated/graphql'
+import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickSubmissionStatus, TrickType, VerificationLevel, VideoUploadStatus } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
   groupInviteKind: GroupInviteKind,
   groupRole: GroupRole,
+  trickSubmissionStatus: TrickSubmissionStatus,
   trickType: TrickType,
-  verificationLevel: VerificationLevel
+  verificationLevel: VerificationLevel,
+  videoUploadStatus: VideoUploadStatus
 }
 
 /** The message key holding the label of an enum value, e.g. `enums.trickType.Basic` */
-export function enumKey (name: keyof typeof enums, value: Discipline | GroupInviteKind | GroupRole | TrickType | VerificationLevel) {
+export function enumKey (name: keyof typeof enums, value: Discipline | GroupInviteKind | GroupRole | TrickSubmissionStatus | TrickType | VerificationLevel | VideoUploadStatus) {
   const member = Object.entries(enums[name]).find(([, enumValue]) => enumValue === value)?.[0]
   return `enums.${name}.${member ?? value}`
 }
@@ -38,6 +40,16 @@ export function slugToDiscipline (slug: string) {
       return Discipline.Wheel
     default:
       throw new Error(`Unknown discipline slug: ${slug}`)
+  }
+}
+
+/** The name of a language in that language itself, the tag when we can't name it */
+export function languageName (tag: string) {
+  try {
+    const name = new Intl.DisplayNames([tag], { type: 'language' }).of(tag) ?? tag
+    return name.charAt(0).toLocaleUpperCase(tag) + name.slice(1)
+  } catch {
+    return tag
   }
 }
 

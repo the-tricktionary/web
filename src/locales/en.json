@@ -78,6 +78,11 @@
       "Admin": "Admin",
       "Member": "Member"
     },
+    "trickSubmissionStatus": {
+      "Accepted": "Accepted",
+      "Pending": "Waiting for review",
+      "Rejected": "Not accepted"
+    },
     "trickType": {
       "Basic": "Basic",
       "Impossible": "Impossible",
@@ -89,6 +94,13 @@
     "verificationLevel": {
       "Judge": "Level verified by a judge",
       "Official": "Officially verified level"
+    },
+    "videoUploadStatus": {
+      "Cancelled": "Upload cancelled",
+      "Errored": "Upload failed",
+      "Processing": "Processing",
+      "Ready": "Ready",
+      "Waiting": "Not received yet"
     }
   },
   "footer": {
@@ -286,7 +298,10 @@
     "level": "Level {level}",
     "loading": "Loading tricks...",
     "noTricks": "Oops! We couldn't find any tricks with the given filters.",
-    "search": "Search tricks"
+    "search": "Search tricks",
+    "submitAny": "Submit a trick",
+    "submitCta": "Submit the trick",
+    "submitPrompt": "Can't find it?"
   },
   "language": {
     "label": "Language"
@@ -304,6 +319,7 @@
     "shop": "Shop",
     "signIn": "Sign in",
     "speed": "Speed",
+    "submit": "Submit a trick",
     "toggleMenu": "Toggle menu",
     "toggleMenuInvites": "Toggle menu, {count} group invitations waiting for your answer",
     "tricks": "Tricks"
@@ -340,6 +356,12 @@
     "shareText": "Check out this profile on the Tricktionary",
     "shareTitle": "the Tricktionary - {name}",
     "stats": "Progress",
+    "submissions": {
+      "note": "Note from the reviewer: {note}",
+      "openTrick": "Open the trick",
+      "title": "My submissions",
+      "video": "Video: {status}"
+    },
     "title": "Profile",
     "tricksCompleted": "tricks completed"
   },
@@ -549,6 +571,47 @@
     "steps": "steps",
     "title": "Speed"
   },
+  "submit": {
+    "alternativeNames": "Alternative names",
+    "alternativeNamesHelp": "Other names the trick goes by, one per line or separated by commas.",
+    "attributionName": "Credit me as",
+    "attributionNameHelp": "The name shown next to the trick. It is copied as it stands now and does not follow later changes to your profile.",
+    "chooseVideo": "Choose a video file",
+    "description": "Description",
+    "descriptionPlaceholder": "How the trick is done",
+    "discipline": "Discipline",
+    "done": "Thank you! Your trick is with the trick editors now, you can follow it on your profile.",
+    "failed": "Could not submit the trick: {error}",
+    "intro": "Missing a trick? Film it, tell us about it, and a trick editor looks it over before it joins the Tricktionary.",
+    "lang": "Language of your text",
+    "licence": "I license this submission, including the video, to the Tricktionary under the {licence}, credited to the name above. I own the video or have the rights holder's permission, and everyone in it agrees to it being published.",
+    "licenceName": "Creative Commons Attribution 4.0 International licence",
+    "name": "Trick name",
+    "namePlaceholder": "What the trick is called",
+    "noUpload": "The submission could not be started, please try again",
+    "noVideo": "No file chosen",
+    "optional": "(optional)",
+    "pick": "Pick a discipline",
+    "rateLimitedGlobal": "The Tricktionary has taken as many submissions as it can review for now, please try again later.",
+    "rateLimitedUser": "You have reached your limit of {limit} submissions for now. Wait for the ones you have sent to be reviewed, or try again later.",
+    "removeVideo": "Remove video",
+    "retry": "Send the video again",
+    "save": "Submit the trick",
+    "seeSubmissions": "See your submissions",
+    "title": "Submit a trick",
+    "trickType": "Type of trick",
+    "trickTypeUnknown": "Not sure",
+    "unknownError": "Something went wrong, please try again",
+    "uploadCancelled": "The upload was cancelled",
+    "uploadFailed": "The video could not be uploaded",
+    "uploadRefused": "The video could not be uploaded, the upload was refused with status {status}",
+    "uploading": "Uploading",
+    "video": "Video of the trick",
+    "videoHelp": "One clip of the trick, preferably filmed horizontally, at most {seconds} seconds and {megabytes} MB. A single run at natural speed is enough: the site makes the slow motion itself.",
+    "videoMissing": "Your submission is registered, but the video did not arrive: {error}. Send it again, or find the submission on your profile later.",
+    "videoTooBig": "This file is larger than {megabytes} MB, please pick a smaller one.",
+    "videoTooLong": "This video is longer than {seconds} seconds, please pick a shorter one."
+  },
   "theme": {
     "dark": "Dark",
     "label": "Theme",
@@ -560,6 +623,7 @@
     "alternativeNames": "Alternative names: {names}",
     "completed": "Completed",
     "completedTrick": "Completed: {name}",
+    "contributors": "Contributed by {names}",
     "level": "{ruleset} Level {level}",
     "levels": {
       "actions": "Actions",
@@ -576,6 +640,11 @@
     "markedCompleted": "Marked completed on {date}",
     "markedCompletedBy": "Marked completed on {date} by {name}",
     "next": "Next",
+    "playback": {
+      "full": "Full speed",
+      "label": "Playback speed",
+      "slow": "Slow motion"
+    },
     "previous": "Previous",
     "share": "Share",
     "shareText": "Check out this trick on the Tricktionary",
@@ -583,7 +652,6 @@
     "verification": {
       "Judge": "This level has been verified by a certified judge, but not yet officially.",
       "Official": "This level has been officially verified for this ruleset."
-    },
-    "videoTitle": "Video of the trick"
+    }
   }
 }

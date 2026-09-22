@@ -1,0 +1,12 @@
+#import "../fragments/trickSubmission.gql"
+
+# `upload.url` takes the video file and is only handed out here
+mutation CreateTrickSubmission ($data: TrickSubmissionInput!) {
+  createTrickSubmission (data: $data) {
+    ...TrickSubmissionBase
+    upload {
+      id
+      url
+    }
+  }
+}

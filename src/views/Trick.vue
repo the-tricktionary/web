@@ -37,6 +37,10 @@
           {{ localised.description }}
         </p>
       </div>
+
+      <p v-if="contributors" class="text-muted text-sm">
+        {{ t('trick.contributors', { names: contributors }) }}
+      </p>
     </div>
 
     <div class="flex flex-col">
@@ -164,6 +168,12 @@ const level = computed(() => trick.value?.levels.find(level => level.rulesId ===
 
 const alternativeNames = computed(() => new Intl.ListFormat(localised.value.nameLang, { style: 'long', type: 'disjunction' })
   .format(localised.value.alternativeNames)
+)
+
+const contributors = computed(() => trick.value?.contributors.length
+  ? new Intl.ListFormat(lang.value, { style: 'long', type: 'conjunction' })
+    .format(trick.value.contributors.map(contributor => contributor.name))
+  : null
 )
 
 const { mutate: completeTrickMutate, loading: mutating } = useCompleteTrick()

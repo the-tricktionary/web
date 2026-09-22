@@ -16,20 +16,11 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 
+import { languageName } from '../helpers'
 import useLanguage from '../hooks/useLanguage'
 
 const { showLabel } = defineProps<{ showLabel?: boolean }>()
 
 const { t } = useI18n()
 const { languages, lang, setLang } = useLanguage()
-
-/** The name of a language in that language itself, the tag when we can't name it */
-function languageName (tag: string) {
-  try {
-    const name = new Intl.DisplayNames([tag], { type: 'language' }).of(tag) ?? tag
-    return name.charAt(0).toLocaleUpperCase(tag) + name.slice(1)
-  } catch {
-    return tag
-  }
-}
 </script>
