@@ -4,6 +4,8 @@
 
     <p>{{ t('about.sport') }}</p>
 
+    <global-stats />
+
     <i18n-t keypath="about.apps" tag="p">
       <template #email>
         <a href="mailto:develop@the-tricktionary.com">develop@the-tricktionary.com</a>
@@ -22,6 +24,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 
+import GlobalStats from './GlobalStats.vue'
 import Links from './Links.vue'
 
 const { t } = useI18n()

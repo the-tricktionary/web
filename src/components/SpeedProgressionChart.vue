@@ -94,13 +94,7 @@ const definition = computed(() => {
       y: { scale: scaleLinear, nice: true, grid: true, axis: { label: t('speed.chart.steps') } }
     },
     ...(grouped ? { color: { domain: seriesLabels.value, range: seriesColours.value } } : {}),
-    theme: {
-      foreground: colours.ink,
-      muted: colours.muted,
-      grid: colours.grid,
-      background: colours.surface,
-      palette: colours.series
-    },
+    theme: colours.chart,
     tooltip
   })
 })

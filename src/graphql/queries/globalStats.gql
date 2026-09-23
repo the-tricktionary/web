@@ -1,0 +1,23 @@
+query GlobalStats ($from: Timestamp) {
+  globalStats {
+    countedAt
+    tricks
+    completions
+    averageCompletions
+    acceptedSubmissions
+    levels {
+      level
+      tricks
+      averageCompletions
+    }
+  }
+  globalStatsHistory (from: $from) {
+    countedAt
+    speedResults
+    speedSteps
+    levels {
+      level
+      completions
+    }
+  }
+}
