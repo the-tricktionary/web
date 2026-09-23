@@ -1,4 +1,4 @@
-query GlobalStats {
+query GlobalStats ($from: Timestamp) {
   globalStats {
     countedAt
     tricks
@@ -11,7 +11,7 @@ query GlobalStats {
       averageCompletions
     }
   }
-  globalStatsHistory {
+  globalStatsHistory (from: $from) {
     countedAt
     speedResults
     speedSteps

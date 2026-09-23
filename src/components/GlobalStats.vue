@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { startOfDay, subMonths } from 'date-fns'
 
 import { useGlobalStatsQuery } from '../graphql/generated/graphql'
 import LevelProgress from './LevelProgress.vue'
@@ -53,7 +54,9 @@ const GlobalStatsCharts = defineAsyncComponent(async () => await import('./Globa
 const { t } = useI18n()
 const { number, dateTime } = useSpeedFormat()
 
-const statsQuery = useGlobalStatsQuery({ fetchPolicy: 'cache-and-network' })
+// to the day, so the variables and the cache entry stay the same all day
+const from = startOfDay(subMonths(new Date(), 12))
+const statsQuery = useGlobalStatsQuery({ from: from.getTime() }, { fetchPolicy: 'cache-and-network' })
 const stats = computed(() => statsQuery.result.value?.globalStats)
 const history = computed(() => statsQuery.result.value?.globalStatsHistory ?? [])
 

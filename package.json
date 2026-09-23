@@ -29,6 +29,7 @@
     "apollo3-cache-persist": "^0.15.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",
+    "date-fns": "^4.4.0",
     "firebase": "^12.19.0",
     "graphql": "^16.11.0",
     "graphql-tag": "^2.12.7",
