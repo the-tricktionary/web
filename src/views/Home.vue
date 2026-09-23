@@ -33,7 +33,7 @@
       :hide-completed="settings.hideCompleted"
       :enable-checklist="!!user"
       submit-prompt
-      :discipline="discipline ?? Discipline.SingleRope"
+      :discipline="discipline"
     />
   </div>
 
@@ -57,8 +57,8 @@ import TtFooter from '../components/Footer.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import LanguageSelector from '../components/LanguageSelector.vue'
 
-import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
-import { disciplineToSlug, slugToDiscipline } from '../helpers'
+import { type Discipline, useTricksQuery } from '../graphql/generated/graphql'
+import { disciplineToSlug, queryDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
@@ -70,70 +70,48 @@ import BottomBar from '../components/BottomBar.vue'
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-
-function disciplineFromQuery (slug: unknown) {
-  if (typeof slug !== 'string') return undefined
-  try {
-    return slugToDiscipline(slug)
-  } catch {
-    return undefined
-  }
-}
-
-function searchFromQuery (q: unknown) {
-  return typeof q === 'string' && q.trim() !== '' ? q : undefined
-}
-
-// the discipline and the search live in the URL, so that a tag on a trick's
-// page can link to the tricks carrying it, and a search can be shared
-const discipline = ref<Discipline | undefined>(disciplineFromQuery(route.query.discipline))
 const settings = useSettings()
 const analytics = getAnalytics()
 const { firebaseUser, user } = useAuth({ withChecklist: true })
 const { lang } = useLanguage()
 
-const search = ref<string | undefined>(searchFromQuery(route.query.q))
-const debouncedSearch = refDebounced(search, 1000)
+function queryValue (key: string) {
+  const value = route.query[key]
+  return typeof value === 'string' ? value : ''
+}
 
-const tricksQuery = useTricksQuery({
+/** Undefined drops the parameter */
+function setQuery (values: Record<string, string | undefined>) {
+  void router.replace({ query: { ...route.query, ...values } })
+}
+
+/** Kept in the URL so a search can be linked to, as a trick's tags do */
+const discipline = computed<Discipline>({
+  get: () => queryDiscipline(route.query.discipline),
+  set: value => { setQuery({ discipline: disciplineToSlug(value) }) }
+})
+
+const search = ref(queryValue('q'))
+const debouncedSearch = refDebounced(search, 1000)
+watch(debouncedSearch, q => { setQuery({ q: q.trim() === '' ? undefined : q }) })
+// going back and forward
+watch(() => queryValue('q'), q => { if (q !== debouncedSearch.value) search.value = q })
+const searchQuery = computed(() => {
+  const query = queryValue('q').trim()
+  return query === '' ? null : query
+})
+
+const tricksQuery = useTricksQuery(() => ({
   discipline: discipline.value,
-  searchQuery: search.value ?? null,
+  searchQuery: searchQuery.value,
   withLocalised: lang.value !== 'en',
   lang: lang.value
-})
+}))
 const tricks = computed(() => tricksQuery.result.value?.tricks ?? [])
 const checklist = ref<Set<string>>(new Set())
 
-watch(discipline, discipline => {
-  tricksQuery.variables.value!.discipline = discipline ?? Discipline.SingleRope
-})
-watch(lang, lang => {
-  tricksQuery.variables.value!.withLocalised = lang !== 'en'
-  tricksQuery.variables.value!.lang = lang
-})
 watch(user, user => {
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
-})
-watch(debouncedSearch, search => {
-  if (search?.trim() === '') tricksQuery.variables.value!.searchQuery = null
-  else tricksQuery.variables.value!.searchQuery = search
-})
-
-watch([discipline, debouncedSearch], ([discipline, search]) => {
-  const q = searchFromQuery(search)
-  const slug = discipline ? disciplineToSlug(discipline) : undefined
-  if (route.query.q === q && route.query.discipline === slug) return
-  void router.replace({ query: { ...route.query, discipline: slug, q } })
-})
-
-// going back and forward, compared with the debounced search so that what is
-// still being typed isn't replaced by what the URL held a moment ago
-watch(() => route.query, query => {
-  if (route.name !== 'tricktionary') return
-  const queryDiscipline = disciplineFromQuery(query.discipline)
-  if (queryDiscipline != null && queryDiscipline !== discipline.value) discipline.value = queryDiscipline
-  const q = searchFromQuery(query.q)
-  if (q !== searchFromQuery(debouncedSearch.value)) search.value = q
 })
 
 // The android app does this

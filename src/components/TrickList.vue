@@ -102,7 +102,6 @@ const sorted = computed(() => {
   dataTricks.sort(trickSorter(lang.value))
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
-    // every trick has a type, the API stands in the legacy field for a trick without the tag
     const trickType = trickTypeOf(trick) ?? TrickType.Basic
     if (!sorted[level]) sorted[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => trickTypeLabel(a).localeCompare(trickTypeLabel(b), lang.value)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
     sorted[level][trickType].push(trick)

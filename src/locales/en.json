@@ -96,14 +96,6 @@
       "Pending": "Waiting for review",
       "Rejected": "Not accepted"
     },
-    "trickType": {
-      "Basic": "Basic",
-      "Impossible": "Impossible",
-      "Manipulation": "Manipulation",
-      "Multiple": "Multiple",
-      "Power": "Power",
-      "Release": "Release"
-    },
     "verificationLevel": {
       "Judge": "Level verified by a judge",
       "Official": "Officially verified level"

@@ -97,7 +97,7 @@
   </div>
 
   <bottom-bar>
-    <router-link to="/" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
+    <router-link :to="allTricks" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
@@ -136,7 +136,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
 import { type Discipline, TagValueType, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { disciplineToSlug, formatDate, localiseTrick, slugToDiscipline, tagSearch, TRICK_TYPE_TAG, trickTypeOf } from '../helpers'
+import { formatDate, localiseTrick, slugToDiscipline, tagSearch, TRICK_TYPE_TAG, trickTypeOf } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 import useLanguage from '../hooks/useLanguage'
@@ -180,12 +180,13 @@ const level = computed(() => trick.value?.levels.find(level => level.rulesId ===
 const { tags, trickTypeLabel } = useTags()
 const trickType = computed(() => trick.value ? trickTypeOf(trick.value) : null)
 
-/** The home page searching the trick's discipline */
+const allTricks = computed(() => ({ name: 'tricktionary', query: { discipline: route.params.discipline as string } }))
+
 function homeSearch (q: string) {
-  return { name: 'tricktionary', query: { ...(trick.value ? { discipline: disciplineToSlug(trick.value.discipline) } : {}), q } }
+  return { name: allTricks.value.name, query: { ...allTricks.value.query, q } }
 }
 
-/** The trick's tags but its type, which the heading shows, each value its own chip */
+/** But the trick type, which the heading shows, one chip per value */
 const tagChips = computed(() => {
   const numberFormat = new Intl.NumberFormat(lang.value)
   return (trick.value?.tags ?? []).flatMap(trickTag => {
