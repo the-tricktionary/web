@@ -1,0 +1,23 @@
+query GlobalStats {
+  globalStats {
+    countedAt
+    tricks
+    completions
+    averageCompletions
+    acceptedSubmissions
+    levels {
+      level
+      tricks
+      averageCompletions
+    }
+  }
+  globalStatsHistory {
+    countedAt
+    speedResults
+    speedSteps
+    levels {
+      level
+      completions
+    }
+  }
+}
