@@ -12,7 +12,9 @@
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
-            {{ t(enumKey('trickType', trick.trickType)) }}
+            <router-link v-if="trickType" :to="homeSearch(tagSearch(TRICK_TYPE_TAG, trickType))">
+              {{ trickTypeLabel(trickType) }}
+            </router-link>
             <template v-if="level">
               &mdash; {{ t('trick.level', { ruleset: ruleset?.name ?? '', level: level.level }) }}
               <level-verification v-if="level.verificationLevel" :level="level.verificationLevel" />
@@ -37,6 +39,14 @@
           {{ localised.description }}
         </p>
       </div>
+
+      <ul v-if="tagChips.length" class="list-none m-0 p-0 mb-4 flex flex-wrap gap-2" :aria-label="t('trick.tags')">
+        <li v-for="chip of tagChips" :key="chip.key">
+          <router-link :to="chip.to" class="inline-block rounded-full border border-solid border-line px-3 py-1 text-sm">
+            {{ chip.label }}
+          </router-link>
+        </li>
+      </ul>
 
       <p v-if="contributors" class="text-muted text-sm">
         {{ t('trick.contributors', { names: contributors }) }}
@@ -125,12 +135,13 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
-import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { enumKey, formatDate, localiseTrick, slugToDiscipline } from '../helpers'
+import { type Discipline, TagValueType, useTrickBySlugQuery } from '../graphql/generated/graphql'
+import { disciplineToSlug, formatDate, localiseTrick, slugToDiscipline, tagSearch, TRICK_TYPE_TAG, trickTypeOf } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 import useLanguage from '../hooks/useLanguage'
 import useRuleset from '../hooks/useRuleset'
+import useTags from '../hooks/useTags'
 
 import Videos from '../components/Videos.vue'
 import IconLoading from '~icons/mdi/loading'
@@ -165,6 +176,40 @@ const localised = computed(() => localiseTrick(trick.value ?? {}, lang.value))
 
 const { ruleset } = useRuleset()
 const level = computed(() => trick.value?.levels.find(level => level.rulesId === ruleset.value?.id))
+
+const { tags, trickTypeLabel } = useTags()
+const trickType = computed(() => trick.value ? trickTypeOf(trick.value) : null)
+
+/** The home page searching the trick's discipline */
+function homeSearch (q: string) {
+  return { name: 'tricktionary', query: { ...(trick.value ? { discipline: disciplineToSlug(trick.value.discipline) } : {}), q } }
+}
+
+/** The trick's tags but its type, which the heading shows, each value its own chip */
+const tagChips = computed(() => {
+  const numberFormat = new Intl.NumberFormat(lang.value)
+  return (trick.value?.tags ?? []).flatMap(trickTag => {
+    const tag = tags.value.get(trickTag.tag.id)
+    if (!tag || tag.system) return []
+    switch (tag.valueType) {
+      case TagValueType.Number:
+        if (trickTag.number == null) return []
+        return [{
+          key: tag.id,
+          label: t('trick.tagValue', { tag: tag.name, value: numberFormat.format(trickTag.number) }),
+          to: homeSearch(tagSearch(tag.id, trickTag.number))
+        }]
+      case TagValueType.Enum:
+        return trickTag.values.map(value => ({
+          key: `${tag.id}:${value.id}`,
+          label: t('trick.tagValue', { tag: tag.name, value: tag.values.find(tagValue => tagValue.id === value.id)?.name ?? value.id }),
+          to: homeSearch(tagSearch(tag.id, value.id))
+        }))
+      default:
+        return [{ key: tag.id, label: tag.name, to: homeSearch(tagSearch(tag.id)) }]
+    }
+  })
+})
 
 const alternativeNames = computed(() => new Intl.ListFormat(localised.value.nameLang, { style: 'long', type: 'disjunction' })
   .format(localised.value.alternativeNames)

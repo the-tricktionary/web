@@ -10,7 +10,7 @@
     <template v-for="(group, trickType) of trickTypes" :key="`tt-${level}-${trickType}`">
       <template v-if="group.length">
         <h3 class="mx-auto text-center px-4 text-2xl mt-4">
-          {{ t(enumKey('trickType', trickType)) }}
+          {{ trickTypeLabel(trickType) }}
         </h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
           <trick-box v-for="trick of group" :key="trick.id" :enable-checklist="enableChecklist" :completed="checklist.has(trick.id)" :trick="trick" />
@@ -41,8 +41,9 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { TrickType } from '../graphql/generated/graphql'
-import { enumKey, trickSorter } from '../helpers'
+import { trickSorter, trickTypeOf } from '../helpers'
 import useLanguage from '../hooks/useLanguage'
+import useTags from '../hooks/useTags'
 
 import IconLoading from '~icons/mdi/loading'
 import IconConfused from '~icons/mdi/map-marker-question-outline'
@@ -87,6 +88,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 const { lang } = useLanguage()
+const { trickTypeLabel } = useTags()
 
 const shown = computed(() => {
   const dataTricks = [...props.tricks ?? []]
@@ -100,8 +102,9 @@ const sorted = computed(() => {
   dataTricks.sort(trickSorter(lang.value))
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
-    const trickType = trick.trickType
-    if (!sorted[level]) sorted[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => t(enumKey('trickType', a)).localeCompare(t(enumKey('trickType', b)), lang.value)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
+    // every trick has a type, the API stands in the legacy field for a trick without the tag
+    const trickType = trickTypeOf(trick) ?? TrickType.Basic
+    if (!sorted[level]) sorted[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => trickTypeLabel(a).localeCompare(trickTypeLabel(b), lang.value)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
     sorted[level][trickType].push(trick)
   }
   return sorted

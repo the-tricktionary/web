@@ -19,6 +19,11 @@ const authLink = setContext(async (_, { headers }) => {
 
 const cache = new InMemoryCache({
   typePolicies: {
+    // a value's id is only unique within its tag, `power` is a trick type and
+    // an IJRU judge type, so values stay inside the tag they belong to
+    TagValue: {
+      keyFields: false
+    },
     Group: {
       fields: {
         speedResults: {

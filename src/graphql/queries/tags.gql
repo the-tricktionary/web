@@ -1,0 +1,12 @@
+query Tags ($lang: String) {
+  tags {
+    id
+    name (lang: $lang)
+    valueType
+    system
+    values {
+      id
+      name (lang: $lang)
+    }
+  }
+}

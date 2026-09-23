@@ -662,6 +662,8 @@
     "share": "Share",
     "shareText": "Check out this trick on the Tricktionary",
     "shareTitle": "the Tricktionary - {name}",
+    "tagValue": "{tag}: {value}",
+    "tags": "Tags",
     "verification": {
       "Judge": "This level has been verified by a certified judge, but not yet officially.",
       "Official": "This level has been officially verified for this ruleset."

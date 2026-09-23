@@ -74,7 +74,7 @@
           <select v-model="trickType" class="rounded" :disabled="busy">
             <option value="">{{ t('submit.trickTypeUnknown') }}</option>
             <option v-for="option of trickTypes" :key="option" :value="option">
-              {{ t(enumKey('trickType', option)) }}
+              {{ trickTypeLabel(option) }}
             </option>
           </select>
         </label>
@@ -199,6 +199,7 @@ import { Discipline, TrickType, useCreateTrickSubmissionMutation } from '../grap
 import { enumKey, languageName } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
+import useTags from '../hooks/useTags'
 
 import BottomBar from '../components/BottomBar.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
@@ -230,8 +231,9 @@ const fileInput = useTemplateRef<HTMLInputElement>('fileInput')
 useHead({ title: computed(() => t('submit.title')) })
 
 const disciplines = Object.values(Discipline)
+const { trickTypeLabel } = useTags()
 const trickTypes = computed(() => [...Object.values(TrickType)]
-  .sort((a, b) => t(enumKey('trickType', a)).localeCompare(t(enumKey('trickType', b)), lang.value))
+  .sort((a, b) => trickTypeLabel(a).localeCompare(trickTypeLabel(b), lang.value))
 )
 
 const discipline = ref<Discipline | ''>(disciplines.find(option => option === route.query.discipline) ?? '')

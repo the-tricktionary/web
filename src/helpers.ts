@@ -17,6 +17,24 @@ export function enumKey (name: keyof typeof enums, value: Discipline | GroupInvi
   return `enums.${name}.${member ?? value}`
 }
 
+/** The tag that holds a trick's type, its values are the trick types */
+export const TRICK_TYPE_TAG = 'trick-type'
+
+interface TaggedTrick {
+  tags: ReadonlyArray<{ tag: { id: string }, values: ReadonlyArray<{ id: string }> }>
+}
+
+/** The trick type the `trick-type` tag holds, null for a trick without one */
+export function trickTypeOf (trick: TaggedTrick): TrickType | null {
+  const value = trick.tags.find(trickTag => trickTag.tag.id === TRICK_TYPE_TAG)?.values[0]?.id
+  return (Object.values(TrickType) as string[]).includes(value ?? '') ? value as TrickType : null
+}
+
+/** The search on the home page that finds the tricks holding a tag, or one of its values */
+export function tagSearch (tagId: string, value?: string | number | null) {
+  return value == null ? `#${tagId}` : `#${tagId}:${value}`
+}
+
 export function disciplineToSlug (discipline: Discipline) {
   switch (discipline) {
     case Discipline.SingleRope:
