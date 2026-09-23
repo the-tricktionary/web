@@ -31,8 +31,7 @@
       <router-link
         v-for="link of links"
         :key="link.to"
-        :active-class="link.exact ? undefined : 'active'"
-        :exact-active-class="link.exact ? 'active' : undefined"
+        active-class="active"
         class="nav-link"
         :to="link.to"
       >
@@ -58,7 +57,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { onClickOutside, unrefElement, useResizeObserver, useTimeout } from '@vueuse/core'
+import { onClickOutside, unrefElement, until, useResizeObserver, useTimeout } from '@vueuse/core'
 import useAuth from '../hooks/useAuth'
 import useGroupInvites from '../hooks/useGroupInvites'
 
@@ -70,13 +69,10 @@ import type { ComponentPublicInstance } from 'vue'
 interface NavLink {
   to: string
   label: string
-  /** Active only on this exact path, for the link to the root */
-  exact?: boolean
   show: boolean
   badge?: number
 }
 
-/** How long a session may take to restore before the links show without it */
 const AUTH_TIMEOUT = 2000
 
 const { t } = useI18n()
@@ -88,7 +84,7 @@ const brandRef = ref<ComponentPublicInstance>()
 const rowRef = ref<HTMLElement>()
 
 const links = computed(() => ([
-  { to: '/', label: t('nav.tricks'), exact: true, show: true },
+  { to: '/', label: t('nav.tricks'), show: true },
   { to: '/submit', label: t('nav.submit'), show: true },
   { to: '/speed', label: t('nav.speed'), show: true },
   { to: '/groups', label: t('nav.groups'), show: !!user.value, badge: badgeCount.value },
@@ -98,24 +94,15 @@ const links = computed(() => ([
   { to: '/auth', label: t('nav.signIn'), show: !user.value }
 ] satisfies NavLink[]).filter(link => link.show))
 
-/** Whether the links are behind the menu button */
 const collapsed = ref(true)
-/**
- * Whether it is known which links there are and whether they fit, until then
- * neither they nor the menu button show, or the header would change as the
- * session restores. The button still takes its room, so the header keeps its
- * height
- */
+/** False until measured with the session's links; meanwhile the button is invisible but keeps the header's height */
 const ready = ref(false)
 
-// the user is undefined until firebase has restored, or ruled out, a session
 const authTimedOut = useTimeout(AUTH_TIMEOUT)
+// the user is undefined until firebase has restored or ruled out a session
 const authKnown = computed(() => user.value !== undefined || authTimedOut.value)
 
-// how many links there are depends on the session, and how wide they are on
-// the language and the font, so rather than below a fixed width the links go
-// behind the menu button whenever the row of them, laid out unseen inside the
-// header, is wider than the room the name leaves
+// measures the hidden copy of the row, as the nav is laid out as the menu while collapsed
 function fit () {
   const header = headerRef.value
   const brand = unrefElement(brandRef)
@@ -124,19 +111,14 @@ function fit () {
   const style = window.getComputedStyle(header)
   const room = header.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight) - brand.getBoundingClientRect().width
   collapsed.value = rowRef.value.getBoundingClientRect().width > room
-  if (authKnown.value) ready.value = true
 }
 
-// the header resizes with the window, the row when links come and go, the
-// language changes or the font loads
 useResizeObserver([headerRef, rowRef], fit)
 
-// the links for the session are rendered by the next tick, measure those
-// rather than showing them before they are
-watch(authKnown, async known => {
-  if (!known) return
+void until(authKnown).toBe(true).then(async () => {
   await nextTick()
   fit()
+  ready.value = true
 })
 
 watch(collapsed, () => {
@@ -158,7 +140,6 @@ onClickOutside(headerRef, () => {
   color: white;
 }
 
-/* The links behind the menu button, stacked full-width below the header */
 .menu {
   @apply absolute;
   @apply top-full;
