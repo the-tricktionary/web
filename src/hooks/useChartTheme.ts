@@ -18,7 +18,7 @@ import useTheme from './useTheme'
 export default function useChartTheme () {
   const { isDark } = useTheme()
 
-  return computed(() => isDark.value
+  return computed(() => withChartTheme(isDark.value
     ? {
         series: ['#3987e5', '#d95926', '#5cdcac', '#a86285', '#f2d24b', '#c9b2f5'] as const,
         surface: 'oklch(21% 0.034 264.665)',
@@ -35,5 +35,13 @@ export default function useChartTheme () {
         grid: 'oklch(87.2% 0.01 258.338)',
         trend: 'oklch(55.1% 0.027 264.364)'
       }
-  )
+  ))
+}
+
+/** Adds the `theme` a chart definition takes */
+function withChartTheme<T extends { series: readonly string[], surface: string, ink: string, muted: string, grid: string }> (colours: T) {
+  return {
+    ...colours,
+    chart: { foreground: colours.ink, muted: colours.muted, grid: colours.grid, background: colours.surface, palette: colours.series }
+  }
 }

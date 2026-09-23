@@ -20,20 +20,14 @@
         {{ t('about.stats.averagePerLevel') }}
       </h4>
       <ul class="flex flex-col gap-3 max-w-160 mb-6">
-        <li v-for="level of stats.levels" :key="level.level" class="grid grid-cols-[auto_max-content] gap-x-4 gap-y-1 items-baseline">
-          <span class="font-semibold">{{ t('profile.level', { level: level.level }) }}</span>
-          <span class="text-muted tabular-nums">{{ t('profile.completedOf', { completed: number(level.averageCompletions, { decimals: 1 }), total: number(level.tricks) }) }}</span>
-          <div
-            class="col-span-2 h-2 rounded bg-sunken overflow-hidden"
-            role="progressbar"
-            :aria-label="t('profile.level', { level: level.level })"
-            :aria-valuenow="level.averageCompletions"
-            aria-valuemin="0"
-            :aria-valuemax="level.tricks"
-          >
-            <div class="h-full rounded bg-success" :style="{ width: `${percent(level)}%` }" />
-          </div>
-        </li>
+        <level-progress
+          v-for="level of stats.levels"
+          :key="level.level"
+          :label="t('profile.level', { level: level.level })"
+          :text="t('profile.completedOf', { completed: number(level.averageCompletions, { decimals: 1 }), total: number(level.tricks) })"
+          :value="level.averageCompletions"
+          :max="level.tricks"
+        />
       </ul>
     </template>
 
@@ -50,9 +44,10 @@ import { computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useGlobalStatsQuery } from '../graphql/generated/graphql'
+import LevelProgress from './LevelProgress.vue'
 import useSpeedFormat from '../hooks/useSpeedFormat'
 
-// the chart library stays out of the home page's own bundle
+// keeps the chart library out of the home page bundle
 const GlobalStatsCharts = defineAsyncComponent(async () => await import('./GlobalStatsCharts.vue'))
 
 const { t } = useI18n()
@@ -70,9 +65,4 @@ const figures = computed(() => stats.value
       { label: t('about.stats.acceptedSubmissions'), value: number(stats.value.acceptedSubmissions) }
     ]
   : [])
-
-function percent (level: { averageCompletions: number, tricks: number }) {
-  if (level.tricks <= 0) return 0
-  return Math.min(100, Math.round((level.averageCompletions / level.tricks) * 100))
-}
 </script>

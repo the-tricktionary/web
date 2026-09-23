@@ -44,15 +44,7 @@ const { t } = useI18n()
 const theme = useChartTheme()
 const { number } = useSpeedFormat()
 
-const chartTheme = computed(() => ({
-  foreground: theme.value.ink,
-  muted: theme.value.muted,
-  grid: theme.value.grid,
-  background: theme.value.surface,
-  palette: theme.value.series
-}))
-
-/** Every level any snapshot has, lowest first, so a level keeps its colour */
+/** Across all snapshots, so a level keeps its colour */
 const levels = computed(() => [...new Set(props.history.flatMap(snapshot => snapshot.levels.map(level => level.level)))]
   .sort((a, b) => Number(a) - Number(b)))
 const levelLabels = computed(() => levels.value.map(level => t('profile.level', { level })))
@@ -60,7 +52,7 @@ const levelColours = computed(() => levelLabels.value.map((_, idx) => theme.valu
 const legend = computed(() => levelLabels.value.map((label, idx) => ({ label, color: levelColours.value[idx] ?? theme.value.muted })))
 
 const completionsDefinition = computed(() => {
-  // a level a snapshot doesn't have yet stacks as 0 rather than leaving a gap
+  // a missing level stacks as 0
   const rows = props.history.flatMap(snapshot => levels.value.map(level => ({
     date: new Date(snapshot.countedAt),
     level: t('profile.level', { level }),
@@ -84,7 +76,7 @@ const completionsDefinition = computed(() => {
       y: { scale: scaleLinear, nice: true, grid: true, axis: { label: t('about.stats.completions'), ticks: { format: number } } }
     },
     color: { domain: levelLabels.value, range: levelColours.value },
-    theme: chartTheme.value,
+    theme: theme.value.chart,
     focus: 'nearest-x',
     tooltip
   })
@@ -102,13 +94,12 @@ function speedDefinition (y: 'speedResults' | 'speedSteps', label: string) {
       x: { scale: scaleTime, axis: { label: t('about.stats.date') } },
       y: { scale: scaleLinear, nice: true, grid: true, axis: { label, ticks: { format: number } } }
     },
-    theme: chartTheme.value,
+    theme: theme.value.chart,
     focus: 'nearest-x',
     tooltip
   })
 }
 
-// two charts rather than one with two y axes, so neither scale reads as the other's
 const speedCharts = computed(() => [
   { label: t('about.stats.speedResults'), definition: speedDefinition('speedResults', t('about.stats.speedResults')) },
   { label: t('about.stats.speedSteps'), definition: speedDefinition('speedSteps', t('about.stats.speedSteps')) }
