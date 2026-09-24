@@ -5,7 +5,7 @@ interface ViteTypeOptions {
 
 interface ImportMetaEnv {
   readonly VITE_GRAPHQL_URL: string
-  /** The app's publishable API key, without one the API treats it as anonymous */
+  /** Without one the API treats the app as anonymous */
   readonly VITE_API_KEY?: string
   readonly VITE_SENTRY_DSN?: string
   readonly VITE_COMMIT_REF?: string

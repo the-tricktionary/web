@@ -15,10 +15,8 @@ npm run codegen   # generates src/graphql/generated from the live API schema
 npm run dev
 ```
 
-The API has to know the app: put its publishable API key, the `API_KEY`
-variable of this repository's Actions, in `.env.local` as `VITE_API_KEY`.
-`VITE_GRAPHQL_URL` points the app at an API, `https://api.the-tricktionary.com`
-or a local one.
+`.env.local` needs `VITE_GRAPHQL_URL`, the API, and `VITE_API_KEY`, the
+`API_KEY` variable of this repository's Actions.
 
 Other useful scripts:
 
