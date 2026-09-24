@@ -5,6 +5,8 @@ interface ViteTypeOptions {
 
 interface ImportMetaEnv {
   readonly VITE_GRAPHQL_URL: string
+  /** The FIREBASE_CONFIG variable of this repository's Actions */
+  readonly VITE_FIREBASE_CONFIG: string
   /** Without one the API treats the app as anonymous */
   readonly VITE_API_KEY?: string
   readonly VITE_SENTRY_DSN?: string
