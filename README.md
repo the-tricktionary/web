@@ -15,6 +15,10 @@ npm run codegen   # generates src/graphql/generated from the live API schema
 npm run dev
 ```
 
+`.env.local` needs `VITE_GRAPHQL_URL`, the API, and the `API_KEY` and
+`FIREBASE_CONFIG` variables of this repository's Actions as `VITE_API_KEY` and
+`VITE_FIREBASE_CONFIG`, the latter in single quotes.
+
 Other useful scripts:
 
 - `npm run lint` / `npm run lint:fix` — ESLint (neostandard + typescript-eslint + eslint-plugin-vue), which is also the formatter

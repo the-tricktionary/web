@@ -4,16 +4,11 @@ import { getAnalytics, setAnalyticsCollectionEnabled, setConsent } from 'firebas
 import useCookieConsent from './hooks/useCookieConsent'
 import { watch } from 'vue'
 
+import type { FirebaseOptions } from 'firebase/app'
 import type { Router } from 'vue-router'
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyD07mROu__kGOuJ-0MyjtjS6R5-DiTfUpM',
-  authDomain: 'the-tricktionary.com',
-  projectId: 'project-5641153190345267944',
-  messagingSenderId: '1048157266079',
-  appId: '1:1048157266079:web:a8ae83f6f16d7436',
-  measurementId: 'G-G282NYD80K'
-}
+if (!import.meta.env.VITE_FIREBASE_CONFIG) throw new Error('VITE_FIREBASE_CONFIG is not set, see the README')
+const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG) as FirebaseOptions
 
 const consent = useCookieConsent()
 
