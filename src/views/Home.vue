@@ -33,7 +33,7 @@
       :hide-completed="settings.hideCompleted"
       :enable-checklist="!!user"
       submit-prompt
-      :discipline="discipline ?? Discipline.SingleRope"
+      :discipline="discipline"
     />
   </div>
 
@@ -56,45 +56,47 @@ import TtFooter from '../components/Footer.vue'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import LanguageSelector from '../components/LanguageSelector.vue'
 
-import { Discipline, useTricksQuery } from '../graphql/generated/graphql'
+import { type Discipline, useTricksQuery } from '../graphql/generated/graphql'
+import { disciplineToSlug, queryDiscipline } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
 import { refDebounced } from '@vueuse/core'
+import { useRouteQuery } from '@vueuse/router'
 
 import BottomBar from '../components/BottomBar.vue'
 
 const { t } = useI18n()
-const discipline = ref<Discipline>()
 const settings = useSettings()
 const analytics = getAnalytics()
 const { firebaseUser, user } = useAuth({ withChecklist: true })
 const { lang } = useLanguage()
 
-const tricksQuery = useTricksQuery({
+/** Kept in the URL so a search can be linked to, as a trick's tags do */
+const discipline = useRouteQuery<string | undefined, Discipline>('discipline', undefined, {
+  transform: { get: queryDiscipline, set: disciplineToSlug }
+})
+const query = useRouteQuery<string>('q', '')
+
+const search = ref(query.value)
+const debouncedSearch = refDebounced(search, 1000)
+watch(debouncedSearch, value => { query.value = value.trim() === '' ? '' : value })
+// going back and forward
+watch(query, value => { if (value !== debouncedSearch.value) search.value = value })
+const searchQuery = computed(() => query.value.trim() === '' ? null : query.value.trim())
+
+const tricksQuery = useTricksQuery(() => ({
   discipline: discipline.value,
+  searchQuery: searchQuery.value,
   withLocalised: lang.value !== 'en',
   lang: lang.value
-})
+}))
 const tricks = computed(() => tricksQuery.result.value?.tricks ?? [])
 const checklist = ref<Set<string>>(new Set())
-const search = ref<string | undefined>(undefined)
-const debouncedSearch = refDebounced(search, 1000)
 
-watch(discipline, discipline => {
-  tricksQuery.variables.value!.discipline = discipline ?? Discipline.SingleRope
-})
-watch(lang, lang => {
-  tricksQuery.variables.value!.withLocalised = lang !== 'en'
-  tricksQuery.variables.value!.lang = lang
-})
 watch(user, user => {
   checklist.value = new Set(user?.checklist?.map(checklistItem => checklistItem.trick.id))
-})
-watch(debouncedSearch, search => {
-  if (search?.trim() === '') tricksQuery.variables.value!.searchQuery = null
-  else tricksQuery.variables.value!.searchQuery = search
 })
 
 // The android app does this

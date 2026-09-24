@@ -1,8 +1,17 @@
 fragment TrickBox on Trick {
   id
   slug
-  trickType
   discipline
+  tags {
+    tag {
+      id
+      slug
+    }
+    number
+    values {
+      id
+    }
+  }
   en: localisation {
     id
     name

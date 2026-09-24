@@ -1,20 +1,36 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickSubmissionStatus, TrickType, VerificationLevel, VideoUploadStatus } from './graphql/generated/graphql'
+import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickSubmissionStatus, VerificationLevel, VideoUploadStatus } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
   groupInviteKind: GroupInviteKind,
   groupRole: GroupRole,
   trickSubmissionStatus: TrickSubmissionStatus,
-  trickType: TrickType,
   verificationLevel: VerificationLevel,
   videoUploadStatus: VideoUploadStatus
 }
 
-/** The message key holding the label of an enum value, e.g. `enums.trickType.Basic` */
-export function enumKey (name: keyof typeof enums, value: Discipline | GroupInviteKind | GroupRole | TrickSubmissionStatus | TrickType | VerificationLevel | VideoUploadStatus) {
+/** The message key holding the label of an enum value, e.g. `enums.discipline.SingleRope` */
+export function enumKey (name: keyof typeof enums, value: Discipline | GroupInviteKind | GroupRole | TrickSubmissionStatus | VerificationLevel | VideoUploadStatus) {
   const member = Object.entries(enums[name]).find(([, enumValue]) => enumValue === value)?.[0]
   return `enums.${name}.${member ?? value}`
+}
+
+/** The slug of the built in tags holding the trick type, one per discipline */
+export const TRICK_TYPE_SLUG = 'trick-type'
+
+interface TaggedTrick {
+  tags: ReadonlyArray<{ tag: { slug: string }, values: ReadonlyArray<{ id: string }> }>
+}
+
+/** The ID of the trick type value */
+export function trickTypeOf (trick: TaggedTrick): string | null {
+  return trick.tags.find(trickTag => trickTag.tag.slug === TRICK_TYPE_SLUG)?.values[0]?.id ?? null
+}
+
+/** A home page search for the tricks holding a tag, or one of its values */
+export function tagSearch (slug: string, value?: string | number | null) {
+  return value == null ? `#${slug}` : `#${slug}:${value}`
 }
 
 export function disciplineToSlug (discipline: Discipline) {
@@ -28,6 +44,11 @@ export function disciplineToSlug (discipline: Discipline) {
     default:
       throw new Error(`Unknown discipline: ${String(discipline)}`)
   }
+}
+
+/** The discipline a `?discipline=` parameter names, single rope when it names none */
+export function queryDiscipline (slug: unknown) {
+  return Object.values(Discipline).find(discipline => disciplineToSlug(discipline) === slug) ?? Discipline.SingleRope
 }
 
 export function slugToDiscipline (slug: string) {

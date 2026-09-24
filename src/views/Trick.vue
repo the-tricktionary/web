@@ -12,7 +12,9 @@
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
-            {{ t(enumKey('trickType', trick.trickType)) }}
+            <router-link v-if="trickType" :to="homeSearch(tagSearch(TRICK_TYPE_SLUG, trickType))" class="text-inherit no-underline hover:underline">
+              {{ trickTypeLabel(trick.discipline, trickType) }}
+            </router-link>
             <template v-if="level">
               &mdash; {{ t('trick.level', { ruleset: ruleset?.name ?? '', level: level.level }) }}
               <level-verification v-if="level.verificationLevel" :level="level.verificationLevel" />
@@ -37,6 +39,14 @@
           {{ localised.description }}
         </p>
       </div>
+
+      <ul v-if="tagChips.length" class="list-none m-0 p-0 mb-4 flex flex-wrap gap-2" :aria-label="t('trick.tags')">
+        <li v-for="chip of tagChips" :key="chip.key">
+          <router-link :to="chip.to" class="inline-block rounded-full border border-solid border-line px-3 py-1 text-sm">
+            {{ chip.label }}
+          </router-link>
+        </li>
+      </ul>
 
       <p v-if="contributors" class="text-muted text-sm">
         {{ t('trick.contributors', { names: contributors }) }}
@@ -87,7 +97,7 @@
   </div>
 
   <bottom-bar>
-    <router-link to="/" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
+    <router-link :to="allTricks" class="btn grid grid-cols-[2rem_auto] w-max mt-0">
       <span class="flex h-full items-center justify-center" aria-hidden="true">
         <icon-chevron-left />
       </span>
@@ -125,12 +135,13 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
-import { type Discipline, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { enumKey, formatDate, localiseTrick, slugToDiscipline } from '../helpers'
+import { type Discipline, TagValueType, useTrickBySlugQuery } from '../graphql/generated/graphql'
+import { formatDate, localiseTrick, slugToDiscipline, tagSearch, TRICK_TYPE_SLUG, trickTypeOf } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 import useLanguage from '../hooks/useLanguage'
 import useRuleset from '../hooks/useRuleset'
+import useTags from '../hooks/useTags'
 
 import Videos from '../components/Videos.vue'
 import IconLoading from '~icons/mdi/loading'
@@ -165,6 +176,41 @@ const localised = computed(() => localiseTrick(trick.value ?? {}, lang.value))
 
 const { ruleset } = useRuleset()
 const level = computed(() => trick.value?.levels.find(level => level.rulesId === ruleset.value?.id))
+
+const { tags, trickTypeLabel } = useTags()
+const trickType = computed(() => trick.value ? trickTypeOf(trick.value) : null)
+
+const allTricks = computed(() => ({ name: 'tricktionary', query: { discipline: route.params.discipline as string } }))
+
+function homeSearch (q: string) {
+  return { name: allTricks.value.name, query: { ...allTricks.value.query, q } }
+}
+
+/** But the trick type, which the heading shows, one chip per value */
+const tagChips = computed(() => {
+  const numberFormat = new Intl.NumberFormat(lang.value)
+  return (trick.value?.tags ?? []).flatMap(trickTag => {
+    const tag = tags.value.get(trickTag.tag.id)
+    if (!tag || tag.system) return []
+    switch (tag.valueType) {
+      case TagValueType.Number:
+        if (trickTag.number == null) return []
+        return [{
+          key: tag.id,
+          label: t('trick.tagValue', { tag: tag.name, value: numberFormat.format(trickTag.number) }),
+          to: homeSearch(tagSearch(tag.slug, trickTag.number))
+        }]
+      case TagValueType.Enum:
+        return trickTag.values.map(value => ({
+          key: `${tag.id}:${value.id}`,
+          label: t('trick.tagValue', { tag: tag.name, value: tag.values.find(tagValue => tagValue.id === value.id)?.name ?? value.id }),
+          to: homeSearch(tagSearch(tag.slug, value.id))
+        }))
+      default:
+        return [{ key: tag.id, label: tag.name, to: homeSearch(tagSearch(tag.slug)) }]
+    }
+  })
+})
 
 const alternativeNames = computed(() => new Intl.ListFormat(localised.value.nameLang, { style: 'long', type: 'disjunction' })
   .format(localised.value.alternativeNames)

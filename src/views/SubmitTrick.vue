@@ -69,16 +69,6 @@
           />
         </label>
 
-        <label class="flex flex-col gap-1">
-          <span class="font-semibold">{{ t('submit.trickType') }} <span class="text-muted font-normal">{{ t('submit.optional') }}</span></span>
-          <select v-model="trickType" class="rounded" :disabled="busy">
-            <option value="">{{ t('submit.trickTypeUnknown') }}</option>
-            <option v-for="option of trickTypes" :key="option" :value="option">
-              {{ t(enumKey('trickType', option)) }}
-            </option>
-          </select>
-        </label>
-
         <div class="flex flex-col gap-1">
           <span class="font-semibold">{{ t('submit.video') }}</span>
           <div class="flex flex-wrap items-center gap-2">
@@ -195,7 +185,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
-import { Discipline, TrickType, useCreateTrickSubmissionMutation } from '../graphql/generated/graphql'
+import { Discipline, useCreateTrickSubmissionMutation } from '../graphql/generated/graphql'
 import { enumKey, languageName } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
@@ -230,16 +220,12 @@ const fileInput = useTemplateRef<HTMLInputElement>('fileInput')
 useHead({ title: computed(() => t('submit.title')) })
 
 const disciplines = Object.values(Discipline)
-const trickTypes = computed(() => [...Object.values(TrickType)]
-  .sort((a, b) => t(enumKey('trickType', a)).localeCompare(t(enumKey('trickType', b)), lang.value))
-)
 
 const discipline = ref<Discipline | ''>(disciplines.find(option => option === route.query.discipline) ?? '')
 const textLang = ref(lang.value)
 const name = ref('')
 const alternativeNames = ref('')
 const description = ref('')
-const trickType = ref<TrickType | ''>('')
 const attributionName = ref('')
 const acceptLicence = ref(false)
 /** The chosen file, its length still to be checked */
@@ -365,7 +351,6 @@ async function register () {
     const result = await mutate({
       data: {
         discipline: discipline.value,
-        ...(trickType.value ? { trickType: trickType.value } : {}),
         lang: textLang.value,
         name: name.value.trim(),
         ...(alternativeNamesList.value.length ? { alternativeNames: alternativeNamesList.value } : {}),

@@ -96,14 +96,6 @@
       "Pending": "Waiting for review",
       "Rejected": "Not accepted"
     },
-    "trickType": {
-      "Basic": "Basic",
-      "Impossible": "Impossible",
-      "Manipulation": "Manipulation",
-      "Multiple": "Multiple",
-      "Power": "Power",
-      "Release": "Release"
-    },
     "verificationLevel": {
       "Judge": "Level verified by a judge",
       "Official": "Officially verified level"
@@ -614,8 +606,6 @@
     "save": "Submit the trick",
     "seeSubmissions": "See your submissions",
     "title": "Submit a trick",
-    "trickType": "Type of trick",
-    "trickTypeUnknown": "Not sure",
     "unknownError": "Something went wrong, please try again",
     "uploadCancelled": "The upload was cancelled",
     "uploadFailed": "The video could not be uploaded",
@@ -664,6 +654,8 @@
     "share": "Share",
     "shareText": "Check out this trick on the Tricktionary",
     "shareTitle": "the Tricktionary - {name}",
+    "tagValue": "{tag}: {value}",
+    "tags": "Tags",
     "verification": {
       "Judge": "This level has been verified by a certified judge, but not yet officially.",
       "Official": "This level has been officially verified for this ruleset."

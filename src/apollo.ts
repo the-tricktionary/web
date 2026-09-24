@@ -19,6 +19,10 @@ const authLink = setContext(async (_, { headers }) => {
 
 const cache = new InMemoryCache({
   typePolicies: {
+    // value ids are only unique within their tag
+    TagValue: {
+      keyFields: false
+    },
     Group: {
       fields: {
         speedResults: {
