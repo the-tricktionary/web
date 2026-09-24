@@ -5,6 +5,7 @@ fragment TrickBox on Trick {
   tags {
     tag {
       id
+      slug
     }
     number
     values {

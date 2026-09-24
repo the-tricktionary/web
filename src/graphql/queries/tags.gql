@@ -1,6 +1,8 @@
 query Tags ($lang: String) {
   tags {
     id
+    slug
+    disciplines
     name (lang: $lang)
     valueType
     system

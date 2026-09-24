@@ -1,7 +1,9 @@
 import { computed } from 'vue'
 import { useTagsQuery } from '../graphql/generated/graphql'
-import { TRICK_TYPE_TAG } from '../helpers'
+import { TRICK_TYPE_SLUG } from '../helpers'
 import useLanguage from './useLanguage'
+
+import type { Discipline } from '../graphql/generated/graphql'
 
 /** Names in the site's language */
 export default function useTags () {
@@ -10,11 +12,17 @@ export default function useTags () {
 
   const tags = computed(() => new Map((result.value?.tags ?? []).map(tag => [tag.id, tag])))
 
-  /** The IDs of the trick type values, in order */
-  const trickTypes = computed(() => tags.value.get(TRICK_TYPE_TAG)?.values.map(value => value.id) ?? [])
+  function trickTypeTag (discipline: Discipline) {
+    return [...tags.value.values()].find(tag => tag.slug === TRICK_TYPE_SLUG && (tag.disciplines.length === 0 || tag.disciplines.includes(discipline)))
+  }
 
-  function trickTypeLabel (trickType: string) {
-    return tags.value.get(TRICK_TYPE_TAG)?.values.find(value => value.id === trickType)?.name ?? trickType
+  /** The IDs of the discipline's trick type values, in order */
+  function trickTypes (discipline: Discipline) {
+    return trickTypeTag(discipline)?.values.map(value => value.id) ?? []
+  }
+
+  function trickTypeLabel (discipline: Discipline, trickType: string) {
+    return trickTypeTag(discipline)?.values.find(value => value.id === trickType)?.name ?? trickType
   }
 
   return { tags, trickTypes, trickTypeLabel }

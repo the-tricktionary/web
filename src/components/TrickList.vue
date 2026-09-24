@@ -10,7 +10,7 @@
     <template v-for="(group, trickType) of byType" :key="`tt-${level}-${trickType}`">
       <template v-if="group.length">
         <h3 v-if="trickType" class="mx-auto text-center px-4 text-2xl mt-4">
-          {{ trickTypeLabel(trickType) }}
+          {{ trickTypeLabel(group[0].discipline, trickType) }}
         </h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
           <trick-box v-for="trick of group" :key="trick.id" :enable-checklist="enableChecklist" :completed="checklist.has(trick.id)" :trick="trick" />
@@ -96,13 +96,13 @@ const shown = computed(() => {
 })
 
 const sorted = computed(() => {
-  // types in the tag's order, then any it lacks, then tricks without one
+  // types in the order of their discipline's tag, then any it lacks, then tricks without one
   const sorted: Record<string, Record<string, TricksQuery['tricks']>> = {}
   const dataTricks = [...shown.value]
   dataTricks.sort(trickSorter(lang.value))
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
-    sorted[level] ??= Object.fromEntries(trickTypes.value.map(type => [type, []]))
+    sorted[level] ??= Object.fromEntries(trickTypes(trick.discipline).map(type => [type, []]))
     ;(sorted[level][trickTypeOf(trick) ?? ''] ??= []).push(trick)
   }
   return sorted

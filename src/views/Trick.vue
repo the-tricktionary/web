@@ -12,8 +12,8 @@
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
-            <router-link v-if="trickType" :to="homeSearch(tagSearch(TRICK_TYPE_TAG, trickType))" class="text-inherit no-underline hover:underline">
-              {{ trickTypeLabel(trickType) }}
+            <router-link v-if="trickType" :to="homeSearch(tagSearch(TRICK_TYPE_SLUG, trickType))" class="text-inherit no-underline hover:underline">
+              {{ trickTypeLabel(trick.discipline, trickType) }}
             </router-link>
             <template v-if="level">
               &mdash; {{ t('trick.level', { ruleset: ruleset?.name ?? '', level: level.level }) }}
@@ -136,7 +136,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useHead } from '@unhead/vue'
 
 import { type Discipline, TagValueType, useTrickBySlugQuery } from '../graphql/generated/graphql'
-import { formatDate, localiseTrick, slugToDiscipline, tagSearch, TRICK_TYPE_TAG, trickTypeOf } from '../helpers'
+import { formatDate, localiseTrick, slugToDiscipline, tagSearch, TRICK_TYPE_SLUG, trickTypeOf } from '../helpers'
 import useAuth from '../hooks/useAuth'
 import useCompleteTrick from '../hooks/useCompleteTrick'
 import useLanguage from '../hooks/useLanguage'
@@ -198,16 +198,16 @@ const tagChips = computed(() => {
         return [{
           key: tag.id,
           label: t('trick.tagValue', { tag: tag.name, value: numberFormat.format(trickTag.number) }),
-          to: homeSearch(tagSearch(tag.id, trickTag.number))
+          to: homeSearch(tagSearch(tag.slug, trickTag.number))
         }]
       case TagValueType.Enum:
         return trickTag.values.map(value => ({
           key: `${tag.id}:${value.id}`,
           label: t('trick.tagValue', { tag: tag.name, value: tag.values.find(tagValue => tagValue.id === value.id)?.name ?? value.id }),
-          to: homeSearch(tagSearch(tag.id, value.id))
+          to: homeSearch(tagSearch(tag.slug, value.id))
         }))
       default:
-        return [{ key: tag.id, label: tag.name, to: homeSearch(tagSearch(tag.id)) }]
+        return [{ key: tag.id, label: tag.name, to: homeSearch(tagSearch(tag.slug)) }]
     }
   })
 })
