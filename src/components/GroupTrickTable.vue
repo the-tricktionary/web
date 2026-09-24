@@ -11,25 +11,45 @@
           {{ t('groups.tricks.caption') }}
         </caption>
         <thead>
+          <!-- a fixed height without vertical padding, so the totals row knows where to stick -->
           <tr>
-            <th scope="col" class="sticky top-0 left-0 z-20 bg-surface border-b border-line text-left p-2 min-w-40">
+            <th scope="col" class="sticky top-0 left-0 z-20 bg-surface text-left h-11 px-2 py-0 min-w-40">
               {{ t('groups.tricks.trick') }}
             </th>
             <th
               v-for="athlete of athletes"
               :key="athlete.id"
               scope="col"
-              class="sticky top-0 z-10 bg-surface border-b border-line p-2 touch-target"
+              class="sticky top-0 z-10 bg-surface h-11 px-2 py-0 touch-target"
             >
               <span class="block max-w-30 truncate">{{ athlete.name }}</span>
             </th>
           </tr>
+          <tr>
+            <th scope="row" class="sticky top-11 left-0 z-20 bg-surface border-b border-line text-left p-2 min-w-40">
+              {{ t('groups.tricks.total', { total: number(tricks.length) }) }}
+            </th>
+            <td
+              v-for="athlete of athletes"
+              :key="athlete.id"
+              class="sticky top-11 z-10 bg-surface border-b border-line p-2 text-center tabular-nums"
+            >
+              {{ number(totals.get(athlete.id) ?? 0) }}
+            </td>
+          </tr>
         </thead>
         <tbody v-for="group of levels" :key="group.level">
           <tr>
-            <th :colspan="athletes.length + 1" scope="colgroup" class="bg-sunken border-b border-line text-left p-2">
-              <span class="sticky left-2 inline-block">{{ group.label }}</span>
+            <th scope="rowgroup" class="sticky left-0 z-10 bg-sunken border-b border-line text-left p-2 min-w-40">
+              {{ t('groups.tricks.levelTotal', { level: group.label, total: number(group.total) }) }}
             </th>
+            <td
+              v-for="athlete of athletes"
+              :key="athlete.id"
+              class="bg-sunken border-b border-line p-2 text-center tabular-nums"
+            >
+              {{ number(group.completed.get(athlete.id) ?? 0) }}
+            </td>
           </tr>
           <tr v-for="trick of group.tricks" :key="trick.id">
             <th scope="row" class="sticky left-0 z-10 bg-surface border-b border-line text-left font-normal p-2 min-w-40 max-w-[55vw] md:max-w-80 whitespace-normal">
@@ -71,6 +91,7 @@ import { useI18n } from 'vue-i18n'
 import { disciplineToSlug, localiseTrick, trickSorter } from '../helpers'
 import useGroupMemberCompletion from '../hooks/useGroupMemberCompletion'
 import useLanguage from '../hooks/useLanguage'
+import useSpeedFormat from '../hooks/useSpeedFormat'
 
 import IconCheck from '~icons/mdi/check'
 
@@ -95,6 +116,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 const { lang } = useLanguage()
+const { number } = useSpeedFormat()
 
 const error = ref<string | null>(null)
 
@@ -114,10 +136,20 @@ function everyoneCompleted (trickId: string) {
   return props.athletes.every(athlete => ticked.value.has(`${athlete.id}:${trickId}`))
 }
 
+/** How many of these tricks each athlete has completed, by athlete id */
+function completedPerAthlete (tricks: ReadonlyArray<{ id: string }>) {
+  return new Map(props.athletes.map(athlete => [
+    athlete.id,
+    tricks.filter(trick => ticked.value.has(`${athlete.id}:${trick.id}`)).length
+  ]))
+}
+
+// only this discipline's tricks, as the athletes' checklists span every discipline
+const totals = computed(() => completedPerAthlete(props.tricks))
+
 const levels = computed(() => {
   const byLevel = new Map<string, Array<{ id: string, to: string, name: string, nameLang: string }>>()
   for (const trick of [...props.tricks].sort(trickSorter(lang.value))) {
-    if (props.hideCompleted && everyoneCompleted(trick.id)) continue
     const level = trick.ttLevels[0]?.level ?? ''
     const localised = localiseTrick(trick, lang.value)
     const rows = byLevel.get(level) ?? []
@@ -138,8 +170,12 @@ const levels = computed(() => {
     .map(([level, tricks]) => ({
       level,
       label: level ? t('home.level', { level }) : t('trick.levels.noLevel'),
-      tricks
+      // the counts describe the athletes, so they include the rows hidden below
+      total: tricks.length,
+      completed: completedPerAthlete(tricks),
+      tricks: props.hideCompleted ? tricks.filter(trick => !everyoneCompleted(trick.id)) : tricks
     }))
+    .filter(group => group.tricks.length)
 })
 
 async function toggle (athlete: Athlete, trickId: string, completed: boolean) {
