@@ -604,8 +604,6 @@
     "save": "Submit the trick",
     "seeSubmissions": "See your submissions",
     "title": "Submit a trick",
-    "trickType": "Type of trick",
-    "trickTypeUnknown": "Not sure",
     "unknownError": "Something went wrong, please try again",
     "uploadCancelled": "The upload was cancelled",
     "uploadFailed": "The video could not be uploaded",

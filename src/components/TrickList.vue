@@ -3,13 +3,13 @@
     <icon-loading class="animate-spin w-32 h-32" aria-hidden="true" />
     {{ t('home.loading') }}
   </div>
-  <template v-for="(trickTypes, level) of sorted" v-else-if="numTricks > 0" :key="`tt-${level}`">
+  <template v-for="(byType, level) of sorted" v-else-if="numTricks > 0" :key="`tt-${level}`">
     <h2 class="trick-level mx-auto w-32 px-4 mt-6 text-3xl font-bold relative text-center">
       {{ t('home.level', { level }) }}
     </h2>
-    <template v-for="(group, trickType) of trickTypes" :key="`tt-${level}-${trickType}`">
+    <template v-for="(group, trickType) of byType" :key="`tt-${level}-${trickType}`">
       <template v-if="group.length">
-        <h3 class="mx-auto text-center px-4 text-2xl mt-4">
+        <h3 v-if="trickType" class="mx-auto text-center px-4 text-2xl mt-4">
           {{ trickTypeLabel(trickType) }}
         </h3>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
@@ -40,7 +40,6 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { TrickType } from '../graphql/generated/graphql'
 import { trickSorter, trickTypeOf } from '../helpers'
 import useLanguage from '../hooks/useLanguage'
 import useTags from '../hooks/useTags'
@@ -88,7 +87,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 const { lang } = useLanguage()
-const { trickTypeLabel } = useTags()
+const { trickTypes, trickTypeLabel } = useTags()
 
 const shown = computed(() => {
   const dataTricks = [...props.tricks ?? []]
@@ -97,14 +96,14 @@ const shown = computed(() => {
 })
 
 const sorted = computed(() => {
-  const sorted: Record<string, Record<TrickType, TricksQuery['tricks']>> = {}
+  // types in the tag's order, then any it lacks, then tricks without one
+  const sorted: Record<string, Record<string, TricksQuery['tricks']>> = {}
   const dataTricks = [...shown.value]
   dataTricks.sort(trickSorter(lang.value))
   for (const trick of dataTricks) {
     const level = trick.ttLevels[0]?.level
-    const trickType = trickTypeOf(trick) ?? TrickType.Basic
-    if (!sorted[level]) sorted[level] = Object.fromEntries(Object.values(TrickType).sort((a, b) => trickTypeLabel(a).localeCompare(trickTypeLabel(b), lang.value)).map(type => [type, []])) as unknown as Record<TrickType, Array<TricksQuery['tricks'][number]>>
-    sorted[level][trickType].push(trick)
+    sorted[level] ??= Object.fromEntries(trickTypes.value.map(type => [type, []]))
+    ;(sorted[level][trickTypeOf(trick) ?? ''] ??= []).push(trick)
   }
   return sorted
 })

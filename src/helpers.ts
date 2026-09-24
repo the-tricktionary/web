@@ -1,5 +1,5 @@
 import type { TrickBoxFragment, Currency } from './graphql/generated/graphql'
-import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickSubmissionStatus, TrickType, VerificationLevel, VideoUploadStatus } from './graphql/generated/graphql'
+import { Discipline, GroupInviteKind, GroupRole, TimingCueType, TrickSubmissionStatus, VerificationLevel, VideoUploadStatus } from './graphql/generated/graphql'
 
 const enums = {
   discipline: Discipline,
@@ -23,9 +23,9 @@ interface TaggedTrick {
   tags: ReadonlyArray<{ tag: { id: string }, values: ReadonlyArray<{ id: string }> }>
 }
 
-export function trickTypeOf (trick: TaggedTrick): TrickType | null {
-  const value = trick.tags.find(trickTag => trickTag.tag.id === TRICK_TYPE_TAG)?.values[0]?.id
-  return (Object.values(TrickType) as string[]).includes(value ?? '') ? value as TrickType : null
+/** The ID of the trick type value */
+export function trickTypeOf (trick: TaggedTrick): string | null {
+  return trick.tags.find(trickTag => trickTag.tag.id === TRICK_TYPE_TAG)?.values[0]?.id ?? null
 }
 
 /** A home page search for the tricks holding a tag, or one of its values */
