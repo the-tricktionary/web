@@ -30,6 +30,7 @@ jobs:
           VITE_COMMIT_REF: ${{ github.sha }}
           VITE_CONTEXT: production
           VITE_GRAPHQL_URL: https://api.the-tricktionary.com
+          VITE_API_KEY: ${{ vars.API_KEY }}
           VITE_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
 
       - uses: google-github-actions/auth@v3
