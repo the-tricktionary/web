@@ -286,13 +286,15 @@
     "title": "Groups",
     "tricks": {
       "allCompleted": "Everyone has completed every trick of this discipline.",
-      "caption": "Tricks down the side, athletes across the top",
+      "caption": "Tricks down the side, athletes across the top, with how many tricks each athlete has completed in total and per level",
       "completedBy": "{athlete} has completed {trick}",
       "failed": "Could not save the tick: {error}",
       "hideCompleted": "Hide tricks everyone has completed",
+      "levelTotal": "{level} ({total})",
       "loading": "Loading the group...",
       "noAthletes": "There are no athletes in this group yet, so there is nothing to compare.",
       "readOnly": "Only an admin of the group can change these.",
+      "total": "Total ({total})",
       "trick": "Trick"
     },
     "youAreAdmin": "You are an admin"
