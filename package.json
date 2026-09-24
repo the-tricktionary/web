@@ -26,6 +26,7 @@
     "@unhead/vue": "^3.4.1",
     "@vue/apollo-composable": "^4.2.2",
     "@vueuse/core": "^15.0.0",
+    "@vueuse/router": "~15.0.0",
     "apollo3-cache-persist": "^0.15.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",

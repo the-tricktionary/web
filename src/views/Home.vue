@@ -46,7 +46,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
 
 import TrickList from '../components/TrickList.vue'
@@ -64,42 +63,28 @@ import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
 import { refDebounced } from '@vueuse/core'
+import { useRouteQuery } from '@vueuse/router'
 
 import BottomBar from '../components/BottomBar.vue'
 
 const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
 const settings = useSettings()
 const analytics = getAnalytics()
 const { firebaseUser, user } = useAuth({ withChecklist: true })
 const { lang } = useLanguage()
 
-function queryValue (key: string) {
-  const value = route.query[key]
-  return typeof value === 'string' ? value : ''
-}
-
-/** Undefined drops the parameter */
-function setQuery (values: Record<string, string | undefined>) {
-  void router.replace({ query: { ...route.query, ...values } })
-}
-
 /** Kept in the URL so a search can be linked to, as a trick's tags do */
-const discipline = computed<Discipline>({
-  get: () => queryDiscipline(route.query.discipline),
-  set: value => { setQuery({ discipline: disciplineToSlug(value) }) }
+const discipline = useRouteQuery<string | undefined, Discipline>('discipline', undefined, {
+  transform: { get: queryDiscipline, set: disciplineToSlug }
 })
+const query = useRouteQuery<string>('q', '')
 
-const search = ref(queryValue('q'))
+const search = ref(query.value)
 const debouncedSearch = refDebounced(search, 1000)
-watch(debouncedSearch, q => { setQuery({ q: q.trim() === '' ? undefined : q }) })
+watch(debouncedSearch, value => { query.value = value.trim() === '' ? '' : value })
 // going back and forward
-watch(() => queryValue('q'), q => { if (q !== debouncedSearch.value) search.value = q })
-const searchQuery = computed(() => {
-  const query = queryValue('q').trim()
-  return query === '' ? null : query
-})
+watch(query, value => { if (value !== debouncedSearch.value) search.value = value })
+const searchQuery = computed(() => query.value.trim() === '' ? null : query.value.trim())
 
 const tricksQuery = useTricksQuery(() => ({
   discipline: discipline.value,

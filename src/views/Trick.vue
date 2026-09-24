@@ -12,7 +12,7 @@
 
         <p class="text-muted font-semibold">
           <span class="inline-flex items-center">
-            <router-link v-if="trickType" :to="homeSearch(tagSearch(TRICK_TYPE_TAG, trickType))">
+            <router-link v-if="trickType" :to="homeSearch(tagSearch(TRICK_TYPE_TAG, trickType))" class="text-inherit no-underline hover:underline">
               {{ trickTypeLabel(trickType) }}
             </router-link>
             <template v-if="level">
