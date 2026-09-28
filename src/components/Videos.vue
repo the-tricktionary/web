@@ -31,11 +31,11 @@
 
     <div v-if="muxVideo" class="flex flex-wrap gap-2 items-center mt-2">
       <pager
-        v-if="trickVideos.length > 1"
+        v-if="muxVideos.length > 1"
         role="group"
         :aria-label="t('trick.videos.label')"
         :index="index"
-        :total="trickVideos.length"
+        :total="muxVideos.length"
         :previous-label="t('trick.videos.previous')"
         :next-label="t('trick.videos.next')"
         @step="step"
@@ -88,8 +88,6 @@ import type { TrickBySlugQuery } from '../graphql/generated/graphql'
 type Video = NonNullable<TrickBySlugQuery['trick']>['videos'][number]
 type Speed = 'full' | 'slow'
 
-/** The types that show the trick rather than explain it */
-const TRICK_VIDEO_TYPES: VideoType[] = [VideoType.FullSpeed, VideoType.SlowMo]
 const SLOW_RATE = 0.5
 /** Rounds a video plays before the player stops, a round being a pair while the speeds alternate */
 const ROUNDS = 5
@@ -125,10 +123,10 @@ const speed = ref<Speed | null>(null)
 const plays = ref(0)
 
 /** In the order editors arrange them */
-const trickVideos = computed(() => props.videos.filter(video => video.host === VideoHost.Mux && TRICK_VIDEO_TYPES.includes(video.type)))
+const muxVideos = computed(() => props.videos.filter(video => video.host === VideoHost.Mux))
 
-const { index, step, reset } = usePager(() => trickVideos.value.length)
-const muxVideo = computed(() => trickVideos.value[index.value] ?? null)
+const { index, step, reset } = usePager(() => muxVideos.value.length)
+const muxVideo = computed(() => muxVideos.value[index.value] ?? null)
 
 // Trick.vue stays mounted from one trick to the next
 watch(() => props.trickId, reset)
