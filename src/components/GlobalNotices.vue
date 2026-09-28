@@ -34,12 +34,11 @@
 
         <pager
           v-if="visible.length > 1"
+          v-model:index="index"
           class="ml-auto"
-          :index="index"
           :total="visible.length"
           :previous-label="t('notices.previous')"
           :next-label="t('notices.next')"
-          @step="step"
         />
       </div>
     </div>
@@ -47,12 +46,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useNoticesQuery } from '../graphql/generated/graphql'
 import useLanguage from '../hooks/useLanguage'
-import usePager from '../hooks/usePager'
 import useSettings from '../hooks/useSettings'
 
 import Pager from './Pager.vue'
@@ -67,7 +65,12 @@ const visible = computed(() => (noticesQuery.result.value?.notices ?? [])
   .filter(notice => settings.value.dismissedNotices?.[notice.id] !== notice.updatedAt)
 )
 
-const { index, step } = usePager(() => visible.value.length)
+const picked = ref(0)
+// clamped, since the list shrinks as notices are dismissed
+const index = computed({
+  get: () => Math.min(picked.value, Math.max(0, visible.value.length - 1)),
+  set: value => { picked.value = value }
+})
 const current = computed(() => visible.value[index.value])
 const textLang = computed(() => current.value?.text.lang === lang.value ? undefined : current.value?.text.lang)
 

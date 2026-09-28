@@ -4,7 +4,7 @@
       type="button"
       class="btn w-max touch-target flex items-center justify-center"
       :aria-label="previousLabel"
-      @click="emit('step', -1)"
+      @click="step(-1)"
     >
       <icon-chevron-left aria-hidden="true" />
     </button>
@@ -13,7 +13,7 @@
       type="button"
       class="btn w-max touch-target flex items-center justify-center"
       :aria-label="nextLabel"
-      @click="emit('step', 1)"
+      @click="step(1)"
     >
       <icon-chevron-right aria-hidden="true" />
     </button>
@@ -26,16 +26,18 @@ import { useI18n } from 'vue-i18n'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconChevronRight from '~icons/mdi/chevron-right'
 
-defineProps<{
-  index: number
+const { total } = defineProps<{
   total: number
   previousLabel: string
   nextLabel: string
 }>()
 
-const emit = defineEmits<{
-  step: [by: number]
-}>()
+const index = defineModel<number>('index', { required: true })
 
 const { t } = useI18n()
+
+/** Wraps around at both ends */
+function step (by: number) {
+  index.value = (index.value + by + total) % total
+}
 </script>

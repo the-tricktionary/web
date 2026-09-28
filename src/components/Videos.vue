@@ -32,13 +32,12 @@
     <div v-if="muxVideo" class="flex flex-wrap gap-2 items-center mt-2">
       <pager
         v-if="muxVideos.length > 1"
+        v-model:index="index"
         role="group"
         :aria-label="t('trick.videos.label')"
-        :index="index"
         :total="muxVideos.length"
         :previous-label="t('trick.videos.previous')"
         :next-label="t('trick.videos.next')"
-        @step="step"
       />
 
       <button type="button" class="btn w-max touch-target inline-flex items-center gap-2 ml-auto" @click="emit('submit')">
@@ -76,7 +75,6 @@ import '@mux/mux-player'
 import { VideoHost, VideoType } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useCookieConsent from '../hooks/useCookieConsent'
-import usePager from '../hooks/usePager'
 
 import Pager from './Pager.vue'
 import IconUpload from '~icons/mdi/upload'
@@ -125,11 +123,11 @@ const plays = ref(0)
 /** In the order editors arrange them */
 const muxVideos = computed(() => props.videos.filter(video => video.host === VideoHost.Mux))
 
-const { index, step, reset } = usePager(() => muxVideos.value.length)
+const index = ref(0)
 const muxVideo = computed(() => muxVideos.value[index.value] ?? null)
 
 // Trick.vue stays mounted from one trick to the next
-watch(() => props.trickId, reset)
+watch(() => props.trickId, () => { index.value = 0 })
 
 // A FullSpeed video is one run at natural speed, so the slow motion is ours to play
 const canChooseSpeed = computed(() => muxVideo.value?.type === VideoType.FullSpeed)
