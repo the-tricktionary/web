@@ -7,7 +7,10 @@
     <ul class="flex flex-col gap-3 max-w-160">
       <li v-for="submission of submissions" :key="submission.id" class="border border-line rounded p-4">
         <div class="flex items-baseline justify-between gap-4 flex-wrap">
-          <h3 class="font-semibold">
+          <h3 v-if="submission.kind === TrickSubmissionKind.Video" class="font-semibold">
+            {{ t('profile.submissions.videoOf', { name: trickName(submission) }) }}
+          </h3>
+          <h3 v-else class="font-semibold">
             {{ submission.name }}
           </h3>
           <p class="text-muted mb-0">
@@ -44,18 +47,24 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 
-import { TrickSubmissionStatus } from '../graphql/generated/graphql'
-import { disciplineToSlug, enumKey, formatDate } from '../helpers'
+import { TrickSubmissionKind, TrickSubmissionStatus } from '../graphql/generated/graphql'
+import { disciplineToSlug, enumKey, formatDate, localiseTrick } from '../helpers'
 import useLanguage from '../hooks/useLanguage'
 
 import IconChevronRight from '~icons/mdi/chevron-right'
 
-import type { TrickSubmissionBaseFragment } from '../graphql/generated/graphql'
+import type { MyTrickSubmissionsQuery } from '../graphql/generated/graphql'
+
+type Submission = NonNullable<MyTrickSubmissionsQuery['me']>['trickSubmissions'][number]
 
 defineProps<{
-  submissions: readonly TrickSubmissionBaseFragment[]
+  submissions: readonly Submission[]
 }>()
 
 const { t } = useI18n()
 const { lang } = useLanguage()
+
+function trickName (submission: Submission) {
+  return submission.trick ? localiseTrick(submission.trick, lang.value).name : ''
+}
 </script>

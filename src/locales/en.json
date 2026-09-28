@@ -337,10 +337,12 @@
   },
   "notices": {
     "close": "Close notice",
-    "counter": "{current} of {total}",
     "next": "Next notice",
     "previous": "Previous notice",
     "region": "Notices"
+  },
+  "pager": {
+    "counter": "{current} of {total}"
   },
   "profile": {
     "anonymous": "Anonymous jumper",
@@ -367,7 +369,8 @@
       "note": "Note from the reviewer: {note}",
       "openTrick": "Open the trick",
       "title": "My submissions",
-      "video": "Video: {status}"
+      "video": "Video: {status}",
+      "videoOf": "Video of {name}"
     },
     "title": "Profile",
     "tricksCompleted": "tricks completed"
@@ -617,6 +620,15 @@
     "videoTooBig": "This file is larger than {megabytes} MB, please pick a smaller one.",
     "videoTooLong": "This video is longer than {seconds} seconds, please pick a shorter one."
   },
+  "submitVideo": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "done": "Thank you! Your video is with the trick editors now, you can follow it on your profile.",
+    "failed": "Could not submit the video: {error}",
+    "intro": "Film the trick and a trick editor looks your video over before it is added to the trick.",
+    "save": "Submit the video",
+    "title": "Submit a video of {name}"
+  },
   "theme": {
     "dark": "Dark",
     "label": "Theme",
@@ -659,6 +671,13 @@
     "verification": {
       "Judge": "This level has been verified by a certified judge, but not yet officially.",
       "Official": "This level has been officially verified for this ruleset."
+    },
+    "videos": {
+      "label": "Videos",
+      "missing": "There is no video of this trick yet",
+      "next": "Next video",
+      "previous": "Previous video",
+      "submit": "Submit a video"
     }
   }
 }

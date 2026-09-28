@@ -18,6 +18,32 @@
         @ended="playAgain()"
         @play="restartFinishedCycle()"
       />
+      <div v-else class="h-full flex flex-col items-center justify-center gap-3 p-4 text-center">
+        <p class="text-muted mb-0">
+          {{ t('trick.videos.missing') }}
+        </p>
+        <button type="button" class="btn w-max inline-flex items-center gap-2" @click="emit('submit')">
+          <icon-upload aria-hidden="true" />
+          {{ t('trick.videos.submit') }}
+        </button>
+      </div>
+    </div>
+
+    <div v-if="muxVideo" class="flex flex-wrap gap-2 items-center mt-2">
+      <pager
+        v-if="muxVideos.length > 1"
+        v-model:index="index"
+        role="group"
+        :aria-label="t('trick.videos.label')"
+        :total="muxVideos.length"
+        :previous-label="t('trick.videos.previous')"
+        :next-label="t('trick.videos.next')"
+      />
+
+      <button type="button" class="btn w-max touch-target inline-flex items-center gap-2 ml-auto" @click="emit('submit')">
+        <icon-upload aria-hidden="true" />
+        {{ t('trick.videos.submit') }}
+      </button>
     </div>
 
     <div v-if="canChooseSpeed" class="flex gap-2 mt-2" role="group" :aria-label="t('trick.playback.label')">
@@ -50,6 +76,9 @@ import { VideoHost, VideoType } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useCookieConsent from '../hooks/useCookieConsent'
 
+import Pager from './Pager.vue'
+import IconUpload from '~icons/mdi/upload'
+
 import type { PropType } from 'vue'
 import type MuxPlayerElement from '@mux/mux-player'
 import type { TrickBySlugQuery } from '../graphql/generated/graphql'
@@ -76,6 +105,10 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits<{
+  submit: []
+}>()
+
 const { t } = useI18n()
 const { user } = useAuth()
 const cookieConsent = useCookieConsent()
@@ -87,14 +120,14 @@ const speed = ref<Speed | null>(null)
 /** Plays finished in the current cycle */
 const plays = ref(0)
 
-const muxVideo = computed(() => {
-  const hosted = props.videos.filter(video => video.host === VideoHost.Mux)
-  for (const type of [VideoType.FullSpeed, VideoType.SlowMo]) {
-    const video = hosted.find(video => video.type === type)
-    if (video) return video
-  }
-  return null
-})
+/** In the order editors arrange them */
+const muxVideos = computed(() => props.videos.filter(video => video.host === VideoHost.Mux))
+
+const index = ref(0)
+const muxVideo = computed(() => muxVideos.value[index.value] ?? null)
+
+// Trick.vue stays mounted from one trick to the next
+watch(() => props.trickId, () => { index.value = 0 })
 
 // A FullSpeed video is one run at natural speed, so the slow motion is ours to play
 const canChooseSpeed = computed(() => muxVideo.value?.type === VideoType.FullSpeed)

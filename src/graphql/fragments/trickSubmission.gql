@@ -1,5 +1,6 @@
 fragment TrickSubmissionBase on TrickSubmission {
   id
+  kind
   name
   discipline
   status

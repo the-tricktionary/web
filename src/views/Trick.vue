@@ -32,7 +32,18 @@
         :videos="trick.videos"
         :trick-id="trick.id"
         :title="localised.name"
+        @submit="submitVideo()"
       />
+
+      <router-view v-slot="{ Component }">
+        <component
+          :is="Component"
+          v-if="Component"
+          :trick-id="trick.id"
+          :trick-name="localised.name"
+          @close="closeSubmitVideo()"
+        />
+      </router-view>
 
       <div class="my-4">
         <p :lang="localised.descriptionLang === lang ? undefined : localised.descriptionLang">
@@ -221,6 +232,17 @@ const contributors = computed(() => trick.value?.contributors.length
     .format(trick.value.contributors.map(contributor => contributor.name))
   : null
 )
+
+async function submitVideo () {
+  await router.push({ name: 'trick-submit-video', params: route.params, query: route.query })
+}
+
+// back when the trick opened the dialog, so the Back button doesn't reopen it
+function closeSubmitVideo () {
+  const trickRoute = router.resolve({ name: 'trick', params: route.params, query: route.query })
+  if (router.options.history.state.back === trickRoute.fullPath) router.back()
+  else void router.replace(trickRoute)
+}
 
 const { mutate: completeTrickMutate, loading: mutating } = useCompleteTrick()
 

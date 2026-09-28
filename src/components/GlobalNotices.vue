@@ -32,25 +32,14 @@
           </template>
         </div>
 
-        <div v-if="visible.length > 1" class="ml-auto flex gap-2 items-center">
-          <button
-            type="button"
-            class="btn w-max touch-target flex items-center justify-center"
-            :aria-label="t('notices.previous')"
-            @click="step(-1)"
-          >
-            <icon-chevron-left aria-hidden="true" />
-          </button>
-          <span>{{ t('notices.counter', { current: index + 1, total: visible.length }) }}</span>
-          <button
-            type="button"
-            class="btn w-max touch-target flex items-center justify-center"
-            :aria-label="t('notices.next')"
-            @click="step(1)"
-          >
-            <icon-chevron-right aria-hidden="true" />
-          </button>
-        </div>
+        <pager
+          v-if="visible.length > 1"
+          v-model:index="index"
+          class="ml-auto"
+          :total="visible.length"
+          :previous-label="t('notices.previous')"
+          :next-label="t('notices.next')"
+        />
       </div>
     </div>
   </div>
@@ -64,8 +53,7 @@ import { useNoticesQuery } from '../graphql/generated/graphql'
 import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
 
-import IconChevronLeft from '~icons/mdi/chevron-left'
-import IconChevronRight from '~icons/mdi/chevron-right'
+import Pager from './Pager.vue'
 import IconClose from '~icons/mdi/close'
 
 const { t } = useI18n()
@@ -79,13 +67,12 @@ const visible = computed(() => (noticesQuery.result.value?.notices ?? [])
 
 const picked = ref(0)
 // clamped, since the list shrinks as notices are dismissed
-const index = computed(() => Math.min(picked.value, Math.max(0, visible.value.length - 1)))
+const index = computed({
+  get: () => Math.min(picked.value, Math.max(0, visible.value.length - 1)),
+  set: value => { picked.value = value }
+})
 const current = computed(() => visible.value[index.value])
 const textLang = computed(() => current.value?.text.lang === lang.value ? undefined : current.value?.text.lang)
-
-function step (by: number) {
-  picked.value = (index.value + by + visible.value.length) % visible.value.length
-}
 
 function dismiss () {
   if (!current.value) return
