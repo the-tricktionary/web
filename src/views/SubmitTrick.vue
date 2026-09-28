@@ -81,15 +81,7 @@
   </div>
 
   <bottom-bar v-if="error || uploadError">
-    <p v-if="error" class="text-ttred-900 mb-0" role="alert">
-      {{ error }}
-    </p>
-    <p v-else class="text-ttred-900 mb-0" role="alert">
-      {{ t('submit.videoMissing', { error: uploadError }) }}
-      <router-link :to="{ name: 'profile' }">
-        {{ t('submit.seeSubmissions') }}
-      </router-link>
-    </p>
+    <submission-error :error="error" :upload-error="uploadError" />
   </bottom-bar>
 
   <!-- mounted with the bar below it, so the progress sits on the bar's top edge -->
@@ -137,6 +129,7 @@ import useLanguage from '../hooks/useLanguage'
 import useSubmissionUpload from '../hooks/useSubmissionUpload'
 
 import BottomBar from '../components/BottomBar.vue'
+import SubmissionError from '../components/SubmissionError.vue'
 import SubmissionVideoFields from '../components/SubmissionVideoFields.vue'
 import IconChevronLeft from '~icons/mdi/chevron-left'
 import IconLoading from '~icons/mdi/loading'

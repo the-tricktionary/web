@@ -337,10 +337,12 @@
   },
   "notices": {
     "close": "Close notice",
-    "counter": "{current} of {total}",
     "next": "Next notice",
     "previous": "Previous notice",
     "region": "Notices"
+  },
+  "pager": {
+    "counter": "{current} of {total}"
   },
   "profile": {
     "anonymous": "Anonymous jumper",
@@ -671,7 +673,6 @@
       "Official": "This level has been officially verified for this ruleset."
     },
     "videos": {
-      "counter": "{current} of {total}",
       "label": "Videos",
       "missing": "There is no video of this trick yet",
       "next": "Next video",

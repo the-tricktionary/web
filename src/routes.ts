@@ -14,7 +14,14 @@ const analytics = getAnalytics()
 
 export const routes: RouteRecordRaw[] = [
   { name: 'tricktionary', path: '/', component: async () => await import('./views/Home.vue') },
-  { name: 'trick', path: '/trick/:discipline/:slug', component: async () => await import('./views/Trick.vue') },
+  {
+    name: 'trick',
+    path: '/trick/:discipline/:slug',
+    component: async () => await import('./views/Trick.vue'),
+    children: [
+      { name: 'trick-submit-video', path: 'submit-video', component: async () => await import('./components/SubmitVideoDialog.vue'), meta: { requiresAuth: true } }
+    ]
+  },
   { name: 'submit-trick', path: '/submit', component: async () => await import('./views/SubmitTrick.vue'), meta: { requiresAuth: true } },
 
   { name: 'speed', path: '/speed', component: async () => await import('./views/SpeedIndex.vue'), meta: { requiresAuth: true } },

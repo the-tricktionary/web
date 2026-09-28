@@ -8,29 +8,39 @@ export interface RegisteredSubmission<T> {
 }
 
 interface Options<T> {
-  /** Registers the submission with the API, which answers with the upload URL */
   register: () => Promise<RegisteredSubmission<T>>
   /** Message key for a submission the API refused, given the `error` */
   failedKey: string
+  /** Where a form that closes before the video arrives picks the submission up when it opens again */
+  resumeKey?: string
 }
 
+/** Registered submissions whose video has not arrived, by `resumeKey` */
+const unsent = new Map<string, { held: RegisteredSubmission<unknown>, uploadError: string | null }>()
+
 /**
- * Registers a submission and sends its video to the URL the API hands out.
- * Either kind of submission the API has taken counts against the limits, so a
- * video that did not arrive goes to that same URL again rather than to a second
- * submission.
+ * Registers a submission and sends its video. A registered submission counts
+ * against the limits, so a retry sends the video to the same URL rather than
+ * registering another.
  */
-export default function useSubmissionUpload<T> ({ register, failedKey }: Options<T>) {
+export default function useSubmissionUpload<T> ({ register, failedKey, resumeKey }: Options<T>) {
   const { t } = useI18n()
+  const resumed = resumeKey != null ? unsent.get(resumeKey) : undefined
 
   const registering = ref(false)
   const uploading = ref(false)
   const progress = ref(0)
-  const registered = shallowRef<RegisteredSubmission<T> | null>(null)
+  const registered = shallowRef((resumed?.held as RegisteredSubmission<T> | undefined) ?? null)
   /** The API refused the submission */
   const error = ref<string | null>(null)
   /** The submission is registered, but its video did not arrive */
-  const uploadError = ref<string | null>(null)
+  const uploadError = ref(resumed?.uploadError ?? null)
+
+  function remember (held: RegisteredSubmission<T> | null) {
+    if (resumeKey == null) return
+    if (held) unsent.set(resumeKey, { held, uploadError: uploadError.value })
+    else unsent.delete(resumeKey)
+  }
 
   const busy = computed(() => registering.value || uploading.value)
 
@@ -74,6 +84,7 @@ export default function useSubmissionUpload<T> ({ register, failedKey }: Options
     registering.value = true
     try {
       registered.value = await register()
+      remember(registered.value)
       return true
     } catch (err) {
       error.value = errorMessage(err)
@@ -97,9 +108,11 @@ export default function useSubmissionUpload<T> ({ register, failedKey }: Options
     uploading.value = true
     try {
       await put(held.url, video)
+      remember(null)
       return held.submission
     } catch (err) {
       uploadError.value = message(err)
+      remember(held)
       return null
     } finally {
       uploading.value = false

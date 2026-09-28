@@ -79,7 +79,7 @@ defineProps<{
   disabled?: boolean
 }>()
 
-/** The chosen file once its length has been checked, null while there is none */
+/** Set once its length has been checked */
 const file = defineModel<File | null>('file', { required: true })
 const attributionName = defineModel<string>('attributionName', { required: true })
 const acceptLicence = defineModel<boolean>('acceptLicence', { required: true })
@@ -145,7 +145,6 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  /** Forgets the file, once its video has been sent */
   clear: () => { clearFile(null) }
 })
 </script>
@@ -156,7 +155,7 @@ defineExpose({
   @apply btn w-max;
 }
 
-/* after the shortcut, whose block display would stack the icon over the label */
+/* the shortcut's block display would stack the icon over the label */
 button.file-picker {
   @apply inline-flex items-center gap-1;
 }

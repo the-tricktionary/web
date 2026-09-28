@@ -39,17 +39,9 @@
         <progress :id="progressId" :value="progress" max="100" class="block w-full accent-ttred-500" />
       </div>
 
-      <p v-if="error" class="text-ttred-900 mb-0" role="alert">
-        {{ error }}
-      </p>
-      <p v-else-if="uploadError" class="text-ttred-900 mb-0" role="alert">
-        {{ t('submit.videoMissing', { error: uploadError }) }}
-        <router-link :to="{ name: 'profile' }">
-          {{ t('submit.seeSubmissions') }}
-        </router-link>
-      </p>
+      <submission-error :error="error" :upload-error="uploadError" />
 
-      <!-- outside the form, where an empty required file input does not grey the buttons out -->
+      <!-- outside the form, which greys out its buttons while it is invalid -->
       <div class="flex flex-wrap justify-end gap-2">
         <button type="button" class="btn w-max" :disabled="busy" @click="dialog?.close()">
           {{ submitted ? t('submitVideo.close') : t('submitVideo.cancel') }}
@@ -78,6 +70,7 @@ import { getAnalytics, logEvent } from '@firebase/analytics'
 import { useCreateTrickVideoSubmissionMutation } from '../graphql/generated/graphql'
 import useSubmissionUpload from '../hooks/useSubmissionUpload'
 
+import SubmissionError from './SubmissionError.vue'
 import SubmissionVideoFields from './SubmissionVideoFields.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconUpload from '~icons/mdi/upload'
@@ -97,7 +90,6 @@ const analytics = getAnalytics()
 const dialog = useTemplateRef('dialog')
 const videoFields = useTemplateRef('videoFields')
 const titleId = useId()
-/** Lets the submit button live outside the form element */
 const formId = useId()
 const progressId = useId()
 
@@ -110,6 +102,7 @@ const { mutate } = useCreateTrickVideoSubmissionMutation({})
 
 const { registered, uploading, progress, error, uploadError, busy, submit } = useSubmissionUpload({
   failedKey: 'submitVideo.failed',
+  resumeKey: trickId,
   async register () {
     const result = await mutate({
       trickId,

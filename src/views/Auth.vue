@@ -116,8 +116,7 @@ async function logInWithProvider (providerId: keyof typeof providers) {
 async function sendEmailLink () {
   try {
     email.error = null
-    // the link comes back here, and carries on to where the guard or a page
-    // meant to send the user once they are signed in
+    // the link returns the user to where they were headed
     const params = new URLSearchParams({ email: email.email })
     if (typeof route.query.redirect === 'string') params.set('redirect', route.query.redirect)
     await sendSignInLinkToEmail(auth, email.email, {

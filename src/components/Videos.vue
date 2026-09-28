@@ -30,25 +30,16 @@
     </div>
 
     <div v-if="muxVideo" class="flex flex-wrap gap-2 items-center mt-2">
-      <div v-if="playable.length > 1" class="flex gap-2 items-center" role="group" :aria-label="t('trick.videos.label')">
-        <button
-          type="button"
-          class="btn w-max touch-target flex items-center justify-center"
-          :aria-label="t('trick.videos.previous')"
-          @click="step(-1)"
-        >
-          <icon-chevron-left aria-hidden="true" />
-        </button>
-        <span>{{ t('trick.videos.counter', { current: index + 1, total: playable.length }) }}</span>
-        <button
-          type="button"
-          class="btn w-max touch-target flex items-center justify-center"
-          :aria-label="t('trick.videos.next')"
-          @click="step(1)"
-        >
-          <icon-chevron-right aria-hidden="true" />
-        </button>
-      </div>
+      <pager
+        v-if="trickVideos.length > 1"
+        role="group"
+        :aria-label="t('trick.videos.label')"
+        :index="index"
+        :total="trickVideos.length"
+        :previous-label="t('trick.videos.previous')"
+        :next-label="t('trick.videos.next')"
+        @step="step"
+      />
 
       <button type="button" class="btn w-max touch-target inline-flex items-center gap-2 ml-auto" @click="emit('submit')">
         <icon-upload aria-hidden="true" />
@@ -85,9 +76,9 @@ import '@mux/mux-player'
 import { VideoHost, VideoType } from '../graphql/generated/graphql'
 import useAuth from '../hooks/useAuth'
 import useCookieConsent from '../hooks/useCookieConsent'
+import usePager from '../hooks/usePager'
 
-import IconChevronLeft from '~icons/mdi/chevron-left'
-import IconChevronRight from '~icons/mdi/chevron-right'
+import Pager from './Pager.vue'
 import IconUpload from '~icons/mdi/upload'
 
 import type { PropType } from 'vue'
@@ -97,8 +88,8 @@ import type { TrickBySlugQuery } from '../graphql/generated/graphql'
 type Video = NonNullable<TrickBySlugQuery['trick']>['videos'][number]
 type Speed = 'full' | 'slow'
 
-/** The types the player shows, the rest explain rather than show the trick */
-const PLAYABLE_TYPES: VideoType[] = [VideoType.FullSpeed, VideoType.SlowMo]
+/** The types that show the trick rather than explain it */
+const TRICK_VIDEO_TYPES: VideoType[] = [VideoType.FullSpeed, VideoType.SlowMo]
 const SLOW_RATE = 0.5
 /** Rounds a video plays before the player stops, a round being a pair while the speeds alternate */
 const ROUNDS = 5
@@ -119,7 +110,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  /** The viewer wants to submit a video of the trick */
   submit: []
 }>()
 
@@ -134,22 +124,14 @@ const speed = ref<Speed | null>(null)
 /** Plays finished in the current cycle */
 const plays = ref(0)
 
-/** In the order the trick keeps them, which editors arrange */
-const playable = computed(() => props.videos.filter(video => video.host === VideoHost.Mux && PLAYABLE_TYPES.includes(video.type)))
+/** In the order editors arrange them */
+const trickVideos = computed(() => props.videos.filter(video => video.host === VideoHost.Mux && TRICK_VIDEO_TYPES.includes(video.type)))
 
-const picked = ref(0)
-// clamped, in case the list shrinks under it
-const index = computed(() => Math.min(picked.value, Math.max(0, playable.value.length - 1)))
-const muxVideo = computed(() => playable.value[index.value] ?? null)
+const { index, step, reset } = usePager(() => trickVideos.value.length)
+const muxVideo = computed(() => trickVideos.value[index.value] ?? null)
 
-function step (by: number) {
-  picked.value = (index.value + by + playable.value.length) % playable.value.length
-}
-
-// Trick.vue keeps this component mounted across route updates, so another trick starts at its first video
-watch(() => props.trickId, () => {
-  picked.value = 0
-})
+// Trick.vue stays mounted from one trick to the next
+watch(() => props.trickId, reset)
 
 // A FullSpeed video is one run at natural speed, so the slow motion is ours to play
 const canChooseSpeed = computed(() => muxVideo.value?.type === VideoType.FullSpeed)
