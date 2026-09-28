@@ -32,6 +32,14 @@
         :videos="trick.videos"
         :trick-id="trick.id"
         :title="localised.name"
+        @submit="submitVideo()"
+      />
+
+      <submit-video-dialog
+        v-if="submittingVideo"
+        :trick-id="trick.id"
+        :trick-name="localised.name"
+        @close="submittingVideo = false"
       />
 
       <div class="my-4">
@@ -133,6 +141,7 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { getAnalytics, logEvent } from '@firebase/analytics'
+import { getAuth } from '@firebase/auth'
 import { useHead } from '@unhead/vue'
 
 import { type Discipline, TagValueType, useTrickBySlugQuery } from '../graphql/generated/graphql'
@@ -144,6 +153,7 @@ import useRuleset from '../hooks/useRuleset'
 import useTags from '../hooks/useTags'
 
 import Videos from '../components/Videos.vue'
+import SubmitVideoDialog from '../components/SubmitVideoDialog.vue'
 import IconLoading from '~icons/mdi/loading'
 import IconShare from '~icons/mdi/share'
 import IconChevronLeft from '~icons/mdi/chevron-left'
@@ -221,6 +231,32 @@ const contributors = computed(() => trick.value?.contributors.length
     .format(trick.value.contributors.map(contributor => contributor.name))
   : null
 )
+
+const submittingVideo = ref(false)
+
+/** Submitting takes an account, so a signed out viewer signs in first and comes back with `?submitVideo` */
+async function submitVideo () {
+  const auth = getAuth()
+  await auth.authStateReady()
+  if (auth.currentUser) {
+    submittingVideo.value = true
+    return
+  }
+  const back = router.resolve({ path: route.path, query: { ...route.query, submitVideo: null } })
+  await router.push({ name: 'auth', query: { redirect: back.fullPath } })
+}
+
+// back from signing in, the dialog opens again; the flag is dropped either way
+// so a reload does not open it once more
+watch([() => route.query.submitVideo, trick], async ([flag, loaded]) => {
+  if (flag === undefined || !loaded) return
+  const query = { ...route.query }
+  delete query.submitVideo
+  await router.replace({ query })
+  const auth = getAuth()
+  await auth.authStateReady()
+  if (auth.currentUser) submittingVideo.value = true
+}, { immediate: true })
 
 const { mutate: completeTrickMutate, loading: mutating } = useCompleteTrick()
 

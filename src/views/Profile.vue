@@ -136,7 +136,10 @@ const myDetailsQuery = useMyProfileDetailsQuery(
   () => ({ enabled: isOwnRoute.value, fetchPolicy: 'cache-and-network' })
 )
 
-const submissionsQuery = useMyTrickSubmissionsQuery(() => ({ enabled: isMe.value, fetchPolicy: 'cache-and-network' }))
+const submissionsQuery = useMyTrickSubmissionsQuery(
+  () => ({ withLocalised: lang.value !== 'en', lang: lang.value }),
+  () => ({ enabled: isMe.value, fetchPolicy: 'cache-and-network' })
+)
 const submissions = computed(() => submissionsQuery.result.value?.me?.trickSubmissions ?? [])
 
 const details = computed(() => (isOwnRoute.value ? myDetailsQuery.result.value?.me : detailsQuery.result.value?.user) ?? null)

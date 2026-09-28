@@ -1,10 +1,22 @@
 #import "../fragments/trickSubmission.gql"
 
-query MyTrickSubmissions {
+query MyTrickSubmissions ($withLocalised: Boolean!, $lang: String) {
   me {
     id
     trickSubmissions {
       ...TrickSubmissionBase
+      # a video submission is named after its trick
+      trick {
+        id
+        en: localisation {
+          id
+          name
+        }
+        localised: localisation (lang: $lang) @include(if: $withLocalised) {
+          id
+          name
+        }
+      }
     }
   }
 }
