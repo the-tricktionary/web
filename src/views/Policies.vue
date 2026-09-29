@@ -6,7 +6,7 @@
       The company <a href="https://swantzter.se" target="_blank" rel="noopener">Swantzer</a>
       (org.no. 000718-5796, VAT no. SE000718579601) of Planteringsvägen 46C LGH 1202,
       262 51 Ängelholm, SWEDEN is the data controller for the Tricktionary and operator
-      of the Tricktionary's store. This page was last updated 2026-09-18.
+      of the Tricktionary's store. This page was last updated 2026-09-29.
     </p>
 
     <p>
@@ -77,6 +77,20 @@
     </p>
 
     <p>
+      We show ads from Google AdSense. Third party vendors, including Google,
+      use cookies to serve ads based on your prior visits to the Tricktionary
+      or other websites. Google's use of advertising cookies enables it and its
+      partners to serve ads to you based on your visits to the Tricktionary
+      and/or other sites on the Internet. You may opt out of personalised
+      advertising in <a href="https://www.google.com/settings/ads">Google's Ads Settings</a>.
+      You can read more in
+      <a href="https://policies.google.com/technologies/partner-sites">How Google uses information from sites or apps that use its services</a>.
+      In the EEA, the UK and Switzerland, Google asks for your consent before
+      using cookies for ads or analytics, and you can change your choices at
+      any time from the link Google adds to the page.
+    </p>
+
+    <p>
       When making a purchase your payment will be processed through Stripe,
       Stripe is also used to securely collect all information needed for the
       purchase such as billing address, shipping address, payment details.
@@ -135,9 +149,10 @@
     <h2>Cookies</h2>
 
     <p>
-      We use 3'rd party cookies to provide the service to you and perform
-      analytics, by using the site you agree to the usage of 3'rd party cookies
-      and cookies created by ourselves.
+      We and third parties, such as Google, use cookies to provide the service
+      to you, perform analytics and show ads. We ask for your consent before
+      using cookies for analytics, and before using cookies for ads where the
+      law requires it.
     </p>
 
     <h2>Return policy</h2>

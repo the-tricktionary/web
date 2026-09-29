@@ -1,5 +1,5 @@
 <template>
-  <bottom-bar v-if="cookie.granted.value === null" class="border-t bg-surface border-line py-4">
+  <bottom-bar v-if="cookie.showBanner.value" class="border-t bg-surface border-line py-4">
     <div class="container mx-auto px-2">
       <h2>{{ t('cookies.title') }}</h2>
       <i18n-t keypath="cookies.body" tag="p">

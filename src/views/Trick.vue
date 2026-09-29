@@ -104,6 +104,14 @@
           ? t('trick.markedCompletedBy', { date: formatDate(completion.createdAt, lang), name: completion.recordedBy.name ?? '' })
           : t('trick.markedCompleted', { date: formatDate(completion.createdAt, lang) }) }}
       </p>
+
+      <!-- Below the prerequisites on desktop, at the end of the page on phones -->
+      <ad-adsense
+        v-if="showAd"
+        :key="trick.id"
+        :ad-slot="AD_SLOTS.trick"
+        class="mt-8"
+      />
     </div>
   </div>
 
@@ -166,6 +174,8 @@ import type { TrickBoxFragment } from '../graphql/generated/graphql'
 import IconCheckbox from '../components/IconCheckbox.vue'
 import BottomBar from '../components/BottomBar.vue'
 import TrickLevels from '../components/TrickLevels.vue'
+import AdAdsense from '../components/AdAdsense.vue'
+import { AD_SLOTS, TRICK_AD_RATE } from '../ads'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -313,6 +323,12 @@ const completed = computed(() => {
 })
 
 const completion = computed(() => user.value?.checklist?.find(checklistItem => checklistItem.trick.id === trick.value?.id))
+
+// Drawn once per trick, before the ad is requested: AdSense forbids hiding one after
+const showAd = ref(false)
+watch(() => trick.value?.id, id => {
+  showAd.value = id != null && Math.random() < TRICK_AD_RATE
+}, { immediate: true })
 
 // the andoird app tracks these events, so we do too
 function viewNext (trick: TrickBoxFragment) {
