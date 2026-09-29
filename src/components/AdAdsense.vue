@@ -1,37 +1,50 @@
 <template>
   <!-- tT flow v4 -->
-  <div class="container mx-auto px-2">
-    <div class="overflow-x-auto bg-sunken min-h-24 border-line">
+  <aside class="ad" :aria-labelledby="labelId">
+    <!-- "Advertisements" and "Sponsored Links" are the labels AdSense allows -->
+    <p :id="labelId" class="text-muted text-sm mb-1">
+      {{ t('ad.label') }}
+    </p>
+    <div class="overflow-x-auto bg-sunken min-h-24">
       <ins
+        v-if="adsEnabled"
         class="adsbygoogle"
         style="display:block"
-        data-ad-client="ca-pub-7956758256491526"
-        data-ad-slot="4238944283"
+        :data-ad-client="AD_CLIENT"
+        :data-ad-slot="adSlot"
         data-ad-format="auto"
         data-full-width-responsive="true"
       />
     </div>
-    <p class="text-center mb-2">
-      {{ t('ad.disclosure') }}
-    </p>
-  </div>
+  </aside>
 </template>
 
 <script setup lang="ts">
-import { useHead } from '@unhead/vue'
+import { onMounted, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { AD_CLIENT, adsEnabled } from '../ads'
+
+defineProps({
+  /** The AdSense ad unit, one of AD_SLOTS */
+  adSlot: {
+    type: String,
+    required: true
+  }
+})
+
 const { t } = useI18n()
-const anyWin = window as any
+const labelId = useId()
 
-if (!('adsbygoogle' in anyWin)) {
-  anyWin.adsbygoogle ??= []
-  anyWin.adsbygoogle.push({})
-}
-
-useHead({
-  script: [
-    { async: true, src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' }
-  ]
+// Fills the first unfilled <ins>, this one, so once per mounted slot
+onMounted(() => {
+  if (adsEnabled) (window.adsbygoogle ??= []).push({})
 })
 </script>
+
+<style scoped>
+/* AdSense marks a slot it has no ad for, and the label goes with it */
+.ad:has(ins[data-ad-status="unfilled"]) {
+  display: none;
+}
+</style>

@@ -37,7 +37,9 @@
     />
   </div>
 
-  <ad-adsense />
+  <div class="container mx-auto px-2 mb-2">
+    <ad-adsense :ad-slot="AD_SLOTS.home" />
+  </div>
   <about />
 
   <tt-footer class="mb-14" />
@@ -62,6 +64,7 @@ import useAuth from '../hooks/useAuth'
 import useLanguage from '../hooks/useLanguage'
 import useSettings from '../hooks/useSettings'
 import AdAdsense from '../components/AdAdsense.vue'
+import { AD_SLOTS } from '../ads'
 import { refDebounced } from '@vueuse/core'
 import { useRouteQuery } from '@vueuse/router'
 
