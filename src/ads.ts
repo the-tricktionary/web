@@ -3,9 +3,10 @@ export const AD_CLIENT = 'ca-pub-7956758256491526'
 
 /** One ad unit per placement, so AdSense reports on each separately */
 export const AD_SLOTS = {
+  /** tT flow v4 */
   home: '4238944283',
-  // TODO: the trick page's own ad unit, until then it shares the home page's
-  trick: '4238944283'
+  /** tT Trick v4 */
+  trick: '6263291406'
 }
 
 /** The share of trick page views that get an ad */

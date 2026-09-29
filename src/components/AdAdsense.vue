@@ -1,5 +1,4 @@
 <template>
-  <!-- tT flow v4 -->
   <aside class="ad" :aria-labelledby="labelId">
     <!-- "Advertisements" and "Sponsored Links" are the labels AdSense allows -->
     <p :id="labelId" class="text-muted text-sm mb-1">
